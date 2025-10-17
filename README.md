@@ -1,13 +1,11 @@
-## 👥 Assignació de rols i responsabilitats
+## Documentació i recursos
 
-| Alumne       | Rol principal   | Responsabilitats                                         |
-|--------------|-----------------|----------------------------------------------------------|
-| Pau          | Scrum Master    | Coordinació, reunions, Kanban, GitHub, organització      |
-| Álvaro       | Developer       | Implementació tècnica (frontend, backend), revisions     |
-| Pau i Álvaro | Documentador    | README.md, RISKS.md, documentació instal·lació           |
+### Documents Markdown
 
-### Resum de funcions
+- [Assignació de rols i responsabilitats](docs/rols.md)
+- [Pla de riscos i prevenció](docs/RISKS.md)
+- [Riscos individuals](docs/riscos_individuals.md)
 
-- Scrum Master: organitza i coordina el treball; dinamitza reunions; vetla per la metodologia.
-- Developer: implementa la part tècnica, backend i frontend; revisa codi.
-- Documentador: mantiene README.md, RISKS.md i docs al dia; escriu guies d'ús.
+### Cronograma
+
+- [Cronograma inicial Gantt (Sprint 1)](docs/gantt-SA1.pdf)
