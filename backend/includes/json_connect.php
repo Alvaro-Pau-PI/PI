@@ -61,7 +61,8 @@ function api_request(string $endpoint, string $method = 'GET', ?array $data = nu
  */
 
 /** Obté un usuari per ID (GET /usuaris/1) */
-function get_user_by_id(int $id): ?array {
+// --- LÍNIA CORREGIDA ---
+function get_user_by_id(string $id): ?array {
     return api_request("/usuaris/{$id}");
 }
 
@@ -78,7 +79,8 @@ function create_user(array $userData): ?array {
 }
 
 /** Actualitza dades de l'usuari (PATCH /usuaris/1) */
-function update_user(int $id, array $updateData): ?array {
+// --- LÍNIA CORREGIDA (Per a futures edicions de perfil) ---
+function update_user(string $id, array $updateData): ?array {
     return api_request("/usuaris/{$id}", 'PATCH', $updateData);
 }
 
