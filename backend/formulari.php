@@ -1,53 +1,93 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Recoger y limpiar datos
-    $nombre = htmlspecialchars($_POST["nombre"] ?? '');
-    $email = htmlspecialchars($_POST["email"] ?? '');
-    $ciclo = htmlspecialchars($_POST["ciclo"] ?? '');
-    $telefono = htmlspecialchars($_POST["telefono"] ?? '');
-    $terminos = isset($_POST["terminos"]);
+// backend/formulari.php
 
-    $errors = [];
+// NOTA: Asegúrate de que el archivo importar_excel.php está en el mismo directorio.
 
-    // Validar nombre (mínimo 3 caracteres)
-    if (strlen(trim($nombre)) < 3) {
-        $errors[] = "El nombre debe tener al menos 3 caracteres.";
-    }
+$message = '';
+$message_type = '';
 
-    // Validar email
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "El email no es válido.";
-    }
+// Verificar si se ha enviado el formulario
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
+    
+    $file = $_FILES['excel_file'];
 
-    // Validar ciclo formativo (no vacío)
-    if (empty(trim($ciclo))) {
-        $errors[] = "Debe seleccionar un ciclo formativo.";
-    }
-
-    // Validar telefono (9 dígitos numéricos)
-    if (!preg_match("/^[0-9]{9}$/", trim($telefono))) {
-        $errors[] = "El teléfono debe tener exactamente 9 dígitos numéricos.";
-    }
-
-    // Validar aceptación de términos
-    if (!$terminos) {
-        $errors[] = "Debe aceptar los términos y condiciones.";
-    }
-
-    // Mostrar errores o mensaje de éxito
-    if (!empty($errors)) {
-        echo "<h3>Se han encontrado los siguientes errores:</h3><ul>";
-        foreach ($errors as $error) {
-            echo "<li>" . $error . "</li>";
-        }
-        echo "</ul>";
-        echo "<a href='javascript:history.back()'>Volver</a>";
-        exit;
+    // 1. Verificar errores de subida
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        $message = "Error en la subida: código {$file['error']}.";
+        $message_type = 'error';
     } else {
-        // Aquí podrías guardar datos o enviar correo
-        echo "<h3>Formulario enviado correctamente. ¡Gracias!</h3>";
+        // 2. Verificar la extensión del archivo
+        $allowed_extensions = ['xlsx', 'xls', 'csv'];
+        $file_info = pathinfo($file['name']);
+        $file_ext = strtolower($file_info['extension']);
+
+        if (!in_array($file_ext, $allowed_extensions)) {
+            $message = "Error: Formato no permitido. Solo se aceptan .xlsx, .xls o .csv.";
+            $message_type = 'error';
+        } else {
+            // 3. Definir la ruta de guardado
+            // La ruta /var/www/uploads/ mapea a tu carpeta local PI/uploads/
+            $upload_path = '/var/www/uploads/productes.xlsx';
+            
+            // 4. Mover el archivo subido a la carpeta /uploads/
+            if (move_uploaded_file($file['tmp_name'], $upload_path)) {
+                
+                // 5. Ejecutar el script de importación
+                // Usamos la ruta del script de importación dentro del contenedor
+                $import_script = '/var/www/html/importar_excel.php';
+                
+                // Ejecutamos el script de importación de forma síncrona
+                $output = shell_exec("php {$import_script}");
+
+                if ($output === null) {
+                    $message = "Advertencia: El script de importación debe ejecutarse manualmente: php {$import_script}";
+                    $message_type = 'warning';
+                } else {
+                    $message = "Archivo subido con éxito y proceso de importación completado. Verifique el JSON Server.";
+                    $message_type = 'success';
+                    // Mostrar el resultado del script de importación
+                    $message .= "<pre>{$output}</pre>";
+                }
+
+            } else {
+                $message = "Error al guardar el archivo. Verifique los permisos de la carpeta 'uploads/' (Debe tener permisos de escritura para el usuario de Docker).";
+                $message_type = 'error';
+            }
+        }
     }
-} else {
-    echo "Formulario no enviado correctamente.";
 }
 ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Importación de Catálogo</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; padding: 10px; border: 1px solid #c3e6cb; margin-bottom: 15px; }
+        .error { background-color: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb; margin-bottom: 15; }
+        .warning { background-color: #fff3cd; color: #856404; padding: 10px; border: 1px solid #ffeeba; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📥 Importación de Productos (Excel → JSON Server)</h2>
+        
+        <?php if ($message): ?>
+            <div class="<?= $message_type ?>">
+                <?= $message ?>
+            </div>
+        <?php endif; ?>
+
+        <form method="POST" enctype="multipart/form-data">
+            <label for="excel_file">Selecciona el archivo Excel/CSV:</label><br><br>
+            <input type="file" name="excel_file" id="excel_file" accept=".xlsx,.xls,.csv" required><br><br>
+            <button type="submit">Cargar e Importar Catálogo</button>
+        </form>
+
+        <hr>
+        <p>Verificar productos importados: <a href="http://localhost:3000/productes" target="_blank">http://localhost:3000/productes</a></p>
+    </div>
+</body>
+</html>

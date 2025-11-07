@@ -1,0 +1,22 @@
+{
+    "productes": [
+        {
+            "id": 1,
+            "sku": "A001",
+            "nom": "Cafetera Premium",
+            "descripcio": "Caf\u00e9 auto con molinillo",
+            "img": "img\/cafetera.jpg",
+            "preu": 129.99,
+            "estoc": 15
+        },
+        {
+            "id": 2,
+            "sku": "A002",
+            "nom": "Tetera El\u00e9ctrica",
+            "descripcio": "Acero inox, temp. digital",
+            "img": "img\/tetera.jpg",
+            "preu": 59.95,
+            "estoc": 10
+        }
+    ]
+}
