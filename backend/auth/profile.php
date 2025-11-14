@@ -10,9 +10,15 @@ $user_id = null;
 
 // 2. Comprovació d'Autenticació
 // Prioritzem la cookie, ja que és el mecanisme d'autenticació establert al login.
-if (isset($_COOKIE['user_id']) && is_numeric($_COOKIE['user_id'])) {
-    $user_id = (int)$_COOKIE['user_id'];
+
+// --- LÍNIES CORREGIDES ---
+// Hem canviat 'is_numeric($_COOKIE['user_id'])' per '!empty($_COOKIE['user_id'])'
+if (isset($_COOKIE['user_id']) && !empty($_COOKIE['user_id'])) {
     
+    // Hem tret la conversió '(int)' perquè l'ID és text (ex: "472b")
+    $user_id = $_COOKIE['user_id'];
+// --- FI DE LA CORRECCIÓ ---
+
     // 3. Obtenir les dades de l'usuari del JSON Server (GET /usuaris/{id})
     $user_data = get_user_by_id($user_id);
     
