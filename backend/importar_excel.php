@@ -1,18 +1,14 @@
 <?php
-// Asegúrate de que las rutas son correctas desde el working_dir del contenedor PHP (/var/www/html)
 
 // 1. Incluir el autoload de Composer
-// La carpeta 'vendor' está en /var/www/html/vendor
 require 'vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Exception as ReaderException;
 
 // --- CONFIGURACIÓN DE RUTAS ---
-// Archivo Excel de origen (debe estar en el volumen /uploads/)
 $excelFilePath = __DIR__ . '/../uploads/productes.xlsx';
 
-// La ruta del volumen mapeado es /var/www/data/
 $jsonFilePath = '/var/www/data/db.json';
 
 // --- INICIO DEL PROCESO DE IMPORTACIÓN ---
@@ -25,7 +21,6 @@ if (!file_exists($excelFilePath)) {
 
 try {
     // 2. Determinar el tipo de lector (Xlsx, Csv, etc.)
-    // IOFactory::createReaderForFile lo detecta automáticamente
     $reader = IOFactory::createReaderForFile($excelFilePath);
     
     // Solo cargamos los datos (sin formato) para mejor rendimiento
@@ -96,7 +91,7 @@ try {
         }
 
         if ($isValid) {
-            // Asegurarse de que todos los campos requeridos existen (ej. 'sku', 'nom')
+            // Asegurarse de que todos los campos requeridos existen
             if (!empty($product['nom']) && !empty($product['preu'])) {
                 $products[] = $product;
                 $importedCount++;
@@ -134,7 +129,7 @@ try {
          die("Error: No se pudo escribir el archivo JSON en: {$jsonFilePath}\n");
     }
 
-    // --- FI DEL BLOC MODIFICAT ---
+    // --- FI DEL BLOC ---
 
     echo "--- Proceso Finalizado ---\n";
     echo "✅ Productos importados con éxito: {$importedCount}\n";

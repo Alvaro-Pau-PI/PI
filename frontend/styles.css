@@ -1,0 +1,510 @@
+/* frontend/styles.css */
+/* TEMA: ALBEROPEREZ TECH (Dark Mode / Tech) */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500&display=swap');
+
+/* --- ESTILOS GENERALES --- */
+body {
+  font-family: 'Roboto', Arial, sans-serif; 
+  background: #1A1D24;
+  color: #EAEAEA;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* --- CABECERA --- */
+header {
+  background: #242833;
+  border-bottom: 2px solid #3A4150;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.cabecera {
+  width: 100%;
+  max-width: 1400px;
+  height: 100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-areas: "logo nav icons"; 
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  padding: 0 25px;
+  box-sizing: border-box;
+}
+
+.logo-box { grid-area: logo; }
+.logo {
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0;
+}
+
+.nav-box {
+  grid-area: nav;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.categoria-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+.categoria-link .material-icons {
+  color: #9BA3B0;
+  font-size: 2.2em;
+}
+.categoria-link:hover {
+  background-color: #3A4150;
+}
+.categoria-link:hover .material-icons {
+  color: #EAEAEA;
+}
+
+.buscador-box { position: relative; }
+.buscador-box form { margin: 0; }
+.buscador-box::after {
+  content: '🔍';
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.3em;
+  color: #888;
+  z-index: 1;
+}
+
+.buscador {
+  width: 460px;
+  font-size: 1em;
+  font-family: 'Roboto', sans-serif;
+  background: #1A1D24;
+  color: #EAEAEA;
+  border: 1px solid #3A4150;
+  padding: 12px 20px 12px 50px;
+  border-radius: 25px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.buscador:focus {
+  outline: none;
+  border-color: #00A1FF;
+  box-shadow: 0 0 0 3px rgba(0, 161, 255, 0.3);
+}
+.buscador::placeholder { color: #777; }
+
+.iconos-box {
+  grid-area: icons;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-cart .material-icons,
+.icon-user .material-icons {
+  font-size: 2.0em;
+  color: #EAEAEA;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.icon-cart:hover .material-icons,
+.icon-user:hover .material-icons {
+  background: #00A1FF;
+  color: #FFFFFF;
+}
+
+/* --- BANNER --- */
+.banner { margin-top: 20px; }
+.banner img {
+  display: block;
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+
+/* --- MAIN --- */
+main h2 {
+  text-align: center;
+  margin: 30px 0 5px;
+  color: #00A1FF;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.2em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+main p {
+  text-align: center;
+  margin: 0 0 30px;
+  color: #9BA3B0;
+  font-size: 1.1em;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.video-con-bordes {
+  display: block;
+  width: 100%;
+  max-width: 1000px;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  margin: 30px auto 40px auto;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 12px;
+  box-shadow: 0 0 15px #FF6C00;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+/* --- PRODUCTOS --- */
+.productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1220px;
+  margin: 0 auto 30px auto;
+  padding: 0 20px;
+}
+
+.producto {
+  background: #242833;
+  border: 1px solid #3A4150;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.25s, box-shadow 0.25s;
+  display: flex;
+  flex-direction: column;
+}
+
+.producto:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 161, 255, 0.15);
+}
+
+.producto img {
+  width: 100%;
+  max-width: 180px;
+  height: 180px;
+  object-fit: contain;
+  margin-bottom: 15px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.precio {
+  background: #FF6C00;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  padding: 6px 20px;
+  border-radius: 20px;
+  font-size: 1.25em;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+
+.nombre {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 1.2em;
+  color: #EAEAEA;
+  min-height: 2.6em;
+}
+
+.detalle {
+  color: #9BA3B0;
+  font-size: 0.95em;
+  display: block;
+  margin-top: auto;
+}
+
+/* --- FOOTER --- */
+footer {
+  background: #242833;
+  color: #EAEAEA;
+  padding: 40px 24px 15px 24px;
+  margin-top: 40px;
+  border-top: 2px solid #3A4150;
+}
+
+.footer {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto 20px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.footerEspacio { min-width: 150px; }
+.footerEspacio img {
+  max-width: 120px;
+  margin-bottom: 14px;
+  display: block;
+}
+.footerEspacio p {
+  text-align: left;
+  font-size: 0.95em;
+  color: #9BA3B0;
+  margin: 0;
+}
+.footerEspacio strong {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1em;
+  color: #EAEAEA;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.newsletter-form {
+  display: flex;
+  margin-top: 10px;
+  flex-direction: column;
+  gap: 10px;
+}
+@media (min-width: 600px) {
+  .newsletter-form { flex-direction: row; }
+}
+
+.footerEspacio input[type="email"] {
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #3A4150;
+  background: #1A1D24;
+  color: #EAEAEA;
+  flex-grow: 1;
+}
+.footerEspacio button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  background: #00A1FF;
+  color: #FFFFFF;
+  font-weight: 600;
+  cursor: pointer;
+}
+.footerEspacio button:hover { background: #007ecc; }
+
+.footerEspacio ul { list-style: none; padding: 0; margin: 0; }
+.footerEspacio ul li { margin-bottom: 8px; }
+.footerEspacio ul li a {
+  color: #9BA3B0;
+  text-decoration: none;
+  font-size: 15px;
+  transition: 0.2s;
+}
+.footerEspacio ul li a:hover { color: #00A1FF; text-decoration: underline; }
+
+.copyright {
+  display: block;
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #3A4150;
+  font-size: 0.9em;
+  color: #9BA3B0;
+}
+
+/* ANIMACIONES */
+.banner, main h2, main p, .productos, .video-con-bordes {
+  opacity: 0;
+  animation: anim-fade-in-up 0.6s ease-out forwards;
+}
+.banner { animation-delay: 0.1s; }
+main h2 { animation-delay: 0.2s; }
+main p { animation-delay: 0.3s; }
+.productos { animation-delay: 0.4s; }
+.video-con-bordes { animation-delay: 0.5s; }
+
+@keyframes anim-fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* --- ESTILOS ESPECÍFICOS: FORMULARIO DE CONTACTO --- */
+
+/* Contenedor principal del formulario */
+.contact-container {
+  background: #242833;
+  border: 1px solid #3A4150;
+  border-radius: 12px;
+  padding: 40px;
+  max-width: 700px;
+  margin: 40px auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Grupos de inputs */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.form-group label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: #00A1FF;
+  margin-bottom: 8px;
+  font-size: 0.95em;
+}
+
+/* Inputs y Textarea (Estilo Tech) */
+.form-input, 
+.form-textarea {
+  background: #1A1D24;
+  border: 1px solid #3A4150;
+  border-radius: 8px;
+  padding: 12px 15px;
+  color: #EAEAEA;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1em;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Efecto Focus (Neón) */
+.form-input:focus, 
+.form-textarea:focus {
+  outline: none;
+  border-color: #00A1FF;
+  box-shadow: 0 0 8px rgba(0, 161, 255, 0.25);
+}
+
+/* Mensajes de Error */
+.error-msg {
+  color: #ff4d4d;
+  font-size: 0.85em;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Botón de Enviar (Estilo botón tech) */
+.btn-submit {
+  background: linear-gradient(135deg, #00A1FF 0%, #007ecc 100%);
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.1em;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-top: 10px;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 161, 255, 0.4);
+}
+
+/* Caja de Éxito */
+.success-message {
+  background: rgba(40, 167, 69, 0.1);
+  border: 1px solid #28a745;
+  color: #2ecc71;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.success-message h3 {
+  margin-top: 0;
+  color: #2ecc71;
+}
+
+.btn-back {
+  display: inline-block;
+  margin-top: 15px;
+  color: #00A1FF;
+  text-decoration: none;
+  font-weight: 600;
+}
+.btn-back:hover {
+  text-decoration: underline;
+}
+
+/* --- MENÚ DESPLEGABLE (DROPDOWN) --- */
+
+/* Contenedor relativo para que el menú salga pegado al botón */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Regla crucial para mostrar el menú (DEBE EXISTIR Y ESTAR CORRECTA) */
+.dropdown:hover .dropdown-content {
+  display: block; 
+}
+
+
+/* Estilos del contenido (la caja que aparece) */
+.dropdown-content {
+  display: none; /* Oculto por defecto */
+  position: absolute;
+  top: 100%; /* FIX: Posiciona justo debajo del botón */
+  left: 0;
+  background-color: #242833;
+  min-width: 220px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid #3A4150;
+  border-radius: 8px;
+  z-index: 1000;
+  /* FIX CRÍTICO: Eliminamos el margen superior para cerrar el buit */
+  margin-top: 0; 
+  padding: 10px 0; /* padding interno para los enlaces */
+}
+
+/* Estilo de los enlaces dentro del menú */
+.dropdown-content a {
+  color: #9BA3B0;
+  padding: 12px 20px;
+  text-decoration: none;
+  display: block;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.95em;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* Efecto hover en los enlaces del menú */
+.dropdown-content a:hover {
+  background-color: #3A4150;
+  color: #00A1FF;
+  border-left: 3px solid #00A1FF;
+}
