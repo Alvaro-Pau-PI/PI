@@ -1,7 +1,7 @@
 {
   "productes": [
     {
-      "id": "prod_691738ec190e8",
+      "id": "prod_692086ac7ebfa",
       "sku": "A001",
       "nom": "prueba1",
       "descripcio": "Café auto con molinillo",
@@ -10,7 +10,7 @@
       "estoc": 15
     },
     {
-      "id": "prod_691738ec190fc",
+      "id": "prod_692086ac7ec11",
       "sku": "A002",
       "nom": "Tetera Eléctrica",
       "descripcio": "Acero inox, temp. digital",
@@ -55,6 +55,24 @@
       "nom": "Alvaro",
       "cognoms": "Perez",
       "data_registre": "2025-11-14T14:15:21+00:00"
+    },
+    {
+      "id": "c7f2",
+      "nom_usuari": "kikooo",
+      "contrasenya": "$2y$10$quLEvZxihMqBhOae4/9rL.q6MsOiWXSevJ8SkK9pLqnyqnFCYY9v2",
+      "email": "kikooo@kikooo.com",
+      "nom": "kikooo",
+      "cognoms": "kikooo",
+      "data_registre": "2025-11-21T16:08:16+00:00"
+    },
+    {
+      "id": "1e1a",
+      "nom_usuari": "MArcos",
+      "contrasenya": "$2y$10$3yWpsSshpd5TtjHKqE2EoeoZjCnqaIZkjoI0YStrfoVPQrn0F2p/K",
+      "email": "MArcos@MArcos.com",
+      "nom": "MArcos",
+      "cognoms": "Feo Tonto",
+      "data_registre": "2025-11-21T16:09:54+00:00"
     }
   ]
 }

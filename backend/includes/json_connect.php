@@ -1,5 +1,4 @@
 <?php
-// backend/includes/json_connect.php
 
 /**
  * URL base del JSON Server.
