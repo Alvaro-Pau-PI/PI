@@ -4,7 +4,7 @@
  * URL base del JSON Server.
  * El nom 'jsonserver' ha de coincidir amb el nom del servei al docker-compose.yml.
  */
-const JSON_SERVER_URL = 'http://jsonserver:8080';
+const JSON_SERVER_URL = 'http://jsonserver:3000';
 
 /**
  * Funció genèrica per realitzar peticions HTTP al JSON Server.
