@@ -6,6 +6,7 @@
 | Dolor d'esquena               | Alta         | Alt     | Cadira ergonòmica, pauses, estiraments, postura correcta | Álvaro       | Control diari                |
 | Estrès per deadlines          | Mitjana      | Alt     | Planificació realista, suport, comunicació oberta      | Tot l'equip  | Revisió en la retro          |
 | Síndrome túnel carpià         | Alta         | Mitjà   | Reposacanells, estiraments horaris, teclat ergonòmic  | Pau          | Control setmanal + exercicis |
+| Soroll ambiental              | Mitjana      | Mitjà   | Auriculars cancel·ladors, espais tranquils, horaris de concentració | Álvaro       | Autoreportatge en reunions   |
 
 ## Notes de seguiment
 - Aquest document s'ha de revisar i actualitzar a cada sprint.
