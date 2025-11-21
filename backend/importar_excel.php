@@ -1,19 +1,15 @@
 <?php
-// Asegúrate de que las rutas son correctas desde el working_dir del contenedor PHP (/var/www/html)
 
 // 1. Incluir el autoload de Composer
-// La carpeta 'vendor' está en /var/www/html/vendor
 require 'vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Exception as ReaderException;
 
 // --- CONFIGURACIÓN DE RUTAS ---
-// Archivo Excel de origen (debe estar en el volumen /uploads/)
 $excelFilePath = __DIR__ . '/../uploads/productes.xlsx';
 
-// La ruta del volumen mapeado es /var/www/data/
-$jsonFilePath = '/var/www/data/products.json';
+$jsonFilePath = '/var/www/data/db.json';
 
 // --- INICIO DEL PROCESO DE IMPORTACIÓN ---
 echo "--- Iniciando Importación de Productos ---\n";
@@ -25,7 +21,6 @@ if (!file_exists($excelFilePath)) {
 
 try {
     // 2. Determinar el tipo de lector (Xlsx, Csv, etc.)
-    // IOFactory::createReaderForFile lo detecta automáticamente
     $reader = IOFactory::createReaderForFile($excelFilePath);
     
     // Solo cargamos los datos (sin formato) para mejor rendimiento
@@ -42,13 +37,11 @@ try {
     $products = [];
     $errors = [];
     $importedCount = 0;
-    $idCounter = 1;
-
+    
     // Obtener la fila de encabezados (asumimos que están en la fila 1)
     $headerRow = $worksheet->rangeToArray('A1:Z1', NULL, TRUE, FALSE)[0];
     
     // Mapeo de columnas a claves JSON
-    // **NOTA:** Ajusta estos nombres de columna para que coincidan con tu Excel
     $columnMap = [
         'SKU'           => 'sku',
         'NOM'           => 'nom',
@@ -63,9 +56,15 @@ try {
     // 6. Iterar sobre las filas (empezando por la fila 2 para saltar encabezados)
     for ($row = 2; $row <= $highestRow; ++$row) {
         $rowData = $worksheet->rangeToArray('A' . $row . ':' . $worksheet->getHighestColumn() . $row, NULL, TRUE, FALSE)[0];
+        
+        // Omitir files completament buides
+        if (empty(array_filter($rowData))) {
+            continue;
+        }
 
-        // 7. Mapear y validar datos
-        $product = ['id' => $idCounter];
+        // json-server prefereix IDs de text. Crearem un ID únic simple.
+        $product_id = uniqid('prod_');
+        $product = ['id' => $product_id];
         $isValid = true;
         
         // Iteramos sobre los encabezados para mapear los datos
@@ -92,11 +91,10 @@ try {
         }
 
         if ($isValid) {
-            // Asegurarse de que todos los campos requeridos existen (ej. 'sku', 'nom')
+            // Asegurarse de que todos los campos requeridos existen
             if (!empty($product['nom']) && !empty($product['preu'])) {
                 $products[] = $product;
                 $importedCount++;
-                $idCounter++;
             } else {
                 $errors[] = "Fila {$row}: Faltan campos requeridos (Nom o Preu).";
             }
@@ -104,12 +102,34 @@ try {
     }
 
     // --- GENERAR JSON ---
-    // 8. Crear la estructura final del JSON
-    $finalJson = json_encode(['productes' => $products], JSON_PRETTY_PRINT);
+    // AQUEST BLOC SENCER HA ESTAT MODIFICAT
+    
+    // 8. Llegir el db.json existent per no esborrar els usuaris
+    $usuarisData = [];
+    if (file_exists($jsonFilePath)) {
+        $dbContent = file_get_contents($jsonFilePath);
+        $dbData = json_decode($dbContent, true);
+        
+        // Guardem els usuaris si existeixen
+        if (isset($dbData['usuaris']) && is_array($dbData['usuaris'])) {
+            $usuarisData = $dbData['usuaris'];
+        }
+    }
+
+    // 9. Combinar les dades (Productes nous + Usuaris antics)
+    $finalData = [
+        'productes' => $products, // $products és el nou array de l'Excel
+        'usuaris' => $usuarisData   // $usuarisData és l'array antic del fitxer
+    ];
+
+    // 10. Escriure el fitxer db.json actualitzat
+    $finalJson = json_encode($finalData, JSON_PRETTY_PRINT);
     
     if (file_put_contents($jsonFilePath, $finalJson) === FALSE) {
-         die("Error: No se pudo escribir el archivo JSON en: $jsonFilePath\n");
+         die("Error: No se pudo escribir el archivo JSON en: {$jsonFilePath}\n");
     }
+
+    // --- FI DEL BLOC ---
 
     echo "--- Proceso Finalizado ---\n";
     echo "✅ Productos importados con éxito: {$importedCount}\n";
@@ -123,7 +143,7 @@ try {
     }
 
 } catch (ReaderException $e) {
-    die("Error al leer el archivo Excel: " . $e->getMessage() . "\n");
+    die("Error al leer el archivo Excel: "."\n");
 } catch (\Exception $e) {
     die("Error inesperado: " . $e->getMessage() . "\n");
 }
