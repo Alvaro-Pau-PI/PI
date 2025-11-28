@@ -1,5 +1,4 @@
 <?php
-// backend/contacte.php
 require_once 'includes/contacte_logic.php';
 ?>
 <!DOCTYPE html>
@@ -16,6 +15,21 @@ require_once 'includes/contacte_logic.php';
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   
   <link rel="stylesheet" href="styles.css">
+
+  <style>
+      .error-js { 
+          color: #ff4d4d; /* Rojo neón */
+          font-size: 0.85em; 
+          display: none; /* Oculto por defecto */
+          margin-top: 5px; 
+          font-weight: 500;
+      }
+      /* Clase que JS añade al input cuando falla */
+      .input-error { 
+          border-color: #ff4d4d !important; 
+          box-shadow: 0 0 8px rgba(255, 77, 77, 0.3) !important;
+      }
+  </style>
 </head>
 
 <body>
@@ -75,13 +89,16 @@ require_once 'includes/contacte_logic.php';
             </div>
 
         <?php else: ?>
-            <form method="post" action="" class="contact-form">
+            <form id="contactForm" method="post" action="" class="contact-form">
                 
                 <div class="form-group">
                     <label for="nom">Nombre</label>
                     <input type="text" id="nom" name="nom" class="form-input" 
                            placeholder="Ej: Pau Albero" 
-                           value="<?= htmlspecialchars($nom) ?>">
+                           value="<?= htmlspecialchars($nom) ?>" required>
+                    
+                    <span id="error-nom" class="error-js"></span>
+                    
                     <?php if (isset($errors['nom'])): ?>
                         <span class="error-msg"><?= $errors['nom'] ?></span>
                     <?php endif; ?>
@@ -91,7 +108,10 @@ require_once 'includes/contacte_logic.php';
                     <label for="email">Correo Electrónico</label>
                     <input type="text" id="email" name="email" class="form-input" 
                            placeholder="Ej: nombre@correo.com" 
-                           value="<?= htmlspecialchars($email) ?>">
+                           value="<?= htmlspecialchars($email) ?>" required>
+                    
+                    <span id="error-email" class="error-js"></span>
+                    
                     <?php if (isset($errors['email'])): ?>
                         <span class="error-msg"><?= $errors['email'] ?></span>
                     <?php endif; ?>
@@ -101,7 +121,10 @@ require_once 'includes/contacte_logic.php';
                     <label for="assumpte">Asunto</label>
                     <input type="text" id="assumpte" name="assumpte" class="form-input" 
                            placeholder="Ej: Duda sobre RTX 4070" 
-                           value="<?= htmlspecialchars($assumpte) ?>">
+                           value="<?= htmlspecialchars($assumpte) ?>" required>
+                    
+                    <span id="error-assumpte" class="error-js"></span>
+                    
                     <?php if (isset($errors['assumpte'])): ?>
                         <span class="error-msg"><?= $errors['assumpte'] ?></span>
                     <?php endif; ?>
@@ -110,7 +133,10 @@ require_once 'includes/contacte_logic.php';
                 <div class="form-group">
                     <label for="missatge">Mensaje</label>
                     <textarea id="missatge" name="missatge" class="form-textarea" 
-                              placeholder="Escribe aquí tu consulta..."><?= htmlspecialchars($missatge) ?></textarea>
+                              placeholder="Escribe aquí tu consulta..." required minlength="10"><?= htmlspecialchars($missatge) ?></textarea>
+                    
+                    <span id="error-missatge" class="error-js"></span>
+                    
                     <?php if (isset($errors['missatge'])): ?>
                         <span class="error-msg"><?= $errors['missatge'] ?></span>
                     <?php endif; ?>
@@ -123,7 +149,8 @@ require_once 'includes/contacte_logic.php';
     </div>
   </main>
 
-  <footer>
+  <footer>require_once 'includes/contacte_logic.php';
+
     <div class="footer">
       <div class="footerEspacio">
         <img src="img/LOGO AlberoPerezTech.png" alt="Logo AlberoPerez Tech pie">
@@ -157,5 +184,7 @@ require_once 'includes/contacte_logic.php';
     </div>
     <span class="copyright">&copy; 2025 AlberoPerez Tech. Todos los derechos reservados.</span>
   </footer>
+
+  <script src="validacio.js"></script>
 </body>
 </html>

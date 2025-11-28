@@ -1,3 +1,4 @@
 1,SKU,NOM,DESCRIPCIO,IMG,PREU,ESTOC
 2,A001,prueba1,Café auto con molinillo,img/cafetera.jpg,129.99,15
 3,A002,Tetera Eléctrica,"Acero inox, temp. digital",img/tetera.jpg,59.95,10
+3,3,Andres,La descripcion andres,img/andres.jpg,129.99,10
