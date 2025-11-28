@@ -1,5 +1,4 @@
 <?php
-// backend/includes/contacte_logic.php
 
 $errors = [];
 $nom = '';
@@ -7,6 +6,9 @@ $email = '';
 $assumpte = '';
 $missatge = '';
 $enviat = false;
+
+// Ruta al fitxer de base de dades JSON (igual que en importar_excel.php)
+$jsonFilePath = '/var/www/data/db.json';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 1. Sanear inputs
@@ -36,10 +38,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['missatge'] = '⚠ Explícate un poco mejor (mínimo 10 caracteres).';
     }
 
-    // 3. Si todo está bien
+    // 3. Si todo está bien, GUARDAMOS EN JSON
     if (empty($errors)) {
-        $enviat = true;
-        // Aquí iría el código para enviar el mail o guardar en BBDD
+        
+        // Llegir el contingut actual del db.json
+        $currentData = [];
+        if (file_exists($jsonFilePath)) {
+            $jsonContent = file_get_contents($jsonFilePath);
+            $currentData = json_decode($jsonContent, true);
+            if (!$currentData) {
+                $currentData = []; // Si està buit o corrupte, iniciem array buit
+            }
+        }
+
+        // Assegurar que existeix la secció 'missatges'
+        if (!isset($currentData['missatges'])) {
+            $currentData['missatges'] = [];
+        }
+
+        // Crear el nou missatge
+        $nouMissatge = [
+            'id' => uniqid('msg_'), 
+            'nom' => $nom,
+            'email' => $email,
+            'assumpte' => $assumpte,
+            'missatge' => $missatge,
+            'data' => date('c') 
+        ];
+
+        //Afegir-lo a l'array
+        $currentData['missatges'][] = $nouMissatge;
+
+        // Guardar el fitxer actualitzat
+        if (file_put_contents($jsonFilePath, json_encode($currentData, JSON_PRETTY_PRINT))) {
+            $enviat = true;
+        } else {
+            $errors['general'] = 'Error intern: No s\'ha pogut guardar el missatge. Revisa els permisos.';
+        }
     }
 }
 ?>

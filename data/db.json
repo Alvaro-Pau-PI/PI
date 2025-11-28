@@ -1,78 +1,106 @@
 {
-  "productes": [
-    {
-      "id": "prod_692086ac7ebfa",
-      "sku": "A001",
-      "nom": "prueba1",
-      "descripcio": "Café auto con molinillo",
-      "img": "img/cafetera.jpg",
-      "preu": 129.99,
-      "estoc": 15
-    },
-    {
-      "id": "prod_692086ac7ec11",
-      "sku": "A002",
-      "nom": "Tetera Eléctrica",
-      "descripcio": "Acero inox, temp. digital",
-      "img": "img/tetera.jpg",
-      "preu": 59.95,
-      "estoc": 10
-    }
-  ],
-  "usuaris": [
-    {
-      "id": "472b",
-      "nom_usuari": "Pau",
-      "contrasenya": "$2y$10$6t8qD/6sTZJEprlkxWVOReGsjLP2U1EpRx8Fh31x83hiDVsgkrKAa",
-      "email": "pau.albero.mora@gmail.com",
-      "nom": "Pau",
-      "cognoms": "Albero",
-      "data_registre": "2025-11-07T15:17:19+00:00"
-    },
-    {
-      "id": "8cb8",
-      "nom_usuari": "Jorge",
-      "contrasenya": "$2y$10$X6H7B9bWW7IWrqa0rgiUDelAWhw141cHBb4GrKyX65YTL6UXi3bR6",
-      "email": "j@g.com",
-      "nom": "j",
-      "cognoms": "p",
-      "data_registre": "2025-11-07T15:28:50+00:00"
-    },
-    {
-      "id": "81c7",
-      "nom_usuari": "Andres",
-      "contrasenya": "$2y$10$r4xflfDL7ILSwtEHZp7m0uLmuL8YstOH8TvCymbRTHxs9Vx57vDAm",
-      "email": "Adres@gmail.com",
-      "nom": "Andres",
-      "cognoms": "Albero",
-      "data_registre": "2025-11-07T15:36:03+00:00"
-    },
-    {
-      "id": "483e",
-      "nom_usuari": "Alvaro",
-      "contrasenya": "$2y$10$Gt9XIBVJ5BjrZKB3yXujMuS04kdrJIc5exltxlli32zxyWpyJ4fVq",
-      "email": "VARO@GMAIL.COM",
-      "nom": "Alvaro",
-      "cognoms": "Perez",
-      "data_registre": "2025-11-14T14:15:21+00:00"
-    },
-    {
-      "id": "c7f2",
-      "nom_usuari": "kikooo",
-      "contrasenya": "$2y$10$quLEvZxihMqBhOae4/9rL.q6MsOiWXSevJ8SkK9pLqnyqnFCYY9v2",
-      "email": "kikooo@kikooo.com",
-      "nom": "kikooo",
-      "cognoms": "kikooo",
-      "data_registre": "2025-11-21T16:08:16+00:00"
-    },
-    {
-      "id": "1e1a",
-      "nom_usuari": "MArcos",
-      "contrasenya": "$2y$10$3yWpsSshpd5TtjHKqE2EoeoZjCnqaIZkjoI0YStrfoVPQrn0F2p/K",
-      "email": "MArcos@MArcos.com",
-      "nom": "MArcos",
-      "cognoms": "Feo Tonto",
-      "data_registre": "2025-11-21T16:09:54+00:00"
-    }
-  ]
+    "productes": [
+        {
+            "id": "prod_6928988184ac6",
+            "sku": "A001",
+            "nom": "prueba1",
+            "descripcio": "Caf\u00e9 auto con molinillo",
+            "img": "img\/cafetera.jpg",
+            "preu": 129.99,
+            "estoc": 15
+        },
+        {
+            "id": "prod_6928988184b03",
+            "sku": "A002",
+            "nom": "Tetera El\u00e9ctrica",
+            "descripcio": "Acero inox, temp. digital",
+            "img": "img\/tetera.jpg",
+            "preu": 59.95,
+            "estoc": 10
+        },
+        {
+            "sku": 3,
+            "nom": "Andres",
+            "descripcio": "La descripcion andres",
+            "img": "img\/andres.jpg",
+            "preu": 129.99,
+            "estoc": 10,
+            "id": "prod_69289bb4ce0b2"
+        }
+    ],
+    "usuaris": [
+        {
+            "id": "472b",
+            "nom_usuari": "Pau",
+            "contrasenya": "$2y$10$6t8qD\/6sTZJEprlkxWVOReGsjLP2U1EpRx8Fh31x83hiDVsgkrKAa",
+            "email": "pau.albero.mora@gmail.com",
+            "nom": "Pau",
+            "cognoms": "Albero",
+            "data_registre": "2025-11-07T15:17:19+00:00"
+        },
+        {
+            "id": "8cb8",
+            "nom_usuari": "Jorge",
+            "contrasenya": "$2y$10$X6H7B9bWW7IWrqa0rgiUDelAWhw141cHBb4GrKyX65YTL6UXi3bR6",
+            "email": "j@g.com",
+            "nom": "j",
+            "cognoms": "p",
+            "data_registre": "2025-11-07T15:28:50+00:00"
+        },
+        {
+            "id": "81c7",
+            "nom_usuari": "Andres",
+            "contrasenya": "$2y$10$r4xflfDL7ILSwtEHZp7m0uLmuL8YstOH8TvCymbRTHxs9Vx57vDAm",
+            "email": "Adres@gmail.com",
+            "nom": "Andres",
+            "cognoms": "Albero",
+            "data_registre": "2025-11-07T15:36:03+00:00"
+        },
+        {
+            "id": "483e",
+            "nom_usuari": "Alvaro",
+            "contrasenya": "$2y$10$Gt9XIBVJ5BjrZKB3yXujMuS04kdrJIc5exltxlli32zxyWpyJ4fVq",
+            "email": "VARO@GMAIL.COM",
+            "nom": "Alvaro",
+            "cognoms": "Perez",
+            "data_registre": "2025-11-14T14:15:21+00:00"
+        },
+        {
+            "id": "c7f2",
+            "nom_usuari": "kikooo",
+            "contrasenya": "$2y$10$quLEvZxihMqBhOae4\/9rL.q6MsOiWXSevJ8SkK9pLqnyqnFCYY9v2",
+            "email": "kikooo@kikooo.com",
+            "nom": "kikooo",
+            "cognoms": "kikooo",
+            "data_registre": "2025-11-21T16:08:16+00:00"
+        },
+        {
+            "id": "1e1a",
+            "nom_usuari": "MArcos",
+            "contrasenya": "$2y$10$3yWpsSshpd5TtjHKqE2EoeoZjCnqaIZkjoI0YStrfoVPQrn0F2p\/K",
+            "email": "MArcos@MArcos.com",
+            "nom": "MArcos",
+            "cognoms": "Feo Tonto",
+            "data_registre": "2025-11-21T16:09:54+00:00"
+        },
+        {
+            "id": "a74e",
+            "nom_usuari": "kikooodf",
+            "contrasenya": "$2y$10$Phjui8XK5e0MC\/Tlulk3e.v55zbdsRdTzXnbnl8oBqg0c5AR8Md2a",
+            "email": "raegdgt@gmail.dsf",
+            "nom": "Pauiu",
+            "cognoms": "marcos",
+            "data_registre": "2025-11-27T18:30:14+00:00"
+        }
+    ],
+    "missatges": [
+        {
+            "id": "msg_69289b11750d5",
+            "nom": "assadas",
+            "email": "pau.albero.mora@gmail.com",
+            "assumpte": "asdasd",
+            "missatge": "asdasdsaasasas",
+            "data": "2025-11-27T18:40:17+00:00"
+        }
+    ]
 }
