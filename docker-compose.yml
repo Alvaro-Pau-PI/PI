@@ -39,7 +39,7 @@ services:
     working_dir: /app
     command: sh -c "npm i -g json-server && json-server --watch /data/db.json --host 0.0.0.0 --port 3000"
     volumes:
-      - ./data:/data
+      - ./data/db_fixed.json:/data/db.json
     ports:
       - "3000:3000"
     restart: unless-stopped

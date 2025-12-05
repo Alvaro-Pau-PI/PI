@@ -18,6 +18,8 @@ function api_request(string $endpoint, string $method = 'GET', ?array $data = nu
     } elseif ($method === 'PATCH') {
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    } elseif ($method === 'DELETE') {
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
     }
 
     $response = curl_exec($ch);
@@ -56,5 +58,32 @@ function get_products(?string $query = null): array {
 /** Obtener un producto por ID */
 function get_product_by_id(string $id): ?array {
     return api_request("/productes/{$id}");
+}
+
+// --- COMENTARIOS ---
+
+function get_comments_by_product(string $product_id): array {
+    // Filtramos por product_id y ordenamos por fecha descendente (si json-server lo soporta, sino en PHP)
+    // json-server: ?product_id=...&_sort=data&_order=desc
+    return api_request("/comentaris?product_id=" . urlencode($product_id) . "&_sort=data&_order=desc") ?? [];
+}
+
+function add_comment(array $data): ?array {
+    return api_request('/comentaris', 'POST', $data);
+}
+
+function delete_comment(string $id): ?array {
+    return api_request("/comentaris/{$id}", 'DELETE'); // DELETE method needs implementation in api_request if not present
+}
+
+// Helper para borrar (json-server usa DELETE)
+function api_delete(string $endpoint): ?array {
+     $url = JSON_SERVER_URL . $endpoint;
+     $ch = curl_init($url);
+     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+     $response = curl_exec($ch);
+     curl_close($ch);
+     return json_decode($response, true);
 }
 ?>

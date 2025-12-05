@@ -23,7 +23,7 @@ if (empty($products)) {
         $id = $p['id'] ?? 0;
         $nom = htmlspecialchars($p['nom'] ?? 'Sense nom');
         $preu = htmlspecialchars($p['preu'] ?? '0');
-        $img = htmlspecialchars($p['img'] ?? 'img/placeholder.png'); 
+        $img = htmlspecialchars($p['img'] ?? 'img/LOGO AlberoPerezTech.png'); 
         $desc = htmlspecialchars($p['descripcio'] ?? '');
 
         // Generamos la tarjeta con enlace al detalle

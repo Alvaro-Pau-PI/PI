@@ -196,8 +196,51 @@ $user_icon_href = $is_logged_in ? 'auth/profile.php' : 'auth/register.php';
                 <span class="material-icons">shopping_cart</span>
             </button>
         </div>
-    </div>
+
+
+    <!-- SECCIÓ DE COMENTARIS -->
+    <section class="comments-section">
+        <h3>Opinions de clients</h3>
+        
+        <!-- Formulario solo visible si logueado -->
+        <div id="comment-form-container" class="comment-form" style="display: none;">
+            <h4>Deixa la teva opinió</h4>
+            <form id="commentForm">
+                <input type="hidden" id="productId" value="<?= htmlspecialchars($product['id']) ?>">
+                
+                <div class="star-rating">
+                    <input type="radio" id="star5" name="rating" value="5" required /><label for="star5" title="5 estrelles">★</label>
+                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 estrelles">★</label>
+                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 estrelles">★</label>
+                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 estrelles">★</label>
+                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 estrella">★</label>
+                </div>
+
+                <div class="form-group">
+                    <textarea id="commentText" rows="4" class="form-input" placeholder="Escriu el teu comentari aquí..." required style="width: 100%; padding: 10px; margin-top: 10px; background: #1A1D24; color: #EAEAEA; border: 1px solid #3A4150; border-radius: 8px;"></textarea>
+                </div>
+                
+                <button type="submit" class="btn-submit" style="margin-top: 10px;">Publicar comentari</button>
+            </form>
+        </div>
+        
+        <div id="login-prompt" style="display: none; text-align: center; padding: 20px; background: #242833; border-radius: 8px; margin-bottom: 20px; border: 1px solid #3A4150;">
+            <p>Per a deixar un comentari, <a href="auth/login.php" style="color: #00A1FF; font-weight: bold;">inicia sessió</a>.</p>
+        </div>
+
+        <div id="comments-list" class="comment-list">
+            <!-- Els comentaris es carregaran aquí via AJAX -->
+            <p style="text-align: center; color: #999;">Carregant comentaris...</p>
+        </div>
+    </section>
   </main>
+
+  <script>
+      // Variables globals per a JS
+      const IS_LOGGED_IN = <?= $is_logged_in ? 'true' : 'false' ?>;
+      const PRODUCT_ID = "<?= $product['id'] ?>";
+  </script>
+  <script src="js/comments.js"></script>
 
   <footer>
     <div class="footer">

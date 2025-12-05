@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <header>
     <div class="cabecera">
       <div class="logo-box">
-        <a href="../index.html" title="Ir al inicio AlberoPerez Tech">
+        <a href="../index.php" title="Ir al inicio AlberoPerez Tech">
           <img src="../img/LOGO AlberoPerezTech.png" alt="Logo AlberoPerez Tech" class="logo" />
         </a>
       </div>
