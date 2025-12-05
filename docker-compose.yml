@@ -21,6 +21,7 @@ services:
       - ./backend:/var/www/html              # tu código PHP
       - ./uploads:/var/www/uploads
       - ./data:/var/www/data
+      - ./frontend:/var/www/frontend
     environment:
       - DB_HOST=db
       - DB_NAME=pi_db
