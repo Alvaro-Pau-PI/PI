@@ -8,8 +8,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css">
@@ -19,7 +18,7 @@
   <header>
     <div class="cabecera">
       <div class="logo-box">
-        <a href="index.html" title="Ir al inicio AlberoPerez Tech">
+        <a href="index.php" title="Ir al inicio AlberoPerez Tech">
           <img src="img/LOGO AlberoPerezTech.png" alt="Logo AlberoPerez Tech" class="logo" />
         </a>
       </div>
@@ -37,15 +36,16 @@
             <a href="#">Ordenadores</a>
           </div>
         </div>
+        
         <div class="buscador-box">
-          <form action="#" method="get" role="search">
-            <input type="text" class="buscador" name="q" placeholder="Buscar componente, PC, periférico...">
+          <form action="index.php" method="get" role="search">
+            <input type="text" class="buscador" name="q" value="[[SEARCH_QUERY]]" placeholder="Buscar componente, PC...">
           </form>
         </div>
       </nav>
 
       <div class="iconos-box">
-        <a href="auth/login.php" title="Mi cuenta" class="icon-user">
+        <a href="[[USER_ICON_HREF]]" title="[[USER_ICON_TITLE]]" class="icon-user">
           <span class="material-icons">person</span>
         </a>
         <a href="#" title="Carrito de compras" class="icon-cart">
@@ -64,48 +64,9 @@
     <p>Descubre los componentes más recientes y potentes del mercado.</p>
 
     <section class="productos">
-      <article class="producto">
-        <img src="img/ryzen.png" alt="Procesador AMD Ryzen 9 7950X">
-        <span class="precio">799€</span>
-        <h3 class="nombre">Procesador AMD Ryzen 9 7950X</h3>
-        <p class="detalle">16 Núcleos, 32 Hilos, 4.5GHz Base</p>
-      </article>
-
-      <article class="producto">
-        <img src="img/Gráfica NVIDIA RTX 4070.png" alt="Gráfica NVIDIA RTX 4070">
-        <span class="precio">450€</span>
-        <h3 class="nombre">Gráfica NVIDIA RTX 4070</h3>
-        <p class="detalle">12GB GDDR6X, DLSS 3, Ray Tracing</p>
-      </article>
-
-      <article class="producto">
-        <img src="img/Placa Base ASUS ROG STRIX B760.png" alt="Placa Base ASUS ROG STRIX B760">
-        <span class="precio">230€</span>
-        <h3 class="nombre">Placa Base ASUS ROG STRIX B760</h3>
-        <p class="detalle">Socket LGA1700, DDR5, Wi-Fi 6E</p>
-      </article>
-
-      <article class="producto">
-        <img src="img/SSD NVMe Samsung 990 PRO 2TB.png" alt="SSD NVMe Samsung 990 PRO 2TB">
-        <span class="precio">120€</span>
-        <h3 class="nombre">SSD NVMe Samsung 990 PRO 2TB</h3>
-        <p class="detalle">Lectura 7450 MB/s, Gen4</p>
-      </article>
-
-      <article class="producto">
-        <img src="img/RAM Corsair Vengeance 32GB.png" alt="RAM Corsair Vengeance 32GB">
-        <span class="precio">150€</span>
-        <h3 class="nombre">RAM Corsair Vengeance 32GB</h3>
-        <p class="detalle">2x16GB, DDR5 6000MHz, CL30</p>
-      </article>
-
-      <article class="producto">
-        <img src="img/ztr6cxqe4c-nox_hummer_x_850w_gold_1.png" alt="Fuente Alimentación 850W Gold">
-        <span class="precio">85€</span>
-        <h3 class="nombre">Fuente Alimentación 850W Gold</h3>
-        <p class="detalle">Corsair RM850e, Modular, 80+ Gold</p>
-      </article>
+        [[PRODUCT_LIST]]
     </section>
+    
     <br>
 
     <h2>Montaje</h2>
@@ -149,5 +110,4 @@
     <span class="copyright">&copy; 2025 AlberoPerez Tech. Todos los derechos reservados.</span>
   </footer>
 </body>
-
 </html>
