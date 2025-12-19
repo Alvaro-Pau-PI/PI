@@ -1,19 +1,10 @@
 {
   "productes": [
     {
-      "sku": "CPU-AMD-7600X",
-      "nom": "AMD Ryzen 5 7600X",
-      "descripcio": "Procesador de 6 núcleos y 12 hilos hasta 5.3GHz Socket AM5",
-      "img": "img/productos/ryzen.png",
-      "preu": "245.99",
-      "estoc": 50,
-      "id": "prod_6929f74d264ba"
-    },
-    {
       "sku": "CPU-AMD-7800X3D",
       "nom": "AMD Ryzen 7 7800X3D",
       "descripcio": "Procesador Gaming con tecnología 3D V-Cache 8 núcleos",
-      "img": "img/productos/ryzen.png",
+      "img": "img/productos/CPU-AMD-7800X3D.png",
       "preu": "399.90",
       "estoc": 30,
       "id": "prod_6929f74d264d2"
@@ -22,7 +13,7 @@
       "sku": "CPU-INT-13600K",
       "nom": "Intel Core i5-13600K",
       "descripcio": "Procesador Intel 13ª Gen 14 núcleos (6P+8E) hasta 5.1GHz",
-      "img": "img/productos/ryzen.png",
+      "img": "img/productos/CPU-INT-13600K.png",
       "preu": "319.95",
       "estoc": 45,
       "id": "prod_6929f74d264e4"
@@ -31,7 +22,7 @@
       "sku": "CPU-INT-14900K",
       "nom": "Intel Core i9-14900K",
       "descripcio": "Procesador tope de gama Intel 14ª Gen 24 núcleos hasta 6.0GHz",
-      "img": "img/productos/ryzen.png",
+      "img": "img/productos/CPU-INT-14900K.png",
       "preu": "629.99",
       "estoc": 15,
       "id": "prod_6929f74d264f6"
@@ -40,7 +31,7 @@
       "sku": "GPU-NV-4060TI",
       "nom": "MSI GeForce RTX 4060 Ti",
       "descripcio": "Tarjeta gráfica 8GB GDDR6 DLSS 3 para gaming 1080p ultra",
-      "img": "img/Gráfica NVIDIA RTX 4070.png",
+      "img": "img/productos/GPU-NV-4060TI.png",
       "preu": "419.50",
       "estoc": 25,
       "id": "prod_6929f74d26508"
@@ -49,7 +40,7 @@
       "sku": "GPU-NV-4070S",
       "nom": "ASUS Dual GeForce RTX 4070 Super",
       "descripcio": "Gráfica 12GB GDDR6X ideal para 1440p con Ray Tracing",
-      "img": "img/Gráfica NVIDIA RTX 4070.png",
+      "img": "img/productos/GPU-NV-4070S.png",
       "preu": "659.90",
       "estoc": 20,
       "id": "prod_6929f74d2652d"
@@ -58,7 +49,7 @@
       "sku": "GPU-NV-4090",
       "nom": "Gigabyte GeForce RTX 4090 Gaming OC",
       "descripcio": "La tarjeta gráfica más potente del mercado 24GB GDDR6X",
-      "img": "img/Gráfica NVIDIA RTX 4070.png",
+      "img": "img/productos/GPU-NV-4090.png",
       "preu": "1899.00",
       "estoc": 5,
       "id": "prod_6929f74d26542"
@@ -67,7 +58,7 @@
       "sku": "GPU-AMD-7800XT",
       "nom": "Sapphire Pulse AMD Radeon RX 7800 XT",
       "descripcio": "Gráfica AMD 16GB GDDR6 rendimiento excelente en rasterización",
-      "img": "img/Gráfica NVIDIA RTX 4070.png",
+      "img": "img/productos/GPU-AMD-7800XT.png",
       "preu": "549.90",
       "estoc": 15,
       "id": "prod_6929f74d26554"
@@ -76,7 +67,7 @@
       "sku": "GPU-AMD-7900XTX",
       "nom": "XFX Speedster MERC310 AMD Radeon RX 7900 XTX",
       "descripcio": "Tope de gama AMD 24GB GDDR6 para 4K nativo",
-      "img": "img/Gráfica NVIDIA RTX 4070.png",
+      "img": "img/productos/GPU-AMD-7900XTX.png",
       "preu": "1049.99",
       "estoc": 8,
       "id": "prod_6929f74d26568"
@@ -85,7 +76,7 @@
       "sku": "MB-ASUS-B650",
       "nom": "ASUS TUF GAMING B650-PLUS WIFI",
       "descripcio": "Placa base Socket AM5 DDR5 PCIe 5.0 para Ryzen 7000",
-      "img": "img/Placa Base ASUS ROG STRIX B760.png",
+      "img": "img/productos/MB-ASUS-B650.png",
       "preu": "199.99",
       "estoc": 40,
       "id": "prod_6929f74d2657b"
@@ -94,7 +85,7 @@
       "sku": "MB-MSI-Z790",
       "nom": "MSI MAG Z790 TOMAHAWK WIFI",
       "descripcio": "Placa base Socket LGA1700 DDR5 para Intel 12/13/14 Gen",
-      "img": "img/Placa Base ASUS ROG STRIX B760.png",
+      "img": "img/productos/MB-MSI-Z790.png",
       "preu": "289.90",
       "estoc": 35,
       "id": "prod_6929f74d2658d"
@@ -103,7 +94,7 @@
       "sku": "RAM-COR-32D5",
       "nom": "Corsair Vengeance DDR5 32GB (2x16GB)",
       "descripcio": "Kit de memoria RAM DDR5 6000MHz CL30 optimizado AMD/Intel",
-      "img": "img/RAM Corsair Vengeance 32GB.png",
+      "img": "img/productos/RAM-COR-32D5.png",
       "preu": "124.99",
       "estoc": 60,
       "id": "prod_6929f74d2659f"
@@ -112,7 +103,7 @@
       "sku": "RAM-KIN-16D4",
       "nom": "Kingston FURY Beast DDR4 16GB (2x8GB)",
       "descripcio": "Memoria RAM DDR4 3200MHz CL16 fiable y económica",
-      "img": "img/RAM Corsair Vengeance 32GB.png",
+      "img": "img/productos/RAM-KIN-16D4.png",
       "preu": "45.99",
       "estoc": 100,
       "id": "prod_6929f74d265b1"
@@ -121,7 +112,7 @@
       "sku": "SSD-SAM-990",
       "nom": "Samsung 990 PRO 2TB",
       "descripcio": "SSD NVMe M.2 PCIe 4.0 velocidades de hasta 7450 MB/s",
-      "img": "img/SSD NVMe Samsung 990 PRO 2TB.png",
+      "img": "img/productos/SSD-SAM-990.png",
       "preu": "179.99",
       "estoc": 55,
       "id": "prod_6929f74d265c3"
@@ -130,7 +121,7 @@
       "sku": "SSD-WD-SN850X",
       "nom": "WD_BLACK SN850X 1TB",
       "descripcio": "SSD NVMe M.2 Gen4 de alto rendimiento para gaming",
-      "img": "img/SSD NVMe Samsung 990 PRO 2TB.png",
+      "img": "img/productos/SSD-WD-SN850X.png",
       "preu": "99.95",
       "estoc": 70,
       "id": "prod_6929f74d265d5"
@@ -139,7 +130,7 @@
       "sku": "PSU-COR-850",
       "nom": "Corsair RM850x Shift 850W 80 Plus Gold",
       "descripcio": "Fuente de alimentación modular con conectores laterales ATX 3.0",
-      "img": "img/ztr6cxqe4c-nox_hummer_x_850w_gold_1.png",
+      "img": "img/productos/PSU-COR-850.png",
       "preu": "159.90",
       "estoc": 25,
       "id": "prod_6929f74d265e7"
@@ -148,7 +139,7 @@
       "sku": "PSU-MSI-1000",
       "nom": "MSI MPG A1000G PCIE5 1000W Gold",
       "descripcio": "Fuente 1000W nativa PCIe 5.0 para RTX 40 series",
-      "img": "img/ztr6cxqe4c-nox_hummer_x_850w_gold_1.png",
+      "img": "img/productos/PSU-MSI-1000.png",
       "preu": "189.99",
       "estoc": 15,
       "id": "prod_6929f74d265fa"
@@ -157,7 +148,7 @@
       "sku": "CASE-NZXT-H5",
       "nom": "NZXT H5 Flow RGB Blanco",
       "descripcio": "Semitorre ATX con alto flujo de aire y ventiladores RGB",
-      "img": "img/ztr6cxqe4c-nox_hummer_x_850w_gold_1.png",
+      "img": "img/productos/CASE-NZXT-H5.png",
       "preu": "109.99",
       "estoc": 30,
       "id": "prod_6929f74d2660c"
@@ -166,7 +157,7 @@
       "sku": "CASE-COR-4000D",
       "nom": "Corsair 4000D Airflow Negro",
       "descripcio": "Caja ATX minimalista con panel frontal de rejilla",
-      "img": "img/ztr6cxqe4c-nox_hummer_x_850w_gold_1.png",
+      "img": "img/productos/CASE-COR-4000D.png",
       "preu": "94.90",
       "estoc": 40,
       "id": "prod_6929f74d2661e"
@@ -175,7 +166,7 @@
       "sku": "COOL-NOC-D15",
       "nom": "Noctua NH-D15 chromax.black",
       "descripcio": "Disipador por aire de doble torre de alto rendimiento",
-      "img": "img/productos/ryzen.png",
+      "img": "img/productos/COOL-NOC-D15.png",
       "preu": "119.90",
       "estoc": 20,
       "id": "prod_6929f74d26631"
