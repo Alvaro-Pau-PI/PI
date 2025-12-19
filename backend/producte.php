@@ -3,27 +3,22 @@
 require_once 'includes/json_connect.php';
 session_start();
 
-// 1. Obtenir ID de la URL
 $id = $_GET['id'] ?? null;
 $product = null;
-
 if ($id) {
     $product = get_product_by_id($id);
 }
 
-// Si no hi ha producte, mostrem error
 if (!$product || empty($product)) {
     die("
     <body style='background-color: #1A1D24; color: #EAEAEA; font-family: sans-serif; text-align: center; padding-top: 50px;'>
         <h1>Producte no trobat 😕</h1>
-        <a href='index.php' style='color: #00A1FF;'>Tornar a l'inici</a>
+        <a href='index.php' style='color: #00A1FF;'>Tornar</a>
     </body>");
 }
 
-// Dades d'usuari per la capçalera
 $is_logged_in = isset($_COOKIE['user_id']) && !empty($_COOKIE['user_id']);
 $user_icon_href = $is_logged_in ? 'auth/profile.php' : 'auth/register.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -31,32 +26,17 @@ $user_icon_href = $is_logged_in ? 'auth/profile.php' : 'auth/register.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($product['nom']) ?> | AlberoPerez Tech</title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
     <link rel="stylesheet" href="styles.css">
     
     <style>
-        /* Estils específics per a la fitxa de producte (Tema Tech) */
-        .product-detail-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* Dos columnes: Img | Info */
-            gap: 40px;
-            max-width: 1100px;
-            margin: 40px auto;
-            background: #242833; /* Superfície fosca */
-            padding: 40px;
-            border-radius: 12px;
-            border: 1px solid #3A4150;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-
+        /* Estilos INLINE específicos para ajustar el Grid de producto */
         .p-image-box {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #1A1D24; /* Fons més fosc per resaltar la img */
+            background: #1A1D24;
             border-radius: 12px;
             padding: 20px;
             border: 1px solid #3A4150;
@@ -66,13 +46,11 @@ $user_icon_href = $is_logged_in ? 'auth/profile.php' : 'auth/register.php';
             max-height: 400px;
             object-fit: contain;
         }
-
         .p-info-box {
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
-
         .p-title {
             font-family: 'Montserrat', sans-serif;
             font-size: 2.4em;
@@ -80,45 +58,25 @@ $user_icon_href = $is_logged_in ? 'auth/profile.php' : 'auth/register.php';
             margin: 0 0 15px 0;
             line-height: 1.2;
         }
-
-        .p-ref {
-            color: #9BA3B0;
-            font-size: 0.9em;
-            margin-bottom: 20px;
-            font-family: monospace;
-        }
-
         .p-price {
             font-family: 'Montserrat', sans-serif;
             font-size: 2.5em;
-            color: #00A1FF; /* Blau elèctric */
+            color: #00A1FF;
             font-weight: 700;
             margin-bottom: 20px;
         }
-
-        .p-desc {
-            color: #EAEAEA;
-            font-size: 1.1em;
-            line-height: 1.8;
-            margin-bottom: 30px;
-            border-top: 1px solid #3A4150;
-            padding-top: 20px;
-        }
-
         .stock-badge {
             display: inline-block;
             padding: 5px 12px;
             border-radius: 4px;
-            font-size: 0.9em;
             font-weight: 600;
             background: rgba(46, 204, 113, 0.15);
             color: #2ecc71;
             border: 1px solid #2ecc71;
             margin-bottom: 20px;
         }
-
         .btn-buy-large {
-            background: linear-gradient(135deg, #FF6C00 0%, #ff8c00 100%); /* Taronja */
+            background: linear-gradient(135deg, #FF6C00 0%, #ff8c00 100%);
             color: white;
             border: none;
             padding: 18px 30px;
@@ -132,14 +90,8 @@ $user_icon_href = $is_logged_in ? 'auth/profile.php' : 'auth/register.php';
             align-items: center;
             justify-content: center;
             gap: 10px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
         }
-        .btn-buy-large:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(255, 108, 0, 0.4);
-        }
-
-        /* Responsive mòbil */
         @media (max-width: 768px) {
             .product-detail-container { grid-template-columns: 1fr; }
         }
@@ -154,7 +106,7 @@ $user_icon_href = $is_logged_in ? 'auth/profile.php' : 'auth/register.php';
       </div>
       <nav class="nav-box">
           <a href="index.php" style="color: #9BA3B0; text-decoration: none; display: flex; align-items: center; gap: 5px;">
-              <span class="material-icons">arrow_back</span> Tornar al catàleg
+              <span class="material-icons">arrow_back</span> Tornar
           </a>
       </nav>
       <div class="iconos-box">
@@ -165,116 +117,88 @@ $user_icon_href = $is_logged_in ? 'auth/profile.php' : 'auth/register.php';
   </header>
 
   <main>
-    <div class="product-detail-container">
-        <div class="p-image-box">
-            <img src="<?= htmlspecialchars($product['img']) ?>" alt="<?= htmlspecialchars($product['nom']) ?>">
-        </div>
+    <div class="single-card-container">
         
-        <div class="p-info-box">
-            <h1 class="p-title"><?= htmlspecialchars($product['nom']) ?></h1>
-            
-            <div class="p-ref">
-                REF/SKU: <?= htmlspecialchars($product['sku'] ?? 'N/A') ?>
-            </div>
-
-            <div class="p-price"><?= htmlspecialchars($product['preu']) ?>€</div>
-            
-            <div>
-                <?php if (($product['estoc'] ?? 0) > 0): ?>
-                    <span class="stock-badge">En Estoc (<?= $product['estoc'] ?> u.)</span>
-                <?php else: ?>
-                    <span class="stock-badge" style="color: #ff4d4d; border-color: #ff4d4d; background: rgba(255, 77, 77, 0.15);">Esgotat</span>
-                <?php endif; ?>
-            </div>
-
-            <div class="p-desc">
-                <?= nl2br(htmlspecialchars($product['descripcio'])) ?>
+        <div class="product-detail-container">
+            <div class="p-image-box">
+                <img src="<?= htmlspecialchars($product['img']) ?>" alt="<?= htmlspecialchars($product['nom']) ?>">
             </div>
             
-            <button class="btn-buy-large">
-                Afegir al Carret 
-                <span class="material-icons">shopping_cart</span>
-            </button>
-        </div>
-
-
-    <!-- SECCIÓ DE COMENTARIS -->
-    <section class="comments-section">
-        <h3>Opinions de clients</h3>
-        
-        <!-- Formulario solo visible si logueado -->
-        <div id="comment-form-container" class="comment-form" style="display: none;">
-            <h4>Deixa la teva opinió</h4>
-            <form id="commentForm">
-                <input type="hidden" id="productId" value="<?= htmlspecialchars($product['id']) ?>">
+            <div class="p-info-box">
+                <h1 class="p-title"><?= htmlspecialchars($product['nom']) ?></h1>
+                <div style="color: #9BA3B0; font-family: monospace; margin-bottom: 20px;">
+                    REF: <?= htmlspecialchars($product['sku'] ?? 'N/A') ?>
+                </div>
+                <div class="p-price"><?= htmlspecialchars($product['preu']) ?>€</div>
                 
-                <div class="star-rating">
-                    <input type="radio" id="star5" name="rating" value="5" required /><label for="star5" title="5 estrelles">★</label>
-                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 estrelles">★</label>
-                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 estrelles">★</label>
-                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 estrelles">★</label>
-                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 estrella">★</label>
+                <div>
+                    <?php if (($product['estoc'] ?? 0) > 0): ?>
+                        <span class="stock-badge">En Estoc (<?= $product['estoc'] ?> u.)</span>
+                    <?php else: ?>
+                        <span class="stock-badge" style="color: #ff4d4d; border-color: #ff4d4d; background: rgba(255, 77, 77, 0.15);">Esgotat</span>
+                    <?php endif; ?>
                 </div>
 
-                <div class="form-group">
-                    <textarea id="commentText" rows="4" class="form-input" placeholder="Escriu el teu comentari aquí..." required style="width: 100%; padding: 10px; margin-top: 10px; background: #1A1D24; color: #EAEAEA; border: 1px solid #3A4150; border-radius: 8px;"></textarea>
+                <div class="p-desc" style="border-top: 1px solid #3A4150; padding-top: 20px; margin-top: 10px; color: #EAEAEA;">
+                    <?= nl2br(htmlspecialchars($product['descripcio'])) ?>
                 </div>
                 
-                <button type="submit" class="btn-submit" style="margin-top: 10px;">Publicar comentari</button>
-            </form>
-        </div>
-        
-        <div id="login-prompt" style="display: none; text-align: center; padding: 20px; background: #242833; border-radius: 8px; margin-bottom: 20px; border: 1px solid #3A4150;">
-            <p>Per a deixar un comentari, <a href="auth/login.php" style="color: #00A1FF; font-weight: bold;">inicia sessió</a>.</p>
+                <button class="btn-buy-large">
+                    Afegir al Carret <span class="material-icons">shopping_cart</span>
+                </button>
+            </div>
         </div>
 
-        <div id="comments-list" class="comment-list">
-            <!-- Els comentaris es carregaran aquí via AJAX -->
-            <p style="text-align: center; color: #999;">Carregant comentaris...</p>
-        </div>
-    </section>
-  </main>
+        <section class="comments-section">
+            <hr style="border: 0; border-top: 1px solid #3A4150; margin-bottom: 30px;">
+            
+            <h3>Opinions de clients</h3>
+            
+            <div id="comment-form-container" class="comment-form" style="display: none;">
+                <h4>Deixa la teva opinió</h4>
+                
+                <div id="msg-feedback"></div>
+
+                <form id="commentForm">
+                    <input type="hidden" id="productId" value="<?= htmlspecialchars($product['id']) ?>">
+                    
+                    <div class="star-rating">
+                        <input type="radio" id="star5" name="rating" value="5" required /><label for="star5">★</label>
+                        <input type="radio" id="star4" name="rating" value="4" /><label for="star4">★</label>
+                        <input type="radio" id="star3" name="rating" value="3" /><label for="star3">★</label>
+                        <input type="radio" id="star2" name="rating" value="2" /><label for="star2">★</label>
+                        <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
+                    </div>
+
+                    <div class="form-group">
+                        <textarea id="commentText" rows="4" class="form-input" placeholder="Què en penses?" required style="width: 100%; padding: 15px; margin-top: 10px; background: #1A1D24; color: #EAEAEA; border: 1px solid #3A4150; border-radius: 8px;"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit" style="width: 100%; margin-top: 15px;">Publicar</button>
+                </form>
+            </div>
+            
+            <div id="login-prompt" style="display: none; text-align: center; padding: 20px; background: #1A1D24; border-radius: 8px; border: 1px solid #3A4150;">
+                <p>Per a deixar un comentari, <a href="auth/login.php" style="color: #00A1FF; font-weight: bold;">inicia sessió</a>.</p>
+            </div>
+
+            <div id="comments-list" class="comment-list">
+                <p style="text-align: center; color: #999;">Carregant comentaris...</p>
+            </div>
+        </section>
+
+    </div> </main>
 
   <script>
-      // Variables globals per a JS
       const IS_LOGGED_IN = <?= $is_logged_in ? 'true' : 'false' ?>;
       const PRODUCT_ID = "<?= $product['id'] ?>";
   </script>
-  <script src="js/comments.js"></script>
+  <script src="js/comments.js?v=<?= time() ?>"></script>
 
   <footer>
     <div class="footer">
-      <div class="footerEspacio">
-        <img src="img/LOGO AlberoPerezTech.png" alt="Logo AlberoPerez Tech pie">
-        <p>Tu tienda de informática y componentes de confianza.</p>
-      </div>
-      <div class="footerEspacio">
-        <strong>¡Suscríbete!</strong>
-        <p>Recibe las mejores ofertas y novedades.</p>
-        <div class="newsletter-form">
-          <input type="email" placeholder="Escribe tu email aquí">
-          <button>Suscribirse</button>
-        </div>
-      </div>
-      <div class="footerEspacio">
-        <strong>Enlaces Útiles</strong>
-        <ul>
-          <li><a href="contacte.php">Contacto</a></li>
-          <li><a href="formulari.php">Admin / Importar Excel</a></li>
-          <li><a href="#">Guía de montaje de PCs</a></li>
-          <li><a href="#">FAQ</a></li>
-        </ul>
-      </div>
-      <div class="footerEspacio">
-        <strong>Legal</strong>
-        <ul>
-          <li><a href="#">Política de Privacidad</a></li>
-          <li><a href="#">Términos y Condiciones</a></li>
-          <li><a href="#">Política de Cookies</a></li>
-        </ul>
-      </div>
+        <div class="footerEspacio"><p>&copy; 2025 AlberoPerez Tech</p></div>
     </div>
-    <span class="copyright">&copy; 2025 AlberoPerez Tech. Todos los derechos reservados.</span>
   </footer>
 </body>
 </html>

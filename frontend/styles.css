@@ -414,7 +414,6 @@ main p {
 
 /* --- ESTILOS ESPECÍFICOS: FORMULARIO DE CONTACTO --- */
 
-/* Contenedor principal del formulario */
 .contact-container {
   background: #242833;
   border: 1px solid #3A4150;
@@ -431,7 +430,6 @@ main p {
   gap: 20px;
 }
 
-/* Grupos de inputs */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -446,7 +444,6 @@ main p {
   font-size: 0.95em;
 }
 
-/* Inputs y Textarea (Estilo Tech) */
 .form-input,
 .form-textarea {
   background: #1A1D24;
@@ -464,7 +461,6 @@ main p {
   min-height: 120px;
 }
 
-/* Efecto Focus (Neón) */
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
@@ -472,7 +468,6 @@ main p {
   box-shadow: 0 0 8px rgba(0, 161, 255, 0.25);
 }
 
-/* Mensajes de Error */
 .error-msg {
   color: #ff4d4d;
   font-size: 0.85em;
@@ -482,7 +477,6 @@ main p {
   gap: 5px;
 }
 
-/* Botón de Enviar (Estilo botón tech) */
 .btn-submit {
   background: linear-gradient(135deg, #00A1FF 0%, #007ecc 100%);
   color: white;
@@ -504,7 +498,6 @@ main p {
   box-shadow: 0 5px 15px rgba(0, 161, 255, 0.4);
 }
 
-/* Caja de Éxito */
 .success-message {
   background: rgba(40, 167, 69, 0.1);
   border: 1px solid #28a745;
@@ -532,26 +525,19 @@ main p {
 }
 
 /* --- MENÚ DESPLEGABLE (DROPDOWN) --- */
-
-/* Contenedor relativo para que el menú salga pegado al botón */
 .dropdown {
   position: relative;
   display: inline-block;
 }
 
-/* Regla crucial para mostrar el menú (DEBE EXISTIR Y ESTAR CORRECTA) */
 .dropdown:hover .dropdown-content {
   display: block;
 }
 
-
-/* Estilos del contenido (la caja que aparece) */
 .dropdown-content {
   display: none;
-  /* Oculto por defecto */
   position: absolute;
   top: 100%;
-  /* FIX: Posiciona justo debajo del botón */
   left: 0;
   background-color: #242833;
   min-width: 220px;
@@ -559,13 +545,10 @@ main p {
   border: 1px solid #3A4150;
   border-radius: 8px;
   z-index: 1000;
-  /* FIX CRÍTICO: Eliminamos el margen superior para cerrar el buit */
   margin-top: 0;
   padding: 10px 0;
-  /* padding interno para los enlaces */
 }
 
-/* Estilo de los enlaces dentro del menú */
 .dropdown-content a {
   color: #9BA3B0;
   padding: 12px 20px;
@@ -576,28 +559,61 @@ main p {
   transition: background 0.2s, color 0.2s;
 }
 
-/* Efecto hover en los enlaces del menú */
 .dropdown-content a:hover {
   background-color: #3A4150;
   color: #00A1FF;
   border-left: 3px solid #00A1FF;
 }
 
-/* --- COMENTARIOS --- */
-.comments-section {
-  max-width: 800px;
+/* --- NUEVO: CONTENEDOR UNIFICADO (PRODUCTO + COMENTARIOS) --- */
+.single-card-container {
+  max-width: 1100px;
   margin: 40px auto;
-  padding: 20px;
   background: #242833;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  /* Fondo principal de la tarjeta */
+  border-radius: 12px;
   border: 1px solid #3A4150;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  /* Para que el contenido respete los bordes redondos */
+}
+
+/* --- DETALLE DEL PRODUCTO (Dentro del unified) --- */
+.product-detail-container {
+  /* Quitamos estilos de caja propia para que se fusione */
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  margin: 0;
+  padding: 40px;
+
+  /* Mantenemos el Grid */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+/* --- SECCIÓN COMENTARIOS (Dentro del unified) --- */
+.comments-section {
+  /* Quitamos estilos de caja propia */
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  padding: 40px;
+  width: 100%;
+  box-sizing: border-box;
+
+  /* Borde superior separador */
+  border-top: 1px solid #3A4150;
 }
 
 .comment-form {
   margin-bottom: 30px;
   padding: 20px;
   background: #1A1D24;
+  /* Fondo oscuro interno para el formulario */
   border-radius: 8px;
   border: 1px solid #3A4150;
 }
@@ -668,4 +684,26 @@ main p {
   background: none;
   border: none;
   text-decoration: underline;
+}
+
+/* Mensajes de éxito/error en comentarios */
+#msg-feedback {
+  display: none;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.msg-success {
+  background-color: rgba(46, 204, 113, 0.15);
+  border: 1px solid #2ecc71;
+  color: #2ecc71;
+}
+
+.msg-error {
+  background-color: rgba(255, 77, 77, 0.15);
+  border: 1px solid #ff4d4d;
+  color: #ff4d4d;
 }

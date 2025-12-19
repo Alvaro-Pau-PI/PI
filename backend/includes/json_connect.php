@@ -24,11 +24,20 @@ function api_request(string $endpoint, string $method = 'GET', ?array $data = nu
 
     $response = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curl_error = curl_error($ch);
     curl_close($ch);
 
-    if ($response === false) return null; // Error de conexión
+    if ($response === false) {
+        file_put_contents('debug_log.txt', date('Y-m-d H:i:s') . " - CURL ERROR: $curl_error\n", FILE_APPEND);
+        return null; 
+    }
     
-    return json_decode($response, true);
+    $decoded = json_decode($response, true);
+    if ($decoded === null && json_last_error() !== JSON_ERROR_NONE) {
+        file_put_contents('debug_log.txt', date('Y-m-d H:i:s') . " - JSON DECODE ERROR: " . json_last_error_msg() . "\nResponse: $response\n", FILE_APPEND);
+    }
+
+    return $decoded;
 }
 
 // --- USUARIOS ---
@@ -68,6 +77,10 @@ function get_comments_by_product(string $product_id): array {
     return api_request("/comentaris?product_id=" . urlencode($product_id) . "&_sort=data&_order=desc") ?? [];
 }
 
+function get_comment_by_id(string $id): ?array {
+    return api_request("/comentaris/{$id}");
+}
+
 function add_comment(array $data): ?array {
     return api_request('/comentaris', 'POST', $data);
 }
@@ -86,4 +99,3 @@ function api_delete(string $endpoint): ?array {
      curl_close($ch);
      return json_decode($response, true);
 }
-?>

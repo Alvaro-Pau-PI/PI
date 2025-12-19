@@ -34,12 +34,14 @@ services:
       - db
 
   jsonserver:
-    image: node:20-alpine
+    build:
+      context: ./.docker/jsonserver
+      dockerfile: Dockerfile
     container_name: jsonserver
     working_dir: /app
-    command: sh -c "npm i -g json-server && json-server --watch /data/db.json --host 0.0.0.0 --port 3000"
+    # Command removed to use Dockerfile CMD
     volumes:
-      - ./data/db_fixed.json:/data/db.json
+      - ./data/db.json:/data/db.json
     ports:
       - "3000:3000"
     restart: unless-stopped

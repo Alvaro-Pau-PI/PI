@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const commentForm = document.getElementById('commentForm');
     const formContainer = document.getElementById('comment-form-container');
     const loginPrompt = document.getElementById('login-prompt');
+    const msgBox = document.getElementById('msg-feedback');
 
     // 1. Gestionar visibilidad del formulario
     if (typeof IS_LOGGED_IN !== 'undefined' && IS_LOGGED_IN) {
@@ -19,6 +20,19 @@ document.addEventListener('DOMContentLoaded', function () {
         loadComments();
     }
 
+    // Función auxiliar para mostrar mensajes verdes/rojos
+    function showMessage(message, isError = false) {
+        if (!msgBox) return;
+        msgBox.textContent = message;
+        msgBox.className = isError ? 'msg-error' : 'msg-success';
+        msgBox.style.display = 'block';
+
+        // Ocultar mensaje después de 3 segundos
+        setTimeout(() => {
+            msgBox.style.display = 'none';
+        }, 3000);
+    }
+
     // 3. Enviar comentario
     if (commentForm) {
         commentForm.addEventListener('submit', function (e) {
@@ -30,19 +44,18 @@ document.addEventListener('DOMContentLoaded', function () {
             const submitBtn = commentForm.querySelector('button[type="submit"]');
 
             if (!text) {
-                alert("Por favor, escribe un comentario.");
+                showMessage("Escribe algo, por favor.", true);
                 return;
             }
-
             if (!rating) {
-                alert("Por favor, selecciona una puntuación.");
+                showMessage("Selecciona las estrellas.", true);
                 return;
             }
 
-            // Deshabilitar botón para evitar doble envío
+            // Bloquear botón
             if (submitBtn) {
                 submitBtn.disabled = true;
-                submitBtn.textContent = "Publicando...";
+                submitBtn.textContent = "Enviant...";
             }
 
             const data = {
@@ -53,27 +66,36 @@ document.addEventListener('DOMContentLoaded', function () {
 
             fetch('api_comentaris.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             })
-                .then(response => response.json())
+                .then(response => response.text())
+                .then(text => {
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        throw new Error("Invalid JSON response");
+                    }
+                })
                 .then(result => {
                     if (result.error) {
-                        alert("Error: " + result.error);
+                        showMessage("Error: " + result.error, true);
                     } else {
-                        // Limpiar formulario
-                        document.getElementById('commentText').value = '';
-                        if (ratingInput) ratingInput.checked = false;
+                        // ÉXITO
+                        document.getElementById('commentText').value = ''; // Limpiar texto
+                        if (ratingInput) ratingInput.checked = false;      // Limpiar estrellas
 
-                        // Recargar comentarios (o añadir dinámicamente)
+                        showMessage("¡Comentari publicat correctament!");
+
+                        // ACTUALIZAR AL INSTANTE
                         loadComments();
                     }
                 })
-                .catch(err => console.error('Error:', err))
+                .catch(err => {
+                    console.error('Error:', err);
+                    showMessage("Error de connexió.", true);
+                })
                 .finally(() => {
-                    // Rehabilitar botón
                     if (submitBtn) {
                         submitBtn.disabled = false;
                         submitBtn.textContent = "Publicar comentari";
@@ -84,25 +106,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Función para cargar comentarios
     function loadComments() {
-        fetch(`api_comentaris.php?product_id=${PRODUCT_ID}`)
+        // Usamos timestamp (?t=...) para forzar al navegador a no usar caché
+        fetch(`api_comentaris.php?product_id=${PRODUCT_ID}&t=${new Date().getTime()}`)
             .then(response => response.json())
             .then(comments => {
                 renderComments(comments);
             })
             .catch(err => {
-                console.error('Error cargando comentarios:', err);
-                if (commentsList) commentsList.innerHTML = '<p>Error al cargar comentarios.</p>';
+                console.error('Error loading comments:', err);
+                if (commentsList) commentsList.innerHTML = '<p>Error carragant.</p>';
             });
     }
 
-    // Función para renderizar comentarios
     function renderComments(comments) {
         if (!commentsList) return;
 
         if (!comments || comments.length === 0) {
-            commentsList.innerHTML = '<p style="text-align: center; color: #777;">Aún no hay comentarios. ¡Sé el primero en opinar!</p>';
+            commentsList.innerHTML = '<p style="text-align: center; color: #777;">Encara no hi ha comentaris. Sigues el primer!</p>';
             return;
         }
+
+        // Ordenar: el más nuevo arriba
+        comments.sort((a, b) => new Date(b.data) - new Date(a.data));
 
         commentsList.innerHTML = '';
         comments.forEach(comment => {
@@ -110,23 +135,24 @@ document.addEventListener('DOMContentLoaded', function () {
             div.className = 'comment-item';
 
             const stars = '★'.repeat(comment.rating) + '☆'.repeat(5 - comment.rating);
-            const date = new Date(comment.data).toLocaleDateString();
+            const dateObj = new Date(comment.data);
+            const dateStr = dateObj.toLocaleDateString();
 
             let deleteBtn = '';
             if (comment.can_delete) {
-                deleteBtn = `<button class="delete-btn" onclick="deleteComment('${comment.id}')">Eliminar</button>`;
+                deleteBtn = `<button class="delete-btn" onclick="deleteComment('${comment.id}')">Esborrar</button>`;
             }
 
             div.innerHTML = `
                 <div class="comment-header">
-                    <span class="comment-user">${escapeHtml(comment.user_name)}</span>
-                    <span>${date}</span>
+                    <div>
+                        <span class="comment-user">${escapeHtml(comment.user_name)}</span>
+                        <span style="font-size:0.85em; color:#666; margin-left:10px;">${dateStr}</span>
+                    </div>
+                    <div class="comment-stars">${stars}</div>
                 </div>
-                <div class="comment-stars">${stars}</div>
-                <div class="comment-text">
-                    ${escapeHtml(comment.text)}
-                    ${deleteBtn}
-                </div>
+                <div class="comment-text">${escapeHtml(comment.text)}</div>
+                <div style="text-align: right; margin-top: 5px;">${deleteBtn}</div>
             `;
             commentsList.appendChild(div);
         });
@@ -134,29 +160,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Función global para borrar (necesaria para onclick)
     window.deleteComment = function (id) {
-        if (!confirm("¿Estás seguro de que quieres eliminar este comentario?")) return;
+        // if (!confirm("Segur que vols esborrar-ho?")) return;
 
-        fetch(`api_comentaris.php?id=${id}`, {
-            method: 'DELETE'
-        })
-            .then(response => response.json())
+        fetch(`api_comentaris.php?id=${id}`, { method: 'DELETE' })
+            .then(response => response.text())
+            .then(text => {
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    throw new Error("Invalid JSON response");
+                }
+            })
             .then(result => {
                 if (result.success) {
                     loadComments();
                 } else {
-                    alert("Error al eliminar: " + (result.error || 'Desconocido'));
+                    showMessage("Error: " + (result.error || 'Desconocido'), true);
                 }
             })
-            .catch(err => console.error('Error:', err));
+            .catch(err => {
+                console.error('Error:', err);
+                showMessage("Error al esborrar.", true);
+            });
     };
 
     function escapeHtml(text) {
         if (!text) return '';
-        return text
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+        return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 });

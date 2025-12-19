@@ -1,0 +1,65 @@
+2025-12-19 14:23:55 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:25:18 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:27:55 - CURL ERROR: Failed to connect to jsonserver port 3000 after 0 ms: Could not connect to server
+2025-12-19 14:28:25 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:29:56 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:33:15 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:33:23 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:33:31 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:37:24 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:37:40 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:39:45 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:42:47 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:44:48 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:44:48 - JSON DECODE ERROR: Syntax error
+Response: Not Found
+2025-12-19 14:44:48 - JSON DECODE ERROR: Syntax error
+Response: Not Found
+2025-12-19 14:44:54 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:44:54 - JSON DECODE ERROR: Syntax error
+Response: Not Found
+2025-12-19 14:45:00 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:45:00 - JSON DECODE ERROR: Syntax error
+Response: Not Found
+2025-12-19 14:45:00 - JSON DECODE ERROR: Syntax error
+Response: Not Found
+2025-12-19 14:45:00 - JSON DECODE ERROR: Syntax error
+Response: Not Found
+2025-12-19 14:45:00 - JSON DECODE ERROR: Syntax error
+Response: Not Found
+2025-12-19 14:45:06 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:45:06 - JSON DECODE ERROR: Syntax error
+Response: Not Found
+2025-12-19 14:45:09 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:45:09 - JSON DECODE ERROR: Syntax error
+Response: Not Found
+2025-12-19 14:45:13 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:45:13 - JSON DECODE ERROR: Syntax error
+Response: Not Found
+2025-12-19 14:45:20 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:45:23 - JSON DECODE ERROR: Syntax error
+Response: EBUSY: resource busy or locked, rename '/data/.db.json.tmp' -> '/data/db.json'
+2025-12-19 14:45:23 - JSON DECODE ERROR: Syntax error
+Response: Not Found
+2025-12-19 14:56:09 - CURL ERROR: Could not resolve host: jsonserver
+2025-12-19 14:56:46 - CURL ERROR: Could not resolve host: jsonserver
+2025-12-19 15:00:48 - CURL ERROR: Could not resolve host: jsonserver
+2025-12-19 15:01:54 - CURL ERROR: Could not resolve host: jsonserver

@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-// Helper para enviar respuesta JSON
+// Helper para enviar respuesta JSON y salir
 function json_response($data, $code = 200) {
     http_response_code($code);
     echo json_encode($data);
@@ -20,7 +20,7 @@ function get_current_user_id() {
 }
 
 if ($method === 'GET') {
-    // Obtener comentarios de un producto
+    // --- OBTENER COMENTARIOS ---
     $product_id = $_GET['product_id'] ?? null;
     
     if (!$product_id) {
@@ -29,18 +29,14 @@ if ($method === 'GET') {
 
     $comments = get_comments_by_product($product_id);
     
-    // Enriquecer comentarios con nombres de usuario
-    // Esto es ineficiente (N+1), pero aceptable para prototipo. 
-    // Idealmente json-server soporta _expand=user, pero nuestra estructura es plana.
+    // Enriquecer comentarios con nombres de usuario y permisos
     foreach ($comments as &$c) {
-        $user = get_user_by_id($c['user_id']);
+        $user = !empty($c['user_id']) ? get_user_by_id($c['user_id']) : null;
         $c['user_name'] = $user['nom_usuari'] ?? 'Usuari desconegut';
         
-        // Determinar si el usuario actual puede borrar este comentario
         $current_user_id = get_current_user_id();
         $is_owner = $current_user_id === $c['user_id'];
         
-        // Verificar si es admin
         $is_admin = false;
         if ($current_user_id) {
             $current_user = get_user_by_id($current_user_id);
@@ -53,7 +49,7 @@ if ($method === 'GET') {
     json_response($comments);
 
 } elseif ($method === 'POST') {
-    // Crear nuevo comentario
+    // --- PUBLICAR NUEVO COMENTARIO ---
     $user_id = get_current_user_id();
     
     if (!$user_id) {
@@ -76,59 +72,95 @@ if ($method === 'GET') {
         'user_id' => $user_id,
         'text' => htmlspecialchars($text),
         'rating' => $rating,
-        'data' => date('c') // ISO 8601
+        'data' => date('c') // Fecha actual ISO 8601
     ];
 
-    $result = add_comment($new_comment);
+    // Guardar en JSON
+    $saved = add_comment($new_comment);
     
-    if ($result) {
-        // Devolver el comentario creado con datos extra para el frontend
+    if ($saved) {
+        // Preparar respuesta para el frontend
+        $response_data = $new_comment;
+        
+        // Obtener nombre del usuario actual para mostrarlo ya
         $user = get_user_by_id($user_id);
-        $result['user_name'] = $user['nom_usuari'] ?? 'Jo';
-        $result['can_delete'] = true;
-        json_response($result, 201);
+        $response_data['user_name'] = $user['nom_usuari'] ?? 'Jo';
+        $response_data['can_delete'] = true;
+        
+        json_response($response_data, 201);
     } else {
-        json_response(['error' => 'Error al guardar'], 500);
+        // WORKAROUND: Si falla (probablemente EBUSY), comprobamos si realmente se guardó
+        // Esperamos un poco para que el sistema de archivos se asiente
+        usleep(100000); // 100ms
+        
+        $current_comments = get_comments_by_product($product_id);
+        $found = false;
+        foreach ($current_comments as $c) {
+            if ($c['id'] === $new_comment['id']) {
+                $found = true;
+                break;
+            }
+        }
+        
+        if ($found) {
+             // Se guardó a pesar del error
+            $response_data = $new_comment;
+            $user = get_user_by_id($user_id);
+            $response_data['user_name'] = $user['nom_usuari'] ?? 'Jo';
+            $response_data['can_delete'] = true;
+            
+            json_response($response_data, 201);
+        } else {
+            json_response(['error' => 'Error al guardar en la base de datos'], 500);
+        }
     }
 
 } elseif ($method === 'DELETE') {
-    // Borrar comentario
+    // --- BORRAR COMENTARIO ---
     $user_id = get_current_user_id();
     
     if (!$user_id) {
         json_response(['error' => 'No autenticat'], 401);
     }
 
-    // Obtener ID del path o query string. 
-    // Como no usamos router, lo pasamos por query string ?id=... o body.
-    // Usemos query string para DELETE: api_comentaris.php?id=...
     $comment_id = $_GET['id'] ?? null;
 
     if (!$comment_id) {
         json_response(['error' => 'Falta id del comentario'], 400);
     }
 
-    // Verificar permisos: obtener comentario para ver de quién es
-    // json-server no tiene endpoint directo para "get comment by id" fácil si no es root, 
-    // pero asumimos /comentaris/id funciona.
-    $comment = api_request("/comentaris/{$comment_id}");
+    // Buscar el comentario para verificar permisos
+    $target_comment = get_comment_by_id($comment_id);
     
-    if (!$comment) {
+    if (!$target_comment) {
         json_response(['error' => 'Comentari no trobat'], 404);
     }
 
     $current_user = get_user_by_id($user_id);
     $is_admin = ($current_user['rol'] ?? '') === 'admin';
-    $is_owner = $comment['user_id'] === $user_id;
+    $is_owner = $target_comment['user_id'] === $user_id;
 
     if (!$is_owner && !$is_admin) {
         json_response(['error' => 'No tens permís'], 403);
     }
 
     $result = delete_comment($comment_id);
-    json_response(['success' => true]);
+    
+    if ($result) {
+        json_response(['success' => true]);
+    } else {
+        // WORKAROUND: Verificar si se borró realmente (EBUSY)
+        usleep(100000); // 100ms
+        $check = get_comment_by_id($comment_id);
+        
+        if (!$check) {
+            // Ya no existe, éxito
+            json_response(['success' => true]);
+        } else {
+            json_response(['error' => 'Error al esborrar'], 500);
+        }
+    }
 
 } else {
     json_response(['error' => 'Mètode no permès'], 405);
 }
-?>

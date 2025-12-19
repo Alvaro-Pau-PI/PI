@@ -1,24 +1,6 @@
 {
   "productes": [
     {
-      "id": "prod_6928988184ac6",
-      "sku": "A001",
-      "nom": "prueba1",
-      "descripcio": "Café auto con molinillo",
-      "img": "img/banner2.png",
-      "preu": 129.99,
-      "estoc": 15
-    },
-    {
-      "id": "prod_6928988184b03",
-      "sku": "A002",
-      "nom": "Tetera Eléctrica",
-      "descripcio": "Acero inox, temp. digital",
-      "img": "img/banner2.png",
-      "preu": 59.95,
-      "estoc": 10
-    },
-    {
       "sku": "CPU-AMD-7600X",
       "nom": "AMD Ryzen 5 7600X",
       "descripcio": "Procesador de 6 núcleos y 12 hilos hasta 5.3GHz Socket AM5",
@@ -272,6 +254,17 @@
       "assumpte": "asdasd",
       "missatge": "asdasdsaasasas",
       "data": "2025-11-27T18:40:17+00:00"
+    }
+  ],
+  "comentaris": [
+    {
+      "id": "test_comment",
+      "product_id": "prod_6929f74d264d2",
+      "text": "Test comment",
+      "rating": 5,
+      "user_name": "Test User",
+      "user_id": "472b",
+      "data": "2025-12-19T16:00:00+00:00"
     }
   ]
 }
