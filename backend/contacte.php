@@ -14,7 +14,7 @@ require_once 'includes/contacte_logic.php';
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../styles.css">
 
   <style>
       .error-js { 
@@ -149,7 +149,7 @@ require_once 'includes/contacte_logic.php';
     </div>
   </main>
 
-  <footer>require_once 'includes/contacte_logic.php';
+  <footer>
 
     <div class="footer">
       <div class="footerEspacio">

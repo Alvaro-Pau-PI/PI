@@ -28,7 +28,7 @@ $user_icon_href = $is_logged_in ? 'auth/profile.php' : 'auth/register.php';
     <title><?= htmlspecialchars($product['nom']) ?> | AlberoPerez Tech</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
     
     <style>
         /* Estilos INLINE específicos para ajustar el Grid de producto */

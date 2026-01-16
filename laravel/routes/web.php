@@ -1,11 +1,15 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductImportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/products/import', [ProductImportController::class, 'show'])->name('products.import.show');
+Route::post('/products/import', [ProductImportController::class, 'store'])->name('products.import.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
