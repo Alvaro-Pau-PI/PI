@@ -72,7 +72,7 @@ $n8n_css = '<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" r
   .n8n-chat-widget-toggle {
     background-color: #e67e22 !important;
     width: 64px !important;
-    height: 64px !important;
+    height: 64px !important; 
   }
   .n8n-chat-widget-header,
   .chat-header,

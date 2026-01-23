@@ -2,31 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\ProductsImport;
 use Illuminate\Http\Request;
-use App\Imports\ProductImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductImportController extends Controller
 {
+    /**
+     * Mostrar el formulario de importación.
+     */
     public function show()
     {
         return view('products.import');
     }
 
+    /**
+     * Manejar la petición de importación.
+     */
     public function store(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:xlsx,xls,csv',
+            'file' => 'required|mimes:xlsx,xls,csv|max:2048',
         ]);
 
         try {
-            Excel::import(new ProductImport, $request->file('file'));
-            return back()->with('success', 'Productes importats correctament!');
+            Excel::import(new ProductsImport, $request->file('file'));
+            
+            return back()->with('success', 'Productes importats correctament.');
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-             $failures = $e->failures();
-             return back()->with('failures', $failures);
+            $failures = $e->failures();
+            
+            return back()->with('error', 'Error en la validació de les dades.')->with('failures', $failures);
         } catch (\Exception $e) {
-            return back()->with('error', 'Error durant la importació: ' . $e->getMessage());
+            return back()->with('error', 'S\'ha produït un error durant la importació: ' . $e->getMessage());
         }
     }
 }

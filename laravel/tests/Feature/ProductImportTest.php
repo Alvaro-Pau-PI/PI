@@ -15,7 +15,8 @@ class ProductImportTest extends TestCase
 
     public function test_can_view_import_page()
     {
-        $response = $this->get('/products/import');
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get('/products/import');
         $response->assertStatus(200);
         $response->assertSee('Importar Productes');
     }
@@ -32,8 +33,8 @@ class ProductImportTest extends TestCase
 
         $response->assertStatus(302);
         
-        // Since we are faking Excel, the actual import logic won't run unless we use a real file or mock the import call.
-        // But we can assert that the import method was called.
+        // Dado que estamos falseando Excel, la lógica de importación real no se ejecutará a menos que usemos un archivo real o imitemos la llamada de importación.
+        // Pero podemos afirmar que se llamó al método de importación.
         Excel::assertImported('products.xlsx');
     }
 }
