@@ -3,136 +3,260 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Productes - {{ config('app.name', 'Laravel') }}</title>
+    <title>AlberoPerez Tech | Productes</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    
-    <!-- Material Icons (usado en el CSS antiguo) -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <!-- Styles -->
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <style>
-        /* Copia minimalista de frontend/styles.css adaptada */
-        body { font-family: 'Roboto', sans-serif; background: #1A1D24; color: #EAEAEA; margin: 0; }
+        /* Ajustes específicos para Laravel sobre el CSS original */
+        .producto { display: flex; flex-direction: column; position: relative; }
         
-        /* Header simplificado */
-        header { background: #242833; border-bottom: 2px solid #3A4150; padding: 15px 0; }
-        .cabecera { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
-        .logo { height: 50px; width: 50px; border-radius: 50%; object-fit: cover; }
-        .nav-links a { color: #EAEAEA; text-decoration: none; margin-left: 20px; font-weight: 500; transition: color 0.2s; }
-        .nav-links a:hover { color: #00A1FF; }
-
-        /* Main Content */
-        main { max-width: 1220px; margin: 40px auto; padding: 0 20px; }
-        h2 { text-align: center; color: #00A1FF; font-family: 'Montserrat', sans-serif; font-size: 2.2em; margin-bottom: 10px; }
-        p.subtitle { text-align: center; color: #9BA3B0; margin-bottom: 40px; }
-
-        /* Grid Productos */
-        .productos {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
+        .btn-group {
+            display: flex; gap: 10px; justify-content: center; margin-top: auto;
         }
 
-        .producto {
-            background: #242833;
-            border: 1px solid #3A4150;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            transition: transform 0.25s, box-shadow 0.25s;
-            display: flex; flex-direction: column;
+        .btn-reviews {
+            background: transparent; border: 1px solid #00A1FF; color: #00A1FF;
+            padding: 8px 16px; border-radius: 20px; cursor: pointer;
+            transition: all 0.2s; font-family: 'Montserrat', sans-serif; font-weight: 600;
         }
-        .producto:hover { transform: translateY(-6px); box-shadow: 0 8px 20px rgba(0, 161, 255, 0.15); }
+        .btn-reviews:hover { background: #00A1FF; color: white; }
 
-        .producto img {
-            width: 100%; max-width: 180px; height: 180px; object-fit: contain;
-            margin: 0 auto 15px auto;
+        .btn-buy {
+            background: #FF6C00; border: none; color: white;
+            padding: 8px 20px; border-radius: 20px; cursor: pointer;
+            transition: all 0.2s; font-family: 'Montserrat', sans-serif; font-weight: 600;
+            text-decoration: none; display: inline-block;
         }
+        .btn-buy:hover { background: #e65c00; transform: scale(1.05); }
 
-        .precio {
-            background: #FF6C00; color: #fff; font-weight: 700; font-family: 'Montserrat', sans-serif;
-            padding: 6px 20px; border-radius: 20px; font-size: 1.25em; display: inline-block; margin-bottom: 15px;
+        /* Modal Reviews */
+        #reviews-modal {
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.7); justify-content: center; align-items: center;
         }
-
-        .nombre {
-            font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 1.2em; color: #EAEAEA;
-            margin: 0 0 8px 0;
+        .modal-content {
+            background-color: #242833; margin: auto; padding: 20px; border: 1px solid #3A4150; border-radius: 12px;
+            width: 90%; max-width: 600px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); color: #EAEAEA;
+            max-height: 90vh; overflow-y: auto; text-align: left;
         }
+        .close-modal { color: #aaaaaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close-modal:hover { color: #00A1FF; }
+        .review-item { border-bottom: 1px solid #3A4150; padding: 10px 0; }
+        .review-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9em; color: #9BA3B0; }
+        .review-stars { color: #FFC107; margin-bottom: 5px; }
 
-        .detalle { color: #9BA3B0; font-size: 0.95em; }
-        
-        .stock-badge {
-            display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.8em; margin-top: 10px;
+        /* N8N Chatbot Overrides */
+        :root {
+            --chat--color--primary: #00A1FF !important;
+            --chat--toggle--background-color: #00A1FF !important;
         }
-        .stock-ok { background: rgba(46, 204, 113, 0.2); color: #2ecc71; border: 1px solid #2ecc71; }
-        .stock-low { background: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c; }
-
-        /* Footer */
-        footer { background: #242833; padding: 20px; text-align: center; margin-top: 50px; border-top: 1px solid #3A4150; color: #9BA3B0; }
     </style>
+    
+    <!-- N8N Chatbot CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
 </head>
 <body>
 
     <header>
         <div class="cabecera">
             <div class="logo-box">
-                <!-- Placeholder Logo -->
-               <span style="font-size: 2em;">💻</span>
+                <a href="{{ url('/') }}" title="Ir al inicio AlberoPerez Tech">
+                    <img src="{{ asset('img/LOGO AlberoPerezTech.png') }}" alt="Logo AlberoPerez Tech" class="logo" />
+                </a>
             </div>
-            <nav class="nav-links">
-                <a href="{{ url('/') }}">Inici</a>
-                @auth
-                    <a href="{{ url('/dashboard') }}">Dashboard</a>
-                @else
-                    <a href="{{ route('login') }}">Login</a>
-                    <a href="{{ route('register') }}">Registre</a>
-                @endauth
+    
+            <nav class="nav-box">
+                <div class="dropdown">
+                    <button type="button" class="categoria-link" aria-label="Abrir menú">
+                        <span class="material-icons">menu</span>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="{{ route('contact') }}">Contacto</a>
+                        <a href="{{ url('/dashboard') }}">Area Client</a>
+                        <a href="{{ route('products.index') }}">Productes</a>
+                    </div>
+                </div>
+    
+                <div class="buscador-box">
+                    <form action="{{ route('products.index') }}" method="get" role="search">
+                        <input type="text" class="buscador" name="q" value="{{ request('q') }}" placeholder="Buscar componente, PC...">
+                    </form>
+                </div>
             </nav>
+    
+            <div class="iconos-box">
+                @auth
+                    <a href="{{ route('profile.edit') }}" title="El meu perfil" class="icon-user">
+                        <span class="material-icons" style="color: #00A1FF;">person</span>
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+                        @csrf
+                        <button type="submit" title="Tancar sessió" style="background:none; border:none; color:#EAEAEA; cursor:pointer;">
+                            <span class="material-icons">logout</span>
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" title="Iniciar sessió" class="icon-user">
+                        <span class="material-icons">person_outline</span>
+                    </a>
+                @endauth
+                
+                <a href="#" title="Carrito de compras" class="icon-cart">
+                    <span class="material-icons">shopping_cart</span>
+                </a>
+            </div>
         </div>
     </header>
 
+    <section class="banner">
+        <img src="{{ asset('img/banner2.png') }}" alt="Banner Promocional" />
+    </section>
+
     <main>
-        <h2>El Nostre Catàleg</h2>
-        <p class="subtitle">Explora els millors components per al teu setup.</p>
+        <h2>Novedades Destacadas</h2>
+        <p class="subtitle" style="text-align: center; color: #9BA3B0; margin-bottom: 40px;">Descubre los componentes más recientes y potentes del mercado.</p>
 
-        <div class="productos">
+        <section class="productos">
             @forelse($products as $product)
-                <div class="producto">
-                    <!-- Si tienes imágenes reales, usalas. Si no, un placeholder -->
-                    @if($product->image)
-                        <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
-                    @else
-                        <img src="https://via.placeholder.com/200x200?text=Hardware" alt="No image">
-                    @endif
-
-                    <div>
+                <article class="producto">
+                    <!-- Imagen: Usamos asset() si existe ruta, sino placeholder -->
+                    <a href="{{ route('products.show', $product) }}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; flex-grow: 1;">
+                        <img src="{{ filter_var($product->image, FILTER_VALIDATE_URL) ? $product->image : asset($product->image ?? 'img/placeholder.png') }}" 
+                             alt="{{ $product->name }}"
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/200x200?text=No+Image';">
+                        
                         <span class="precio">{{ number_format($product->price, 2) }} €</span>
-                    </div>
+                        <h3 class="nombre">{{ $product->name }}</h3>
+                        <p class="detalle">{{ Str::limit($product->description, 60) }}</p>
+                    </a>
 
-                    <h3 class="nombre">{{ $product->name }}</h3>
-                    
-                    <span class="detalle">{{ $product->category ?? 'General' }}</span>
-                    
-                    <div>
-                        @if($product->stock > 0)
-                            <span class="stock-badge stock-ok">En estoc ({{ $product->stock }})</span>
-                        @else
-                            <span class="stock-badge stock-low">Esgotat</span>
-                        @endif
+                    <div class="btn-group">
+                        <a href="{{ route('products.show', $product) }}" class="btn-buy" title="Veure detalls">Veure</a>
+                        <button class="btn-reviews" onclick="openReviewsModal({{ $product->id }}, '{{ addslashes($product->name) }}')">
+                            Valoracions
+                        </button>
                     </div>
-                </div>
+                </article>
             @empty
-                <p>No hi ha productes disponibles en aquest moment.</p>
+                <p style="text-align: center; width: 100%;">No s'han trobat productes.</p>
             @endforelse
+        </section>
+        
+        <br><br>
+
+        <h2>Montaje</h2>
+        <div style="text-align:center;">
+             <video class="video-con-bordes" src="{{ asset('img/VideoOrdenadorInfinito.mp4') }}" autoplay muted loop playsinline>
+                Tu navegador no soporta el elemento de video.
+            </video>
         </div>
     </main>
 
     <footer>
-        <p>&copy; {{ date('Y') }} {{ config('app.name') }}. Tots els drets reservats.</p>
+        <div class="footer">
+            <div class="footerEspacio">
+                <img src="{{ asset('img/LOGO AlberoPerezTech.png') }}" alt="Logo AlberoPerez Tech pie" style="width: 50px;">
+                <p>Tu tienda de informática y componentes de confianza.</p>
+            </div>
+            <div class="footerEspacio">
+                <strong>¡Suscríbete!</strong>
+                <p>Recibe las mejores ofertas y novedades.</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Escribe tu email aquí">
+                    <button>Suscribirse</button>
+                </div>
+            </div>
+            <div class="footerEspacio">
+                <strong>Enlaces Útiles</strong>
+                <ul>
+                    <li><a href="{{ route('contact') }}">Contacto</a></li>
+                    <li><a href="#">Guía de montaje de PCs</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footerEspacio">
+                <strong>Legal</strong>
+                <ul>
+                    <li><a href="#">Política de Privacidad</a></li>
+                    <li><a href="#">Términos y Condiciones</a></li>
+                </ul>
+            </div>
+        </div>
+        <span class="copyright">&copy; {{ date('Y') }} AlberoPerez Tech. Todos los derechos reservados.</span>
     </footer>
 
+    <!-- Reviews Modal -->
+    <div id="reviews-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 style="margin-top:0; color:#00A1FF;">Valoracions: <span id="modal-product-name"></span></h3>
+            
+            <div id="reviews-list"></div>
+
+            @auth
+                <form id="review-form" style="margin-top:20px; border-top:1px solid #3A4150; padding-top:15px;">
+                    <h4 style="color:#EAEAEA;">Deixa la teva opinió</h4>
+                    <select id="review-rating" required style="width:100%; padding:10px; margin-bottom:10px; background:#1A1D24; color:#fff; border:1px solid #3A4150;">
+                        <option value="" disabled selected>Puntuació (1-5)</option>
+                        <option value="5">★★★★★ (5)</option>
+                        <option value="4">★★★★☆ (4)</option>
+                        <option value="3">★★★☆☆ (3)</option>
+                        <option value="2">★★☆☆☆ (2)</option>
+                        <option value="1">★☆☆☆☆ (1)</option>
+                    </select>
+                    <textarea id="review-text" rows="3" placeholder="Escriu el teu comentari..." required style="width:100%; padding:10px; margin-bottom:10px; background:#1A1D24; color:#fff; border:1px solid #3A4150; box-sizing:border-box;"></textarea>
+                    <div id="review-feedback" style="margin-bottom:10px;"></div>
+                    <button type="submit" style="width:100%; padding:10px; background:#00A1FF; border:none; color:white; font-weight:bold; cursor:pointer;">Enviar Valoració</button>
+                </form>
+            @else
+                <div style="margin-top:20px; padding-top:20px; border-top:1px solid #3A4150; text-align:center;">
+                    <p>Inicia sessió per deixar un comentari.</p>
+                    <a href="{{ route('login') }}" style="color:#00A1FF; text-decoration:none; font-weight:bold;">Login</a>
+                </div>
+            @endauth
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/reviews.js') }}"></script>
+    <script src="{{ asset('js/carousel.js') }}"></script>
+    
+    <!-- N8N Chatbot Script -->
+    <script type="module">
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+    
+        createChat({
+            webhookUrl: 'http://localhost:5678/webhook/1bf7c92c-ec5d-41dd-88f7-73d2bfdd4914/chat',
+            initialMessages: [
+                '¡Hola! 👋',
+                '¿En qué puedo ayudarte hoy?'
+            ],
+            i18n: {
+                en: {
+                    title: '💻AlberoPerezTech BOT',
+                    subtitle: 'Tu experto tecnológico 24/7 🚀',
+                    footer: '',
+                    getStarted: 'Empezar chat',
+                    inputPlaceholder: 'Escribe tu pregunta...',
+                },
+            },
+            style: {
+                '--chat--message--user--color': '#FFFFFF',
+                '--chat--message--user--background-color': '#00A1FF',
+                '--chat--color--primary': '#00A1FF',
+                '--chat--toggle--background-color': '#00A1FF',
+                '--chat--toggle--hover--background-color': '#0088CC',
+                '--chat--toggle--size': '64px',
+            },
+        });
+    </script>
 </body>
 </html>

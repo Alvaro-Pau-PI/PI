@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             ['email' => 'admin@pi-laravel.test'],
             [
                 'name' => 'Admin',
-                'surname' => 'PI Laravel',
                 'password' => bcrypt('password'),
             ]
         );

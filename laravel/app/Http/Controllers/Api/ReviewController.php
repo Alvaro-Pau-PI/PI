@@ -26,16 +26,15 @@ class ReviewController extends Controller
         $request->validate([
             'text' => 'required|string',
             'rating' => 'nullable|integer|min:1|max:5',
-            'user_id' => 'required|exists:users,id', // En una API real, esto vendría de auth
         ]);
 
         $review = Review::create([
-            'user_id' => $request->user_id,
+            'user_id' => $request->user()->id,
             'product_id' => $productId,
             'text' => $request->text,
             'rating' => $request->rating,
         ]);
 
-        return response()->json($review, 201);
+        return response()->json($review->load('user'), 201);
     }
 }

@@ -63,3 +63,10 @@ The application exposes a public API for products which will be consumed by a Vu
 - `GET /api/products`: List all products.
 - `GET /api/products/{id}/reviews`: List reviews for a product.
 - `POST /api/products/{id}/reviews`: Add a review.
+
+## 📄 Project Reports (Sprints)
+
+A continuació es detallen els informes de les iteracions realitzades:
+
+- **[Sprint 2 Report](../docs/sprint2.md)**: Documentació sobre la versió backend PHP Legacy i JSON Server.
+- **[Sprint 3 Report](../docs/sprint3.md)**: Migració a Laravel, Autenticació Breeze i proves.

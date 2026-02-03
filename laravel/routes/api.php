@@ -8,4 +8,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/products', [App\Http\Controllers\ProductController::class, 'apiIndex']);
-Route::apiResource('products.reviews', App\Http\Controllers\Api\ReviewController::class);
+Route::get('/products/{product}/reviews', [App\Http\Controllers\Api\ReviewController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/products/{product}/reviews', [App\Http\Controllers\Api\ReviewController::class, 'store']);

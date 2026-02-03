@@ -23,4 +23,12 @@ class ProductController extends Controller
     {
         return response()->json(Product::all());
     }
+
+    /**
+     * Mostrar el recurso especificado.
+     */
+    public function show(Product $product)
+    {
+        return view('products.show', compact('product'));
+    }
 }

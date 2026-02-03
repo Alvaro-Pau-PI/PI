@@ -4,9 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductImportController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\ProductController::class, 'index']);
 
 
 Route::get('/dashboard', function () {
@@ -14,6 +12,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/productes', [App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
+Route::get('/productes/{product}', [App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
+Route::view('/contacte', 'contact')->name('contact');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
