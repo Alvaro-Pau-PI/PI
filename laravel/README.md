@@ -57,3 +57,9 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## API Information
+The application exposes a public API for products which will be consumed by a Vue.js client in future sprints.
+- `GET /api/products`: List all products.
+- `GET /api/products/{id}/reviews`: List reviews for a product.
+- `POST /api/products/{id}/reviews`: Add a review.
