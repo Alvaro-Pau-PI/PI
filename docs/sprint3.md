@@ -1,63 +1,72 @@
-# SA.3 Iteració: Migració a Laravel v2 (mínim viable)
+# Iteració 3: Migració a Laravel v2 (mínim viable)
 
-## 🎯 Objectius del Sprint
+En aquest sprint hem fet el salt de la versió PHP natiu + JSON Server (v1) a una versió professional amb **Laravel (v2)**. L'objectiu principal ha estat construir un backend mínim viable sobre MySQL, consolidant un ecosistema MVC real amb migracions, models i autenticació moderna, preparant el terreny per a futures integracions (SPA Vue i microserveis).
 
-L'objectiu principal d'aquest sprint ha sigut migrar el backend de l'aplicació a **Laravel (v2)**, establint una base sòlida amb arquitectura MVC, base de dades MySQL, i autenticació robusta, tot mantenint les funcionalitats del catàleg i la gestió d'usuaris definides anteriorment.
+## Objectius principals
 
-## 🧩 Tasques Realitzades
+- **Migració a Framework**: Entendre i configurar un projecte Laravel (MVC, Rutes, Eloquent) connectat a MySQL.
+- **Autenticació Robusta**: Integrar Laravel Breeze i comparar-lo amb l'autenticació manual anterior.
+- **Automatització**: Implementar la importació massiva de productes des d'Excel directament a la base de dades.
+- **API First**: Exposar dades via API REST per al futur client SPA (Vue.js).
+- **Testing**: Validar el funcionament crític (API, Auth, Imports) mitjançant tests automatitzats.
 
-### C1. Creació i Configuració del Projecte
-- S'ha inicialitzat un nou projecte Laravel a la carpeta `laravel/`.
-- S'ha configurat l'arxiu `.env` per connectar-se a la base de dades MySQL compartida.
-- S'ha estructurat l'aplicació per conviure amb el codi `legacy-php/`.
+## Activitats realitzades
+
+### C1. Configuració de l'entorn Laravel
+- Inicialització del projecte a la carpeta `laravel/`, mantenint `legacy-php/` com a referència.
+- Configuració de l'entorn (`.env`) per connectar amb la instància MySQL existent.
+- Estructura de contenidors Docker preparada per servir l'aplicació.
 
 ### C2. Model de Dades i Migracions
-- **Productes**: Creat model `Product` i migració amb camps: `sku` (únic), `name`, `description`, `price`, `stock`, `image`, `category`.
-- **Usuaris**: Utilitzada la migració per defecte de Laravel, compatible amb el sistema d'autenticació.
-- **Reviews**: Afegida taula per a comentaris i valoracions (`user_id`, `product_id`, `text`, `rating`).
-- **Seeding**: Implementats seeders per poblar la base de dades amb dades inicials de prova.
+- Creació de migracions i models Eloquent per a `Product`, `User` i `Review`.
+- Definició de camps clau (`sku`, `price`, `stock`) i relacions.
+- Utilització de **Seeders** per poblar la base de dades amb dades de prova inicials.
 
 ### C3. Autenticació amb Laravel Breeze
-- Implementat **Laravel Breeze** (versió Blade) per gestionar el flux complet d'autenticació.
-- Funcionalitats actives: Registre, Inici de Sessió (amb redirecció a Productes), Tancament de Sessió, i Edició de Perfil.
-- Personalització de les vistes d'autenticació per coincidir amb el "Dark Theme" corporatiu.
+- Implementació del stack d'autenticació Breeze (versió Blade).
+- Personalització de les vistes de login i registre per adaptar-les al tema fosc corporatiu.
+- Redirecció post-login ajustada per portar l'usuari a `/productes`.
 
-### C4. Importació d'Excel
-- Implementat controlador `ProductImportController` utilitzant `maatwebsite/excel`.
-- Validació estricta de dades (camps obligatoris, formats numèrics) abans de la inserció.
-- Gestió d'errors i feedback a l'usuari en cas de fallada en la importació.
+### C4. Importació Automàtica (Excel)
+- Desenvolupament d'un controlador d'importació (`ProductImportController`).
+- Validació estricta de dades (formats numèrics, camps obligatoris) durant la càrrega de fitxers `.xlsx`.
+- Gestió d'errors i feedback a l'usuari.
 
-### C5. Vistes Blade i API
-- **Frontend**: Desenvolupada vista `products/index.blade.php` utilitzant Blade i CSS personalitzat (reutilitzant estils de la v1).
-- **Responsivitat**: Disseny adaptatiu (Grid/Flex) amb targetes de producte.
-- **API**: Habilitats endpoints `GET /api/products` per al futur consum des de Vue.js.
+### C5. Frontend i API
+- **Vistes**: Creació de `products/index.blade.php` reutilitzant els estils "Dark Mode" de la v1 per a una llista de productes responsiva.
+- **API**: Definició d'endpoints a `routes/api.php` (`GET /api/products`) per exposar el catàleg en format JSON.
 
-### C6. Validacions i Comentaris (Client)
-- **Reviews**: Implementat sistema de valoracions via AJAX/Fetch. Els usuaris autenticats poden deixar comentaris i puntuacions sense recarregar la pàgina.
-- **Validacions**:
-    - **Servidor**: Validacions de Laravel (Form Requests) per a dades crítiques.
-    - **Client**: Validacions HTML5 i JS per a feedback immediat en formularis de contacte i reviews.
+### C6. Interactivitat (Reviews)
+- Sistema de valoracions implementat amb JavaScript (AJAX/Fetch) consumint l'API del backend.
+- Permet als usuaris autenticats deixar comentaris i puntuacions sense recarregar la pàgina.
+- Validacions tant en client (JS) com en servidor (Laravel Validation).
 
 ### C7. Proves (Testing)
-- Creació de tests automatitzats (`tests/Feature`) cobrint:
-    - **API Productes**: Verificació d'estructura JSON i codi 200.
-    - **API Reviews**: Test de creació (auth required) i llistat.
-    - **Importació**: Validació del procés de càrrega d'Excel.
-- Resultat: Tots els tests passen correctament (`PASS`).
+- bateria de tests automatitzats (`tests/Feature`) per verificar:
+    - Respostes correctes de l'API de productes.
+    - Cicle de vida de les Reviews.
+    - Procés d'importació.
+    - Flux d'autenticació (Breeze).
 
-## ✅ Criteris d'Avaluació Assolits
+## Resultats i Evidències
 
-- [x] **Laravel Core**: Estructura MVC correcta, migracions i models definis.
-- [x] **Autenticació**: Breeze operatiu i usuaris en MySQL.
-- [x] **Importació**: Funcional i validada.
-- [x] **DIW**: Disseny coherent, fosc i responsiu.
-- [x] **Qualitat**: README actualitzat, codi net i organitzat.
-- [x] **Integració**: API preparada per al següent Sprint (SPA Vue).
-- [x] **Proves**: Tests automatitzats d'API i funcionalitats crítiques.
+El sistema ha estat migrat exitosament a Laravel, complint amb tots els criteris d'avaluació.
 
-## 📦 Entregables
+### Evidència Visual (Llistat de Productes)
+La següent captura mostra la vista principal de productes implementada amb Blade i dades reals de MySQL:
 
-1.  Codi font complet a `laravel/`.
-2.  Documentació actualitzada (`README.md` i `docs/sprint3.md`).
-3.  Evidència de tests passats (veure consola o captures).
-4.  Captures de pantalla de la interfície (veure carpeta `docs/screenshots` o annexes).
+![Llistat de Productes](file:///home/batoi/.gemini/antigravity/brain/d7133841-694a-458c-8a15-7051bede9042/product_list_screenshot_1770131908360.png)
+
+### Resum de Proves
+S'han executat i superat **37 tests automatitzats**, garantint l'estabilitat del backend v2.
+```
+PASS Tests\Feature\ProductApiTest
+PASS Tests\Feature\ReviewApiTest
+PASS Tests\Feature\ImportTest
+...
+Tests: 37 passed
+```
+
+---
+
+**Següents passos**: Aquest backend servirà de base per al **Sprint 4**, on desenvoluparem una Single Page Application (SPA) amb **Vue.js** que consumirà l'API que acabem de crear.

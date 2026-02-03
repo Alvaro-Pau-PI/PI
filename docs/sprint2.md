@@ -1,46 +1,49 @@
-# Iteració 3: Catàleg de productes, Usuaris i Desplegament
+# Iteració 2: Migració a PHP + JSON Server
 
-Aquesta iteració s'ha centrat en la implementació de la lògica de negoci principal de l'E-commerce, la gestió d'usuaris, la interactivitat amb comentaris, el disseny final i el desplegament en producció.
+Aquesta segona iteració s'ha centrat en desenvolupar un backend funcional utilitzant PHP natiu i JSON Server, implementar la lògica d'usuaris i productes, i configurar el desplegament en un entorn remot.
 
 ## Objectius principals
 
-- **Implementar el catàleg de productes (C1)**: Importació automàtica des d'Excel i visualització a la web.
-- **Gestionar usuaris (C2)**: Sistema de registre, inici de sessió i perfil d'usuari segur.
-- **Fomentar la interacció (C3)**: Sistema de comentaris i valoracions en temps real (AJAX).
-- **Desplegar en producció (C4)**: Configuració de servidors AWS (Web, FTP, Backups) amb seguretat (HTTPS).
-- **Millorar la UI/UX (C5)**: Disseny responsiu, accessible i centrat en l'usuari.
+- **Catàleg (C1)**: Implementar la importació automàtica de productes des d'Excel a JSON Server.
+- **Usuaris (C2)**: Crear un sistema d'autenticació (registre/login) i gestió de perfils sense base de dades relacional.
+- **Interacció (C3)**: Fomentar la participació mitjançant comentaris i valoracions en temps real.
+- **Desplegament (C4)**: Configurar un entorn de producció en AWS amb servidors web, FTP i estratègies de backup.
+- **Interfície (C5)**: Dissenyar una estructura visual clara, usable i accessible per a l'e-commerce.
 
 ## Activitats realitzades
 
-### C1. Catàleg de productes
-- **Importació de dades**: Implementació d'un script (amb `Laravel Excel` / `PhpSpreadsheet`) per llegir fitxers `.xlsx` i carregar productes (nom, preu, estoc, imatge) a la base de dades.
-- **Validació**: Comprovació de tipus de dades (numèrics per preu/estoc) i gestió d'errors durant la importació.
-- **Visualització**: Creació del llistat de productes i fitxa detallada.
+### C1. Importació de Productes (Excel → JSON Server)
+- **Script d'importació**: Desenvolupament d'un script en PHP utilitzant `PhpSpreadsheet` per llegir fitxers Excel (.xlsx, .csv).
+- **Automatització**: Conversió de les dades importades a format JSON i enviament a JSON Server simulant una API REST.
+- **Validació**: Comprovació de tipus de dades i gestió d'errors durant la càrrega.
 
-### C2. Registre i inici de sessió
-- **Autenticació**: Implementació de registre i login segur utilitzant Laravel Breeze (substituint la proposta inicial de JSON Server per MySQL per major robustesa).
-- **Gestió de sessions**: Ús de cookies i sessions segures, amb xifratge de contrasenyes (`bcrypt`).
-- **Perfil d'usuari**: Pàgina per consultar i editar les dades personals de l'usuari autenticat.
+### C2. Registre i Inici de Sessió
+- **Autenticació PHP**: Implementació manual de registre i login utilitzant `password_hash()` per a seguretat.
+- **Persistència JSON**: Emmagatzematge d'usuaris en un fitxer `users.json` gestionat per JSON Server.
+- **Sessions**: Gestió d'estat mitjançant sessions PHP i cookies segures.
 
-### C3. Comentaris i valoracions
-- **Sistema de Reviews**: Implementació de funcionalitat per deixar comentaris i puntuacions (estrelles) als productes.
-- **Interactivitat AJAX**: Càrrega i enviament de comentaris sense recarregar la pàgina per millorar l'experiència d'usuari.
-- **Gestió de permisos**: Restricció perquè només els usuaris autenticats puguin valorar.
+### C3. Comentaris i Valoracions
+- **Interactivitat**: Implementació de càrrega i enviament de comentaris mitjançant AJAX/Fetch sense recarregar la pàgina.
+- **Permisos**: Restricció de funcionalitats (comentar, valorar) només a usuaris autenticats.
+- **Feedback**: Actualització dinàmica de la interfície en afegir noves valoracions.
 
-### C4. Desplegament i Infraestructura (AWS)
-- **Servidors**: Configuració de Virtual Hosts per a Producció (`app`) i Backups (`backup`).
-- **Seguretat**: Implementació de certificats SSL/TLS (HTTPS) i restricció d'accessos SSH/FTP.
-- **Còpies de seguretat**: Automatització de backups nocturns de fitxers i base de dades.
-- **Infraestructura**: Ús d'Elastic IP i aïllament d'usuaris de sistema.
+### C4. Desplegament i Còpies de Seguretat (AWS)
+- **Infraestructura**: Configuració d'instàncies AWS amb servidors Apache (HTTP/S) i FTP.
+- **Seguretat**: Implementació de certificats SSL/TLS, usuaris aïllats per servei i restriccions SSH.
+- **Backups**: Automatització de còpies de seguretat nocturnes de fitxers i dades.
 
-### C5. Estructura i UI/UX
-- **Disseny Visual**: Implementació d'una plantilla base coherent (Header, Footer, Dark Mode).
-- **Components Clau**: Integració de cercador, carret visible, targetes de producte i botons d'acció clars.
-- **Accessibilitat i Responsivitat**: Adaptació del disseny a dispositius mòbils (menú hamburguesa) i compliment de criteris d'accessibilitat bàsics.
+### C5. Estructura i Usabilitat (DIW)
+- **Layout**: Definició d'una plantilla base (Header, Main, Footer) responsiva.
+- **Components Visuals**: Integració de cercador, filtres, targetes de producte i carret visible.
+- **Accessibilitat**: Compliment de criteris WCAG 2.1 AA, navegació per teclat i contrast adequat.
 
 ## Resultats obtinguts
 
-- Una botiga online funcional amb catàleg dinàmic importable massivament.
-- Un entorn segur on els usuaris poden registrar-se, gestionar el seu perfil i participar (valoracions).
-- Una interfície moderna, fosca ("Dark Mode") i adaptada a mòbils, fidel a la identitat corporativa.
-- Infraestructura preparada per a producció amb polítiques de seguretat i còpies de seguretat automatitzades.
+- Un backend flexible basat en PHP i JSON Server.
+- Un sistema funcional d'importació massiva de dades.
+- Una plataforma desplegada en núvol (AWS) amb mesures de seguretat i recuperació.
+- Una experiència d'usuari millorada amb disseny responsiu i interaccions dinàmiques.
+
+---
+
+Aquesta iteració ha servit com a pas intermedi per consolidar conceptes de backend i desplegament abans de la migració definitiva a un framework MVC com Laravel.
