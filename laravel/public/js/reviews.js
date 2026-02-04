@@ -14,13 +14,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Auth state check (simplified, relies on presence of form)
     const isAuthenticated = !!reviewForm;
 
+    // Helper: Get Cookie by name
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
     // Helper: Fetch wrapper with headers
     async function apiFetch(url, options = {}) {
-        const headers = {
+        let headers = {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'X-CSRF-TOKEN': CSRF_TOKEN
+            'Accept': 'application/json'
         };
+
+        // If we have an XSRF-TOKEN cookie, verify/send it
+        const xsrfToken = getCookie('XSRF-TOKEN');
+        if (xsrfToken) {
+            headers['X-XSRF-TOKEN'] = decodeURIComponent(xsrfToken);
+        } else if (CSRF_TOKEN) {
+            headers['X-CSRF-TOKEN'] = CSRF_TOKEN;
+        }
 
         // Ensure credentials are sent for Sanctum
         options.credentials = 'include';
@@ -106,6 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
             feedback.innerHTML = '<span class="info">Enviant...</span>';
 
             try {
+                // Initialize CSRF protection for Sanctum
+                await apiFetch('/sanctum/csrf-cookie', { method: 'GET' });
+
                 const res = await apiFetch(`/api/products/${productId}/reviews`, {
                     method: 'POST',
                     body: JSON.stringify({ text, rating })

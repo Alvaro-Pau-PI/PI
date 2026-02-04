@@ -177,7 +177,7 @@
             "descripcio": "Tarjeta gr\u00e1fica de \u00faltima generaci\u00f3n para gaming 4K y renderizado profesional.",
             "preu": 1899,
             "estoc": 10,
-            "img": "https:\/\/example.com\/images\/rtx4090.jpg",
+            "img": "img\/productos\/GPU-NV-4090.png",
             "id": "prod_696a57c91821f"
         },
         {
@@ -186,7 +186,7 @@
             "descripcio": "Kit de memoria RAM DDR5 de alto rendimiento para entusiastas.",
             "preu": 129.95,
             "estoc": 100,
-            "img": "https:\/\/example.com\/images\/corsair-ddr5.jpg",
+            "img": "img\/productos\/RAM-COR-32D5.png",
             "id": "prod_696a57c918250"
         },
         {
@@ -195,7 +195,7 @@
             "descripcio": "Placa base AM5 con soporte PCIe 5.0 y WiFi 6E.",
             "preu": 289.5,
             "estoc": 25,
-            "img": "https:\/\/example.com\/images\/asus-b650.jpg",
+            "img": "img\/productos\/MB-ASUS-B650.png",
             "id": "prod_696a57c91827e"
         },
         {
@@ -204,7 +204,7 @@
             "descripcio": "SSD NVMe PCIe 4.0 ultrarr\u00e1pido con velocidades de hasta 7450 MB\/s.",
             "preu": 179.99,
             "estoc": 75,
-            "img": "https:\/\/example.com\/images\/990pro.jpg",
+            "img": "img\/productos\/SSD-SAM-990.png",
             "id": "prod_696a57c9182ac"
         },
         {
@@ -213,7 +213,7 @@
             "descripcio": "Fuente de alimentaci\u00f3n modular de 1000W con certificaci\u00f3n 80 Plus Gold.",
             "preu": 189.9,
             "estoc": 40,
-            "img": "https:\/\/example.com\/images\/rm1000x.jpg",
+            "img": "img\/productos\/PSU-COR-850.png",
             "id": "prod_696a57c9182db"
         },
         {
@@ -222,7 +222,7 @@
             "descripcio": "Caja ATX de doble c\u00e1mara con excelente flujo de aire y paneles de vidrio.",
             "preu": 159.99,
             "estoc": 30,
-            "img": "https:\/\/example.com\/images\/h9flow.jpg",
+            "img": "img\/productos\/CASE-NZXT-H5.png",
             "id": "prod_696a57c918309"
         },
         {
@@ -231,7 +231,7 @@
             "descripcio": "Disipador por aire de doble torre, rendimiento premium y silencioso.",
             "preu": 119.9,
             "estoc": 60,
-            "img": "https:\/\/example.com\/images\/nhd15.jpg",
+            "img": "img\/productos\/COOL-NOC-D15.png",
             "id": "prod_696a57c918338"
         },
         {
@@ -240,7 +240,7 @@
             "descripcio": "Procesador de 24 n\u00facleos (8P+16E) hasta 6.0 GHz.",
             "preu": 589.99,
             "estoc": 40,
-            "img": "https:\/\/example.com\/images\/14900k.jpg",
+            "img": "img\/productos\/CPU-INT-14900K.png",
             "id": "prod_696a57c91836a"
         },
         {
@@ -249,7 +249,7 @@
             "descripcio": "Kit de memoria RAM DDR5 6400MHz RGB.",
             "preu": 249.99,
             "estoc": 60,
-            "img": "https:\/\/example.com\/images\/tridentz5.jpg",
+            "img": "img\/productos\/RAM-COR-32D5.png",
             "id": "prod_696a57c9183cc"
         },
         {
@@ -258,7 +258,7 @@
             "descripcio": "Placa base LGA1700 para procesadores Intel de 12\u00aa, 13\u00aa y 14\u00aa gen.",
             "preu": 259.9,
             "estoc": 35,
-            "img": "https:\/\/example.com\/images\/z790.jpg",
+            "img": "img\/productos\/MB-MSI-Z790.png",
             "id": "prod_696a57c91840a"
         },
         {
@@ -267,7 +267,7 @@
             "descripcio": "SSD NVMe PCIe 4.0 de alto rendimiento para gaming.",
             "preu": 99.99,
             "estoc": 80,
-            "img": "https:\/\/example.com\/images\/sn850x.jpg",
+            "img": "img\/productos\/SSD-WD-SN850X.png",
             "id": "prod_696a57c91843c"
         }
     ],
