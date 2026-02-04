@@ -4,11 +4,16 @@ services:
     container_name: pi_nginx
     ports:
       - "8080:80"                            # frontend accesible en http://localhost:8080
+      - "8000:8000"                           # Laravel accesible en http://localhost:8000
     volumes:
       - ./frontend:/usr/share/nginx/html:ro
+      - ./backend:/var/www/html:ro            # legacy PHP (solo lectura para nginx)
+      - ./laravel:/var/www/laravel:ro         # Laravel (solo lectura para nginx)
       - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./.docker/nginx/laravel.conf:/etc/nginx/conf.d/laravel.conf:ro
     depends_on:
       - php
+      - laravel-app
     networks:
       - pi_network
 
@@ -33,6 +38,32 @@ services:
     depends_on:
       - db
 
+  # ═══════════════════════════════════════════════════════════════════════════
+  # LARAVEL APPLICATION (v2)
+  # Servicio PHP-FPM dedicado para Laravel, separado del legacy
+  # ═══════════════════════════════════════════════════════════════════════════
+  laravel-app:
+    build:
+      context: ./.docker/laravel
+      dockerfile: Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    container_name: pi_laravel
+    volumes:
+      - ./laravel:/var/www/laravel                    # Código Laravel (read-write)
+      - ./.docker/laravel/php-fpm.conf:/usr/local/etc/php-fpm.d/zz-custom.conf:ro
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+    working_dir: /var/www/laravel
+    networks:
+      - pi_network
+    dns: 8.8.8.8
+    depends_on:
+      db:
+        condition: service_healthy
+
   jsonserver:
     build:
       context: ./.docker/jsonserver
@@ -53,7 +84,7 @@ services:
     image: mysql:8.0
     container_name: pi_db
     ports:
-      - "3306:3306"
+      - "3308:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=rootpassword
       - MYSQL_DATABASE=pi_db
@@ -62,6 +93,32 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./database:/docker-entrypoint-initdb.d # scripts .sql para inicializar
+    networks:
+      - pi_network
+    # Healthcheck para que laravel-app espere a que MySQL esté listo
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # PHPMYADMIN - Interfaz gráfica para MySQL
+  # Accesible en http://localhost:8081
+  # ═══════════════════════════════════════════════════════════════════════════
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: pi_phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - PMA_USER=pi_user
+      - PMA_PASSWORD=pi_password
+    depends_on:
+      - db
     networks:
       - pi_network
 
