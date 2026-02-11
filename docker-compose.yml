@@ -1,10 +1,19 @@
 services:
+  frontend:
+    build: 
+      context: ./frontend
+    container_name: pi_frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - laravel-app
+
   nginx:
     image: nginx:stable-alpine
     container_name: pi_nginx
     ports:
-      - "8080:80"                            # frontend accesible en http://localhost:8080
-      - "8000:8000"                           # Laravel accesible en http://localhost:8000
+      - "8080:80"                            # frontend legacy (php)
+      - "8000:8000"                           # Laravel API
     volumes:
       - ./frontend:/usr/share/nginx/html:ro
       - ./backend:/var/www/html:ro            # legacy PHP (solo lectura para nginx)

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AlberoPerez Tech | Inicio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <header>
+    <div class="cabecera">
+      <div class="logo-box">
+        <a href="index.php" title="Ir al inicio AlberoPerez Tech">
+          <img src="img/LOGO AlberoPerezTech.png" alt="Logo AlberoPerez Tech" class="logo" />
+        </a>
+      </div>
+
+      <nav class="nav-box">
+        <div class="dropdown">
+          <button type="button" class="categoria-link" aria-label="Abrir menú">
+            <span class="material-icons">menu</span>
+          </button>
+
+          <div class="dropdown-content">
+            <a href="contacte.php">Contacto</a>
+            <a href="formulari.php">Admin / Importar Excel</a>
+            <a href="#">Componentes</a>
+            <a href="#">Ordenadores</a>
+          </div>
+        </div>
+
+        <div class="buscador-box">
+          <form action="index.php" method="get" role="search">
+            <input type="text" class="buscador" name="q" value="[[SEARCH_QUERY]]"
+              placeholder="Buscar componente, PC...">
+          </form>
+        </div>
+      </nav>
+
+      <div class="iconos-box">
+        <a href="[[USER_ICON_HREF]]" title="[[USER_ICON_TITLE]]" class="icon-user">
+          <span class="material-icons">person</span>
+        </a>
+        <a href="#" title="Carrito de compras" class="icon-cart">
+          <span class="material-icons">shopping_cart</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="banner">
+    <img src="img/banner2.png" alt="Banner Intel Core i9 15a Generación" />
+  </section>
+
+  <main>
+    <h2>Novedades Destacadas</h2>
+    <p>Descubre los componentes más recientes y potentes del mercado.</p>
+
+    <section class="productos">
+      [[PRODUCT_LIST]]
+    </section>
+
+    <br>
+
+    <h2>Montaje</h2>
+    <video class="video-con-bordes" src="img/VideoOrdenadorInfinito.mp4" autoplay muted loop playsinline>
+      Tu navegador no soporta el elemento de video.
+    </video>
+  </main>
+
+  <footer>
+    <div class="footer">
+      <div class="footerEspacio">
+        <img src="img/LOGO AlberoPerezTech.png" alt="Logo AlberoPerez Tech pie">
+        <p>Tu tienda de informática y componentes de confianza.</p>
+      </div>
+      <div class="footerEspacio">
+        <strong>¡Suscríbete!</strong>
+        <p>Recibe las mejores ofertas y novedades.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Escribe tu email aquí">
+          <button>Suscribirse</button>
+        </div>
+      </div>
+      <div class="footerEspacio">
+        <strong>Enlaces Útiles</strong>
+        <ul>
+          <li><a href="contacte.php">Contacto</a></li>
+          <li><a href="formulari.php">Admin / Importar Excel</a></li>
+          <li><a href="#">Guía de montaje de PCs</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footerEspacio">
+        <strong>Legal</strong>
+        <ul>
+          <li><a href="#">Política de Privacidad</a></li>
+          <li><a href="#">Términos y Condiciones</a></li>
+          <li><a href="#">Política de Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <span class="copyright">&copy; 2026 AlberoPerez Tech. Todos los derechos reservados.</span>
+  </footer>
+</body>
+
+</html>

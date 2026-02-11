@@ -31,4 +31,12 @@ class ProductController extends Controller
     {
         return view('products.show', compact('product'));
     }
+
+    /**
+     * Mostrar el recurso especificado (API).
+     */
+    public function apiShow(Product $product)
+    {
+        return response()->json($product);
+    }
 }
