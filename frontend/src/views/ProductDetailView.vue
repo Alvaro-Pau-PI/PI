@@ -36,7 +36,7 @@
                     </button>
                 </div>
 
-                <button class="review-btn" @click="showReviewModal = true">
+                <button class="review-btn" @click="handleReviewClick">
                     <span class="material-icons" style="font-size: 1.2em; color: #facc15;">star</span>
                     Afegir Avaluació
                 </button>
@@ -82,11 +82,14 @@
 <script setup>
 import { onMounted, computed, ref } from 'vue';
 import { useProductStore } from '@/stores/products';
-import { useRoute } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+import { useRoute, useRouter } from 'vue-router';
 import ReviewModal from '@/components/ReviewModal.vue';
 
 const route = useRoute();
+const router = useRouter();
 const productStore = useProductStore();
+const authStore = useAuthStore();
 const showReviewModal = ref(false);
 
 const product = computed(() => productStore.currentProduct);
@@ -107,8 +110,26 @@ const getImageUrl = (path) => {
   return '/' + path;
 };
 
+const handleReviewClick = () => {
+    if (!authStore.user) {
+        // Redirigir al login con la ruta actual como destino
+        router.push({ 
+            path: '/login', 
+            query: { redirect: route.fullPath } 
+        });
+        return;
+    }
+    showReviewModal.value = true;
+};
+
 const handleReviewSubmit = async (reviewData) => {
-    await productStore.addReview(product.value.id, reviewData);
+    try {
+        await productStore.addReview(product.value.id, reviewData);
+        showReviewModal.value = false;
+    } catch (e) {
+        console.error('Error enviando reseña:', e);
+        alert('No s\'ha pogut enviar la ressenya. Si us plau, torna-ho a intentar.');
+    }
 };
 </script>
 

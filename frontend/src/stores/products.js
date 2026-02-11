@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import axios from '@/config/axios'
+import http from '@/services/http'
 
 export const useProductStore = defineStore('products', {
     state: () => ({
@@ -12,7 +12,7 @@ export const useProductStore = defineStore('products', {
         async fetchProducts() {
             this.loading = true;
             try {
-                const response = await axios.get('/api/products');
+                const response = await http.get('/api/products');
                 this.products = response.data;
             } catch (err) {
                 this.error = err.message || 'Error carregant productes';
@@ -24,12 +24,12 @@ export const useProductStore = defineStore('products', {
             this.loading = true;
             try {
                 // Fetch product details
-                const response = await axios.get(`/api/products/${id}`);
+                const response = await http.get(`/api/products/${id}`);
                 this.currentProduct = response.data;
 
                 // Fetch reviews if endpoint exists, otherwise empty
                 try {
-                    const reviewsResponse = await axios.get(`/api/products/${id}/reviews`);
+                    const reviewsResponse = await http.get(`/api/products/${id}/reviews`);
                     this.currentProduct.reviews = reviewsResponse.data;
                 } catch (e) {
                     this.currentProduct.reviews = [];
@@ -43,7 +43,7 @@ export const useProductStore = defineStore('products', {
         },
         async addReview(productId, reviewData) {
             try {
-                await axios.post(`/api/products/${productId}/reviews`, reviewData);
+                await http.post(`/api/products/${productId}/reviews`, reviewData);
                 // Refresh product to see new review
                 await this.fetchProduct(productId);
             } catch (error) {

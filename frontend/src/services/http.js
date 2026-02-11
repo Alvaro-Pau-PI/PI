@@ -18,12 +18,19 @@ http.interceptors.response.use(
 
         if (error.response) {
             if (error.response.status === 401) {
+                // Si la petición optó explícitamente por no redirigir (ej. check de sesión al inicio)
+                if (error.config.skipAuthRedirect) {
+                    return Promise.reject(error);
+                }
+
                 // Sesión expirada o no válida
                 if (authStore.user) {
                     await authStore.logout(); // Limpiar estado local
                 }
-                // Opcional: Redirigir a login si no estamos ya allí
-                // window.location.href = '/login'; 
+                // Redirigir a login si no estamos ya allí, guardando la ruta de retorno
+                if (!window.location.pathname.startsWith('/login')) {
+                    window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`;
+                }
             }
 
             if (error.response.status === 403) {

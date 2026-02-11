@@ -8,7 +8,7 @@
       <form @submit.prevent="handleLogin">
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" v-model="email" required placeholder="nom.albero.mora@gmail.com" />
+          <input type="email" id="email" v-model="email" required placeholder="nombre@gmail.com" />
         </div>
         <div class="form-group">
           <label for="password">Contrasenya</label>
@@ -37,12 +37,13 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const email = ref('');
 const password = ref('');
 const authStore = useAuthStore();
 const router = useRouter();
+const route = useRoute();
 const localError = ref(null);
 
 const errorMessage = computed(() => {
@@ -58,7 +59,8 @@ const handleLogin = async () => {
   
   try {
     await authStore.login({ email: email.value, password: password.value });
-    router.push('/');
+    const redirectPath = route.query.redirect || '/';
+    router.push(redirectPath);
   } catch (error) {
     // Manejar diferentes tipos de errores
     if (error.response) {
