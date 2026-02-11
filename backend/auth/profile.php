@@ -46,14 +46,14 @@ if (!$user_id) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body>
   <header>
     <div class="cabecera">
       <div class="logo-box">
-        <a href="../index.html" title="Ir al inicio AlberoPerez Tech">
+        <a href="../index.php" title="Ir al inicio AlberoPerez Tech">
           <img src="../img/LOGO AlberoPerezTech.png" alt="Logo AlberoPerez Tech" class="logo" />
         </a>
       </div>

@@ -1,153 +1,17 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AlberoPerez Tech | Inicio</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500&display=swap"
-    rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-  <link rel="stylesheet" href="styles.css">
-</head>
-
-<body>
-  <header>
-    <div class="cabecera">
-      <div class="logo-box">
-        <a href="index.html" title="Ir al inicio AlberoPerez Tech">
-          <img src="img/LOGO AlberoPerezTech.png" alt="Logo AlberoPerez Tech" class="logo" />
-        </a>
-      </div>
-
-      <nav class="nav-box">
-        <div class="dropdown">
-          <button type="button" class="categoria-link" aria-label="Abrir menú">
-            <span class="material-icons">menu</span>
-          </button>
-
-          <div class="dropdown-content">
-            <a href="contacte.php">Contacto</a>
-            <a href="formulari.php">Admin / Importar Excel</a>
-            <a href="#">Componentes</a>
-            <a href="#">Ordenadores</a>
-          </div>
-        </div>
-        <div class="buscador-box">
-          <form action="#" method="get" role="search">
-            <input type="text" class="buscador" name="q" placeholder="Buscar componente, PC, periférico...">
-          </form>
-        </div>
-      </nav>
-
-      <div class="iconos-box">
-        <a href="auth/login.php" title="Mi cuenta" class="icon-user">
-          <span class="material-icons">person</span>
-        </a>
-        <a href="#" title="Carrito de compras" class="icon-cart">
-          <span class="material-icons">shopping_cart</span>
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <section class="banner">
-    <img src="img/banner2.png" alt="Banner Intel Core i9 15a Generación" />
-  </section>
-
-  <main>
-    <h2>Novedades Destacadas</h2>
-    <p>Descubre los componentes más recientes y potentes del mercado.</p>
-
-    <section class="productos">
-      <article class="producto">
-        <img src="img/ryzen.png" alt="Procesador AMD Ryzen 9 7950X">
-        <span class="precio">799€</span>
-        <h3 class="nombre">Procesador AMD Ryzen 9 7950X</h3>
-        <p class="detalle">16 Núcleos, 32 Hilos, 4.5GHz Base</p>
-      </article>
-
-      <article class="producto">
-        <img src="img/Gráfica NVIDIA RTX 4070.png" alt="Gráfica NVIDIA RTX 4070">
-        <span class="precio">450€</span>
-        <h3 class="nombre">Gráfica NVIDIA RTX 4070</h3>
-        <p class="detalle">12GB GDDR6X, DLSS 3, Ray Tracing</p>
-      </article>
-
-      <article class="producto">
-        <img src="img/Placa Base ASUS ROG STRIX B760.png" alt="Placa Base ASUS ROG STRIX B760">
-        <span class="precio">230€</span>
-        <h3 class="nombre">Placa Base ASUS ROG STRIX B760</h3>
-        <p class="detalle">Socket LGA1700, DDR5, Wi-Fi 6E</p>
-      </article>
-
-      <article class="producto">
-        <img src="img/SSD NVMe Samsung 990 PRO 2TB.png" alt="SSD NVMe Samsung 990 PRO 2TB">
-        <span class="precio">120€</span>
-        <h3 class="nombre">SSD NVMe Samsung 990 PRO 2TB</h3>
-        <p class="detalle">Lectura 7450 MB/s, Gen4</p>
-      </article>
-
-      <article class="producto">
-        <img src="img/RAM Corsair Vengeance 32GB.png" alt="RAM Corsair Vengeance 32GB">
-        <span class="precio">150€</span>
-        <h3 class="nombre">RAM Corsair Vengeance 32GB</h3>
-        <p class="detalle">2x16GB, DDR5 6000MHz, CL30</p>
-      </article>
-
-      <article class="producto">
-        <img src="img/ztr6cxqe4c-nox_hummer_x_850w_gold_1.png" alt="Fuente Alimentación 850W Gold">
-        <span class="precio">85€</span>
-        <h3 class="nombre">Fuente Alimentación 850W Gold</h3>
-        <p class="detalle">Corsair RM850e, Modular, 80+ Gold</p>
-      </article>
-    </section>
-    <br>
-
-    <h2>Montaje</h2>
-    <video class="video-con-bordes" src="img/VideoOrdenadorInfinito.mp4" autoplay muted loop playsinline>
-      Tu navegador no soporta el elemento de video.
-    </video>
-  </main>
-
-  <footer>
-    <div class="footer">
-      <div class="footerEspacio">
-        <img src="img/LOGO AlberoPerezTech.png" alt="Logo AlberoPerez Tech pie">
-        <p>Tu tienda de informática y componentes de confianza.</p>
-      </div>
-      <div class="footerEspacio">
-        <strong>¡Suscríbete!</strong>
-        <p>Recibe las mejores ofertas y novedades.</p>
-        <div class="newsletter-form">
-          <input type="email" placeholder="Escribe tu email aquí">
-          <button>Suscribirse</button>
-        </div>
-      </div>
-      <div class="footerEspacio">
-        <strong>Enlaces Útiles</strong>
-        <ul>
-          <li><a href="contacte.php">Contacto</a></li>
-          <li><a href="formulari.php">Admin / Importar Excel</a></li>
-          <li><a href="#">Guía de montaje de PCs</a></li>
-          <li><a href="#">FAQ</a></li>
-        </ul>
-      </div>
-      <div class="footerEspacio">
-        <strong>Legal</strong>
-        <ul>
-          <li><a href="#">Política de Privacidad</a></li>
-          <li><a href="#">Términos y Condiciones</a></li>
-          <li><a href="#">Política de Cookies</a></li>
-        </ul>
-      </div>
-    </div>
-    <span class="copyright">&copy; 2025 AlberoPerez Tech. Todos los derechos reservados.</span>
-  </footer>
-</body>
-
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlberoPerez Tech</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>

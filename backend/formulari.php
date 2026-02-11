@@ -1,5 +1,4 @@
 <?php
-// backend/formulari.php (Gestió de la pujada d'Excel)
 
 $message = '';
 $message_type = '';
@@ -64,14 +63,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
 </head>
 
 <body>
   <header>
     <div class="cabecera">
       <div class="logo-box">
-        <a href="index.html" title="Ir al inicio AlberoPerez Tech">
+        <a href="index.php" title="Ir al inicio AlberoPerez Tech">
           <img src="img/LOGO AlberoPerezTech.png" alt="Logo AlberoPerez Tech" class="logo" />
         </a>
       </div>
@@ -139,11 +138,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
         </form>
 
         <hr style="border-color: #3A4150; margin: 30px 0;">
-        <p style="color: #00A1FF; text-align: center;">Verificar estado de la API: 
-            <a href="http://localhost:3000/productes" target="_blank" style="color: #00A1FF; text-decoration: none;">
-                http://localhost:3000/productes
+        <div style="text-align: center; margin-top: 40px;">
+            <p style="color: #9BA3B0; margin-bottom: 10px; font-size: 0.9em;">Estado actual de la base de datos:</p>
+            <a href="http://localhost:3000/productes" target="_blank" class="btn-submit" 
+               style="background: transparent; border: 2px solid #00A1FF; color: #00A1FF; display: inline-block; width: auto; padding: 10px 30px; text-decoration: none; box-shadow: none;">
+               🔍 Verificar API (/productes)
             </a>
-        </p>
+        </div>
     </div>
   </main>
 
