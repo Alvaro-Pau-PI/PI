@@ -148,5 +148,14 @@
         <span class="copyright">&copy; {{ date('Y') }} AlberoPerez Tech. Todos los derechos reservados.</span>
     </footer>
 
+    <!-- n8n Chatbot -->
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+    <script type="module">
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+        createChat({
+            webhookUrl: 'http://localhost:5678/webhook/1bf7c92c-ec5d-41dd-88f7-73d2bfdd4914/chat'
+        });
+    </script>
 </body>
 </html>
