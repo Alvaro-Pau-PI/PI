@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>n8n Chat Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+</head>
+
+<body style="background-color: #f0f0f0;">
+    <h1>Testing n8n Chatbot - Standalone</h1>
+    <p>If you see the chat bubble, the issue is likely within the Vue application styles/layout.</p>
+    <script type="module">
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+        createChat({
+            webhookUrl: 'http://localhost:5678/webhook/1bf7c92c-ec5d-41dd-88f7-73d2bfdd4914/chat',
+            showWelcomeScreen: true
+        });
+        console.log('n8n Chatbot initialized in test page');
+    </script>
+</body>
+
+</html>

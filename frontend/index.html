@@ -1,17 +1,81 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AlberoPerez Tech</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AlberoPerez Tech</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- n8n Chatbot Styles -->
+  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+  <style>
+    /* Ensure chat is on top */
+    .n8n-chat-widget {
+      z-index: 9999 !important;
+    }
+
+    /* Force n8n Chatbot Styles */
+    :root {
+      --chat--color--primary: #FF6C00 !important;
+      --chat--color--secondary: #242833 !important;
+      --chat--color--dark: #1A1D24 !important;
+      --chat--color--light: #EAEAEA !important;
+
+      --chat--window--background-color: #1A1D24 !important;
+      --chat--header--background-color: #242833 !important;
+      --chat--header--color: #EAEAEA !important;
+
+      --chat--message--bot--background-color: #242833 !important;
+      --chat--message--bot--color: #EAEAEA !important;
+
+      --chat--message--user--background-color: #FF6C00 !important;
+      --chat--message--user--color: #FFFFFF !important;
+
+      --chat--toggle--background-color: #FF6C00 !important;
+      --chat--toggle--hover--background-color: #e65c00 !important;
+      --chat--toggle--active--background-color: #e65c00 !important;
+
+      --chat--input--background-color: #121418 !important;
+      --chat--input--text-color: #EAEAEA !important;
+      --chat--input--placeholder-color: #9BA3B0 !important;
+      --chat--input--send-button-color: #FF6C00 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+
+  <!-- n8n Chatbot Script -->
+  <script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+      webhookUrl: 'http://localhost:5678/webhook/1bf7c92c-ec5d-41dd-88f7-73d2bfdd4914/chat',
+      showWelcomeScreen: true,
+      initialMessages: [
+        '¡Hola! 👋 Bienvenido a AlberoPerez Tech.',
+        '¿En qué te puedo ayudar hoy?'
+      ],
+      i18n: {
+        en: {
+          title: 'Asistente AlberoPerez',
+          subtitle: 'Tu experto en hardware 24/7',
+          footer: '',
+          getStarted: 'Chat',
+          inputPlaceholder: 'Escribe aquí...',
+        },
+      }
+    });
+    console.log('n8n Chatbot script loaded (orange theme css)');
+  </script>
+</body>
+
 </html>
