@@ -63,6 +63,9 @@
         </div>
        </div>
 
+        <!-- Productos Relacionados con IA -->
+        <RelatedProducts v-if="product" :product-id="product.id" :limit="4" />
+
         <ReviewModal 
             v-if="showReviewModal" 
             :productId="product.id"
@@ -85,6 +88,7 @@ import { useProductStore } from '@/stores/products';
 import { useAuthStore } from '@/stores/auth';
 import { useRoute, useRouter } from 'vue-router';
 import ReviewModal from '@/components/ReviewModal.vue';
+import RelatedProducts from '@/components/RelatedProducts.vue';
 
 const route = useRoute();
 const router = useRouter();

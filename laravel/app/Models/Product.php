@@ -62,4 +62,12 @@ class Product extends Model
             default => 'Altres',
         };
     }
+
+    /**
+     * Relación: Un producto tiene muchas reseñas/reviews
+     */
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

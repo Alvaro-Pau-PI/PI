@@ -20,8 +20,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 // Rutas de productos (Públicas)
+// IMPORTANTE: Rutas específicas ANTES que rutas con parámetros
+Route::get('/products/featured', [ProductController::class, 'featured']); // Productos destacados (IA)
 Route::get('/products', [ProductController::class, 'apiIndex']);
 Route::get('/products/{product}', [ProductController::class, 'apiShow']);
+Route::get('/products/{id}/related', [ProductController::class, 'related']); // Productos relacionados (IA)
 
 // Rutas de reviews (Públicas)
 Route::get('/products/{product}/reviews', [ReviewController::class, 'index']);
