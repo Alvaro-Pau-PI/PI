@@ -11,6 +11,7 @@
         <router-link to="/" class="nav-link">Inici</router-link>
         <router-link to="/products" class="nav-link">Productes</router-link>
         <router-link to="/contact" class="nav-link">Contacte</router-link>
+        <router-link to="/sostenibilidad" class="nav-link eco-link">🌱 Sostenibilitat</router-link>
         <router-link v-if="canManage" to="/profile" class="nav-link admin-link">Gestió</router-link>
       </nav>
 
@@ -59,33 +60,5 @@ const logout = async () => {
 </script>
 
 <style scoped>
-.cabecera {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #1A1D24;
-  border-bottom: 1px solid #3A4150;
-}
-.nav-link {
-  color: #9BA3B0;
-  margin: 0 10px;
-  text-decoration: none;
-  font-weight: 500;
-}
-.nav-link:hover, .router-link-active {
-  color: #00A1FF;
-}
-.admin-link {
-  color: #e74c3c !important;
-}
-.iconos-box {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.user-name {
-  font-size: 0.9em;
-  color: #9BA3B0;
-}
+/* Los estilos ahora se gestionan desde assets/css/4-layout/_header.css */
 </style>

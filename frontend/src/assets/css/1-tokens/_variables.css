@@ -8,77 +8,92 @@
   --color-primary: #00A1FF;
   --color-primary-dark: #007ecc;
   --color-primary-light: #33b5ff;
-  
+
   --color-accent: #FF6C00;
   --color-accent-dark: #cc5700;
-  
+
   /* === FONDOS === */
   --bg-body: #1A1D24;
   --bg-card: #242833;
   --bg-input: #1A1D24;
   --bg-elevated: #2a2f3d;
-  
+
   /* === BORDES === */
   --border-color: #3A4150;
   --border-focus: var(--color-primary);
   --border-hover: var(--color-primary-light);
-  
+
   /* === TEXTOS === */
   --text-primary: #EAEAEA;
   --text-secondary: #9BA3B0;
   --text-muted: #777;
   --text-on-primary: #FFFFFF;
-  
+
   /* === ESTADOS === */
   --color-success: #2ecc71;
   --color-success-bg: rgba(46, 204, 113, 0.15);
   --color-success-border: #2ecc71;
-  
+
   --color-error: #ff4d4d;
   --color-error-bg: rgba(255, 77, 77, 0.15);
   --color-error-border: #ff4d4d;
-  
+
   --color-warning: #ffc107;
   --color-warning-bg: rgba(255, 193, 7, 0.15);
-  
+
   --color-info: var(--color-primary);
   --color-info-bg: rgba(0, 161, 255, 0.15);
-  
+
   /* === TIPOGRAFÍA === */
   /* Familias de fuentes */
   --font-primary: 'Roboto', Arial, sans-serif;
   --font-headings: 'Montserrat', sans-serif;
-  
+
   /* Tamaños de fuente */
-  --font-size-xs: 0.75rem;     /* 12px */
-  --font-size-sm: 0.875rem;    /* 14px */
-  --font-size-base: 1rem;      /* 16px */
-  --font-size-lg: 1.125rem;    /* 18px */
-  --font-size-xl: 1.25rem;     /* 20px */
-  --font-size-2xl: 1.5rem;     /* 24px */
-  --font-size-3xl: 2rem;       /* 32px */
-  --font-size-4xl: 2.5rem;     /* 40px */
-  
+  --font-size-xs: 0.75rem;
+  /* 12px */
+  --font-size-sm: 0.875rem;
+  /* 14px */
+  --font-size-base: 1rem;
+  /* 16px */
+  --font-size-lg: 1.125rem;
+  /* 18px */
+  --font-size-xl: 1.25rem;
+  /* 20px */
+  --font-size-2xl: 1.5rem;
+  /* 24px */
+  --font-size-3xl: 2rem;
+  /* 32px */
+  --font-size-4xl: 2.5rem;
+  /* 40px */
+
   /* Pesos de fuente */
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
-  
+
   /* Alturas de línea */
   --line-height-tight: 1.2;
   --line-height-base: 1.6;
   --line-height-relaxed: 1.75;
-  
+
   /* === ESPACIADO === */
-  --spacing-xs: 0.5rem;        /* 8px */
-  --spacing-sm: 0.75rem;       /* 12px */
-  --spacing-md: 1rem;          /* 16px */
-  --spacing-lg: 1.5rem;        /* 24px */
-  --spacing-xl: 2rem;          /* 32px */
-  --spacing-2xl: 2.5rem;       /* 40px */
-  --spacing-3xl: 3rem;         /* 48px */
-  
+  --spacing-xs: 0.5rem;
+  /* 8px */
+  --spacing-sm: 0.75rem;
+  /* 12px */
+  --spacing-md: 1rem;
+  /* 16px */
+  --spacing-lg: 1.5rem;
+  /* 24px */
+  --spacing-xl: 2rem;
+  /* 32px */
+  --spacing-2xl: 2.5rem;
+  /* 40px */
+  --spacing-3xl: 3rem;
+  /* 48px */
+
   /* === BORDES Y RADIOS === */
   --radius-none: 0;
   --radius-sm: 4px;
@@ -87,41 +102,41 @@
   --radius-xl: 16px;
   --radius-2xl: 20px;
   --radius-full: 9999px;
-  
+
   --border-width: 1px;
   --border-width-thick: 2px;
-  
+
   /* === SOMBRAS === */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
   --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.3);
   --shadow-xl: 0 12px 28px rgba(0, 0, 0, 0.4);
-  
+
   /* Sombras especiales */
   --shadow-focus: 0 0 0 3px rgba(0, 161, 255, 0.3);
   --shadow-primary: 0 5px 15px rgba(0, 161, 255, 0.4);
   --shadow-accent: 0 0 15px var(--color-accent);
-  
+
   /* === TRANSICIONES === */
   --transition-fast: 0.15s ease;
   --transition-base: 0.25s ease;
   --transition-slow: 0.4s ease;
   --transition-all: all 0.25s ease;
-  
+
   /* === Z-INDEX === */
   --z-dropdown: 1000;
   --z-sticky: 100;
   --z-modal: 2000;
   --z-tooltip: 1500;
-  
+
   /* === DIMENSIONES COMPONENTES === */
   --header-height: 100px;
   --header-height-mobile: 70px;
-  
+
   --max-width-container: 1400px;
   --max-width-content: 1220px;
   --max-width-form: 700px;
-  
+
   /* === BREAKPOINTS (en comentarios para referencia JS) === */
   /* 
     --breakpoint-sm: 640px;
@@ -134,7 +149,10 @@
 /* === VARIACIONES DE CONTRASTE MEJORADAS === */
 /* Estas variables permiten ajustes finos de accesibilidad */
 :root {
-  --contrast-ratio-text: 12:1;     /* WCAG AAA (EAEAEA sobre 1A1D24) */
-  --contrast-ratio-secondary: 7:1; /* WCAG AA (9BA3B0 sobre 1A1D24) */
-  --contrast-ratio-primary: 4.8:1; /* WCAG AA (00A1FF sobre 1A1D24) */
+  --contrast-ratio-text: 12:1;
+  /* WCAG AAA (EAEAEA sobre 1A1D24) */
+  --contrast-ratio-secondary: 7:1;
+  /* WCAG AA (9BA3B0 sobre 1A1D24) */
+  --contrast-ratio-primary: 4.8:1;
+  /* WCAG AA (00A1FF sobre 1A1D24) */
 }

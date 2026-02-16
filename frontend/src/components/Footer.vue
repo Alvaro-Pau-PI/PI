@@ -29,6 +29,7 @@
         <strong>Enlaces Útiles</strong>
         <ul>
           <li><router-link to="/contact">Contacto</router-link></li>
+          <li><router-link to="/sostenibilidad">🌱 Sostenibilidad</router-link></li>
           <li><a href="#">Guía de montaje de PCs</a></li>
           <li><a href="#">FAQ</a></li>
         </ul>

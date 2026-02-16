@@ -22,6 +22,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // Rutas de productos (Públicas)
 // IMPORTANTE: Rutas específicas ANTES que rutas con parámetros
 Route::get('/products/featured', [ProductController::class, 'featured']); // Productos destacados (IA)
+Route::get('/products/sustainable', [ProductController::class, 'sustainable']); // Productos sostenibles 🌱
+Route::get('/products/sustainability-stats', [ProductController::class, 'sustainabilityStats']); // Estadísticas ASG
 Route::get('/products', [ProductController::class, 'apiIndex']);
 Route::get('/products/{product}', [ProductController::class, 'apiShow']);
 Route::get('/products/{id}/related', [ProductController::class, 'related']); // Productos relacionados (IA)

@@ -37,6 +37,11 @@ const router = createRouter({
             component: () => import('../views/ContactView.vue')
         },
         {
+            path: '/sostenibilidad',
+            name: 'sustainability',
+            component: () => import('../views/SustainabilityView.vue')
+        },
+        {
             path: '/cart',
             name: 'cart',
             component: HomeView, // Placeholder

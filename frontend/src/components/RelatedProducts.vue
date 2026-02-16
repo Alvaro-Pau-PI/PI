@@ -10,25 +10,12 @@
     </div>
     
     <div v-else class="products-grid">
-      <div v-for="product in relatedProducts" :key="product.id" class="product-card">
-        <router-link :to="`/products/${product.id}`" class="card-link">
-          <div class="card-image">
-            <img :src="getImageUrl(product.image)" :alt="product.name" loading="lazy" />
-          </div>
-          <div class="card-info">
-            <h4>{{ product.name }}</h4>
-            <p class="category-tag">{{ product.category }}</p>
-            
-            <!-- Rating si existe -->
-            <div v-if="product.reviews_avg_rating" class="rating">
-              <span class="stars">⭐ {{ formatRating(product.reviews_avg_rating) }}</span>
-              <span class="review-count">({{ product.reviews_count }} reviews)</span>
-            </div>
-            
-            <p class="price">{{ formatPrice(product.price) }}</p>
-          </div>
-        </router-link>
-      </div>
+      <ProductCard 
+        v-for="product in relatedProducts" 
+        :key="product.id" 
+        :product="product"
+        :compact="true"
+      />
     </div>
   </section>
 </template>
@@ -36,6 +23,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import http from '@/services/http';
+import ProductCard from './ProductCard.vue';
 
 const props = defineProps({
   productId: {

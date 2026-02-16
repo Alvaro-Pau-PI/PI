@@ -15,7 +15,10 @@ export const useProductStore = defineStore('products', {
             search: '',
             category: '',
             min_price: null,
-            max_price: null
+            max_price: null,
+            sustainable_only: false,
+            refurbished_only: false,
+            local_only: false
         },
         loading: false,
         error: null
@@ -40,7 +43,43 @@ export const useProductStore = defineStore('products', {
                 const response = await http.get('/api/products', { params });
 
                 // Asignar datos paginados
-                this.products = response.data.data;
+                let products = response.data.data;
+
+                // TEMPORAL: Añadir datos de sostenibilidad simulados a productos existentes
+                // Esto es solo para demostración hasta que se ejecute la migración de BD
+                products = products.map((product, index) => {
+                    // Asignar diferentes valores eco alternando productos
+                    const ecoVariant = index % 5;
+
+                    return {
+                        ...product,
+                        eco_score: ecoVariant === 0 ? 85 :
+                            ecoVariant === 1 ? 75 :
+                                ecoVariant === 2 ? 65 :
+                                    ecoVariant === 3 ? 50 : 0,
+                        is_refurbished: ecoVariant === 0 || ecoVariant === 1,
+                        is_recyclable: ecoVariant <= 2,
+                        has_eco_packaging: ecoVariant <= 3,
+                        is_local_supplier: ecoVariant === 0 || ecoVariant === 2,
+                        carbon_footprint: ecoVariant === 0 ? 2.5 :
+                            ecoVariant === 1 ? 3.8 :
+                                ecoVariant === 2 ? 4.2 : null
+                    };
+                });
+
+                this.products = products;
+
+                // FILTRADO LOCAL (Solo mientras se use simulación)
+                if (this.filters.sustainable_only) {
+                    this.products = this.products.filter(p => p.eco_score >= 70);
+                }
+                if (this.filters.refurbished_only) {
+                    this.products = this.products.filter(p => p.is_refurbished);
+                }
+                if (this.filters.local_only) {
+                    this.products = this.products.filter(p => p.is_local_supplier);
+                }
+
                 this.pagination = {
                     current_page: response.data.current_page,
                     last_page: response.data.last_page,
@@ -59,7 +98,10 @@ export const useProductStore = defineStore('products', {
                 search: '',
                 category: '',
                 min_price: null,
-                max_price: null
+                max_price: null,
+                sustainable_only: false,
+                refurbished_only: false,
+                local_only: false
             };
             this.fetchProducts(1);
         },
@@ -68,9 +110,21 @@ export const useProductStore = defineStore('products', {
             try {
                 // Fetch product details
                 const response = await http.get(`/api/products/${id}`);
-                this.currentProduct = response.data;
+                const product = response.data;
 
-                // Fetch reviews if endpoint exists, otherwise empty
+                // Añadir datos de sostenibilidad simulados para el detalle (ID basado)
+                const ecoSeed = parseInt(id) % 5;
+                this.currentProduct = {
+                    ...product,
+                    eco_score: ecoSeed === 0 ? 85 : ecoSeed === 1 ? 75 : ecoSeed === 2 ? 65 : ecoSeed === 3 ? 50 : 0,
+                    is_refurbished: ecoSeed === 0 || ecoSeed === 1,
+                    is_recyclable: ecoSeed <= 2,
+                    has_eco_packaging: ecoSeed <= 3,
+                    is_local_supplier: ecoSeed === 0 || ecoSeed === 2,
+                    carbon_footprint: ecoSeed === 0 ? 2.5 : ecoSeed === 1 ? 3.8 : ecoSeed === 2 ? 4.2 : null
+                };
+
+                // Fetch reviews if endpoint exists
                 try {
                     const reviewsResponse = await http.get(`/api/products/${id}/reviews`);
                     this.currentProduct.reviews = reviewsResponse.data;

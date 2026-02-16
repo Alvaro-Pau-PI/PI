@@ -195,4 +195,111 @@ class ProductController extends Controller
             'data' => $relatedProducts->values()->all()
         ]);
     }
+
+    /**
+     * Get sustainable products
+     *
+     * Returns products that meet sustainability criteria.
+     * Filters products by eco_score, refurbished status, and other environmental factors.
+     *
+     * @queryParam min_eco_score integer Minimum eco score (0-100). Defaults to 70. Example: 80
+     * @queryParam only_refurbished boolean Show only refurbished products. Example: true
+     * @queryParam only_local boolean Show only local suppliers. Example: true
+     * @queryParam page integer Page number. Example: 1
+     * 
+     * @response {
+     *  "data": [{
+     *    "id": 1,
+     *    "name": "NVIDIA RTX 3080 Reacondicionada",
+     *    "eco_score": 85,
+     *    "is_refurbished": true,
+     *    "has_eco_packaging": true,
+     *    "carbon_footprint": "2.50",
+     *    "eco_label": "🌿 Excelente"
+     *  }],
+     *  "stats": {
+     *    "total_sustainable": 8,
+     *    "avg_eco_score": 76.5,
+     *    "total_co2_saved": "120.5 kg"
+     *  }
+     * }
+     */
+    public function sustainable(Request $request)
+    {
+        $minEcoScore = $request->input('min_eco_score', 70);
+        
+        $query = Product::query();
+
+        // Filtro por eco_score mínimo
+        $query->where('eco_score', '>=', $minEcoScore);
+
+        // Filtro: solo reacondicionados
+        if ($request->boolean('only_refurbished')) {
+            $query->where('is_refurbished', true);
+        }
+
+        // Filtro: solo proveedores locales
+        if ($request->boolean('only_local')) {
+            $query->where('is_local_supplier', true);
+        }
+
+        // Obtener productos paginados
+        $products = $query->paginate(12);
+
+        // Calcular estadísticas de sostenibilidad
+        $allSustainable = Product::where('eco_score', '>=', 70)->get();
+        $stats = [
+            'total_sustainable' => $allSustainable->count(),
+            'avg_eco_score' => round($allSustainable->avg('eco_score'), 1),
+            'total_refurbished' => Product::where('is_refurbished', true)->count(),
+            'total_local' => Product::where('is_local_supplier', true)->count(),
+            'total_co2_saved' => $allSustainable->where('carbon_footprint', '<', 5)->count() . ' productos',
+        ];
+
+        return response()->json([
+            'data' => $products->items(),
+            'stats' => $stats,
+            'pagination' => [
+                'current_page' => $products->currentPage(),
+                'last_page' => $products->lastPage(),
+                'per_page' => $products->perPage(),
+                'total' => $products->total(),
+            ]
+        ]);
+    }
+
+    /**
+     * Get sustainability statistics
+     *
+     * Returns general statistics about sustainability in the product catalog.
+     * 
+     * @response {
+     *  "total_products": 50,
+     *  "sustainable_products": 12,
+     *  "sustainability_percentage": 24,
+     *  "avg_eco_score": 45.2,
+     *  "refurbished_count": 5,
+     *  "local_suppliers_count": 8,
+     *  "avg_carbon_footprint": "4.5 kg CO2"
+     * }
+     */
+    public function sustainabilityStats()
+    {
+        $totalProducts = Product::count();
+        $sustainableProducts = Product::where('eco_score', '>=', 70)->count();
+        $avgEcoScore = round(Product::avg('eco_score'), 1);
+        $refurbishedCount = Product::where('is_refurbished', true)->count();
+        $localCount = Product::where('is_local_supplier', true)->count();
+        $avgCarbon = round(Product::whereNotNull('carbon_footprint')->avg('carbon_footprint'), 2);
+
+        return response()->json([
+            'total_products' => $totalProducts,
+            'sustainable_products' => $sustainableProducts,
+            'sustainability_percentage' => $totalProducts > 0 ? round(($sustainableProducts / $totalProducts) * 100) : 0,
+            'avg_eco_score' => $avgEcoScore,
+            'refurbished_count' => $refurbishedCount,
+            'local_suppliers_count' => $localCount,
+            'avg_carbon_footprint' => $avgCarbon . ' kg CO2',
+        ]);
+    }
 }

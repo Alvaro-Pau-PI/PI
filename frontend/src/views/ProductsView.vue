@@ -27,6 +27,22 @@
           </div>
         </div>
 
+        <div class="filter-group sustainability-filter">
+          <h3>🌱 Sostenibilitat</h3>
+          <label class="checkbox-label">
+            <input type="checkbox" v-model="filters.sustainable_only" />
+            <span>Només productes eco (Score ≥ 70)</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" v-model="filters.refurbished_only" />
+            <span>♻️ Només reacondicionats</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" v-model="filters.local_only" />
+            <span>🏠 Només proveïdors locals</span>
+          </label>
+        </div>
+
         <button @click="resetFilters" class="btn-reset">Netejar Filtres</button>
       </aside>
 
@@ -41,20 +57,11 @@
 
         <div v-else>
             <div class="products-grid">
-              <div v-for="product in productStore.products" :key="product.id" class="product-card">
-                <div class="card-image">
-                   <img :src="getImageUrl(product.image)" :alt="product.name" />
-                </div>
-                <div class="card-info">
-                  <h3>{{ product.name }}</h3>
-                  <p class="category-tag">{{ product.category }}</p>
-                  <p class="price">{{ formatPrice(product.price) }}</p>
-                  <div class="actions">
-                     <router-link :to="'/products/' + product.id" class="btn-details">Detalls</router-link>
-                     <!-- <button class="btn-cart">Afegir</button> -->
-                  </div>
-                </div>
-              </div>
+              <ProductCard 
+                v-for="product in productStore.products" 
+                :key="product.id"
+                :product="product"
+              />
             </div>
 
             <!-- Paginación -->
@@ -89,6 +96,7 @@
 import { onMounted, ref, watch } from 'vue';
 import { useProductStore } from '@/stores/products';
 import { storeToRefs } from 'pinia';
+import ProductCard from '@/components/ProductCard.vue';
 
 const productStore = useProductStore();
 const { filters } = storeToRefs(productStore);
@@ -204,6 +212,42 @@ h1 {
     display: flex;
     align-items: center;
     gap: 5px;
+}
+
+/* Filtros de sostenibilidad */
+.sustainability-filter {
+    background: rgba(16, 185, 129, 0.05);
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.sustainability-filter h3 {
+    color: #10b981;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #10b981;
+}
+
+.checkbox-label span {
+    font-size: 0.9em;
+    color: #EAEAEA;
+}
+
+.checkbox-label:hover span {
+    color: #10b981;
 }
 
 .btn-reset {

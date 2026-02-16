@@ -5,6 +5,7 @@ use_directory_urls: false
 
 nav:
   - "Inici": "index.md"
+  - "🌱 Sostenibilitat": "sostenibilidad.md"
  # - Segundo apartado del menú lateral
 theme:
   language: ca
