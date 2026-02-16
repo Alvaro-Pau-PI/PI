@@ -9,8 +9,20 @@
         <strong>¡Suscríbete!</strong>
         <p>Recibe las mejores ofertas y novedades.</p>
         <div class="newsletter-form">
-          <input type="email" placeholder="Escribe tu email aquí">
-          <button>Suscribirse</button>
+          <label for="newsletter-email" class="sr-only">Correo electrónico para newsletter</label>
+          <input 
+            id="newsletter-email" 
+            type="email" 
+            placeholder="Escribe tu email aquí"
+            aria-label="Correo electrónico para newsletter"
+            required
+          >
+          <button 
+            type="submit" 
+            aria-label="Suscribirse al newsletter"
+          >
+            Suscribirse
+          </button>
         </div>
       </div>
       <div class="footerEspacio">

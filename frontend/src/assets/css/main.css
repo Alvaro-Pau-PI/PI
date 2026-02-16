@@ -1,0 +1,95 @@
+/* ========================================
+   ALBEROPEREZ TECH - MAIN STYLESHEET
+   Sistema de Diseño Modular
+   
+   Autor: Pau Albero Batoi
+   Fecha: 2026-02-16
+   Versión: 2.0 (Refactorización DIW)
+   ======================================== */
+
+/* 
+  ORDEN DE IMPORTACIÓN:
+  1. Tokens (Variables)
+  2. Base (Reset, Tipografía, Layout)
+  3. Componentes
+  4. Layout específico
+  5. Utilidades
+*/
+
+/* =====================================
+   1️⃣ TOKENS - VARIABLES CSS
+   ===================================== */
+@import './1-tokens/_variables.css';
+@import './1-tokens/_breakpoints.css';
+
+/* =====================================
+   2️⃣ BASE - Fundamentos
+   ===================================== */
+@import './2-base/_reset.css';
+@import './2-base/_typography.css';
+@import './2-base/_layout.css';
+
+/* =====================================
+   3️⃣ COMPONENTES - Reutilizables
+   ===================================== */
+@import './3-components/_buttons.css';
+@import './3-components/_cards.css';
+@import './3-components/_forms.css';
+@import './3-components/_badges.css';
+@import './3-components/_rating.css';
+
+/* =====================================
+   4️⃣ LAYOUT - Estructura específica
+   ===================================== */
+@import './4-layout/_header.css';
+@import './4-layout/_footer.css';
+@import './4-layout/_grid-products.css';
+
+/* =====================================
+   5️⃣ UTILIDADES - Helpers
+   ===================================== */
+@import './utilities/_sr-only.css';
+
+/* =====================================
+   NOTAS PARA DESARROLLADORES
+   ===================================== */
+
+/*
+  🎨 SISTEMA DE VARIABLES
+  Todas las variables están definidas en 1-tokens/_variables.css
+  Usa var(--nombre-variable) para acceder a ellas.
+  
+  Ejemplos:
+  - Colores: var(--color-primary), var(--bg-card)
+  - Espaciado: var(--spacing-md), var(--spacing-lg)
+  - Tipografía: var(--font-headings), var(--font-size-xl)
+  
+  🧩 COMPONENTES REUTILIZABLES
+  Usa clases de componentes en lugar de crear estilos custom:
+  - Botones: .btn, .btn-primary, .btn-outline
+  - Cards: .card, .card-elevated
+  - Formularios: .form-group, .form-input, .error-msg
+  - Badges: .badge, .badge-primary
+  
+  ♿ ACCESIBILIDAD
+  - Usa .sr-only para labels ocultos visualmente
+  - Asegúrate de que inputs tengan labels con for + id
+  - Usa aria-describedby para mensajes de error
+  - Verifica contraste de colores (WCAG AA mínimo)
+  
+  📱 RESPONSIVE
+  - Mobile first: estilos base para móvil
+  - Usa media queries con min-width para pantallas más grandes
+  - Breakpoints: 640px (sm), 768px (md), 1024px (lg), 1280px (xl)
+  
+  ⚡ RENDIMIENTO
+  - Las variables CSS permiten cambios en tiempo real
+  - Usa transiciones solo cuando añadan valor UX
+  - Optimiza imágenes antes de subirlas
+  
+  🎯 MANTENIBILIDAD
+  - Nunca modifiques directamente main.css
+  - Edita los archivos individuales en sus carpetas
+  - Usa convenciones de nombrado BEM cuando sea apropiado
+  - Documenta clases complejas con comentarios
+*/

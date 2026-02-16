@@ -1,0 +1,110 @@
+/* ========================================
+   SISTEMA DE BADGES Y PILLS
+   ======================================== */
+
+/* === BADGE BASE === */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    font-family: var(--font-headings);
+    line-height: 1;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* === VARIANTES DE COLOR === */
+.badge-primary {
+    background: var(--color-primary);
+    color: var(--text-on-primary);
+}
+
+.badge-accent {
+    background: var(--color-accent);
+    color: var(--text-on-primary);
+}
+
+.badge-success {
+    background: var(--color-success);
+    color: var(--text-on-primary);
+}
+
+.badge-error,
+.badge-danger {
+    background: var(--color-error);
+    color: var(--text-on-primary);
+}
+
+.badge-warning {
+    background: var(--color-warning);
+    color: #000;
+}
+
+.badge-secondary {
+    background: var(--text-secondary);
+    color: var(--text-on-primary);
+}
+
+/* === BADGE DE PRECIO (Compatibilidad) === */
+.precio {
+    background: var(--color-accent);
+    color: var(--text-on-primary);
+    font-weight: var(--font-weight-bold);
+    font-family: var(--font-headings);
+    padding: var(--spacing-xs) var(--spacing-lg);
+    border-radius: var(--radius-2xl);
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-md);
+    display: inline-block;
+}
+
+/* === BADGE OUTLINE === */
+.badge-outline {
+    background: transparent;
+    border: var(--border-width) solid currentColor;
+}
+
+.badge-outline.badge-primary {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.badge-outline.badge-accent {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+/* === BADGE CON DOT (indicador) === */
+.badge-dot {
+    padding-left: var(--spacing-md);
+    position: relative;
+}
+
+.badge-dot::before {
+    content: "";
+    position: absolute;
+    left: var(--spacing-xs);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+/* === TAMAÑOS === */
+.badge-sm {
+    padding: 2px var(--spacing-xs);
+    font-size: 0.625rem;
+    /* 10px */
+}
+
+.badge-lg {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-sm);
+}

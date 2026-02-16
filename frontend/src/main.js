@@ -3,7 +3,11 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
-import './assets/styles.css'
+// Sistema CSS modular y accesible (DIW)
+import './assets/css/main.css'
+
+// Backup del sistema anterior (comentado, no eliminar)
+// import './assets/styles.css'
 
 const app = createApp(App)
 

@@ -7,7 +7,7 @@
         </router-link>
       </div>
 
-      <nav class="nav-box">
+      <nav class="nav-box" aria-label="Navegación principal">
         <router-link to="/" class="nav-link">Inici</router-link>
         <router-link to="/products" class="nav-link">Productes</router-link>
         <router-link to="/contact" class="nav-link">Contacte</router-link>
@@ -18,21 +18,21 @@
         <template v-if="authStore.user">
           <span class="user-name">{{ authStore.user.name }}</span>
           <RoleBadge />
-          <router-link to="/profile" title="El meu perfil" class="icon-user">
-            <span class="material-icons" style="color: #00A1FF;">person</span>
+          <router-link to="/profile" title="El meu perfil" class="icon-user" aria-label="Ir a mi perfil">
+            <span class="material-icons" style="color: #00A1FF;" aria-hidden="true">person</span>
           </router-link>
-          <button @click="logout" title="Tancar sessió" style="background:none; border:none; color:#EAEAEA; cursor:pointer;">
-            <span class="material-icons">logout</span>
+          <button @click="logout" title="Tancar sessió" aria-label="Cerrar sesión" style="background:none; border:none; color:#EAEAEA; cursor:pointer;">
+            <span class="material-icons" aria-hidden="true">logout</span>
           </button>
         </template>
         <template v-else>
-          <router-link to="/login" title="Iniciar sessió" class="icon-user">
-            <span class="material-icons">person_outline</span>
+          <router-link to="/login" title="Iniciar sessió" class="icon-user" aria-label="Iniciar sesión">
+            <span class="material-icons" aria-hidden="true">person_outline</span>
           </router-link>
         </template>
         
-        <router-link to="/cart" title="Carrito de compras" class="icon-cart">
-          <span class="material-icons">shopping_cart</span>
+        <router-link to="/cart" title="Carrito de compras" class="icon-cart" aria-label="Ver carrito de compras">
+          <span class="material-icons" aria-hidden="true">shopping_cart</span>
         </router-link>
       </div>
     </div>

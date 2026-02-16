@@ -1,0 +1,21 @@
+/* ========================================
+   BREAKPOINTS - Media Queries
+   ======================================== */
+
+/* 
+  Uso:
+  @media (max-width: 640px) { ... }  // Mobile
+  @media (min-width: 768px) { ... }  // Tablet+
+  @media (min-width: 1024px) { ... } // Desktop
+*/
+
+/* Mobile first approach */
+/* Por defecto, los estilos se aplican a mobile */
+/* Usamos min-width para pantallas más grandes */
+
+/* Referencia de breakpoints:
+ * sm:  640px  - Móviles grandes
+ * md:  768px  - Tablets
+ * lg:  1024px - Laptops
+ * xl:  1280px - Escritorio grande
+ */

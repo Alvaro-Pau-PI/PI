@@ -1,0 +1,72 @@
+/* ========================================
+   SISTEMA DE RATING (ESTRELLAS)
+   ======================================== */
+
+/* === CONTENEDOR DE RATING === */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+}
+
+/* Ocultar inputs radio */
+.star-rating input {
+    display: none;
+}
+
+/* Estrellas (labels) */
+.star-rating label {
+    cursor: pointer;
+    font-size: 24px;
+    color: #555;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+    user-select: none;
+
+    /* Accesibilidad: mejora el área de clic */
+    padding: var(--spacing-xs);
+    margin: calc(var(--spacing-xs) * -1);
+}
+
+/* Hover effect */
+.star-rating label:hover,
+.star-rating label:hover~label {
+    color: var(--color-warning);
+    transform: scale(1.1);
+}
+
+/* Selected stars */
+.star-rating input:checked~label {
+    color: var(--color-warning);
+}
+
+/* Focus visible para accesibilidad con teclado */
+.star-rating input:focus-visible+label {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+/* === VISUALIZACIÓN DE RATING (solo lectura) === */
+.comment-stars {
+    color: var(--color-warning);
+    font-size: var(--font-size-base);
+    letter-spacing: 2px;
+}
+
+/* === VARIANTES DE TAMAÑO === */
+.star-rating-sm label {
+    font-size: 18px;
+}
+
+.star-rating-lg label {
+    font-size: 32px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .star-rating label {
+        font-size: 20px;
+    }
+}
