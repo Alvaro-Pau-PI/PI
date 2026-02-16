@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
+/**
+ * @group Products
+ *
+ * APIs for managing products
+ */
 class ProductController extends Controller
 {
     /**
@@ -16,8 +21,24 @@ class ProductController extends Controller
         return view('products.index', compact('products'));
     }
 
+
     /**
-     * Mostrar listado del recurso (API).
+     * Get all products
+     *
+     * Returns a list of all products available in the system.
+     *
+     * @response {
+     *  "id": 1,
+     *  "sku": "CPU-INT-001",
+     *  "name": "Intel Core i9",
+     *  "description": "High performance processor",
+     *  "price": "499.99",
+     *  "stock": 100,
+     *  "image": "/images/cpu.jpg",
+     *  "category": "Processadors",
+     *  "created_at": "2023-01-01T12:00:00.000000Z",
+     *  "updated_at": "2023-01-01T12:00:00.000000Z"
+     * }
      */
     public function apiIndex()
     {
@@ -32,8 +53,13 @@ class ProductController extends Controller
         return view('products.show', compact('product'));
     }
 
+
     /**
-     * Mostrar el recurso especificado (API).
+     * Get a specific product
+     *
+     * Returns the details of a specific product by ID.
+     *
+     * @urlParam product integer required The ID of the product. Example: 1
      */
     public function apiShow(Product $product)
     {

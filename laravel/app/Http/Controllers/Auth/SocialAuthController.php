@@ -30,7 +30,10 @@ class SocialAuthController extends Controller
     public function handleProviderCallback()
     {
         try {
+            // Obtener usuario de Google (stateless false para validar state/CSRF)
             $socialUser = Socialite::driver('google')->user();
+        } catch (\Laravel\Socialite\Two\InvalidStateException $e) {
+            return redirect(env('FRONTEND_URL', 'http://localhost:5173') . '/login?error=invalid_state');
         } catch (\Exception $e) {
             return redirect(env('FRONTEND_URL', 'http://localhost:5173') . '/login?error=auth_failed');
         }
@@ -43,12 +46,12 @@ class SocialAuthController extends Controller
             $user = User::create([
                 'name' => $socialUser->getName(),
                 'email' => $socialUser->getEmail(),
-                'password' => Hash::make(Str::random(16)), // Contraseña aleatoria
-                'email_verified_at' => now(),
+                'password' => Hash::make(Str::random(16)), // Contraseña aleatoria y segura
+                'email_verified_at' => now(), // Email ya verificado por Google
             ]);
         }
 
-        // Iniciar sesión
+        // Iniciar sesión (Login)
         Auth::login($user);
 
         // Regenerar sesión para evitar fijación

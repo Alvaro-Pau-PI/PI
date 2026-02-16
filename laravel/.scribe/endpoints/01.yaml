@@ -1,0 +1,131 @@
+name: 'User Profile'
+description: |-
+
+  APIs for managing user profile
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: api/user/profile-information
+    metadata:
+      custom: []
+      groupName: 'User Profile'
+      groupDescription: |-
+
+        APIs for managing user profile
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update profile information'
+      description: "Update the authenticated user's profile information."
+      authenticated: true
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        custom: []
+        name: name
+        description: 'The new name.'
+        required: true
+        example: 'John Doe'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      email:
+        custom: []
+        name: email
+        description: 'The new email.'
+        required: true
+        example: john@example.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      name: 'John Doe'
+      email: john@example.com
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: api/user/password
+    metadata:
+      custom: []
+      groupName: 'User Profile'
+      groupDescription: |-
+
+        APIs for managing user profile
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update password'
+      description: "Update the authenticated user's password."
+      authenticated: true
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      current_password:
+        custom: []
+        name: current_password
+        description: 'The current password.'
+        required: true
+        example: password
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      password:
+        custom: []
+        name: password
+        description: 'The new password.'
+        required: true
+        example: newpassword
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      password_confirmation:
+        custom: []
+        name: password_confirmation
+        description: 'The new password confirmation.'
+        required: true
+        example: newpassword
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      current_password: password
+      password: newpassword
+      password_confirmation: newpassword
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null

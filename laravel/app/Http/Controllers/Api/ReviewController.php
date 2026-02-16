@@ -7,10 +7,19 @@ use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\Request;
 
+/**
+ * @group Reviews
+ *
+ * APIs for managing product reviews
+ */
 class ReviewController extends Controller
 {
     /**
-     * Mostrar listado del recurso.
+     * Get reviews for a product
+     *
+     * Returns a list of reviews for a specific product.
+     *
+     * @urlParam product integer required The ID of the product. Example: 1
      */
     public function index($productId)
     {
@@ -19,7 +28,23 @@ class ReviewController extends Controller
     }
 
     /**
-     * Almacenar un recurso recién creado en almacenamiento.
+     * Create a review
+     *
+     * Store a new review for a product. User must be authenticated.
+     *
+     * @authenticated
+     * @urlParam product integer required The ID of the product. Example: 1
+     * @bodyParam text string required The content of the review. Example: "Great product!"
+     * @bodyParam rating integer required The rating from 1 to 5. Example: 5
+     * @response 201 {
+     *  "id": 1,
+     *  "user_id": 1,
+     *  "product_id": 1,
+     *  "text": "Great product!",
+     *  "rating": 5,
+     *  "created_at": "...",
+     *  "updated_at": "..."
+     * }
      */
     public function store(Request $request, $productId)
     {
