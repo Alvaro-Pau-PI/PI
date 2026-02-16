@@ -40,9 +40,46 @@ class ProductController extends Controller
      *  "updated_at": "2023-01-01T12:00:00.000000Z"
      * }
      */
-    public function apiIndex()
+    /**
+     * Get all products with filters and pagination
+     *
+     * Returns a paginated list of products, optionally filtered by search term, category, and price range.
+     *
+     * @queryParam search string filter by name or description. Example: "Intel"
+     * @queryParam category string filter by category name. Example: "Processadors"
+     * @queryParam min_price number filter by minimum price. Example: 100
+     * @queryParam max_price number filter by maximum price. Example: 500
+     * @queryParam page integer page number. Example: 1
+     */
+    public function apiIndex(Request $request)
     {
-        return response()->json(Product::all());
+        $query = Product::query();
+
+        // Búsqueda por texto (nombre o descripción)
+        $query->when($request->input('search'), function ($q, $search) {
+            return $q->where(function ($subQ) use ($search) {
+                $subQ->where('name', 'like', "%{$search}%")
+                     ->orWhere('description', 'like', "%{$search}%");
+            });
+        });
+
+        // Filtro por categoría
+        $query->when($request->input('category'), function ($q, $category) {
+            return $q->where('category', $category);
+        });
+
+        // Filtro por precio mínimo
+        $query->when($request->input('min_price'), function ($q, $min) {
+            return $q->where('price', '>=', $min);
+        });
+
+        // Filtro por precio máximo
+        $query->when($request->input('max_price'), function ($q, $max) {
+            return $q->where('price', '<=', $max);
+        });
+
+        // Paginación de 12 elementos por página
+        return response()->json($query->paginate(12));
     }
 
     /**

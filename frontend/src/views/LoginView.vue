@@ -5,22 +5,24 @@
         <img src="/img/LOGO AlberoPerezTech.png" alt="Logo" class="login-logo"/>
       </div>
       <h2>Iniciar Sessió</h2>
-      <form @submit.prevent="handleLogin">
+      <Form @submit="handleLogin" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" v-model="email" required placeholder="nombre@gmail.com" />
+          <Field name="email" type="email" id="email" class="form-control" :class="{ 'is-invalid': errors.email }" placeholder="nombre@gmail.com" />
+          <ErrorMessage name="email" class="error-feedback" />
         </div>
         <div class="form-group">
           <label for="password">Contrasenya</label>
-          <input type="password" id="password" v-model="password" required placeholder="........" />
+          <Field name="password" type="password" id="password" class="form-control" :class="{ 'is-invalid': errors.password }" placeholder="........" />
+          <ErrorMessage name="password" class="error-feedback" />
         </div>
         
         <div v-if="errorMessage" class="error-msg">
             {{ errorMessage }}
         </div>
 
-        <button type="submit" :disabled="authStore.loading" class="primary-btn">
-            {{ authStore.loading ? 'Entrant...' : 'Entrar' }}
+        <button type="submit" :disabled="isSubmitting || authStore.loading" class="primary-btn">
+            {{ (isSubmitting || authStore.loading) ? 'Entrant...' : 'Entrar' }}
         </button>
 
         <div class="divider">
@@ -50,7 +52,7 @@
                </router-link>
           </div>
         </div>
-      </form>
+      </Form>
     </div>
   </div>
 </template>
@@ -59,45 +61,45 @@
 import { ref, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { useRouter, useRoute } from 'vue-router';
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import * as yup from 'yup';
 
-const email = ref('');
-const password = ref('');
 const authStore = useAuthStore();
 const router = useRouter();
 const route = useRoute();
 const localError = ref(null);
 
+const schema = yup.object({
+    email: yup.string().required('El email és obligatori').email('Email no vàlid'),
+    password: yup.string().required('La contrasenya és obligatoria').min(6, 'Mínim 6 caràcters')
+});
+
 const errorMessage = computed(() => {
   if (localError.value) return localError.value;
   if (authStore.errors?.message) return authStore.errors.message;
-  if (authStore.errors) return 'Les credencials són incorrectes. Verifica el teu email i contrasenya.';
+  if (authStore.errors) return 'Les credencials són incorrectes.';
   return null;
 });
 
-const handleLogin = async () => {
+const handleLogin = async (values) => {
   localError.value = null;
   authStore.errors = null;
   
   try {
-    await authStore.login({ email: email.value, password: password.value });
+    await authStore.login(values);
     const redirectPath = route.query.redirect || '/';
     router.push(redirectPath);
   } catch (error) {
-    // Manejar diferentes tipos de errores
     if (error.response) {
       if (error.response.status === 401) {
-        localError.value = 'Email o contrasenya incorrectes. Torna-ho a intentar.';
+        localError.value = 'Email o contrasenya incorrectes.';
       } else if (error.response.status === 422) {
-        localError.value = 'Les dades introduïdes no són vàlides.';
-      } else if (error.response.status === 404) {
-        localError.value = 'El servei d\'autenticació no està disponible. Contacta amb l\'administrador.';
+        localError.value = 'Dades no vàlides.';
       } else {
-        localError.value = 'Error en el servidor. Torna-ho a intentar més tard.';
+        localError.value = 'Error en el servidor.';
       }
-    } else if (error.message?.includes('Network Error')) {
-      localError.value = 'No es pot connectar amb el servidor. Verifica la teva connexió a Internet.';
     } else {
-      localError.value = 'Error desconegut. Torna-ho a intentar.';
+      localError.value = 'Error de connexió.';
     }
   }
 };
@@ -289,4 +291,43 @@ button {
   width: 20px;
   height: 20px;
 }
+
+/* Validation Styles */
+.form-control {
+  width: 100%;
+  padding: 12px;
+  background-color: #121418;
+  border: 1px solid #3A4150;
+  border-radius: 4px;
+  color: #FFFFFF;
+  font-size: 1em;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-control:focus {
+  border-color: #00A1FF;
+}
+
+.form-control.is-invalid {
+  border-color: #ff4444;
+}
+
+.error-feedback {
+  color: #ff4444;
+  font-size: 0.85em;
+  margin-top: 5px;
+  display: block;
+}
+
+.error-msg {
+    color: #ff4444;
+    background: rgba(255, 68, 68, 0.1);
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 1px solid rgba(255, 68, 68, 0.2);
+}
+
 </style>

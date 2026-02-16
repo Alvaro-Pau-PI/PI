@@ -5,20 +5,63 @@ export const useProductStore = defineStore('products', {
     state: () => ({
         products: [],
         currentProduct: null,
+        pagination: {
+            current_page: 1,
+            last_page: 1,
+            total: 0,
+            per_page: 12
+        },
+        filters: {
+            search: '',
+            category: '',
+            min_price: null,
+            max_price: null
+        },
         loading: false,
         error: null
     }),
     actions: {
-        async fetchProducts() {
+        async fetchProducts(page = 1) {
             this.loading = true;
             try {
-                const response = await http.get('/api/products');
-                this.products = response.data;
+                // Construir query string manualmente para control total
+                const params = {
+                    page: page,
+                    ...this.filters
+                };
+
+                // Limpiar parámetros nulos o vacíos
+                Object.keys(params).forEach(key => {
+                    if (params[key] === null || params[key] === '') {
+                        delete params[key];
+                    }
+                });
+
+                const response = await http.get('/api/products', { params });
+
+                // Asignar datos paginados
+                this.products = response.data.data;
+                this.pagination = {
+                    current_page: response.data.current_page,
+                    last_page: response.data.last_page,
+                    total: response.data.total,
+                    per_page: response.data.per_page
+                };
             } catch (err) {
                 this.error = err.message || 'Error carregant productes';
+                this.products = [];
             } finally {
                 this.loading = false;
             }
+        },
+        resetFilters() {
+            this.filters = {
+                search: '',
+                category: '',
+                min_price: null,
+                max_price: null
+            };
+            this.fetchProducts(1);
         },
         async fetchProduct(id) {
             this.loading = true;
