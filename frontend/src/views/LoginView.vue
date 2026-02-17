@@ -5,7 +5,7 @@
         <img src="/img/LOGO AlberoPerezTech.png" alt="Logo" class="login-logo"/>
       </div>
       <h2>Iniciar Sessió</h2>
-      <Form @submit="handleLogin" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
+      <Form @submit="handleLogin" :validation-schema="schema" :initial-values="initialValues" v-slot="{ errors, isSubmitting }">
         <div class="form-group">
           <label for="email">Email</label>
           <Field name="email" type="email" id="email" class="form-control" :class="{ 'is-invalid': errors.email }" placeholder="nombre@gmail.com" />
@@ -17,6 +17,13 @@
           <ErrorMessage name="password" class="error-feedback" />
         </div>
         
+        <div class="form-group remember-me">
+          <label class="checkbox-label">
+            <input type="checkbox" v-model="rememberMe" />
+            <span>Recorda'm</span>
+          </label>
+        </div>
+
         <div v-if="errorMessage" class="error-msg">
             {{ errorMessage }}
         </div>
@@ -68,6 +75,7 @@ const authStore = useAuthStore();
 const router = useRouter();
 const route = useRoute();
 const localError = ref(null);
+const rememberMe = ref(false);
 
 const schema = yup.object({
     email: yup.string().required('El email és obligatori').email('Email no vàlid'),
@@ -86,7 +94,16 @@ const handleLogin = async (values) => {
   authStore.errors = null;
   
   try {
-    await authStore.login(values);
+    // Pasar remember: true/false junto con credenciales
+    await authStore.login({ ...values, remember: rememberMe.value });
+    
+    // Gestión de "Recordar Email" en local
+    if (rememberMe.value) {
+        localStorage.setItem('rememberedEmail', values.email);
+    } else {
+        localStorage.removeItem('rememberedEmail');
+    }
+
     const redirectPath = route.query.redirect || '/';
     router.push(redirectPath);
   } catch (error) {
@@ -103,6 +120,22 @@ const handleLogin = async (values) => {
     }
   }
 };
+
+// Cargar email guardado al iniciar
+if (localStorage.getItem('rememberedEmail')) {
+    // Pre-rellenamos el valor inicial del formulario (usando 'initialValues' si usáramos useForm, 
+    // pero como usamos <Form> de vee-validate, podemos pasarlo como prop o setearlo en un ref si lo vinculamos)
+    // Para simplificar con VeeValidate Component:
+}
+// Nota: Con el componente <Form> de vee-validate, la prop initial-values es la clave.
+const initialValues = {
+    email: localStorage.getItem('rememberedEmail') || '',
+    password: ''
+};
+
+if (initialValues.email) {
+    rememberMe.value = true;
+}
 
 const handleGoogleLogin = () => {
     window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/auth/google`;
@@ -123,7 +156,7 @@ const handleGoogleLogin = () => {
   padding: 40px;
   border-radius: 8px;
   width: 100%;
-  max-width: 450px;
+  max-width: 800px; /* Ancho aumentado para escritorio */
   box-shadow: 0 4px 15px rgba(0,0,0,0.5);
   border: 1px solid #3A4150;
 }
@@ -147,6 +180,27 @@ h2 {
 
 .form-group {
   margin-bottom: 20px;
+}
+
+.remember-me {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: #EAEAEA;
+  font-weight: 400;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
 }
 
 label {

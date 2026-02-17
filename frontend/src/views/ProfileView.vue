@@ -1,6 +1,9 @@
 <template>
   <div class="profile-container">
-    <h1 class="page-title">El meu perfil</h1>
+    <div class="header-section">
+      <h1 class="page-title">El meu perfil</h1>
+      <RoleBadge class="profile-badge" />
+    </div>
 
     <div class="profile-grid">
       <!-- Tarjeta de Información Personal -->
@@ -98,6 +101,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useAuthStore } from '@/stores/auth';
+import RoleBadge from '@/modules/roles/components/RoleBadge.vue';
 
 const authStore = useAuthStore();
 
@@ -153,14 +157,27 @@ const handleUpdatePassword = async () => {
   min-height: 80vh;
 }
 
+.header-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+  gap: 15px;
+}
+
 .page-title {
   font-size: 3em;
   color: #fff;
-  margin-bottom: 50px;
+  margin-bottom: 0;
   text-align: center;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 2px;
+}
+
+.profile-badge {
+  font-size: 1.2em;
+  padding: 5px 15px;
 }
 
 .profile-grid {

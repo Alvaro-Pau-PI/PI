@@ -12,113 +12,13 @@
     rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-  <!-- n8n Chatbot Styles -->
-  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
-  <style>
-    /* Ensure chat is on top */
-    .n8n-chat-widget {
-      z-index: 9999 !important;
-    }
-
-    /* Estilos globales para ocultar marca n8n en todas sus formas */
-    .chat-powered-by,
-    .n8n-chat-branding,
-    .n8n-chat-widget-footer,
-    .chat-footer a[href*="n8n.io"],
-    [class*="powered-by"],
-    [class*="branding"] {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-      height: 0 !important;
-      max-height: 0 !important;
-      overflow: hidden !important;
-      margin: 0 !important;
-      padding: 0 !important;
-    }
-
-    /* Force n8n Chatbot Variables */
-    :root {
-      --chat--color--primary: #FF6C00 !important;
-      --chat--color--secondary: #242833 !important;
-      --chat--color--dark: #1A1D24 !important;
-      --chat--color--light: #EAEAEA !important;
-
-      --chat--window--background-color: #1A1D24 !important;
-      --chat--header--background-color: #242833 !important;
-      --chat--header--color: #EAEAEA !important;
-
-      --chat--message--bot--background-color: #242833 !important;
-      --chat--message--bot--color: #EAEAEA !important;
-
-      --chat--message--user--background-color: #FF6C00 !important;
-      --chat--message--user--color: #FFFFFF !important;
-
-      --chat--toggle--background-color: #FF6C00 !important;
-      --chat--toggle--hover--background-color: #e65c00 !important;
-      --chat--toggle--active--background-color: #e65c00 !important;
-
-      --chat--input--background-color: #ffffff !important;
-      --chat--input--text-color: #000000 !important;
-      --chat--input--placeholder-color: #9BA3B0 !important;
-      --chat--input--send-button-color: #FF6C00 !important;
-    }
-  </style>
 </head>
 
 <body>
   <div id="app"></div>
   <script type="module" src="/src/main.js"></script>
 
-  <!-- n8n Chatbot Script -->
-  <script type="module">
-    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
-    // =========================================================================
-    // CONFIGURACIÓN DE CONEXIÓN N8N
-    // Si n8n está en otro ordenador, cambia 'localhost' por su IP (ej: 192.168.1.50)
-    // =========================================================================
-    const N8N_HOST = 'http://localhost:5678';
-    const WEBHOOK_ID = '1bf7c92c-ec5d-41dd-88f7-73d2bfdd4914';
-    // =========================================================================
-
-    createChat({
-      webhookUrl: `${N8N_HOST}/webhook/${WEBHOOK_ID}/chat`,
-      showWelcomeScreen: false,
-      theme: {
-        customCSS: `
-          .chat-powered-by, .n8n-chat-branding, .n8n-chat-widget-footer, .chat-footer a {
-            display: none !important;
-            visibility: hidden !important;
-            height: 0 !important;
-            padding: 0 !important;
-            margin: 0 !important;
-          }
-          .chat-input-area, .n8n-chat-input-area, .n8n-chat-form {
-            display: flex !important;
-            visibility: visible !important;
-          }
-        `
-      },
-      initialMessages: [
-        '¡Hola! 👋 Bienvenido a AlberoPerez Tech.',
-        '¿En qué te puedo ayudar hoy?'
-      ],
-      i18n: {
-        en: {
-          title: 'Asistente AlberoPerez',
-          subtitle: 'Tu experto en hardware 24/7',
-          inputPlaceholder: 'Type a message...',
-        },
-        es: {
-          title: 'Asistente AlberoPerez',
-          subtitle: 'Tu experto en hardware 24/7',
-          inputPlaceholder: 'Escribe aquí...',
-        }
-      }
-    });
-  </script>
 </body>
 
 </html>

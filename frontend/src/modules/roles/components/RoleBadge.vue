@@ -10,23 +10,23 @@ import { useAuthStore } from '@/stores/auth';
 
 const authStore = useAuthStore();
 
-const roleId = computed(() => authStore.user?.role_id);
+const roleId = computed(() => authStore.user?.role);
 
 const roleLabel = computed(() => {
     switch (roleId.value) {
-        case 1: return 'Admin';
-        case 2: return 'Venedor';
-        case 3: return 'Editor';
-        case 4: return 'Usuari';
+        case 'admin': return 'Admin';
+        case 'vendor': return 'Venedor';
+        case 'editor': return 'Editor';
+        case 'user': return 'Usuari';
         default: return null;
     }
 });
 
 const roleClass = computed(() => {
     switch (roleId.value) {
-        case 1: return 'badge-admin';
-        case 2: return 'badge-vendor';
-        case 3: return 'badge-editor';
+        case 'admin': return 'badge-admin';
+        case 'vendor': return 'badge-vendor';
+        case 'editor': return 'badge-editor';
         default: return 'badge-user';
     }
 });

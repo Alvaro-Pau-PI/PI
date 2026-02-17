@@ -25,6 +25,7 @@ export const useAuthStore = defineStore('auth', {
             this.errors = null;
             try {
                 await http.get('/sanctum/csrf-cookie');
+                // Enviar objeto completo (incluyendo remember)
                 await http.post('/login', credentials);
                 await this.fetchUser();
             } catch (error) {

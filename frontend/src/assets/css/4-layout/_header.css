@@ -5,7 +5,8 @@
 /* === HEADER PRINCIPAL === */
 header {
     background: var(--bg-card);
-    border-bottom: var(--border-width-thick) solid var(--border-color);
+    border-bottom: none;
+    /* Eliminado por solicitud del usuario ("quitar rectángulo") */
     position: sticky;
     top: 0;
     z-index: var(--z-sticky);
@@ -121,7 +122,8 @@ header {
 }
 
 .icon-cart,
-.icon-user {
+.icon-user,
+.icon-logout {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -129,7 +131,8 @@ header {
 }
 
 .icon-cart .material-icons,
-.icon-user .material-icons {
+.icon-user .material-icons,
+.icon-logout .material-icons {
     font-size: 2.0em;
     color: var(--text-primary);
     padding: var(--spacing-xs);
@@ -138,7 +141,8 @@ header {
 }
 
 .icon-cart:hover .material-icons,
-.icon-user:hover .material-icons {
+.icon-user:hover .material-icons,
+.icon-logout:hover .material-icons {
     background: var(--color-primary);
     color: var(--text-on-primary);
 }

@@ -269,7 +269,98 @@ class ProductController extends Controller
     }
 
     /**
+     * Create a new product
+     *
+     * @authenticated
+     * 
+     * @response {
+     *  "id": 101,
+     *  "name": "New Product",
+     *  "price": 99.99,
+     *  "stock": 10,
+     *  "category": "Perifericos",
+     *  "created_at": "...",
+     *  "updated_at": "..."
+     * }
+     */
+    public function store(Request $request)
+    {
+        // Verificar admin (redundante si se usa middleware, pero seguro)
+        if ($request->user()->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'category' => 'required|string',
+            'image' => 'nullable|string', // Por ahora string, luego subida de archivos
+            // Campos de sostenibilidad
+            'eco_score' => 'nullable|integer|min:0|max:100',
+            'is_refurbished' => 'boolean',
+            'is_local_supplier' => 'boolean',
+            'carbon_footprint' => 'nullable|numeric',
+        ]);
+
+        $product = Product::create($validated);
+
+        return response()->json($product, 201);
+    }
+
+    /**
+     * Update a product
+     *
+     * @authenticated
+     * 
+     * @urlParam product integer required The ID of the product.
+     */
+    public function update(Request $request, Product $product)
+    {
+        if ($request->user()->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $validated = $request->validate([
+            'name' => 'sometimes|string|max:255',
+            'description' => 'sometimes|string',
+            'price' => 'sometimes|numeric|min:0',
+            'stock' => 'sometimes|integer|min:0',
+            'category' => 'sometimes|string',
+            'image' => 'nullable|string',
+            'eco_score' => 'nullable|integer|min:0|max:100',
+            'is_refurbished' => 'boolean',
+            'is_local_supplier' => 'boolean',
+            'carbon_footprint' => 'nullable|numeric',
+        ]);
+
+        $product->update($validated);
+
+        return response()->json($product);
+    }
+
+    /**
+     * Delete a product
+     * 
+     * @authenticated
+     * 
+     * @urlParam product integer required The ID of the product.
+     */
+    public function destroy(Request $request, Product $product)
+    {
+        if ($request->user()->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $product->delete();
+
+        return response()->json(['message' => 'Product deleted successfully']);
+    }
+
+    /**
      * Get sustainability statistics
+
      *
      * Returns general statistics about sustainability in the product catalog.
      * 

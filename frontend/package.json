@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@n8n/chat": "^1.9.0",
     "axios": "^1.13.4",
     "pinia": "^3.0.4",
     "vee-validate": "^4.15.1",

@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <section class="banner">
-      <img src="/img/banner2.png" alt="Banner Intel Core i9 15a Generación" />
+      <BannerCarousel :slides="bannerSlides" />
     </section>
 
     <main>
@@ -51,6 +51,13 @@
 import { onMounted, ref } from 'vue';
 import { useProductStore } from '@/stores/products';
 import http from '@/services/http';
+import BannerCarousel from '@/components/BannerCarousel.vue';
+
+const bannerSlides = [
+  { image: '/img/banner1.png', alt: 'Setup Gaming' },
+  { image: '/img/banner3.png', alt: 'Tecnología Avanzada' },
+  { image: '/img/banner2.png', alt: 'Componentes IA' }
+];
 
 const productStore = useProductStore();
 const loading = ref(true);

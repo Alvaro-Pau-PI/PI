@@ -17,6 +17,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Reseñas protegidas
     Route::post('/products/{product}/reviews', [ReviewController::class, 'store']);
+
+    // Gestión de productos (Admin)
+    Route::post('/products', [ProductController::class, 'store']);
+    Route::put('/products/{product}', [ProductController::class, 'update']);
+    Route::delete('/products/{product}', [ProductController::class, 'destroy']);
 });
 
 // Rutas de productos (Públicas)

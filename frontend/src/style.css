@@ -29,6 +29,24 @@ body {
   min-height: 100vh;
   background-color: #1A1D24;
   /* Cambiado para coincidir con el tema oscuro */
+  overflow-x: hidden;
+  /* Evitar barra de desplazamiento horizontal */
+}
+
+/* Personalización de la barra de desplazamiento */
+::-webkit-scrollbar {
+  width: 10px;
+  background: #1A1D24;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3A4150;
+  border-radius: 5px;
+  border: 2px solid #1A1D24;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00A1FF;
 }
 
 #app {
