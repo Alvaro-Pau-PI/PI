@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\OrderController;
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
@@ -22,6 +23,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/products', [ProductController::class, 'store']);
     Route::put('/products/{product}', [ProductController::class, 'update']);
     Route::delete('/products/{product}', [ProductController::class, 'destroy']);
+
+    // Pedidos del usuario
+    Route::post('/orders', [OrderController::class, 'store']);
+    Route::get('/orders', [OrderController::class, 'index']);
+    Route::get('/orders/{id}', [OrderController::class, 'show']);
+
+    // Gestión de pedidos (Admin)
+    Route::get('/admin/orders', [OrderController::class, 'adminIndex']);
+    Route::patch('/admin/orders/{id}/status', [OrderController::class, 'updateStatus']);
 });
 
 // Rutas de productos (Públicas)
@@ -35,3 +45,4 @@ Route::get('/products/{id}/related', [ProductController::class, 'related']); // 
 
 // Rutas de reviews (Públicas)
 Route::get('/products/{product}/reviews', [ReviewController::class, 'index']);
+
