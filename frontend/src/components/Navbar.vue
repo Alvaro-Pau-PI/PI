@@ -47,8 +47,8 @@
                 </router-link>
               </li>
               <li v-if="canManage" class="admin-option">
-                <router-link to="/admin/products" class="dropdown-item">
-                  <span class="material-icons">admin_panel_settings</span> Gestió de Productes
+                <router-link to="/admin" class="dropdown-item">
+                  <span class="material-icons">admin_panel_settings</span> Panel de Gestió
                 </router-link>
               </li>
               <li class="divider"></li>

@@ -60,15 +60,10 @@
 
 <script setup>
 import { useCartStore } from '@/stores/cart';
-import { useOrdersStore } from '@/stores/orders';
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
-import Swal from 'sweetalert2';
 
 const cartStore = useCartStore();
-const ordersStore = useOrdersStore();
 const router = useRouter();
-const processing = ref(false);
 
 const increaseQuantity = (item) => {
   cartStore.updateQuantity(item.id, item.quantity + 1);
@@ -82,27 +77,9 @@ const decreaseQuantity = (item) => {
   }
 };
 
-const processCheckout = async () => {
-  processing.value = true;
-  
-  // Simular proceso de pago
-  setTimeout(async () => {
-    const orderId = ordersStore.createOrder(cartStore.items, cartStore.totalPrice);
-    cartStore.clearCart();
-    processing.value = false;
-    
-    await Swal.fire({
-      icon: 'success',
-      title: 'Comanda realitzada!',
-      text: `El teu número de comanda és: ${orderId}`,
-      confirmButtonText: 'Veure les meves comandes',
-      background: '#1a1a1a',
-      color: '#ffffff',
-      confirmButtonColor: '#00A1FF'
-    });
-    
-    router.push('/profile'); // Redirigir a perfil/pedidos
-  }, 1500);
+// Redirigir al checkout real
+const processCheckout = () => {
+  router.push('/checkout');
 };
 </script>
 
