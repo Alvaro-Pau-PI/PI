@@ -120,7 +120,7 @@
 </template>
 
 <script setup>
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, computed, ref, watch } from 'vue';
 import { useProductStore } from '@/stores/products';
 import { useAuthStore } from '@/stores/auth';
 import { useRoute, useRouter } from 'vue-router';
@@ -138,6 +138,14 @@ const hasStock = computed(() => product.value?.stock > 0);
 
 onMounted(() => {
   productStore.fetchProduct(route.params.id);
+});
+
+// Refetch product when route param changes
+watch(() => route.params.id, (newId) => {
+    if (newId) {
+        productStore.fetchProduct(newId);
+        window.scrollTo(0, 0);
+    }
 });
 
 const hasSustainabilityData = computed(() => {

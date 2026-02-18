@@ -4,7 +4,7 @@
     <div class="product-card__image-wrapper">
       <router-link :to="`/products/${product.id}`" class="product-card__image-link">
         <OptimizedImage
-          :src="product.image || '/img/placeholder-product.jpg'"
+          :src="productImage"
           :alt="`Imagen de ${product.name} - ${product.category}`"
           width="300"
           height="300"
@@ -150,6 +150,16 @@ export default {
   },
   
   computed: {
+    /**
+     * Asegura que la ruta de la imagen sea absoluta si es local
+     */
+    productImage() {
+      const img = this.product.image;
+      if (!img) return '/img/placeholder-product.jpg';
+      if (img.startsWith('http') || img.startsWith('/')) return img;
+      return `/${img}`;
+    },
+
     /**
      * Verifica si el producto tiene badges de sostenibilidad
      */

@@ -113,11 +113,18 @@ const formatRating = (rating) => {
 }
 
 .products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: var(--spacing-lg);
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.product-card {
+  flex: 0 1 280px; /* Base width 280px, allow shrinking but not growing beyond max-width */
+  max-width: 300px; /* Opcional: limitar ancho máximo */
+  width: 100%;
 }
 
 .product-card {
@@ -136,82 +143,7 @@ const formatRating = (rating) => {
   box-shadow: var(--shadow-lg);
 }
 
-.card-link {
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.card-image {
-  height: 180px;
-  padding: var(--spacing-md);
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.card-image img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.card-info {
-  padding: var(--spacing-md);
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-info h4 {
-  font-size: var(--font-size-base);
-  margin: 0 0 var(--spacing-xs) 0;
-  color: var(--text-primary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  line-height: 1.4;
-  min-height: 2.8em;
-}
-
-.category-tag {
-  font-size: var(--font-size-xs);
-  color: var(--text-secondary);
-  margin-bottom: var(--spacing-sm);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.rating {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  margin-bottom: var(--spacing-sm);
-  font-size: var(--font-size-sm);
-}
-
-.stars {
-  color: var(--color-warning);
-  font-weight: var(--font-weight-semibold);
-}
-
-.review-count {
-  color: var(--text-muted);
-  font-size: var(--font-size-xs);
-}
-
-.price {
-  font-size: var(--font-size-xl);
-  color: var(--color-primary);
-  font-weight: var(--font-weight-bold);
-  margin-top: auto;
-  margin-bottom: 0;
-}
+/* Legacy styles removed: .card-link, .card-image, .card-info, etc. are now inside ProductCard component */
 
 /* Responsive */
 @media (max-width: 768px) {
