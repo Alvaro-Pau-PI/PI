@@ -7,6 +7,7 @@ Sigue estos pasos AL PIE DE LA LETRA para desplegar tu proyecto y aprobar todos 
 ## ⚠️ AVISOS CRÍTICOS (AWS Academy)
 1.  **NO uses el botón "Reset Lab"**: Eso borra TODO. Si se acaba el tiempo, la máquina se apaga (Stop), pero tus datos se guardan en el disco.
 2.  **USA ELASTIC IP**: Es **OBLIGATORIO**. Si no la usas, cada vez que enciendas el laboratorio la IP cambiará y tu dominio dejará de funcionar.
+    *   **TU IP es**: `18.206.113.196`
 3.  **Seguridad**: No subas tu clave `.pem` al repositorio público.
 
 ---
@@ -36,32 +37,28 @@ En "Network settings", crea un **Security Group** nuevo y añade estas reglas ("
 ### 3. Asignar IP Fija (Elastic IP) **¡MUY IMPORTANTE!**
 1.  En el menú izquierdo EC2 -> **Network & Security** -> **Elastic IPs**.
 2.  Clic en **Allocate Elastic IP address** -> Allocate.
-3.  Selecciona la IP creada -> **Actions** -> **Associate Elastic IP address**.
+3.  Selecciona la IP `18.206.113.196` -> **Actions** -> **Associate Elastic IP address**.
 4.  En "Instance", selecciona tu servidor web creado.
 5.  Clic en **Associate**.
     *   *Anota esta IP. Será la IP pública de tu web para siempre.*
 
 ---
 
-## FASE 2: Preparación de Archivos (En tu Ordenador)
+## FASE 2: Preparación de Archivos (YA REALIZADO ✅)
 
-Antes de subir nada, tienes que personalizar los scripts con TUS datos.
+Los archivos de configuración ya han sido personalizados con tus datos. **No necesitas editar nada**, solo verifica que sea correcto:
 
-### 1. Edita `deploy/scripts/setup_system.sh`
-*   Abre el archivo y busca las líneas de arriba:
-    ```bash
-    DOMAIN_APP="tudominio.com"       # <-- TU DOMINIO REAL (ej: s2.daw.es)
-    DOMAIN_BACKUP="backup.tudominio.com"
-    DOMAIN_TEST="test.tudominio.com"
-    MEMBERS_NAMES="Juan, Maria, Pepe" # <-- Vuestros nombres
-    STUDENTS=("juan" "maria" "pepe")  # <-- Usuarios para cada alumno (FTP/Test)
-    ```
+### 1. Verifica `deploy/scripts/setup_system.sh`
+*   Dominio principal: `DOMAIN_APP="app.alberoperez.tech"`
+*   Nombres: `MEMBERS_NAMES="Pau Albero Mora i Alvaro Perez Morilla"`
+*   Alumnos: `STUDENTS=("pau" "alvaro")`
+*   *Nota: La base de datos y las claves se configurarán más adelante.*
 
-### 2. Edita las configuraciones de Apache (`deploy/config/*.conf`)
-*   Reemplaza `projecteGrupX.es` por tu dominio real en:
-    *   `deploy/config/vhost_app.conf`
-    *   `deploy/config/vhost_backup.conf`
-    *   `deploy/config/vhost_test.conf`
+### 2. Verifica las configuraciones de Apache (`deploy/config/*.conf`)
+*   Ya apuntan a tus dominios reales:
+    *   `app.alberoperez.tech`
+    *   `backup.alberoperez.tech`
+    *   `test.alberoperez.tech`
 
 ---
 
@@ -75,11 +72,12 @@ Abre tu terminal (en local) donde tengas la clave `.pem`.
 chmod 400 LabsUser.pem
 
 # 2. Sube la carpeta del proyecto
-# Reemplaza IP_ELASTICA por la IP que anotaste en la Fase 1
-scp -i LabsUser.pem -r path/to/tu/proyecto/deploy ubuntu@IP_ELASTICA:~/deploy
+# Asegúrate de que la ruta local sea correcta.
+# Si estás en '~/Documentos/Projecte intermodular 2/AWS', y el proyecto está en '../github/PI/deploy':
+scp -i LabsUser.pem -r "../github/PI/deploy" ubuntu@18.206.113.196:~/deploy
 
 # 3. Entra al servidor
-ssh -i LabsUser.pem ubuntu@IP_ELASTICA
+ssh -i LabsUser.pem ubuntu@18.206.113.196
 ```
 
 ### 2. Ejecutar la Instalación Automática

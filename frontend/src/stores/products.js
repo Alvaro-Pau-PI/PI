@@ -42,12 +42,18 @@ export const useProductStore = defineStore('products', {
 
                 const response = await http.get('/api/products', { params });
 
-                // Asignar datos paginados
-                let products = response.data.data;
+                // Asignar datos paginados con comprobación defensiva
+                let productsData = [];
+                if (response.data && Array.isArray(response.data.data)) {
+                    productsData = response.data.data;
+                } else if (Array.isArray(response.data)) {
+                    productsData = response.data;
+                } else {
+                    console.error('Formato de respuesta inesperado:', response.data);
+                }
 
                 // TEMPORAL: Añadir datos de sostenibilidad simulados a productos existentes
-                // Esto es solo para demostración hasta que se ejecute la migración de BD
-                products = products.map((product, index) => {
+                const products = productsData.map((product, index) => {
                     // Asignar diferentes valores eco alternando productos
                     const ecoVariant = index % 5;
 

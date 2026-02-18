@@ -13,6 +13,26 @@
         />
       </router-link>
       
+      <!-- Overlay Acciones Rápidas -->
+      <div class="product-card__actions">
+        <button 
+          @click.prevent="addToCart" 
+          class="action-btn action-btn--cart" 
+          :disabled="product.stock <= 0"
+          title="Añadir al carrito"
+        >
+          <span class="material-icons">shopping_cart</span>
+        </button>
+        <button 
+          @click.prevent="toggleFavorite" 
+          class="action-btn action-btn--fav"
+          :class="{ 'active': isFavorite }"
+          title="Añadir a favoritos"
+        >
+          <span class="material-icons">{{ isFavorite ? 'favorite' : 'favorite_border' }}</span>
+        </button>
+      </div>
+      
       <!-- Badges de sostenibilidad -->
       <div v-if="hasSustainabilityBadges" class="product-card__eco-badges">
         <!-- Eco Score -->
@@ -114,6 +134,10 @@
 
 <script>
 import OptimizedImage from './OptimizedImage.vue';
+import { useCartStore } from '@/stores/cart';
+import { useWishlistStore } from '@/stores/wishlist';
+import { computed } from 'vue';
+import Swal from 'sweetalert2';
 
 /**
  * ProductCard Component
@@ -147,6 +171,37 @@ export default {
       type: Boolean,
       default: true
     }
+  },
+
+  setup(props) {
+    const cartStore = useCartStore();
+    const wishlistStore = useWishlistStore();
+
+    const isFavorite = computed(() => wishlistStore.isInWishlist(props.product.id));
+
+    const addToCart = () => {
+      cartStore.addItem(props.product);
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: 'Afegit al carret',
+        showConfirmButton: false,
+        timer: 1500,
+         background: '#1a1a1a',
+         color: '#fff'
+      });
+    };
+
+    const toggleFavorite = () => {
+      wishlistStore.toggleWishlist(props.product);
+    };
+
+    return {
+      addToCart,
+      toggleFavorite,
+      isFavorite
+    };
   },
   
   computed: {
@@ -260,6 +315,55 @@ export default {
 .product-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.product-card__actions {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 2;
+  background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 100%);
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.product-card:hover .product-card__actions {
+  transform: translateY(0);
+}
+
+.action-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.2s;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.action-btn:hover:not(:disabled) {
+  transform: scale(1.1);
+  background: white;
+  color: var(--color-primary);
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.action-btn--fav.active {
+  color: #ef4444;
 }
 
 /* Imagen */

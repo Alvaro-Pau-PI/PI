@@ -44,7 +44,19 @@ const router = createRouter({
         {
             path: '/cart',
             name: 'cart',
-            component: HomeView, // Placeholder
+            component: () => import('../views/CartView.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/orders',
+            name: 'orders',
+            component: () => import('../views/OrdersView.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/favorites',
+            name: 'favorites',
+            component: () => import('../views/FavoritesView.vue'),
             meta: { requiresAuth: true }
         },
         {
