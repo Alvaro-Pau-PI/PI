@@ -1,29 +1,36 @@
 <template>
   <div class="home-container">
     <section class="banner">
-      <img src="/img/banner2.png" alt="Banner Intel Core i9 15a Generación" />
+      <BannerCarousel :slides="bannerSlides" />
     </section>
 
     <main>
-      <h2>Novedades Destacadas</h2>
-      <p>Descubre los componentes más recientes y potentes del mercado.</p>
+      <h2>🏆 Productos Destacados con IA</h2>
+      <p>Los componentes más populares y mejor valorados según nuestro algoritmo inteligente.</p>
       
       <div class="catalog-btn-container">
         <router-link to="/products" class="btn-catalog">Ver Catálogo Completo →</router-link>
       </div>
 
       <section class="productos">
-        <div v-if="loading" class="loading">Carregant novetats...</div>
+        <div v-if="loading" class="loading">Cargando productos destacados...</div>
         <div v-else class="products-grid">
            <div v-for="product in featuredProducts" :key="product.id" class="product-card">
               <div class="card-image">
-                 <img :src="getImageUrl(product.image)" :alt="product.name" />
+                 <img :src="getImageUrl(product.image)" :alt="product.name" loading="lazy" />
               </div>
               <div class="card-info">
                 <h3>{{ product.name }}</h3>
+                
+                <!-- Rating si existe -->
+                <div v-if="product.reviews_avg_rating" class="rating-badge">
+                  <span class="stars">⭐ {{ formatRating(product.reviews_avg_rating) }}</span>
+                  <span class="review-count">({{ product.reviews_count }})</span>
+                </div>
+                
                 <p class="price">{{ formatPrice(product.price) }}</p>
                 <div class="actions">
-                   <router-link :to="'/products/' + product.id" class="btn-details">Detalls</router-link>
+                   <router-link :to="'/products/' + product.id" class="btn-details">Detalles</router-link>
                 </div>
               </div>
            </div>
@@ -41,21 +48,45 @@
 </template>
 
 <script setup>
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useProductStore } from '@/stores/products';
+import http from '@/services/http';
+import BannerCarousel from '@/components/BannerCarousel.vue';
+
+const bannerSlides = [
+  { image: '/img/banner1.png', alt: 'Setup Gaming' },
+  { image: '/img/banner3.png', alt: 'Tecnología Avanzada' },
+  { image: '/img/banner2.png', alt: 'Componentes IA' }
+];
 
 const productStore = useProductStore();
 const loading = ref(true);
+const featuredProducts = ref([]);
 
-const featuredProducts = computed(() => {
-    return productStore.products.slice(0, 4);
-});
+const fetchFeaturedProducts = async () => {
+  try {
+    const response = await http.get('/api/products/featured', {
+      params: { limit: 4 }
+    });
+    featuredProducts.value = response.data.data || [];
+  } catch (error) {
+    console.error('Error fetching featured products:', error);
+    // Fallback: usar primeros productos del store
+    featuredProducts.value = productStore.products.slice(0, 4);
+  }
+};
 
 onMounted(async () => {
     loading.value = true;
-    if (productStore.products.length === 0) {
-        await productStore.fetchProducts();
-    }
+    // Resetear filtros para mostrar todas las novedades destacadas
+    productStore.filters = {
+        search: '',
+        category: '',
+        min_price: null,
+        max_price: null
+    };
+    // Cargar productos destacados desde endpoint de IA
+    await fetchFeaturedProducts();
     loading.value = false;
 });
 
@@ -67,6 +98,10 @@ const getImageUrl = (path) => {
 
 const formatPrice = (price) => {
   return parseFloat(price).toFixed(2) + ' €';
+};
+
+const formatRating = (rating) => {
+  return parseFloat(rating).toFixed(1);
 };
 </script>
 
@@ -158,6 +193,25 @@ main p {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.rating-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+  font-size: 0.9em;
+}
+
+.stars {
+  color: #ffc107;
+  font-weight: 600;
+}
+
+.review-count {
+  color: #888;
+  font-size: 0.85em;
+}
+
 .price {
   font-size: 1.4em;
   color: #00A1FF;

@@ -27,6 +27,43 @@
                     <p>{{ product.description }}</p>
                 </div>
 
+                <!-- Sección de Sostenibilidad ASG Detallada -->
+                <div v-if="hasSustainabilityData" class="sustainability-info-box">
+                    <h3 class="sustainability-title">🌱 Compromís AlberoPerez Sostenible</h3>
+                    <div class="sustainability-badges">
+                         <!-- Eco Score Badge -->
+                        <div v-if="product.eco_score" class="detail-eco-badge" :class="ecoScoreClass">
+                            <span class="badge-icon">{{ ecoEmoji }}</span>
+                            <span class="badge-text">Eco Score: <strong>{{ product.eco_score }}/100</strong></span>
+                            <span class="badge-desc">({{ ecoRatingText }})</span>
+                        </div>
+
+                        <!-- Badge Reacondicionado -->
+                        <div v-if="product.is_refurbished" class="detail-eco-badge badge-refurbished">
+                            <span class="badge-icon">♻️</span>
+                            <span class="badge-text">Producte Reacondicionat</span>
+                        </div>
+
+                        <!-- Badge Embalaje -->
+                        <div v-if="product.has_eco_packaging" class="detail-eco-badge badge-packaging">
+                            <span class="badge-icon">📦</span>
+                            <span class="badge-text">Embalatge 100% Reciclable</span>
+                        </div>
+
+                        <!-- Badge Local -->
+                        <div v-if="product.is_local_supplier" class="detail-eco-badge badge-local">
+                            <span class="badge-icon">🏠</span>
+                            <span class="badge-text">Proveïdor Local (Proximitat)</span>
+                        </div>
+                    </div>
+
+                    <!-- Huella de Carbono -->
+                    <div v-if="product.carbon_footprint" class="carbon-footprint-info">
+                        <span class="material-icons carbon-icon">public</span>
+                        <span>Petjada de carboni: <strong>{{ product.carbon_footprint }} kg CO2</strong></span>
+                    </div>
+                </div>
+
                 <div class="actions-box">
                     <button class="add-cart-btn" :disabled="!hasStock">
                         AFEGIR AL CARRET <span class="material-icons">shopping_cart</span>
@@ -63,6 +100,9 @@
         </div>
        </div>
 
+        <!-- Productos Relacionados con IA -->
+        <RelatedProducts v-if="product" :product-id="product.id" :limit="4" />
+
         <ReviewModal 
             v-if="showReviewModal" 
             :productId="product.id"
@@ -80,11 +120,12 @@
 </template>
 
 <script setup>
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, computed, ref, watch } from 'vue';
 import { useProductStore } from '@/stores/products';
 import { useAuthStore } from '@/stores/auth';
 import { useRoute, useRouter } from 'vue-router';
 import ReviewModal from '@/components/ReviewModal.vue';
+import RelatedProducts from '@/components/RelatedProducts.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -97,6 +138,45 @@ const hasStock = computed(() => product.value?.stock > 0);
 
 onMounted(() => {
   productStore.fetchProduct(route.params.id);
+});
+
+// Refetch product when route param changes
+watch(() => route.params.id, (newId) => {
+    if (newId) {
+        productStore.fetchProduct(newId);
+        window.scrollTo(0, 0);
+    }
+});
+
+const hasSustainabilityData = computed(() => {
+    if (!product.value) return false;
+    return product.value.eco_score || 
+           product.value.is_refurbished || 
+           product.value.has_eco_packaging || 
+           product.value.is_local_supplier ||
+           product.value.carbon_footprint;
+});
+
+const ecoEmoji = computed(() => {
+    const score = product.value?.eco_score || 0;
+    if (score >= 80) return '🌿';
+    if (score >= 70) return '♻️';
+    return '🌱';
+});
+
+const ecoRatingText = computed(() => {
+    const score = product.value?.eco_score || 0;
+    if (score >= 80) return 'Excel·lent';
+    if (score >= 70) return 'Molt Bo';
+    if (score >= 60) return 'Bo';
+    return 'Aceptable';
+});
+
+const ecoScoreClass = computed(() => {
+    const score = product.value?.eco_score || 0;
+    if (score >= 80) return 'eco-excellent';
+    if (score >= 70) return 'eco-very-good';
+    return 'eco-good';
 });
 
 const formatPrice = (price) => {
@@ -259,6 +339,88 @@ const handleReviewSubmit = async (reviewData) => {
     margin-bottom: 40px;
     border-top: 1px solid rgba(255,255,255,0.1);
     padding-top: 20px;
+}
+
+/* Sostenibilidad Estilos */
+.sustainability-info-box {
+    background: rgba(16, 185, 129, 0.05);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.sustainability-title {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: #34d399;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sustainability-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.detail-eco-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 15px;
+    border-radius: 10px;
+    font-size: 0.95em;
+    background: rgba(255,255,255,0.05);
+}
+
+.badge-icon {
+    font-size: 1.4em;
+}
+
+.badge-text {
+    font-weight: 500;
+}
+
+.badge-desc {
+    color: #94a3b8;
+    font-size: 0.9em;
+    margin-left: auto;
+}
+
+/* Variantes Eco Score */
+.eco-excellent { 
+    background: linear-gradient(90deg, rgba(16, 185, 129, 0.2) 0%, transparent 100%);
+    border-left: 4px solid #10b981;
+}
+.eco-very-good { 
+    background: linear-gradient(90deg, rgba(34, 197, 94, 0.2) 0%, transparent 100%);
+    border-left: 4px solid #22c55e;
+}
+.eco-good { 
+    background: linear-gradient(90deg, rgba(132, 204, 22, 0.2) 0%, transparent 100%);
+    border-left: 4px solid #84cc16;
+}
+
+.badge-refurbished { border-left: 4px solid #3b82f6; }
+.badge-packaging { border-left: 4px solid #a855f7; }
+.badge-local { border-left: 4px solid #f59e0b; }
+
+.carbon-footprint-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9em;
+    color: #94a3b8;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.carbon-icon {
+    color: #0ea5e9;
+    font-size: 1.2em;
 }
 
 .actions-box {

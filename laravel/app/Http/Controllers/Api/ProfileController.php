@@ -7,10 +7,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
+/**
+ * @group User Profile
+ *
+ * APIs for managing user profile
+ */
 class ProfileController extends Controller
 {
     /**
-     * Update the user's profile information.
+     * Update profile information
+     *
+     * Update the authenticated user's profile information.
+     *
+     * @authenticated
+     * @bodyParam name string required The new name. Example: John Doe
+     * @bodyParam email string required The new email. Example: john@example.com
      */
     public function update(Request $request)
     {
@@ -36,7 +47,14 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's password.
+     * Update password
+     *
+     * Update the authenticated user's password.
+     *
+     * @authenticated
+     * @bodyParam current_password string required The current password. Example: password
+     * @bodyParam password string required The new password. Example: newpassword
+     * @bodyParam password_confirmation string required The new password confirmation. Example: newpassword
      */
     public function updatePassword(Request $request)
     {

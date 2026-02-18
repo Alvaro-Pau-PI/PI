@@ -1,0 +1,182 @@
+/* ========================================
+   GRID DE PRODUCTOS Y LAYOUTS ESPECÍFICOS
+   ======================================== */
+
+/* === BANNER === */
+.banner {
+    margin-top: var(--spacing-lg);
+}
+
+.banner img {
+    display: block;
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    margin-bottom: var(--spacing-md);
+    border-radius: var(--radius-md);
+}
+
+/* === TÍTULOS Y DESCRIPCIONES DE SECCIONES === */
+main h2 {
+    text-align: center;
+    margin: var(--spacing-2xl) 0 var(--spacing-xs);
+    color: var(--color-primary);
+    font-family: var(--font-headings);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+}
+
+main p {
+    text-align: center;
+    margin: 0 0 var(--spacing-2xl);
+    color: var(--text-secondary);
+    font-size: var(--font-size-lg);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* === VIDEO CON BORDES === */
+.video-con-bordes {
+    display: block;
+    width: 100%;
+    max-width: 1000px;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    margin: var(--spacing-2xl) auto var(--spacing-2xl) auto;
+    padding: 0;
+    box-sizing: border-box;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-accent);
+    object-fit: cover;
+    overflow: hidden;
+}
+
+/* === SECCIÓN DE COMENTARIOS === */
+.comments-section {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    padding: var(--spacing-2xl);
+    width: 100%;
+    box-sizing: border-box;
+    border-top: var(--border-width) solid var(--border-color);
+}
+
+.comments-section h2,
+.comments-section h3 {
+    margin-top: 0;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* === LISTA DE COMENTARIOS === */
+.comment-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.comment-item {
+    border-bottom: var(--border-width) solid var(--border-color);
+    padding-bottom: var(--spacing-md);
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.comment-user {
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+}
+
+.comment-text {
+    margin-top: var(--spacing-xs);
+    line-height: var(--line-height-base);
+    color: var(--text-primary);
+}
+
+/* === ANIMACIONES === */
+.banner,
+main h2,
+main p,
+.productos,
+.video-con-bordes {
+    opacity: 0;
+    animation: anim-fade-in-up 0.6s ease-out forwards;
+}
+
+.banner {
+    animation-delay: 0.1s;
+}
+
+main h2 {
+    animation-delay: 0.2s;
+}
+
+main p {
+    animation-delay: 0.3s;
+}
+
+.productos {
+    animation-delay: 0.4s;
+}
+
+.video-con-bordes {
+    animation-delay: 0.5s;
+}
+
+@keyframes anim-fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .banner {
+        margin-top: var(--spacing-sm);
+    }
+
+    .banner img {
+        max-height: 200px;
+        border-radius: var(--radius-md);
+    }
+
+    main h2 {
+        font-size: var(--font-size-2xl);
+        margin-top: var(--spacing-lg);
+    }
+
+    main p {
+        font-size: var(--font-size-base);
+        padding: 0 var(--spacing-md);
+    }
+
+    .video-con-bordes {
+        border-radius: var(--radius-md);
+        margin: var(--spacing-lg) auto;
+    }
+
+    .comments-section {
+        padding: var(--spacing-lg);
+    }
+}

@@ -1,0 +1,113 @@
+/* ========================================
+   FOOTER (PIE DE PÁGINA)
+   ======================================== */
+
+/* === FOOTER PRINCIPAL === */
+footer {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    padding: var(--spacing-2xl) var(--spacing-lg) var(--spacing-md) var(--spacing-lg);
+    margin-top: var(--spacing-2xl);
+    border-top: var(--border-width-thick) solid var(--border-color);
+}
+
+/* === CONTENEDOR DEL FOOTER === */
+.footer {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto var(--spacing-lg) auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-2xl);
+}
+
+/* === ESPACIOS DEL FOOTER === */
+.footerEspacio {
+    min-width: 150px;
+}
+
+.footerEspacio img {
+    max-width: 120px;
+    margin-bottom: var(--spacing-md);
+    display: block;
+}
+
+.footerEspacio p {
+    text-align: left;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin: 0 0 var(--spacing-md) 0;
+}
+
+.footerEspacio strong {
+    font-family: var(--font-headings);
+    font-size: var(--font-size-lg);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+    display: block;
+}
+
+/* === LISTAS DEL FOOTER === */
+.footerEspacio ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footerEspacio ul li {
+    margin-bottom: var(--spacing-xs);
+}
+
+.footerEspacio ul li a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+    transition: color var(--transition-base);
+}
+
+.footerEspacio ul li a:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
+/* === COPYRIGHT === */
+.copyright {
+    display: block;
+    text-align: center;
+    margin-top: var(--spacing-2xl);
+    padding-top: var(--spacing-lg);
+    border-top: var(--border-width) solid var(--border-color);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    footer {
+        padding: var(--spacing-xl) var(--spacing-md) var(--spacing-md) var(--spacing-md);
+    }
+
+    .footer {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+        width: 100%;
+    }
+
+    .footerEspacio {
+        text-align: center;
+    }
+
+    .footerEspacio img {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .footerEspacio p {
+        text-align: center;
+    }
+
+    .copyright {
+        margin-top: var(--spacing-xl);
+        padding-top: var(--spacing-md);
+    }
+}
