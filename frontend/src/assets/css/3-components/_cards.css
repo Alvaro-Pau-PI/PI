@@ -1,0 +1,167 @@
+/* ========================================
+   SISTEMA DE CARDS (TARJETAS)
+   ======================================== */
+
+/* === CARD BASE === */
+.card {
+    background: var(--bg-card);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    transition: var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+/* === CARD ELEVADA (con sombra más prominente) === */
+.card-elevated {
+    box-shadow: var(--shadow-md);
+}
+
+.card-elevated:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+}
+
+/* === CARD DE PRODUCTO === */
+.producto {
+    background: var(--bg-card);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-lg);
+    text-align: center;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    display: flex;
+    flex-direction: column;
+}
+
+.producto:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0, 161, 255, 0.15);
+}
+
+.producto img {
+    width: 100%;
+    max-width: 180px;
+    height: 180px;
+    object-fit: contain;
+    margin-bottom: var(--spacing-md);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.producto .nombre {
+    font-family: var(--font-headings);
+    font-weight: var(--font-weight-semibold);
+    margin-top: 0;
+    margin-bottom: var(--spacing-xs);
+    font-size: var(--font-size-xl);
+    color: var(--text-primary);
+    min-height: 2.6em;
+}
+
+.producto .detalle {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    display: block;
+    margin-top: auto;
+}
+
+/* === CARD UNIFICADA (Producto + Comentarios) === */
+.single-card-container {
+    max-width: 1100px;
+    margin: var(--spacing-2xl) auto;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+/* === CARD DE DETALLE DE PRODUCTO === */
+.product-detail-container {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    margin: 0;
+    padding: var(--spacing-2xl);
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-2xl);
+}
+
+/* === CARD DE CONTACTO === */
+.contact-container {
+    background: var(--bg-card);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2xl);
+    max-width: var(--max-width-form);
+    margin: var(--spacing-2xl) auto;
+    box-shadow: var(--shadow-lg);
+}
+
+/* === CARD HEADER === */
+.card-header {
+    padding: var(--spacing-lg);
+    border-bottom: var(--border-width) solid var(--border-color);
+    margin-bottom: var(--spacing-lg);
+}
+
+.card-header h2,
+.card-header h3 {
+    margin: 0;
+}
+
+/* === CARD BODY === */
+.card-body {
+    padding: var(--spacing-lg);
+}
+
+/* === CARD FOOTER === */
+.card-footer {
+    padding: var(--spacing-lg);
+    border-top: var(--border-width) solid var(--border-color);
+    margin-top: var(--spacing-lg);
+}
+
+/* === GRID DE PRODUCTOS === */
+.productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    max-width: var(--max-width-content);
+    margin: 0 auto var(--spacing-2xl) auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .product-detail-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+        padding: var(--spacing-lg);
+    }
+
+    .single-card-container {
+        margin: var(--spacing-lg) auto;
+        width: 95%;
+    }
+
+    .contact-container {
+        padding: var(--spacing-lg);
+        margin: var(--spacing-lg) auto;
+    }
+
+    .productos {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: var(--spacing-md);
+        padding: 0 var(--spacing-md);
+    }
+}

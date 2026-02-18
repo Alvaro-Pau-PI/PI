@@ -17,9 +17,10 @@ class DatabaseSeeder extends Seeder
     {
         // Crear usuari admin de prova
         User::updateOrCreate(
-            ['email' => 'admin@pi-laravel.test'],
+            ['email' => 'admin@admin.test'],
             [
                 'name' => 'Admin',
+                'role' => 'admin',
                 'password' => bcrypt('password'),
             ]
         );

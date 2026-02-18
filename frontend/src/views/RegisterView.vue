@@ -124,7 +124,7 @@ const handleRegister = async () => {
   align-items: center;
   min-height: 80vh;
   background-color: #121418;
-  padding: 40px 0;
+  padding: 40px 20px; /* Padding lateral para móvil */
 }
 
 .login-card {
@@ -132,7 +132,7 @@ const handleRegister = async () => {
   padding: 40px;
   border-radius: 8px;
   width: 100%;
-  max-width: 450px;
+  max-width: 800px; /* Aumentado a 800px */
   box-shadow: 0 4px 15px rgba(0,0,0,0.5);
   border: 1px solid #3A4150;
 }
@@ -191,42 +191,49 @@ button {
   font-size: 1em;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.3s, transform 0.2s;
   margin-top: 10px;
 }
 
 button:hover {
   background-color: #0088D6;
+  transform: translateY(-1px);
 }
 
 button:disabled {
   background-color: #555;
   cursor: not-allowed;
+  transform: none;
 }
 
 .error-msg {
-  color: #e74c3c;
-  background-color: rgba(231, 76, 60, 0.1);
+  color: #ff4444;
+  background: rgba(255, 68, 68, 0.1);
   padding: 10px;
   border-radius: 4px;
   margin-bottom: 20px;
-  font-size: 0.9em;
+  text-align: center;
+  border: 1px solid rgba(255, 68, 68, 0.2);
 }
 
 .register-link {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 25px;
     color: #9BA3B0;
     font-size: 0.9em;
+    padding-top: 20px;
+    border-top: 1px solid #3A4150;
 }
 
 .register-link a {
     color: #00A1FF;
     text-decoration: none;
+    font-weight: 500;
 }
 
 .register-link a:hover {
     text-decoration: underline;
+    color: #33b5ff;
 }
 
 .back-link {
@@ -234,12 +241,15 @@ button:disabled {
     margin-top: 15px;
 }
 .back-link a {
-    color: #9BA3B0;
+    color: #6c757d;
     text-decoration: none;
     font-size: 0.85em;
     transition: color 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
 .back-link a:hover {
-    color: #FFFFFF;
+    color: #aaa;
 }
 </style>

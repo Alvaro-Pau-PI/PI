@@ -131,8 +131,31 @@ services:
     networks:
       - pi_network
 
+  # ═══════════════════════════════════════════════════════════════════════════
+  # N8N - Workflow Automation (Chatbot Backend)
+  # Accesible en http://localhost:5678
+  # ═══════════════════════════════════════════════════════════════════════════
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: pi_n8n
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - NODE_ENV=production
+      - WEBHOOK_URL=http://localhost:5678/
+      - GENERIC_TIMEZONE=Europe/Madrid
+    volumes:
+      - n8n_data:/home/node/.n8n
+    networks:
+      - pi_network
+    restart: unless-stopped
+
 volumes:
   db_data:
+  n8n_data:
 
 networks:
   pi_network:

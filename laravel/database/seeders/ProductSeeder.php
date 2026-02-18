@@ -24,6 +24,8 @@ class ProductSeeder extends Seeder
                 'stock' => 30,
                 'image' => 'img/productos/CPU-AMD-7800X3D.png',
                 'category' => 'Processadors',
+                'eco_score' => 85,
+                'has_eco_packaging' => true
             ],
             [
                 'sku' => 'CPU-INT-13600K',
@@ -33,6 +35,40 @@ class ProductSeeder extends Seeder
                 'stock' => 45,
                 'image' => 'img/productos/CPU-INT-13600K.png',
                 'category' => 'Processadors',
+                'eco_score' => 70,
+                'is_refurbished' => true
+            ],
+            [
+                'sku' => 'CPU-AMD-5800X3D',
+                'name' => 'AMD Ryzen 7 5800X3D',
+                'description' => 'El mejor procesador para gaming en plataforma AM4 con 3D V-Cache',
+                'price' => 289.90,
+                'stock' => 15,
+                'image' => 'img/productos/ryzen.png', // Usar imagen genérica Ryzen disponible
+                'category' => 'Processadors',
+                'eco_score' => 90,
+                'is_local_supplier' => true
+            ],
+            [
+                'sku' => 'CPU-INT-14900K',
+                'name' => 'Intel Core i9-14900K',
+                'description' => 'Potencia extrema para creadores y gamers, hasta 6.0GHz',
+                'price' => 599.99,
+                'stock' => 10,
+                'image' => 'img/productos/CPU-INT-14900K.png', // Imagen disponible localmente
+                'category' => 'Processadors',
+                'eco_score' => 60, // Nota baja para probar
+                'carbon_footprint' => 12.5
+            ],
+            [
+                'sku' => 'CPU-AMD-7600X',
+                'name' => 'AMD Ryzen 5 7600X',
+                'description' => 'Rendimiento excelente en gaming con la nueva arquitectura Zen 4',
+                'price' => 229.50,
+                'stock' => 50,
+                'image' => 'img/productos/ryzen.png', // Usar imagen genérica Ryzen disponible
+                'category' => 'Processadors',
+                'eco_score' => 75
             ],
             [
                 'sku' => 'GPU-NV-4070S',
@@ -42,6 +78,8 @@ class ProductSeeder extends Seeder
                 'stock' => 20,
                 'image' => 'img/productos/GPU-NV-4070S.png',
                 'category' => 'Targetes Gràfiques',
+                'eco_score' => 75,
+                'has_eco_packaging' => true
             ],
             [
                 'sku' => 'GPU-NV-4090',
@@ -51,6 +89,8 @@ class ProductSeeder extends Seeder
                 'stock' => 5,
                 'image' => 'img/productos/GPU-NV-4090.png',
                 'category' => 'Targetes Gràfiques',
+                'eco_score' => 65,
+                'carbon_footprint' => 15.5
             ],
             [
                 'sku' => 'GPU-AMD-7800XT',
@@ -60,6 +100,8 @@ class ProductSeeder extends Seeder
                 'stock' => 15,
                 'image' => 'img/productos/GPU-AMD-7800XT.png',
                 'category' => 'Targetes Gràfiques',
+                'eco_score' => 82,
+                'is_local_supplier' => true
             ],
             [
                 'sku' => 'MB-ASUS-B650',
@@ -69,6 +111,18 @@ class ProductSeeder extends Seeder
                 'stock' => 40,
                 'image' => 'img/productos/MB-ASUS-B650.png',
                 'category' => 'Plaques Base',
+                'eco_score' => 78,
+                'is_refurbished' => true
+            ],
+            [
+                'sku' => 'MB-MSI-Z790',
+                'name' => 'MSI MPG Z790 EDGE WIFI',
+                'description' => 'Placa base Intel Z790 LGA 1700 DDR5 para 12ª/13ª/14ª Gen',
+                'price' => 359.90,
+                'stock' => 25,
+                'image' => 'img/productos/MB-MSI-Z790.png',
+                'category' => 'Plaques Base', // Añadido para tener relacionado
+                'eco_score' => 70
             ],
             [
                 'sku' => 'RAM-COR-32D5',
@@ -78,6 +132,19 @@ class ProductSeeder extends Seeder
                 'stock' => 60,
                 'image' => 'img/productos/RAM-COR-32D5.png',
                 'category' => 'Memòria RAM',
+                'eco_score' => 88,
+                'has_eco_packaging' => true
+            ],
+            [
+                'sku' => 'RAM-KIN-16D4',
+                'name' => 'Kingston FURY Beast DDR4 16GB (2x8GB)',
+                'description' => 'Memoria RAM DDR4 3200MHz CL16 ideal para actualizaciones',
+                'price' => 45.99,
+                'stock' => 100,
+                'image' => 'img/productos/RAM-KIN-16D4.png',
+                'category' => 'Memòria RAM', // Añadido para tener relacionado
+                'eco_score' => 90,
+                'is_local_supplier' => true
             ],
             [
                 'sku' => 'SSD-SAM-990',
@@ -87,6 +154,18 @@ class ProductSeeder extends Seeder
                 'stock' => 55,
                 'image' => 'img/productos/SSD-SAM-990.png',
                 'category' => 'Emmagatzematge',
+                'eco_score' => 85,
+                'carbon_footprint' => 0.5
+            ],
+            [
+                'sku' => 'SSD-WD-SN850X',
+                'name' => 'WD_BLACK SN850X 1TB',
+                'description' => 'SSD NVMe Gaming PCIe 4.0 con disipador térmico',
+                'price' => 99.99,
+                'stock' => 40,
+                'image' => 'img/productos/SSD-WD-SN850X.png',
+                'category' => 'Emmagatzematge', // Añadido para tener relacionado
+                'eco_score' => 72
             ],
             [
                 'sku' => 'PSU-COR-850',
@@ -96,6 +175,18 @@ class ProductSeeder extends Seeder
                 'stock' => 25,
                 'image' => 'img/productos/PSU-COR-850.png',
                 'category' => 'Fonts Alimentació',
+                'eco_score' => 92,
+                'has_eco_packaging' => true
+            ],
+            [
+                'sku' => 'PSU-MSI-1000',
+                'name' => 'MSI MPG A1000G PCIE5 1000W 80 Plus Gold',
+                'description' => 'Fuente 1000W modular preparada para RTX 40 Series',
+                'price' => 189.90,
+                'stock' => 15,
+                'image' => 'img/productos/PSU-MSI-1000.png',
+                'category' => 'Fonts Alimentació', // Añadido para tener relacionado
+                'eco_score' => 80
             ],
             [
                 'sku' => 'CASE-NZXT-H5',
@@ -105,6 +196,19 @@ class ProductSeeder extends Seeder
                 'stock' => 30,
                 'image' => 'img/productos/CASE-NZXT-H5.png',
                 'category' => 'Caixes',
+                'eco_score' => 76,
+                'is_refurbished' => true
+            ],
+            [
+                'sku' => 'CASE-COR-4000D',
+                'name' => 'Corsair 4000D Airflow Cristal Templado',
+                'description' => 'Caja ATX semitorre con panel frontal de alto flujo de aire',
+                'price' => 104.90,
+                'stock' => 50,
+                'image' => 'img/productos/CASE-COR-4000D.png',
+                'category' => 'Caixes', // Añadido para tener relacionado
+                'eco_score' => 88,
+                'is_local_supplier' => true
             ],
         ];
 

@@ -1,0 +1,12 @@
+[Unit]
+Description=JSON Server for AlberoPerez Tech
+After=network.target
+
+[Service]
+User=app
+WorkingDirectory=/home/app/ftp/data
+ExecStart=/usr/bin/json-server --watch db.json --port 3000 --host 127.0.0.1
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

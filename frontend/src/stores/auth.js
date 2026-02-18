@@ -11,7 +11,8 @@ export const useAuthStore = defineStore('auth', {
         async fetchUser() {
             this.loading = true;
             try {
-                const response = await http.get('/api/user');
+                // Usamos skipAuthRedirect para que si falla (401) no redirija al login automáticamente
+                const response = await http.get('/api/user', { skipAuthRedirect: true });
                 this.user = response.data;
             } catch (error) {
                 this.user = null;
@@ -24,6 +25,7 @@ export const useAuthStore = defineStore('auth', {
             this.errors = null;
             try {
                 await http.get('/sanctum/csrf-cookie');
+                // Enviar objeto completo (incluyendo remember)
                 await http.post('/login', credentials);
                 await this.fetchUser();
             } catch (error) {

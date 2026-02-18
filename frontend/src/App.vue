@@ -1,16 +1,16 @@
 <script setup>
-import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
+import Chatbot from './components/Chatbot.vue'; // Importar el Chatbot
 import { useAuthStore } from '@/stores/auth';
 
 const authStore = useAuthStore();
 
-onMounted(() => {
-  // Intentar recuperar sesión al cargar
-  authStore.fetchUser();
-});
+// Eliminar onMounted duplicado
+// onMounted(() => {
+//   // La recuperación de sesión se maneja en el router/index.js
+// });
 </script>
 
 <template>
@@ -22,6 +22,7 @@ onMounted(() => {
     </main>
     
     <Footer />
+    <Chatbot /> <!-- Añadir el componente Chatbot -->
   </div>
 </template>
 
