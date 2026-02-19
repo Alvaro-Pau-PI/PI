@@ -47,6 +47,8 @@ services:
       - SANCTUM_STATEFUL_DOMAINS=18.206.113.196,localhost,127.0.0.1
       - SESSION_DOMAIN=18.206.113.196
       - APP_URL=http://18.206.113.196
+      - APP_KEY=${APP_KEY}
+
     working_dir: /var/www/laravel
     restart: always
     networks:
