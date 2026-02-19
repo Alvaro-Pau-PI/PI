@@ -4,79 +4,73 @@
     <p class="subtitle">Tens dubtes o vols demanar pressupost? Escriu-nos!</p>
 
     <div class="contact-box">
-      <!-- Formulari validat amb VeeValidate + Yup -->
-      <Form @submit="submitForm" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
+      <form @submit.prevent="submitForm">
         <div class="form-group">
           <label for="name">Nom</label>
-          <Field name="name" type="text" id="name" class="form-control" 
-            :class="{ 'is-invalid': errors.name }" placeholder="El teu nom" />
-          <ErrorMessage name="name" class="error-feedback" />
+          <input type="text" id="name" v-model="form.name" required placeholder="El teu nom" />
         </div>
         <div class="form-group">
           <label for="email">Correu Electrònic</label>
-          <Field name="email" type="email" id="email" class="form-control" 
-            :class="{ 'is-invalid': errors.email }" placeholder="tucorreu@exemple.com" />
-          <ErrorMessage name="email" class="error-feedback" />
+          <input type="email" id="email" v-model="form.email" required placeholder="tucorreu@exemple.com" />
         </div>
         <div class="form-group">
           <label for="subject">Assumpte</label>
-          <Field name="subject" type="text" id="subject" class="form-control" 
-            :class="{ 'is-invalid': errors.subject }" placeholder="Assumpte del missatge" />
-          <ErrorMessage name="subject" class="error-feedback" />
+          <input type="text" id="subject" v-model="form.subject" required placeholder="Assumpte del missatge" />
         </div>
         <div class="form-group">
           <label for="message">Missatge</label>
-          <Field name="message" as="textarea" id="message" class="form-control" 
-            :class="{ 'is-invalid': errors.message }" rows="5" 
-            placeholder="Escriu aquí el teu missatge..." />
-          <ErrorMessage name="message" class="error-feedback" />
+          <textarea id="message" v-model="form.message" rows="5" required placeholder="Escriu aquí el teu missatge..."></textarea>
         </div>
 
         <button type="submit" class="btn-send" :disabled="isSubmitting">
           {{ isSubmitting ? 'Enviant...' : 'Enviar Missatge' }}
         </button>
-      </Form>
+      </form>
     </div>
   </div>
 </template>
 
 <script setup>
-// Importamos los componentes de VeeValidate y Yup para la validación reactiva
-import { Form, Field, ErrorMessage } from 'vee-validate';
-import * as yup from 'yup';
-import Swal from 'sweetalert2';
+import { ref } from 'vue';
 
-// Esquema de validación con Yup: definimos las reglas de cada campo
-const schema = yup.object({
-  name: yup.string()
-    .required('El nom és obligatori')
-    .min(2, 'El nom ha de tenir almenys 2 caràcters'),
-  email: yup.string()
-    .required('El correu electrònic és obligatori')
-    .email('El format del correu no és vàlid'),
-  subject: yup.string()
-    .required("L'assumpte és obligatori")
-    .min(3, "L'assumpte ha de tenir almenys 3 caràcters"),
-  message: yup.string()
-    .required('El missatge és obligatori')
-    .min(10, 'El missatge ha de tenir almenys 10 caràcters')
+const form = ref({
+  name: '',
+  email: '',
+  subject: '',
+  message: ''
 });
 
-// El handler del submit: només s'executa si la validació passa
-const submitForm = (values, { resetForm }) => {
-  // Simulació d'enviament (no hi ha backend per a contacte)
-  Swal.fire({
-    icon: 'success',
-    title: 'Missatge enviat! ✉️',
-    text: `Gràcies ${values.name}, et respondrem el més aviat possible.`,
-    background: '#1a1f2e',
-    color: '#ffffff',
-    confirmButtonColor: '#00A1FF',
-    confirmButtonText: 'Entesos'
-  });
+const isSubmitting = ref(false);
 
-  // Netejar el formulari després de l'enviament
-  resetForm();
+const submitForm = async () => {
+  isSubmitting.value = true;
+  try {
+    // URL Dinámica para que funcione en otros PCs de la red
+    // Usa la IP/Dominio actual en lugar de 'localhost' fijo
+    const protocol = window.location.protocol; // http: o https:
+    const hostname = window.location.hostname; // localhost o 192.168.x.x
+    const webhookUrl = `${protocol}//${hostname}:5678/webhook/contact-form`; 
+
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(form.value)
+    });
+
+    if (response.ok) {
+      alert("¡Mensaje enviado correctamente! Nos pondremos en contacto contigo pronto.");
+      form.value = { name: '', email: '', subject: '', message: '' };
+    } else {
+      throw new Error('Error en el envío');
+    }
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    alert("Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.");
+  } finally {
+    isSubmitting.value = false;
+  }
 };
 </script>
 
@@ -127,8 +121,7 @@ label {
   font-size: 1.05em;
 }
 
-/* Estil dels inputs i textareas (via .form-control de VeeValidate Field) */
-.form-control {
+input, textarea {
   width: 100%;
   padding: 15px;
   border-radius: 8px;
@@ -138,30 +131,15 @@ label {
   font-family: inherit;
   font-size: 1em;
   transition: all 0.3s;
-  box-sizing: border-box;
 }
 
-.form-control:focus { 
+input:focus, textarea:focus { 
   border-color: #00A1FF; 
   outline: none;
   box-shadow: 0 0 0 3px rgba(0, 161, 255, 0.1);
 }
 
-/* Camp amb error de validació: borde roig */
-.form-control.is-invalid {
-  border-color: #ff4444;
-  box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.1);
-}
-
-/* Missatge d'error individual per camp */
-.error-feedback {
-  color: #ff4444;
-  font-size: 0.85em;
-  margin-top: 6px;
-  display: block;
-}
-
-textarea.form-control {
+textarea {
   resize: vertical;
   min-height: 150px;
 }
@@ -180,19 +158,13 @@ textarea.form-control {
   margin-top: 10px;
 }
 
-.btn-send:hover:not(:disabled) { 
+.btn-send:hover { 
   background-color: #0088d4;
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(0, 161, 255, 0.3);
 }
 
-.btn-send:disabled {
-  background-color: #555;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* Disseny responsiu */
+/* Diseño responsivo */
 @media (max-width: 768px) {
   .contact-container {
     padding: 40px 20px;
@@ -206,7 +178,7 @@ textarea.form-control {
     padding: 30px 25px;
   }
   
-  textarea.form-control {
+  textarea {
     min-height: 120px;
   }
 }
@@ -228,7 +200,7 @@ textarea.form-control {
     padding: 25px 20px;
   }
   
-  .form-control {
+  input, textarea {
     padding: 12px;
   }
   
