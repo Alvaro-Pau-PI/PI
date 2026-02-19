@@ -1,65 +1,150 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🛍️ EcoTech Backend — Laravel 12
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+API REST del backend de la botiga en línia EcoTech, desenvolupada amb **Laravel 12**, **MySQL** i **Sanctum** per a autenticació.
 
-## About Laravel
+## 📦 Stack Tecnològic
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Tecnologia | Versió | Funció |
+|-----------|--------|--------|
+| Laravel | 12.x | Framework PHP |
+| PHP | 8.4 | Llenguatge backend |
+| MySQL | 8.0 | Base de dades relacional |
+| Sanctum | 4.x | Autenticació SPA (cookies) |
+| Socialite | 5.x | OAuth (Google Login) |
+| Scribe | * | Documentació API automàtica |
+| Maatwebsite Excel | 3.x | Importació/exportació CSV/Excel |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🐳 Desenvolupament amb Docker
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Requisits previs
 
-## Learning Laravel
+- [Docker](https://docs.docker.com/get-docker/) i [Docker Compose](https://docs.docker.com/compose/install/) instal·lats.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Instruccions
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+# 1. Clonar el repositori (si encara no ho has fet)
+git clone <url-del-repo>
+cd laravel
 
-## Laravel Sponsors
+# 2. Crear el fitxer de configuració
+cp .env.example .env
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# 3. Arrancar els contenidors
+docker compose up --build
 
-### Premium Partners
+# 4. Generar la clau de l'aplicació
+docker compose exec laravel-app php artisan key:generate
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# 5. Executar migracions i seeders
+docker compose exec laravel-app php artisan migrate --seed
 
-## Contributing
+# 6. Accedir a l'aplicació
+# API Laravel:  http://localhost:8000
+# phpMyAdmin:   http://localhost:8081
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Comandes útils
 
-## Code of Conduct
+```bash
+# Executar tests
+docker compose exec laravel-app php artisan test
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Crear una nova migració
+docker compose exec laravel-app php artisan make:migration create_example_table
 
-## Security Vulnerabilities
+# Netejar cachés
+docker compose exec laravel-app php artisan cache:clear
+docker compose exec laravel-app php artisan config:clear
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Accedir al contenidor PHP
+docker compose exec laravel-app bash
 
-## License
+# Aturar tots els serveis
+docker compose down
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Aturar i esborrar volums (ATENCIÓ: esborra la BD)
+docker compose down -v
+```
 
-## API Information
-The application exposes a public API for products which will be consumed by a Vue.js client in future sprints.
-- `GET /api/products`: List all products.
-- `GET /api/products/{id}/reviews`: List reviews for a product.
-- `POST /api/products/{id}/reviews`: Add a review.
+## 💻 Desenvolupament sense Docker (local)
+
+### Requisits previs
+
+- PHP >= 8.2 amb extensions: pdo_mysql, mbstring, zip, gd, bcmath
+- Composer >= 2
+- MySQL >= 8.0
+- Node.js >= 20 (per al build d'assets Vite)
+
+### Instruccions
+
+```bash
+# 1. Instal·lar dependències PHP
+composer install
+
+# 2. Crear i configurar .env (ajustar DB_HOST=127.0.0.1)
+cp .env.example .env
+php artisan key:generate
+
+# 3. Executar migracions i seeders
+php artisan migrate --seed
+
+# 4. Arrancar el servidor
+php artisan serve  # http://localhost:8000
+```
+
+## ⚙️ Variables d'Entorn Principals
+
+| Variable | Descripció | Valor per defecte (Docker) |
+|----------|-----------|---------------------------|
+| `APP_URL` | URL base de l'aplicació | `http://localhost:8000` |
+| `FRONTEND_URL` | URL del frontend Vue | `http://localhost:5173` |
+| `DB_HOST` | Host de la BD | `db` (nom del contenidor) |
+| `DB_DATABASE` | Nom de la BD | `pi_db` |
+| `DB_USERNAME` | Usuari de la BD | `pi_user` |
+| `DB_PASSWORD` | Contrasenya de la BD | `pi_password` |
+| `SANCTUM_STATEFUL_DOMAINS` | Dominis per a cookies Sanctum | `localhost:5173` |
+
+## 📚 Documentació Tècnica
+
+El backend disposa de documentació detallada a la carpeta `docs/`:
+
+- [🏗️ Arquitectura i Patrons](docs/arquitectura.md)
+- [🐳 Entorns: Desenvolupament vs Producció](docs/entorns.md)
+- [🔄 CI/CD i Tests](docs/ci_cd.md)
+
+## 📁 Estructura del projecte
+
+```
+laravel/
+├── app/
+│   ├── Http/Controllers/   # Controladors de l'API
+│   ├── Models/              # Models Eloquent
+│   └── ...
+├── database/
+│   ├── migrations/          # Migracions de la BD
+│   └── seeders/             # Seeders amb dades de prova
+├── routes/
+│   ├── api.php              # Rutes de l'API REST
+│   └── web.php              # Rutes web (OAuth, etc.)
+├── tests/                   # Tests PHPUnit
+├── docker/
+│   └── nginx.conf           # Configuració Nginx per a Docker
+├── Dockerfile               # Imatge Docker (PHP-FPM)
+├── docker-compose.yml       # Composició per a desenvolupament
+├── .env.example             # Plantilla de variables d'entorn
+└── composer.json            # Dependències PHP
+```
+
+## 🔌 Endpoints principals de l'API
+
+| Mètode | Ruta | Descripció |
+|--------|------|-----------|
+| `GET` | `/api/products` | Llistat de productes |
+| `GET` | `/api/products/{id}` | Detall d'un producte |
+| `POST` | `/api/products/{id}/reviews` | Afegir valoració |
+| `POST` | `/register` | Registre d'usuari |
+| `POST` | `/login` | Iniciar sessió |
+| `POST` | `/logout` | Tancar sessió |
+
+📖 Documentació completa de l'API disponible en: `http://localhost:8000/docs`

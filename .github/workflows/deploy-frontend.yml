@@ -1,0 +1,42 @@
+name: Frontend CI/CD
+
+# 🚀 Desplegament automàtic a EC2 quan hi ha canvis en 'frontend/'
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/deploy-frontend.yml'
+      - 'docker-compose.prod.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_N8N_WEBHOOK_URL: ${{ secrets.VITE_N8N_WEBHOOK_URL }}
+        with:
+          host: ${{ secrets.EC2_HOST }}  # IP del servidor (18.206.113.196)
+          username: ${{ secrets.EC2_USER }} # 'ubuntu'
+          key: ${{ secrets.EC2_SSH_KEY }} # Clau privada .pem
+          script: |
+            echo "--- 🚀 Iniciant desplegament Frontend ---"
+            cd /home/ubuntu/PI
+            
+            echo "--- 📥 Actualitzant codi ---"
+            git pull origin main
+            
+            echo "--- 🐳 Reconstruint i reiniciant contenidor ---"
+            # Passar secrets com a build-args
+            export VITE_API_URL=${{ secrets.VITE_API_URL }}
+            export VITE_N8N_WEBHOOK_URL=${{ secrets.VITE_N8N_WEBHOOK_URL }}
+            
+            docker compose -f docker-compose.prod.yml up -d --build --force-recreate frontend
+            
+            echo "--- ✅ Desplegament Frontend complet ---"

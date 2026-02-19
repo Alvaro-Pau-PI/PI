@@ -1,0 +1,74 @@
+name: Backend CI/CD
+
+# 🚀 Test i Desplegament automàtic a EC2 quan hi ha canvis en 'laravel/'
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'laravel/**'
+      - '.github/workflows/deploy-backend.yml'
+      - 'docker-compose.prod.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./laravel
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite
+          coverage: none
+
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Prepare .env
+        run: cp .env.example .env
+
+      - name: Generate key
+        run: php artisan key:generate
+
+      - name: Execute tests
+        run: php artisan test
+
+  deploy:
+    needs: test
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          APP_ENV: production
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            echo "--- 🚀 Iniciant desplegament Backend ---"
+            cd /home/ubuntu/PI
+            
+            echo "--- 📥 Actualitzant codi ---"
+            git pull origin main
+            
+            echo "--- 🐳 Reconstruint i reiniciant contenidors ---"
+            docker compose -f docker-compose.prod.yml up -d --build --force-recreate laravel-app laravel-nginx
+            
+            echo "--- 🔄 Executant migracions ---"
+            docker compose -f docker-compose.prod.yml exec -T laravel-app php artisan migrate --force
+            
+            echo "--- 🧹 Netejant caché ---"
+            docker compose -f docker-compose.prod.yml exec -T laravel-app php artisan config:clear
+            docker compose -f docker-compose.prod.yml exec -T laravel-app php artisan cache:clear
+            docker compose -f docker-compose.prod.yml exec -T laravel-app php artisan route:cache
+            docker compose -f docker-compose.prod.yml exec -T laravel-app php artisan view:cache
+            
+            echo "--- ✅ Desplegament Backend complet ---"

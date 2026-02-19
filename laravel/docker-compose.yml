@@ -1,0 +1,100 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# Docker Compose - Backend Laravel (Desenvolupament Independent)
+# Permet arrancar el backend Laravel amb MySQL de manera independent.
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# Ús:
+#   cp .env.example .env          # Crear fitxer de configuració
+#   docker compose up --build     # Arrancar els serveis
+#   docker compose exec laravel-app php artisan key:generate
+#   docker compose exec laravel-app php artisan migrate --seed
+#
+# Accés:
+#   API Laravel:  http://localhost:8000
+#   phpMyAdmin:   http://localhost:8081
+# ═══════════════════════════════════════════════════════════════════════════════
+
+services:
+  # ─── PHP-FPM (Aplicació Laravel) ──────────────────────────────────────────
+  laravel-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    container_name: pi_laravel_dev
+    volumes:
+      - .:/var/www/laravel                     # Codi Laravel (read-write per a dev)
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+    working_dir: /var/www/laravel
+    networks:
+      - laravel_network
+    dns: 8.8.8.8
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ─── Nginx (Reverse Proxy) ────────────────────────────────────────────────
+  nginx:
+    image: nginx:stable-alpine
+    container_name: pi_laravel_nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/laravel:ro                  # Codi Laravel (només lectura per a nginx)
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - laravel-app
+    networks:
+      - laravel_network
+
+  # ─── MySQL 8.0 ────────────────────────────────────────────────────────────
+  db:
+    image: mysql:8.0
+    container_name: pi_laravel_db
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${DB_DATABASE:-pi_db}
+      MYSQL_USER: ${DB_USERNAME:-pi_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-pi_password}
+    volumes:
+      - laravel_db_data:/var/lib/mysql         # Persistència de la base de dades
+    networks:
+      - laravel_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ─── phpMyAdmin ───────────────────────────────────────────────────────────
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: pi_laravel_phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: ${DB_USERNAME:-pi_user}
+      PMA_PASSWORD: ${DB_PASSWORD:-pi_password}
+    depends_on:
+      - db
+    networks:
+      - laravel_network
+
+# ─── Volums persistents ──────────────────────────────────────────────────────
+volumes:
+  laravel_db_data:
+    name: pi_laravel_db_data
+
+# ─── Xarxa ────────────────────────────────────────────────────────────────────
+networks:
+  laravel_network:
+    driver: bridge

@@ -1,0 +1,23 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# Docker Compose - Frontend Vue (Desenvolupament Independent)
+# Permet arrancar el frontend de manera independent del backend.
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# Ús:
+#   cp .env.example .env          # Crear fitxer de configuració
+#   docker compose up --build     # Arrancar el frontend
+#
+# Accés: http://localhost:5173
+# ═══════════════════════════════════════════════════════════════════════════════
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:8000}
+    container_name: pi_frontend_dev
+    ports:
+      - "5173:80"
+    restart: unless-stopped

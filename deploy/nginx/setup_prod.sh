@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# Script de configuració automàtica de Nginx + SSL (Certbot) al Host (EC2)
+# Executa aquest script com a SUDO al servidor.
+
+DOMAIN_FRONT="AlberoPerezTech.ddaw.es"
+DOMAIN_API="api.AlberoPerezTech.ddaw.es"
+EMAIL="admin@AlberoPerezTech.ddaw.es"
+
+# Ports interns dels contenidors Docker
+PORT_FRONT=8001
+PORT_API=8002
+
+echo "--- 🌐 Configurant Nginx per a $DOMAIN_FRONT i $DOMAIN_API ---"
+
+# Instal·lar Certbot si no hi és
+if ! command -v certbot &> /dev/null; then
+    apt-get update
+    apt-get install -y certbot python3-certbot-nginx
+fi
+
+# Crear configuració Nginx per al Frontend
+cat > /etc/nginx/sites-available/$DOMAIN_FRONT <<EOF
+server {
+    server_name $DOMAIN_FRONT www.$DOMAIN_FRONT;
+
+    location / {
+        proxy_pass http://127.0.0.1:$PORT_FRONT;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+}
+EOF
+
+# Crear configuració Nginx per al Backend
+cat > /etc/nginx/sites-available/$DOMAIN_API <<EOF
+server {
+    server_name $DOMAIN_API;
+
+    location / {
+        proxy_pass http://127.0.0.1:$PORT_API;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+}
+EOF
+
+# Habilitar llocs
+ln -sf /etc/nginx/sites-available/$DOMAIN_FRONT /etc/nginx/sites-enabled/
+ln -sf /etc/nginx/sites-available/$DOMAIN_API /etc/nginx/sites-enabled/
+
+# Verificar i reiniciar Nginx
+nginx -t && systemctl reload nginx
+
+echo "--- 🔒 Generant certificats SSL amb Let's Encrypt ---"
+
+# Sol·licitar certificats (no interactiu)
+certbot --nginx -d $DOMAIN_FRONT -d www.$DOMAIN_FRONT --non-interactive --agree-tos -m $EMAIL --redirect
+certbot --nginx -d $DOMAIN_API --non-interactive --agree-tos -m $EMAIL --redirect
+
+echo "--- ✅ Configuració completada! ---"
+echo "Frontend: https://$DOMAIN_FRONT -> Docker :$PORT_FRONT"
+echo "Backend:  https://$DOMAIN_API -> Docker :$PORT_API"
