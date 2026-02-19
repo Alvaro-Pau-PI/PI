@@ -7,19 +7,23 @@
       <form @submit.prevent="submitForm">
         <div class="form-group">
           <label for="name">Nom</label>
-          <input type="text" id="name" v-model="form.name" required placeholder="El teu nom" />
+          <input type="text" id="name" v-model="name" :class="{ 'is-invalid': nameError }" placeholder="El teu nom" />
+          <span v-if="nameError" class="error-msg">{{ nameError }}</span>
         </div>
         <div class="form-group">
           <label for="email">Correu Electrònic</label>
-          <input type="email" id="email" v-model="form.email" required placeholder="tucorreu@exemple.com" />
+          <input type="email" id="email" v-model="email" :class="{ 'is-invalid': emailError }" placeholder="tucorreu@exemple.com" />
+          <span v-if="emailError" class="error-msg">{{ emailError }}</span>
         </div>
         <div class="form-group">
           <label for="subject">Assumpte</label>
-          <input type="text" id="subject" v-model="form.subject" required placeholder="Assumpte del missatge" />
+          <input type="text" id="subject" v-model="subject" :class="{ 'is-invalid': subjectError }" placeholder="Assumpte del missatge" />
+          <span v-if="subjectError" class="error-msg">{{ subjectError }}</span>
         </div>
         <div class="form-group">
           <label for="message">Missatge</label>
-          <textarea id="message" v-model="form.message" rows="5" required placeholder="Escriu aquí el teu missatge..."></textarea>
+          <textarea id="message" v-model="message" rows="5" :class="{ 'is-invalid': messageError }" placeholder="Escriu aquí el teu missatge..."></textarea>
+          <span v-if="messageError" class="error-msg">{{ messageError }}</span>
         </div>
 
         <button type="submit" class="btn-send" :disabled="isSubmitting">
@@ -32,36 +36,55 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useForm, useField } from 'vee-validate';
+import * as yup from 'yup';
 
-const form = ref({
-  name: '',
-  email: '',
-  subject: '',
-  message: ''
+const validationSchema = yup.object({
+  name: yup.string()
+    .required('El nom és obligatori')
+    .min(3, 'El nom ha de tindre almenys 3 caràcters'),
+  email: yup.string()
+    .required('El correu electrònic és obligatori')
+    .email('Introdueix un correu electrònic vàlid'),
+  subject: yup.string()
+    .required("L'assumpte és obligatori")
+    .min(5, "L'assumpte ha de tindre almenys 5 caràcters"),
+  message: yup.string()
+    .required('El missatge és obligatori')
+    .min(10, 'El missatge ha de tindre almenys 10 caràcters')
 });
+
+const { handleSubmit } = useForm({
+  validationSchema,
+});
+
+const { value: name, errorMessage: nameError } = useField('name');
+const { value: email, errorMessage: emailError } = useField('email');
+const { value: subject, errorMessage: subjectError } = useField('subject');
+const { value: message, errorMessage: messageError } = useField('message');
 
 const isSubmitting = ref(false);
 
-const submitForm = async () => {
+const submitForm = handleSubmit(async (values, { resetForm }) => {
   isSubmitting.value = true;
   try {
-    // URL Dinámica para que funcione en otros PCs de la red
-    // Usa la IP/Dominio actual en lugar de 'localhost' fijo
-    const protocol = window.location.protocol; // http: o https:
-    const hostname = window.location.hostname; // localhost o 192.168.x.x
-    const webhookUrl = `${protocol}//${hostname}:5678/webhook/contact-form`; 
+    // Usamos variable de entorno inyectada durante el build
+    // En dev: http://localhost:5678
+    // En prod: https://AlberoPerezTech.ddaw.es (vía Nginx)
+    const baseUrl = import.meta.env.VITE_N8N_BASE_URL || 'http://localhost:5678';
+    const webhookUrl = `${baseUrl}/webhook/contact-form`; 
 
     const response = await fetch(webhookUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(form.value)
+      body: JSON.stringify(values)
     });
 
     if (response.ok) {
       alert("¡Mensaje enviado correctamente! Nos pondremos en contacto contigo pronto.");
-      form.value = { name: '', email: '', subject: '', message: '' };
+      resetForm();
     } else {
       throw new Error('Error en el envío');
     }
@@ -71,7 +94,7 @@ const submitForm = async () => {
   } finally {
     isSubmitting.value = false;
   }
-};
+});
 </script>
 
 <style scoped>
@@ -142,6 +165,19 @@ input:focus, textarea:focus {
 textarea {
   resize: vertical;
   min-height: 150px;
+}
+
+input.is-invalid, textarea.is-invalid {
+  border-color: #ff4d4f;
+  box-shadow: 0 0 0 3px rgba(255, 77, 79, 0.1);
+}
+
+.error-msg {
+  display: block;
+  color: #ff4d4f;
+  font-size: 0.85em;
+  margin-top: 5px;
+  font-weight: 500;
 }
 
 .btn-send {

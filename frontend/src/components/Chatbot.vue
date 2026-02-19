@@ -7,7 +7,10 @@ const props = defineProps({
   webhookUrl: {
     type: String,
     // Usa variable de entorno o localhost por defecto
-    default: () => import.meta.env.VITE_N8N_WEBHOOK_URL || 'http://localhost:5678/webhook/5627f35d-f3ea-4298-ab19-9c535ccec08d/chat'
+    default: () => {
+      const baseUrl = import.meta.env.VITE_N8N_BASE_URL || 'http://localhost:5678';
+      return `${baseUrl}/webhook/5627f35d-f3ea-4298-ab19-9c535ccec08d/chat`;
+    }
   }
 });
 
