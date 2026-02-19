@@ -103,7 +103,7 @@ onMounted(() => {
 }
 
 /* OVERRIDES DIRECTOS PARA FORZAR ESTILOS */
-/* Fondo del chat completo (Probamos varias clases comunes de n8n) */
+/* Fondo del chat completo */
 .chat-layout,
 .chat-window,
 .chat-body,
@@ -115,15 +115,30 @@ onMounted(() => {
   background: #242833 !important;
 }
 
-/* Mensajes del Usuario (Texto Blanco, Fondo Naranja) */
-.chat-message-user {
-  background-color: #FF6C00 !important;
-  color: #FFFFFF !important;
+/* Subtítulo de la cabecera en negro */
+.chat-header p,
+.chat-header span,
+div[class*="subtitle"] {
+  color: #000000 !important;
 }
+
+/* Mensajes del Usuario (Texto Blanco, Fondo Naranja) */
+.chat-message-user,
 .chat-message-user p, 
 .chat-message-user span,
 .chat-message-user div,
 .chat-message-user * {
+  background-color: transparent !important; /* Para que herede del padre si es necesario */
+  color: #FFFFFF !important;
+  font-weight: 500 !important;
+}
+.chat-message-user {
+  background-color: #FF6C00 !important; /* Solo el contenedor principal naranja */
+}
+
+/* Y si n8n usa otra clase para el texto dentro del globo naranja: */
+div[class*="message-user"] *,
+div[class*="ChatMessageUser"] * {
   color: #FFFFFF !important;
 }
 

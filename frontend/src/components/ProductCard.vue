@@ -369,13 +369,31 @@ export default {
 /* Imagen */
 .product-card__image-wrapper {
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  box-sizing: border-box;
   overflow: hidden;
-  background: var(--color-background, #f5f5f5);
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  border-radius: 12px 12px 0 0;
+  border-bottom: 2px solid #2d3342;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
 }
 
 .product-card__image-link {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.product-card__image-link :deep(picture) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
 }
@@ -383,12 +401,12 @@ export default {
 .product-card__image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
+  object-fit: contain;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .product-card:hover .product-card__image {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 /* Badges Eco */

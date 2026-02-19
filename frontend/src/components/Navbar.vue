@@ -7,11 +7,14 @@
         </router-link>
       </div>
 
-      <nav class="nav-box" aria-label="Navegación principal">
-        <router-link to="/" class="nav-link">Inici</router-link>
-        <router-link to="/products" class="nav-link">Productes</router-link>
-        <router-link to="/contact" class="nav-link">Contacte</router-link>
-        <router-link to="/sostenibilidad" class="nav-link eco-link">🌱 Sostenibilitat</router-link>
+      <button class="mobile-menu-btn" @click="toggleMobileMenu" aria-label="Abrir menú">
+        <span class="material-icons">{{ mobileMenuOpen ? 'close' : 'menu' }}</span>
+      </button>
+
+      <nav class="nav-box" :class="{ 'nav-box--mobile-open': mobileMenuOpen }" aria-label="Navegación principal">
+        <router-link to="/" class="nav-link" @click="closeMobileMenu">Inici</router-link>
+        <router-link to="/products" class="nav-link" @click="closeMobileMenu">Productes</router-link>
+        <router-link to="/contact" class="nav-link" @click="closeMobileMenu">Contacte</router-link>
       </nav>
 
       <div class="iconos-box">
@@ -86,6 +89,15 @@ const { isAdmin } = useRole();
 
 const canManage = computed(() => isAdmin());
 const dropdownOpen = ref(false);
+const mobileMenuOpen = ref(false);
+
+const toggleMobileMenu = () => {
+  mobileMenuOpen.value = !mobileMenuOpen.value;
+};
+
+const closeMobileMenu = () => {
+  mobileMenuOpen.value = false;
+};
 
 const toggleDropdown = () => {
   dropdownOpen.value = !dropdownOpen.value;
@@ -123,7 +135,6 @@ const vClickOutside = {
   position: relative;
   display: flex;
   align-items: center;
-  margin-right: 1.5rem;
   color: var(--color-text);
   text-decoration: none;
   transition: transform 0.2s;
@@ -268,5 +279,78 @@ const vClickOutside = {
 
 .login-btn-nav .material-icons {
   font-size: 1.2rem;
+}
+
+/* Mobile Menú Button */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 5px;
+  grid-area: nav;
+  justify-self: end;
+}
+
+.mobile-menu-btn .material-icons {
+  font-size: 2rem;
+}
+
+@media (max-width: 768px) {
+  .cabecera {
+    grid-template-areas:
+      "logo icons nav"
+      "search search search";
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 15px;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+    margin-left: 0;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .iconos-box {
+    justify-self: end;
+    gap: 15px;
+  }
+  
+  .nav-box {
+    display: none;
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    background: var(--bg-card);
+    flex-direction: column;
+    padding: 20px 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    z-index: 1000;
+  }
+  
+  .nav-box--mobile-open {
+    display: flex;
+  }
+  
+  .nav-link {
+    width: 100%;
+    text-align: center;
+    padding: 15px;
+    font-size: 1.1rem;
+    border-radius: 0;
+  }
+  
+  .nav-link:hover {
+    background: rgba(0, 161, 255, 0.1);
+  }
+
+  .iconos-box {
+    justify-self: center; /* Se remueve al usar grid auto */
+  }
 }
 </style>

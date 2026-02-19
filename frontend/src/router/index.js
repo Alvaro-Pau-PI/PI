@@ -3,6 +3,13 @@ import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            return { top: 0, behavior: 'smooth' };
+        }
+    },
     routes: [
         {
             path: '/',
@@ -88,6 +95,12 @@ const router = createRouter({
             name: 'checkout',
             component: () => import('../views/CheckoutView.vue'),
             meta: { requiresAuth: true }
+        },
+        // Ruta 404 / Catch-all
+        {
+            path: '/:catchAll(.*)*',
+            name: 'not-found',
+            redirect: '/'
         }
     ]
 })

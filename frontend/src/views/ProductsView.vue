@@ -3,8 +3,14 @@
     <h1>Catàleg de Productes</h1>
     
     <div class="catalog-layout">
+      <!-- Botón Filtros Móvil -->
+      <button class="mobile-filters-btn" @click="toggleFilters">
+        <span class="material-icons">filter_list</span>
+        {{ filtersOpen ? 'Ocultar Filtres' : 'Mostrar Filtres' }}
+      </button>
+
       <!-- Filtros Sidebar -->
-      <aside class="filters-sidebar">
+      <aside class="filters-sidebar" :class="{ 'filters-sidebar--open': filtersOpen }">
         <div class="filter-group">
           <h3>Cerca</h3>
           <input type="text" v-model="filters.search" placeholder="Nom del producte..." class="filter-input">
@@ -100,6 +106,12 @@ import ProductCard from '@/components/ProductCard.vue';
 
 const productStore = useProductStore();
 const { filters } = storeToRefs(productStore);
+
+const filtersOpen = ref(false);
+
+const toggleFilters = () => {
+  filtersOpen.value = !filtersOpen.value;
+};
 
 // Categorías basadas en el modelo de Laravel
 const categories = [
@@ -267,7 +279,7 @@ h1 {
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 25px;
 }
 
@@ -370,13 +382,57 @@ h1 {
     cursor: not-allowed;
 }
 
+.mobile-filters-btn {
+    display: none;
+    width: 100%;
+    padding: 12px;
+    background: #1A1D24;
+    color: #00A1FF;
+    border: 1px solid #3A4150;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
 /* Responsivo */
+@media (max-width: 1024px) {
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
 @media (max-width: 768px) {
     .catalog-layout {
         flex-direction: column;
     }
+    
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .mobile-filters-btn {
+        display: flex;
+    }
+
     .filters-sidebar {
         width: 100%;
+        display: none;
+    }
+    
+    .filters-sidebar--open {
+        display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    .products-grid {
+        grid-template-columns: 1fr;
     }
 }
 </style>
