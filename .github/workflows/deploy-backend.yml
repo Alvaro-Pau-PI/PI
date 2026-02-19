@@ -54,9 +54,20 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             echo "--- 🚀 Iniciant desplegament Backend ---"
+            
+            # Definir URL amb Token per a clonar si cal
+            REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+            
+            if [ ! -d "/home/ubuntu/PI" ]; then
+              echo "--- 📥 Clonando repositorio por primera vez ---"
+              git clone $REPO_URL /home/ubuntu/PI
+            fi
+            
             cd /home/ubuntu/PI
             
             echo "--- 📥 Actualitzant codi ---"
+            # Assegurar que el remote usa el token (per si ha caducat l'anterior o és nou)
+            git remote set-url origin $REPO_URL
             git pull origin main
             
             echo "--- 🐳 Reconstruint i reiniciant contenidors ---"
