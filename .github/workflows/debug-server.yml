@@ -1,4 +1,4 @@
-name: Debug Server Status
+name: Debug Server Status v2
 
 on:
   workflow_dispatch:
@@ -7,27 +7,24 @@ jobs:
   debug:
     runs-on: ubuntu-latest
     steps:
-      - name: SSH Debug Commands
+      - name: SSH Debug Commands (Simplified)
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            echo "--- 🔍 Checking Active Ports ---"
-            sudo netstat -tuln
+            echo "--- Checking WHOAMI ---"
+            whoami
             
-            echo "--- 🔍 Checking Nginx Status ---"
-            sudo systemctl status nginx --no-pager
+            echo "--- Checking Simple Connectivity (HTTP) ---"
+            curl -v http://localhost || echo "Local HTTP Failed"
             
-            echo "--- 🔍 Checking Apache Status (Should be Dead) ---"
-            sudo systemctl status apache2 --no-pager || echo "Apache is not running (Good)"
+            echo "--- Checking NGINX Status ---"
+            sudo systemctl status nginx --no-pager || echo "Nginx Status Failed"
             
-            echo "--- 🔍 Checking Connectivity (HTTP) ---"
-            curl -I http://localhost || echo "HTTP Fail"
+            echo "--- Checking Apache (Should be DEAD) ---"
+            sudo systemctl status apache2 --no-pager || echo "Apache Dead (Good)"
             
-            echo "--- 🔍 Checking Connectivity (HTTPS via IP) ---"
-            curl -I -k https://127.0.0.1/api/products || echo "HTTPS Fail"
-
-            echo "--- 🔍 Checking Docker Logs (Frontend) ---"
-            docker logs --tail 20 pi_prod_frontend
+            echo "--- Checking Listening Ports (SS) ---"
+            sudo ss -tulpn | grep ':80\|:443' || echo "Nothing listening on 80/443"
