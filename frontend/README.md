@@ -105,3 +105,4 @@ frontend/
 ├── vite.config.js       # Configuració de Vite
 └── package.json         # Dependències del projecte
 ```
+ 

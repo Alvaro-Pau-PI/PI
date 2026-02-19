@@ -9,6 +9,9 @@ on:
       - '.github/workflows/deploy-frontend.yml'
       - 'docker-compose.prod.yml'
 
+  # Permet executar manualment des de GitHub Actions
+  workflow_dispatch:
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
