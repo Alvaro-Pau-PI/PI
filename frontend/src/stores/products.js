@@ -145,13 +145,10 @@ export const useProductStore = defineStore('products', {
             }
         },
         async addReview(productId, reviewData) {
-            try {
-                await http.post(`/api/products/${productId}/reviews`, reviewData);
-                // Refresh product to see new review
-                await this.fetchProduct(productId);
-            } catch (error) {
-                throw error;
-            }
+            const response = await http.post(`/api/products/${productId}/reviews`, reviewData);
+            // Refrescar el producte per veure la nova ressenya
+            await this.fetchProduct(productId);
+            return response.data;
         }
     }
 })

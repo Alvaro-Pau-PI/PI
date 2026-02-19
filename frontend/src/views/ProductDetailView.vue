@@ -139,9 +139,11 @@
               {{ product.reviews.length }} {{ product.reviews.length === 1 ? 'valoració' : 'valoracions' }}
             </span>
           </div>
-          <button class="write-review-btn" @click="handleReviewClick">
-            <span class="material-icons">edit</span>
-            Escriure Valoració
+          <button class="write-review-btn" @click="handleReviewClick" 
+            :disabled="userHasReviewed" 
+            :class="{ 'already-reviewed': userHasReviewed }">
+            <span class="material-icons">{{ userHasReviewed ? 'check_circle' : 'edit' }}</span>
+            {{ userHasReviewed ? 'Ja has valorat' : 'Escriure Valoració' }}
           </button>
         </div>
 
@@ -170,7 +172,7 @@
           <span class="material-icons empty-icon">forum</span>
           <p class="empty-title">Encara no hi ha valoracions</p>
           <p class="empty-subtitle">Sigues el primer en compartir la teva experiència amb aquest producte!</p>
-          <button class="write-review-btn primary" @click="handleReviewClick">
+          <button v-if="!userHasReviewed" class="write-review-btn primary" @click="handleReviewClick">
             <span class="material-icons">star</span>
             Escriure la primera valoració
           </button>
@@ -246,6 +248,12 @@ const showReviewModal = ref(false);
 const product = computed(() => productStore.currentProduct);
 const hasStock = computed(() => product.value?.stock > 0);
 const isFavorite = computed(() => product.value ? wishlistStore.isInWishlist(product.value.id) : false);
+
+// Comprovar si l'usuari actual ja ha valorat aquest producte
+const userHasReviewed = computed(() => {
+  if (!authStore.user || !product.value?.reviews) return false;
+  return product.value.reviews.some(r => r.user_id === authStore.user.id);
+});
 
 // Cálculo de media de valoraciones
 const averageRating = computed(() => {
@@ -341,8 +349,27 @@ const handleReviewSubmit = async (reviewData) => {
     await productStore.addReview(product.value.id, reviewData);
     showReviewModal.value = false;
   } catch (e) {
-    console.error('Error enviando reseña:', e);
-    alert('No s\'ha pogut enviar la ressenya. Si us plau, torna-ho a intentar.');
+    console.error('Error enviant ressenya:', e);
+    if (e.response?.status === 409) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Ja has valorat',
+        text: e.response.data.message || 'Només pots deixar una valoració per producte.',
+        background: '#1a1f2e',
+        color: '#ffffff',
+        confirmButtonColor: '#00A1FF'
+      });
+      showReviewModal.value = false;
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No s\'ha pogut enviar la ressenya. Si us plau, torna-ho a intentar.',
+        background: '#1a1f2e',
+        color: '#ffffff',
+        confirmButtonColor: '#ff4757'
+      });
+    }
   }
 };
 
@@ -825,6 +852,20 @@ const toggleFavorite = () => {
   box-shadow: 0 8px 28px rgba(251, 191, 36, 0.45);
 }
 .write-review-btn .material-icons { font-size: 1.15em; }
+
+/* Botón deshabilitado cuando el usuario ya ha valorado */
+.write-review-btn.already-reviewed,
+.write-review-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  border-color: #34D399;
+  color: #34D399;
+  background: rgba(52, 211, 153, 0.08);
+}
+.write-review-btn.already-reviewed:hover {
+  transform: none;
+  box-shadow: none;
+}
 
 /* Rating Overview (resumen con barras) */
 .rating-overview {
