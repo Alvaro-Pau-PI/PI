@@ -16,15 +16,17 @@ class ProductApiTest extends TestCase
      */
     public function test_can_list_products()
     {
+        // Get initial count from seeder
+        $initialCount = Product::count();
+
         // Arrange: Create some products
         Product::factory()->count(3)->create();
 
         // Act: Hit the endpoint
         $response = $this->getJson('/api/products');
 
-        // Assert: Status 200 and structure
         $response->assertStatus(200)
-                 ->assertJsonCount(3);
+                 ->assertJsonCount($initialCount + 3);
     }
 
     /**
