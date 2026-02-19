@@ -13,12 +13,14 @@ PORT_API=8002
 
 echo "--- 🧠 Configurant Memoria Virtual (Swap) ---"
 if [ ! -f /swapfile ]; then
-    fallocate -l 2G /swapfile
+    # Reduït a 1GB per cabre en discs de 8GB gairebé plens
+    fallocate -l 1G /swapfile || truncate -s 1G /swapfile
     chmod 600 /swapfile
     mkswap /swapfile
     swapon /swapfile
-    echo '/swapfile none swap sw 0 0' >> /etc/fstab
-    echo "Swap de 2GB creat i activat."
+    # Assegurar que no es repeteixi a fstab
+    grep -q "/swapfile" /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab
+    echo "Swap de 1GB creat i activat."
 else
     echo "Swap ja existent."
 fi
