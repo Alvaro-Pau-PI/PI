@@ -22,7 +22,9 @@
           <textarea id="message" v-model="form.message" rows="5" required placeholder="Escriu aquí el teu missatge..."></textarea>
         </div>
 
-        <button type="submit" class="btn-send">Enviar Missatge</button>
+        <button type="submit" class="btn-send" :disabled="isSubmitting">
+          {{ isSubmitting ? 'Enviant...' : 'Enviar Missatge' }}
+        </button>
       </form>
     </div>
   </div>
@@ -38,10 +40,37 @@ const form = ref({
   message: ''
 });
 
-const submitForm = () => {
-  // Placeholder logic
-  alert("Missatge enviat correctament! (Simulació)");
-  form.value = { name: '', email: '', subject: '', message: '' };
+const isSubmitting = ref(false);
+
+const submitForm = async () => {
+  isSubmitting.value = true;
+  try {
+    // URL Dinámica para que funcione en otros PCs de la red
+    // Usa la IP/Dominio actual en lugar de 'localhost' fijo
+    const protocol = window.location.protocol; // http: o https:
+    const hostname = window.location.hostname; // localhost o 192.168.x.x
+    const webhookUrl = `${protocol}//${hostname}:5678/webhook/contact-form`; 
+
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(form.value)
+    });
+
+    if (response.ok) {
+      alert("¡Mensaje enviado correctamente! Nos pondremos en contacto contigo pronto.");
+      form.value = { name: '', email: '', subject: '', message: '' };
+    } else {
+      throw new Error('Error en el envío');
+    }
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    alert("Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.");
+  } finally {
+    isSubmitting.value = false;
+  }
 };
 </script>
 

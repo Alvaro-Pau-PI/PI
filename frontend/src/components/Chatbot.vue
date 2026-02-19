@@ -7,7 +7,7 @@ const props = defineProps({
   webhookUrl: {
     type: String,
     // Usa variable de entorno o localhost por defecto
-    default: import.meta.env.VITE_N8N_WEBHOOK_URL || 'http://localhost:5678/webhook/MARK_PLACEHOLDER/chat'
+    default: () => import.meta.env.VITE_N8N_WEBHOOK_URL || 'http://localhost:5678/webhook/5627f35d-f3ea-4298-ab19-9c535ccec08d/chat'
   }
 });
 
@@ -43,25 +43,42 @@ onMounted(() => {
 
 <style>
 /* Estilos globales para forzar el tema del Chatbot */
-:root {
-  --chat--color--primary: #FF6C00 !important;
-  --chat--color--secondary: #242833 !important;
-  --chat--color--dark: #1A1D24 !important;
-  --chat--color--light: #EAEAEA !important;
+:root, body {
+  /* Strategy: Define ALL potential variable variations to ensure override */
+  
+  /* Primary Colors */
+  --chat--color-primary: #FF6C00 !important;
+  --chat--color-secondary: #FF6C00 !important; 
+  --chat--color-dark: #1A1D24 !important;
+  --chat--color-light: #FFFFFF !important;
 
-  --chat--window--background-color: #1A1D24 !important;
-  --chat--header--background-color: #242833 !important;
-  --chat--header--color: #EAEAEA !important;
+  /* Header */
+  --chat--header-background: #FF6C00 !important;
+  --chat--header-color: #FFFFFF !important;
+  --chat--header--background: #FF6C00 !important;
+  --chat--header--color: #FFFFFF !important;
 
-  --chat--message--bot--background-color: #242833 !important;
-  --chat--message--bot--color: #EAEAEA !important;
+  /* Window */
+  --chat--window-background: #242833 !important;
+  --chat--window--background: #242833 !important;
 
-  --chat--message--user--background-color: #FF6C00 !important;
+  /* Bot Messages (Black/White) */
+  --chat--message-bot-background: #000000 !important;
+  --chat--message-bot-color: #FFFFFF !important;
+  --chat--message--bot--background: #000000 !important;
+  --chat--message--bot--color: #FFFFFF !important;
+
+  /* User Messages (Orange/White) */
+  --chat--message-user-background: #FF6C00 !important;
+  --chat--message-user-color: #FFFFFF !important;
+  --chat--message--user--background: #FF6C00 !important;
   --chat--message--user--color: #FFFFFF !important;
 
-  --chat--toggle--background-color: #FF6C00 !important;
-  --chat--toggle--hover--background-color: #e65c00 !important;
-  --chat--toggle--active--background-color: #e65c00 !important;
+  /* Toggle Button */
+  --chat--toggle-background: #FF6C00 !important;
+  --chat--toggle-hover-background: #e65c00 !important;
+  --chat--toggle--background: #FF6C00 !important;
+  --chat--toggle--hover--background: #e65c00 !important;
 }
 
 /* Ocultar marca de agua de n8n */
@@ -80,5 +97,55 @@ onMounted(() => {
 /* Asegurar que el chat esté por encima de todo */
 .n8n-chat-widget {
   z-index: 9999 !important;
+}
+
+/* OVERRIDES DIRECTOS PARA FORZAR ESTILOS */
+/* Fondo del chat completo (Probamos varias clases comunes de n8n) */
+.chat-layout,
+.chat-window,
+.chat-body,
+.conversation-view,
+.n8n-chat-window,
+[class*="chat-window"],
+[class*="chat-layout"] {
+  background-color: #242833 !important;
+  background: #242833 !important;
+}
+
+/* Mensajes del Usuario (Texto Blanco, Fondo Naranja) */
+.chat-message-user {
+  background-color: #FF6C00 !important;
+  color: #FFFFFF !important;
+}
+.chat-message-user p, 
+.chat-message-user span,
+.chat-message-user div,
+.chat-message-user * {
+  color: #FFFFFF !important;
+}
+
+/* Mensajes del Bot (Fondo Negro, Texto Blanco) */
+.chat-message-bot {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+.chat-message-bot p, 
+.chat-message-bot span,
+.chat-message-bot div,
+.chat-message-bot * {
+  color: #FFFFFF !important;
+}
+
+/* Input Area */
+.chat-input-container,
+.chat-footer {
+  background-color: #1A1D24 !important;
+}
+.chat-input {
+  color: #FFFFFF !important;
+  background-color: #1A1D24 !important;
+}
+.chat-input::placeholder {
+  color: #888888 !important;
 }
 </style>

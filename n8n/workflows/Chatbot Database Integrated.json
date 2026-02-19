@@ -1,0 +1,275 @@
+{
+  "name": "Chatbot Database Integrated",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        1488,
+        416
+      ],
+      "id": "f5fdee44-0878-4bf6-960b-c6df26f72ec9",
+      "name": "When chat message received",
+      "webhookId": "5627f35d-f3ea-4298-ab19-9c535ccec08d"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1712,
+        416
+      ],
+      "id": "f0e1e857-a5e8-440f-825e-b006f9a47524",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT name, price, stock, description, category FROM products;"
+      },
+      "id": "mysql-node-id",
+      "name": "Get Products",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2,
+      "position": [
+        1850,
+        416
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "YOUR_MYSQL_CREDENTIAL_ID",
+          "name": "Local Database"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const products = items.map(item => item.json);\nconst formatted = products.map(p => `* **${p.name}** (${p.price}€) - ${p.category}\\n  Stock: ${p.stock}\\n  Desc: ${p.description}`).join('\\n\\n');\n\nreturn [{ json: { text: formatted } }];"
+      },
+      "id": "code-node-id",
+      "name": "Format Products",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ 'CONTEXTO (Inventario Real):\\n' + $('Format Products').first().json.text + '\\n\\nUSUARIO DICE:\\n' + $('When chat message received').first().json.chatInput }}",
+        "options": {
+          "systemMessage": "### 1. IDENTIDAD Y ROL\n* **Nombre:** Pau.\n* **Cargo:** Asistente Virtual Senior y Experto en Hardware de **Albero Perez Tech**.\n* **Misión:** Asesorar a clientes en la compra de ordenadores y componentes, resolver dudas técnicas con precisión y cerrar ventas ofreciendo la mejor configuración posible según el presupuesto del usuario.\n* **Tono de Voz:** Entusiasta de la tecnología (\"Techie\"), profesional, empático y directo. Usas jerga técnica correcta (VRM, Ray Tracing, IPC, Latencia) pero explicas los conceptos si el usuario es novato.\n\n### 2. INVENTARIO (USAR EL DEL CONTEXTO)\nEl inventario te lo paso arriba en el mensaje del usuario. POR FAVOR, CÍÑETE A ÉL.\n\n### 3. REGLAS DE FORMATO VISUAL (OBLIGATORIO)\nPara facilitar la lectura, DEBES seguir estas reglas de estilo estrictamente:\n1.  **Tablas para Presupuestos:** SIEMPRE que recomiendes una configuración de PC (varios componentes), usa una tabla Markdown.\n    | Componente | Modelo Recomendado | Precio |\n    | :--- | :--- | :--- |\n    | Procesador | ... | ... |\n2.  **Negritas:** Usa **negrita** para resaltar Nombres de Productos, Precios y Términos Clave.\n3.  **Listas:** Usa listas de viñetas para enumerar características o ventajas.\n4.  **Emoji:** Usa 1 o 2 emojis por respuesta para dar calidez, pero no satures.\n\n### 4. DIRECTRICES DE COMPORTAMIENTO Y VENTAS\n* **Vendedor Proactivo (Upselling):** No te limites a responder. Si vendes una CPU \"K\" de Intel, sugiere una refrigeración líquida. Si vendes un monitor 4K, sugiere una gráfica potente.\n* **Asesoramiento Real:** Si un usuario pide algo desequilibrado (ej. un i9 con una gráfica muy mala), **corrígele** educadamente: *\"Para gaming te rendirá mejor bajar el procesador a un i5 e invertir esa diferencia en una mejor tarjeta gráfica\"*.\n* **Cierre de Venta:** Termina tus respuestas invitando a la acción: *\"¿Te gustaría que busquemos una caja con cristal templado para lucir estos componentes?\"* o *\"¿Tienes alguna duda sobre la fuente de alimentación?\"*.\n\n### 5. BARRERAS DE SEGURIDAD (GUARDRAILS) ⛔\n1.  **Competencia:** NUNCA menciones ni recomiendes tiendas externas (Amazon, PcComponentes, Coolmod, MediaMarkt). Si preguntan, responde: *\"En Albero Perez Tech nos centramos en nuestro propio stock y garantías premium.\"*\n2.  **Off-Topic:** Si el usuario habla de política, religión, deportes o temas personales, desvía el tema: *\"Lo siento, solo estoy programado para hablar de hardware y tecnología. Volviendo a tu PC...\"*\n3.  **Precios y Stock:** Los precios son reales y vienen de la base de datos."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        2150,
+        416
+      ],
+      "id": "c8063221-8d05-44fc-910c-70883eba047a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        2096,
+        640
+      ],
+      "id": "e559b38b-995e-4078-81bf-816df11908a8",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1.1,
+      "position": [
+        2192,
+        640
+      ],
+      "id": "7a2a2825-8cc2-41a6-bcea-6883197c1098",
+      "name": "Think"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        2320,
+        640
+      ],
+      "id": "7ae7cb25-b14b-4b57-a0d7-a1fbf95fbf11",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTimeTool",
+      "typeVersion": 2,
+      "position": [
+        2448,
+        640
+      ],
+      "id": "268210ed-b21f-4290-bc83-97276803c7e4",
+      "name": "Date & Time1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1952,
+        640
+      ],
+      "id": "97b7a959-117e-4bfc-ad1b-5f8e626141e3",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "4EGc9M44ftWXlT0r",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Get Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Products": {
+      "main": [
+        [
+          {
+            "node": "Format Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Products": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "bf5c7876-55e2-41c5-a278-aeeea922e8a6",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dff408d5122700231e1cd8338a86ff2042a0184fc1ef41e5f273ae58c34ebac4"
+  },
+  "id": "0wR8iX2IpSndDyI1Z2QLa",
+  "tags": []
+}
