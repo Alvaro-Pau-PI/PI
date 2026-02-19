@@ -44,6 +44,9 @@ services:
       - DB_DATABASE=${DB_DATABASE}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
+      - SANCTUM_STATEFUL_DOMAINS=18.206.113.196,localhost,127.0.0.1
+      - SESSION_DOMAIN=18.206.113.196
+      - APP_URL=http://18.206.113.196
     working_dir: /var/www/laravel
     restart: always
     networks:
