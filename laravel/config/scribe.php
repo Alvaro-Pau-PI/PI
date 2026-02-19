@@ -9,7 +9,12 @@ use function Knuckles\Scribe\Config\removeStrategies;
 
 // Only the most common configs are shown. See the https://scribe.knuckles.wtf/laravel/reference/config for all.
 
-return [
+if (!class_exists(\Knuckles\Scribe\ScribeServiceProvider::class)) {
+    return [
+        'type' => 'static',
+        'routes' => [],
+    ];
+}
     // The HTML <title> for the generated documentation.
     'title' => config('app.name').' API Documentation',
 
