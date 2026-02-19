@@ -17,7 +17,7 @@ services:
       dockerfile: Dockerfile
       args:
         # En producció, l'API estarà en el subdomini api.AlberoPerezTech.ddaw.es
-        VITE_API_URL: /api
+        VITE_API_URL: /
     container_name: pi_prod_frontend
     ports:
       - "127.0.0.1:8001:80"  # Només accessible des del host (reverse proxy SSL)
