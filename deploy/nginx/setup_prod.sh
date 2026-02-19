@@ -11,6 +11,18 @@ EMAIL="admin@AlberoPerezTech.ddaw.es"
 PORT_FRONT=8001
 PORT_API=8002
 
+echo "--- 🧠 Configurant Memoria Virtual (Swap) ---"
+if [ ! -f /swapfile ]; then
+    fallocate -l 2G /swapfile
+    chmod 600 /swapfile
+    mkswap /swapfile
+    swapon /swapfile
+    echo '/swapfile none swap sw 0 0' >> /etc/fstab
+    echo "Swap de 2GB creat i activat."
+else
+    echo "Swap ja existent."
+fi
+
 echo "--- 🌐 Configurant Nginx per a $DOMAIN_FRONT i $DOMAIN_API ---"
 
 # Parar Apache per evitar conflictes
