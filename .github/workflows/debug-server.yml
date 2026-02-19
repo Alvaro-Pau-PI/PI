@@ -1,0 +1,33 @@
+name: Debug Server Status
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH Debug Commands
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            echo "--- 🔍 Checking Active Ports ---"
+            sudo netstat -tuln
+            
+            echo "--- 🔍 Checking Nginx Status ---"
+            sudo systemctl status nginx --no-pager
+            
+            echo "--- 🔍 Checking Apache Status (Should be Dead) ---"
+            sudo systemctl status apache2 --no-pager || echo "Apache is not running (Good)"
+            
+            echo "--- 🔍 Checking Connectivity (HTTP) ---"
+            curl -I http://localhost || echo "HTTP Fail"
+            
+            echo "--- 🔍 Checking Connectivity (HTTPS via IP) ---"
+            curl -I -k https://127.0.0.1/api/products || echo "HTTPS Fail"
+
+            echo "--- 🔍 Checking Docker Logs (Frontend) ---"
+            docker logs --tail 20 pi_prod_frontend
