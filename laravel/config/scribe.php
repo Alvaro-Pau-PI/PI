@@ -15,6 +15,8 @@ if (!class_exists(\Knuckles\Scribe\ScribeServiceProvider::class)) {
         'routes' => [],
     ];
 }
+
+return [
     // The HTML <title> for the generated documentation.
     'title' => config('app.name').' API Documentation',
 
