@@ -72,6 +72,7 @@ EOF
 # EOF
 
 # Habilitar llocs
+rm -f /etc/nginx/sites-enabled/default
 ln -sf /etc/nginx/sites-available/$DOMAIN_FRONT /etc/nginx/sites-enabled/
 # ln -sf /etc/nginx/sites-available/$DOMAIN_API /etc/nginx/sites-enabled/
 
