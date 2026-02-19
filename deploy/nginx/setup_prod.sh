@@ -14,10 +14,22 @@ PORT_API=8002
 echo "--- 🌐 Configurant Nginx per a $DOMAIN_FRONT i $DOMAIN_API ---"
 
 # Instal·lar Certbot si no hi és
-if ! command -v certbot &> /dev/null; then
+# Check if nginx is installed
+if ! command -v nginx &> /dev/null; then
+    echo "Installing Nginx..."
     apt-get update
+    apt-get install -y nginx
+fi
+
+# Check if certbot is installed
+if ! command -v certbot &> /dev/null; then
+    echo "Installing Certbot..."
     apt-get install -y certbot python3-certbot-nginx
 fi
+
+# Ensure Nginx is enabled and running
+systemctl enable nginx
+systemctl start nginx
 
 # Crear configuració Nginx per al Frontend
 cat > /etc/nginx/sites-available/$DOMAIN_FRONT <<EOF
