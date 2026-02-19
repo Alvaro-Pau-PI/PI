@@ -24,6 +24,15 @@ cat > /etc/nginx/sites-available/$DOMAIN_FRONT <<EOF
 server {
     server_name $DOMAIN_FRONT www.$DOMAIN_FRONT;
 
+    # Backend API (ruta relativa per a suportar IP i domini)
+    location /api {
+        proxy_pass http://127.0.0.1:$PORT_API;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
     location / {
         proxy_pass http://127.0.0.1:$PORT_FRONT;
         proxy_set_header Host \$host;
@@ -35,23 +44,24 @@ server {
 EOF
 
 # Crear configuració Nginx per al Backend
-cat > /etc/nginx/sites-available/$DOMAIN_API <<EOF
-server {
-    server_name $DOMAIN_API;
-
-    location / {
-        proxy_pass http://127.0.0.1:$PORT_API;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
-    }
-}
-EOF
+# Eliminated redundant backend server block since it is now a location block in the main server
+# cat > /etc/nginx/sites-available/$DOMAIN_API <<EOF
+# server {
+#     server_name $DOMAIN_API;
+# 
+#     location / {
+#         proxy_pass http://127.0.0.1:$PORT_API;
+#         proxy_set_header Host \$host;
+#         proxy_set_header X-Real-IP \$remote_addr;
+#         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+#         proxy_set_header X-Forwarded-Proto \$scheme;
+#     }
+# }
+# EOF
 
 # Habilitar llocs
 ln -sf /etc/nginx/sites-available/$DOMAIN_FRONT /etc/nginx/sites-enabled/
-ln -sf /etc/nginx/sites-available/$DOMAIN_API /etc/nginx/sites-enabled/
+# ln -sf /etc/nginx/sites-available/$DOMAIN_API /etc/nginx/sites-enabled/
 
 # Verificar i reiniciar Nginx
 nginx -t && systemctl reload nginx
@@ -60,7 +70,7 @@ echo "--- 🔒 Generant certificats SSL amb Let's Encrypt ---"
 
 # Sol·licitar certificats (no interactiu)
 certbot --nginx -d $DOMAIN_FRONT -d www.$DOMAIN_FRONT --non-interactive --agree-tos -m $EMAIL --redirect
-certbot --nginx -d $DOMAIN_API --non-interactive --agree-tos -m $EMAIL --redirect
+# certbot --nginx -d $DOMAIN_API --non-interactive --agree-tos -m $EMAIL --redirect
 
 echo "--- ✅ Configuració completada! ---"
 echo "Frontend: https://$DOMAIN_FRONT -> Docker :$PORT_FRONT"
