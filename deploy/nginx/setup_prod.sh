@@ -13,23 +13,16 @@ PORT_API=8002
 
 echo "--- 🌐 Configurant Nginx per a $DOMAIN_FRONT i $DOMAIN_API ---"
 
-# Instal·lar Certbot si no hi és
-# Check if nginx is installed
-if ! command -v nginx &> /dev/null; then
-    echo "Installing Nginx..."
-    apt-get update
-    apt-get install -y nginx
-fi
+# Parar Apache per evitar conflictes
+systemctl stop apache2 || true
+systemctl disable apache2 || true
 
-# Check if certbot is installed
-if ! command -v certbot &> /dev/null; then
-    echo "Installing Certbot..."
-    apt-get install -y certbot python3-certbot-nginx
-fi
+# Instal·lar Nginx i Certbot amb el plugin necessari
+apt-get update
+apt-get install -y nginx certbot python3-certbot-nginx
 
-# Ensure Nginx is enabled and running
+# Ensure Nginx is enabled
 systemctl enable nginx
-systemctl start nginx
 
 # Crear configuració Nginx per al Frontend
 cat > /etc/nginx/sites-available/$DOMAIN_FRONT <<EOF
@@ -77,7 +70,7 @@ ln -sf /etc/nginx/sites-available/$DOMAIN_FRONT /etc/nginx/sites-enabled/
 # ln -sf /etc/nginx/sites-available/$DOMAIN_API /etc/nginx/sites-enabled/
 
 # Verificar i reiniciar Nginx
-nginx -t && systemctl reload nginx
+nginx -t && systemctl restart nginx
 
 echo "--- 🔒 Generant certificats SSL amb Let's Encrypt ---"
 
