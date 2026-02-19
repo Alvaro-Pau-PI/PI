@@ -17,11 +17,13 @@ echo "--- 🌐 Configurant Nginx per a $DOMAIN_FRONT i $DOMAIN_API ---"
 systemctl stop apache2 || true
 systemctl disable apache2 || true
 
-# Instal·lar Nginx i Certbot amb el plugin necessari
+# Instal·lar Docker i Certbot amb el plugin necessari
 apt-get update
-apt-get install -y nginx certbot python3-certbot-nginx
+apt-get install -y docker.io docker-compose-v2 certbot python3-certbot-nginx
 
-# Ensure Nginx is enabled
+# Ensure services are enabled
+systemctl enable docker
+systemctl start docker
 systemctl enable nginx
 
 # Crear configuració Nginx per al Frontend
