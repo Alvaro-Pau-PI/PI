@@ -16,13 +16,11 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        # En producció, l'API estarà en el subdomini api.AlberoPerezTech.ddaw.es
         VITE_API_URL: /
-        VITE_N8N_BASE_URL: https://AlberoPerezTech.ddaw.es
-
+        VITE_N8N_BASE_URL: http://18.206.113.196
     container_name: pi_prod_frontend
     ports:
-      - "127.0.0.1:8001:80"  # Només accessible des del host (reverse proxy SSL)
+      - "80:80"
     restart: always
     networks:
       - pi_network_prod
@@ -86,6 +84,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - prod_db_data:/var/lib/mysql
+      - ./database:/docker-entrypoint-initdb.d # Asegurar scripts de inicialización
     networks:
       - pi_network_prod
     restart: always
@@ -101,13 +100,13 @@ services:
     image: n8nio/n8n:latest
     container_name: pi_prod_n8n
     ports:
-      - "127.0.0.1:5678:5678" # Només accessible des del host (Nginx)
+      - "5678:5678" # Accesible por IP para configuración inicial
     environment:
-      - N8N_HOST=AlberoPerezTech.ddaw.es
+      - N8N_HOST=18.206.113.196
       - N8N_PORT=5678
-      - N8N_PROTOCOL=https
+      - N8N_PROTOCOL=http
       - NODE_ENV=production
-      - WEBHOOK_URL=https://AlberoPerezTech.ddaw.es/
+      - WEBHOOK_URL=http://18.206.113.196:5678/
       - GENERIC_TIMEZONE=Europe/Madrid
     volumes:
       - prod_n8n_data:/home/node/.n8n

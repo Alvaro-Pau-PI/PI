@@ -12,6 +12,10 @@ WORKDIR /app
 ARG VITE_API_URL=http://localhost:8000
 ENV VITE_API_URL=${VITE_API_URL}
 
+# Variable per a configurar la URL de n8n en temps de build
+ARG VITE_N8N_BASE_URL=http://localhost:5678
+ENV VITE_N8N_BASE_URL=${VITE_N8N_BASE_URL}
+
 # Instal·lar dependències (aprofita cache de Docker si package.json no canvia)
 COPY package*.json ./
 RUN npm install
