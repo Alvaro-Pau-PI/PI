@@ -23,6 +23,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/products', [ProductController::class, 'store']);
     Route::put('/products/{product}', [ProductController::class, 'update']);
     Route::delete('/products/{product}', [ProductController::class, 'destroy']);
+    Route::get('/products/export', [\App\Http\Controllers\ProductImportController::class, 'exportAPI']);
+    Route::post('/products/import', [\App\Http\Controllers\ProductImportController::class, 'storeAPI']);
 
     // Pedidos del usuario
     Route::post('/orders', [OrderController::class, 'store']);

@@ -10,19 +10,23 @@
       <nav class="sidebar-nav">
         <router-link to="/admin/products" class="sidebar-link" active-class="active">
           <span class="material-icons">inventory_2</span>
-          <span class="link-text">Productes</span>
+          <span class="link-text">Productos</span>
         </router-link>
         <router-link to="/admin/orders" class="sidebar-link" active-class="active">
           <span class="material-icons">receipt_long</span>
-          <span class="link-text">Comandes</span>
+          <span class="link-text">Pedidos</span>
           <span v-if="pendingCount > 0" class="notif-badge">{{ pendingCount }}</span>
         </router-link>
       </nav>
 
       <div class="sidebar-footer">
+        <router-link to="/profile" class="sidebar-link back-link">
+          <span class="material-icons">manage_accounts</span>
+          <span class="link-text">Mi perfil</span>
+        </router-link>
         <router-link to="/" class="sidebar-link back-link">
-          <span class="material-icons">arrow_back</span>
-          <span class="link-text">Tornar a la botiga</span>
+          <span class="material-icons">store</span>
+          <span class="link-text">Volver a la tienda</span>
         </router-link>
       </div>
     </aside>

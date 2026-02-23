@@ -1,0 +1,33 @@
+name: Fix Server Configuration
+
+# 🛠️ Workflow d'Emergència per arreglar la configuració del servidor
+# Atura Apache (conflicte), re-executa el setup de Nginx i reinicia serveis.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix_host:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fix Server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            echo "--- 🛑 Aturant Apache (conflicte de ports) ---"
+            sudo systemctl stop apache2
+            sudo systemctl disable apache2
+            
+            echo "--- 🔄 Re-executant configuració de Nginx ---"
+            cd /home/ubuntu/PI
+            sudo chmod +x deploy/nginx/setup_prod.sh
+            # Forcem l'execució del script de setup
+            sudo ./deploy/nginx/setup_prod.sh
+            
+            echo "--- 🔄 Reiniciant Nginx ---"
+            sudo systemctl restart nginx
+            
+            echo "--- ✅ Servidor arreglat! ---"

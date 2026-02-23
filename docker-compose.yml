@@ -7,6 +7,8 @@ services:
       - "5173:80"
     depends_on:
       - laravel-app
+      - nginx
+      - n8n
 
   nginx:
     image: nginx:stable-alpine

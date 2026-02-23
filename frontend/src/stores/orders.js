@@ -83,7 +83,7 @@ export const useOrdersStore = defineStore('orders', {
         /**
          * [ADMIN] Obtener todos los pedidos con filtros opcionales.
          */
-        async fetchAdminOrders(params = {}) {
+        async fetchAdminPedidos(params = {}) {
             this.loading = true;
             try {
                 const response = await http.get('/api/admin/orders', { params });

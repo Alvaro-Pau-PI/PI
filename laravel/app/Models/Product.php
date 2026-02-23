@@ -22,6 +22,7 @@ class Product extends Model
         'price',
         'stock',
         'image',
+        'images',
         'category',
         'eco_score',
         'is_refurbished',
@@ -41,6 +42,7 @@ class Product extends Model
         return [
             'price' => 'decimal:2',
             'stock' => 'integer',
+            'images' => 'array',
             'eco_score' => 'integer',
             'is_refurbished' => 'boolean',
             'is_recyclable' => 'boolean',

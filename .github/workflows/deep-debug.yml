@@ -1,0 +1,37 @@
+name: Deep Debug Nginx
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH Debug Commands
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            echo "=== 🕵️ DEEP DEBUG NGINX ==="
+            
+            echo "--- 1. Nginx Status ---"
+            sudo systemctl status nginx --no-pager
+            
+            echo "--- 2. Open Ports ---"
+            sudo ss -tulpen | grep -E "80|443|8001|8002"
+            
+            echo "--- 3. Enabled Sites ---"
+            ls -l /etc/nginx/sites-enabled/
+            
+            echo "--- 4. Active Configuration Content ---"
+            cat /etc/nginx/sites-enabled/*
+            
+            echo "--- 5. Error Logs (Last 50) ---"
+            sudo tail -n 50 /var/log/nginx/error.log
+            
+            echo "--- 6. Access Logs (Last 20) ---"
+            sudo tail -n 20 /var/log/nginx/access.log
+            
+            echo "=== END DEBUG ==="

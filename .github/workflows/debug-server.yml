@@ -1,0 +1,30 @@
+name: Debug Server Status v2
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH Debug Commands (Simplified)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            echo "--- Checking WHOAMI ---"
+            whoami
+            
+            echo "--- Checking Simple Connectivity (HTTP) ---"
+            curl -v http://localhost || echo "Local HTTP Failed"
+            
+            echo "--- Checking NGINX Status ---"
+            sudo systemctl status nginx --no-pager || echo "Nginx Status Failed"
+            
+            echo "--- Checking Apache (Should be DEAD) ---"
+            sudo systemctl status apache2 --no-pager || echo "Apache Dead (Good)"
+            
+            echo "--- Checking Listening Ports (SS) ---"
+            sudo ss -tulpn | grep ':80\|:443' || echo "Nothing listening on 80/443"

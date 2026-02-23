@@ -78,8 +78,9 @@ class ProductController extends Controller
             return $q->where('price', '<=', $max);
         });
 
-        // Paginación de 12 elementos por página
-        return response()->json($query->paginate(12));
+        // Paginación dinámica (por defecto 12, para panel admin permitimos más)
+        $perPage = $request->input('per_page', 12);
+        return response()->json($query->paginate($perPage));
     }
 
     /**
