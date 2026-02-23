@@ -97,13 +97,19 @@
           </div>
         </div>
         <div class="checkbox-group">
-          <label class="checkbox-label">
-            <input type="checkbox" v-model="form.is_refurbished" />
-            Producto Reacondicionado
+          <label class="switch-label">
+            <span class="switch">
+              <input type="checkbox" v-model="form.is_refurbished" />
+              <span class="slider"></span>
+            </span>
+            <span>Producto Reacondicionado</span>
           </label>
-          <label class="checkbox-label">
-            <input type="checkbox" v-model="form.is_local_supplier" />
-            Proveedor Local
+          <label class="switch-label">
+            <span class="switch">
+              <input type="checkbox" v-model="form.is_local_supplier" />
+              <span class="slider"></span>
+            </span>
+            <span>Proveedor Local</span>
           </label>
         </div>
       </div>
@@ -165,10 +171,9 @@ const handleSubmit = () => {
 
 <style scoped>
 .product-form-container {
-  background: var(--bg-card);
-  padding: var(--spacing-lg);
+  background: transparent;
+  padding: var(--spacing-sm);
   border-radius: var(--radius-lg);
-  border: 1px solid var(--border-color);
 }
 
 .form-group {
@@ -190,18 +195,20 @@ label {
 
 .form-input {
   width: 100%;
-  padding: var(--spacing-sm);
-  background: var(--bg-input);
-  border: 1px solid var(--border-color);
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-md);
   color: var(--text-primary);
   font-family: inherit;
+  transition: all 0.3s ease;
 }
 
 .form-input:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px rgba(0, 243, 255, 0.1);
+  box-shadow: 0 0 0 4px rgba(0, 161, 255, 0.15);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .sustainability-section {
@@ -211,17 +218,70 @@ label {
 }
 
 .checkbox-group {
-  margin-top: var(--spacing-md);
+  margin-top: var(--spacing-lg);
   display: flex;
-  gap: var(--spacing-lg);
+  flex-direction: column;
+  gap: var(--spacing-md);
 }
 
-.checkbox-label {
+.switch-label {
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-md);
   cursor: pointer;
   color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Toggle Switch puro CSS */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: .3s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input:checked + .slider {
+  background-color: var(--color-primary);
+}
+
+input:focus-visible + .slider {
+  box-shadow: 0 0 0 3px rgba(0, 161, 255, 0.3);
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
 }
 
 .form-actions {
@@ -232,23 +292,38 @@ label {
 }
 
 .btn-submit {
-  background: var(--color-primary);
-  color: #000;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: white;
   border: none;
-  padding: var(--spacing-sm) var(--spacing-xl);
+  padding: 12px 24px;
   border-radius: var(--radius-md);
-  font-weight: bold;
+  font-weight: 600;
+  font-family: var(--font-headings);
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 161, 255, 0.3);
+}
+
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 161, 255, 0.5);
 }
 
 .btn-cancel {
   background: transparent;
   color: var(--text-secondary);
-  border: 1px solid var(--border-color);
-  padding: var(--spacing-sm) var(--spacing-xl);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 24px;
   border-radius: var(--radius-md);
+  font-family: var(--font-headings);
+  font-weight: 500;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
 }
 
 .btn-submit:disabled {

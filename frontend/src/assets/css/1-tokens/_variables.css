@@ -13,10 +13,10 @@
   --color-accent-dark: #cc5700;
 
   /* === FONDOS === */
-  --bg-body: #1A1D24;
-  --bg-card: #242833;
-  --bg-input: #1A1D24;
-  --bg-elevated: #2a2f3d;
+  --bg-body: #0B0D12;
+  --bg-card: #151821;
+  --bg-input: #11131A;
+  --bg-elevated: #1C202B;
 
   /* === BORDES === */
   --border-color: #3A4150;
@@ -46,8 +46,8 @@
 
   /* === TIPOGRAFÍA === */
   /* Familias de fuentes */
-  --font-primary: 'Roboto', Arial, sans-serif;
-  --font-headings: 'Montserrat', sans-serif;
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-headings: 'Outfit', -apple-system, "Segoe UI", Roboto, sans-serif;
 
   /* Tamaños de fuente */
   --font-size-xs: 0.75rem;

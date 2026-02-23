@@ -13,7 +13,18 @@
       </div>
 
       <section class="productos">
-        <div v-if="loading" class="loading">Cargando productos destacados...</div>
+        <!-- Skeletons en lugar de texto -->
+        <div v-if="loading" class="products-grid">
+           <div v-for="i in 4" :key="'skeleton'+i" class="product-card skeleton-card">
+              <div class="skeleton-img"></div>
+              <div class="card-info skeleton-info">
+                 <div class="skeleton-line title"></div>
+                 <div class="skeleton-line badge"></div>
+                 <div class="skeleton-line price"></div>
+                 <div class="skeleton-btn"></div>
+              </div>
+           </div>
+        </div>
         <div v-else class="products-grid">
            <div v-for="product in featuredProducts" :key="product.id" class="product-card">
               <div class="card-image">
@@ -257,6 +268,61 @@ main p {
 .btn-catalog:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 161, 255, 0.4);
+}
+
+/* --- SKELETON LOADERS --- */
+.skeleton-card {
+  border-color: rgba(255,255,255,0.05);
+}
+
+.skeleton-img {
+  height: 200px;
+  background: linear-gradient(90deg, #1A1D24 25%, #242833 50%, #1A1D24 75%);
+  background-size: 200% 100%;
+  animation: loading-skeleton 1.5s infinite linear;
+}
+
+.skeleton-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.skeleton-line {
+  height: 20px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #2a2f3d 25%, #3A4150 50%, #2a2f3d 75%);
+  background-size: 200% 100%;
+  animation: loading-skeleton 1.5s infinite linear;
+}
+
+.skeleton-line.title {
+  width: 80%;
+  margin-bottom: 5px;
+}
+
+.skeleton-line.badge {
+  width: 50%;
+  height: 15px;
+}
+
+.skeleton-line.price {
+  width: 40%;
+  height: 25px;
+  margin-bottom: 10px;
+}
+
+.skeleton-btn {
+  height: 40px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #2a2f3d 25%, #3A4150 50%, #2a2f3d 75%);
+  background-size: 200% 100%;
+  animation: loading-skeleton 1.5s infinite linear;
+}
+
+@keyframes loading-skeleton {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 </style>

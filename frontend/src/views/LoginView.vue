@@ -28,8 +28,8 @@
             {{ errorMessage }}
         </div>
 
-        <button type="submit" :disabled="isSubmitting || authStore.loading" class="primary-btn">
-            {{ (isSubmitting || authStore.loading) ? 'Entrant...' : 'Entrar' }}
+        <button type="submit" :disabled="isSubmitting || authStore.loading" class="primary-btn" :class="{ 'loading': isSubmitting || authStore.loading }">
+            {{ (isSubmitting || authStore.loading) ? '' : 'Entrar' }}
         </button>
 
         <div class="divider">
@@ -152,13 +152,15 @@ const handleGoogleLogin = () => {
 }
 
 .login-card {
-  background-color: #1A1D24;
-  padding: 40px;
-  border-radius: 8px;
+  background: rgba(26, 29, 36, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 50px;
+  border-radius: var(--radius-xl);
   width: 100%;
-  max-width: 800px; /* Ancho aumentado para escritorio */
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-  border: 1px solid #3A4150;
+  max-width: 500px; /* Tamaño adaptado para login */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .logo-container {
@@ -212,51 +214,88 @@ label {
 
 input {
   width: 100%;
-  padding: 12px;
-  background-color: #121418;
-  border: 1px solid #3A4150;
-  border-radius: 4px;
-  color: #FFFFFF;
+  padding: 14px 16px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
   font-size: 1em;
   outline: none;
-  transition: border-color 0.3s;
+  transition: all 0.3s ease;
 }
 
 input:focus {
-  border-color: #00A1FF;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(0, 161, 255, 0.15);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 /* Botones Generales */
 button {
   width: 100%;
-  padding: 12px;
-  border-radius: 6px;
-  font-size: 1em;
-  font-weight: 600;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-headings);
   cursor: pointer;
   border: none;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .primary-btn {
-  background-color: #00A1FF;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   color: white;
-  margin-top: 10px;
+  margin-top: 15px;
+  box-shadow: 0 4px 15px rgba(0, 161, 255, 0.3);
 }
 
 .primary-btn:hover {
-  background-color: #0088D6;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 161, 255, 0.5);
+}
+
+.primary-btn:active {
+  transform: translateY(1px);
 }
 
 .primary-btn:disabled {
-  background-color: #555;
+  background: #3A4150;
+  color: var(--text-secondary);
+  box-shadow: none;
   cursor: not-allowed;
   transform: none;
+}
+
+/* Spinner class for buttons */
+.primary-btn.loading {
+    position: relative;
+    color: transparent;
+    pointer-events: none;
+}
+
+.primary-btn.loading::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: button-loading-spinner 0.6s linear infinite;
+}
+
+@keyframes button-loading-spinner {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 /* Divisor */
@@ -329,38 +368,41 @@ button {
 
 /* Botón Google */
 .google-btn {
-  background-color: #ffffff;
-  color: #1f1f1f;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
   margin-top: 0;
-  border: 1px solid #ddd;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
+  transition: all 0.3s ease;
 }
 
 .google-btn:hover {
-  background-color: #f1f1f1;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
 }
 
 .google-icon {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
 }
 
 /* Validation Styles */
 .form-control {
   width: 100%;
-  padding: 12px;
-  background-color: #121418;
-  border: 1px solid #3A4150;
-  border-radius: 4px;
-  color: #FFFFFF;
-  font-size: 1em;
+  padding: 14px 16px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 1rem;
   outline: none;
-  transition: border-color 0.3s;
+  transition: all 0.3s ease;
 }
 
 .form-control:focus {
-  border-color: #00A1FF;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(0, 161, 255, 0.15);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .form-control.is-invalid {

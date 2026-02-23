@@ -54,7 +54,19 @@
 
       <!-- Grid de Productos -->
       <main class="products-main">
-        <div v-if="productStore.loading" class="loading">Carregant productes...</div>
+        <!-- ⏳ Skeletons de carga -->
+        <div v-if="productStore.loading" class="products-grid">
+           <div v-for="i in 6" :key="'skeleton'+i" class="product-card skeleton-card">
+              <div class="skeleton-img"></div>
+              <div class="card-info skeleton-info">
+                 <div class="skeleton-line title"></div>
+                 <div class="skeleton-line badge"></div>
+                 <div class="skeleton-line price"></div>
+                 <div class="skeleton-btn"></div>
+              </div>
+           </div>
+        </div>
+        
         <div v-else-if="productStore.error" class="error">{{ productStore.error }}</div>
         
         <div v-else-if="productStore.products.length === 0" class="no-results">
@@ -279,7 +291,7 @@ h1 {
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 25px;
 }
 
@@ -298,7 +310,7 @@ h1 {
 }
 
 .card-image {
-  height: 180px;
+  height: 200px;
   padding: 15px;
   background: white;
   display: flex;
@@ -431,8 +443,74 @@ h1 {
 }
 
 @media (max-width: 480px) {
-    .products-grid {
-        grid-template-columns: 1fr;
+    .products-container {
+      padding: 20px 10px;
     }
+    
+    .products-grid {
+        /* Fuerza siempre mínimo 2 columnas en móviles, distribuyendo equitativamente */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+}
+
+/* --- SKELETON LOADERS --- */
+.skeleton-card {
+  border-color: rgba(255,255,255,0.05);
+}
+
+.skeleton-img {
+  height: 200px;
+  background: linear-gradient(90deg, #1A1D24 25%, #242833 50%, #1A1D24 75%);
+  background-size: 200% 100%;
+  animation: loading-skeleton 1.5s infinite linear;
+}
+
+.skeleton-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.skeleton-line {
+  height: 20px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #2a2f3d 25%, #3A4150 50%, #2a2f3d 75%);
+  background-size: 200% 100%;
+  animation: loading-skeleton 1.5s infinite linear;
+}
+
+.skeleton-line.title {
+  width: 80%;
+  margin-bottom: 5px;
+}
+
+.skeleton-line.badge {
+  width: 50%;
+  height: 15px;
+}
+
+.skeleton-line.price {
+  width: 40%;
+  height: 25px;
+  margin-bottom: 10px;
+}
+
+.skeleton-btn {
+  height: 40px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #2a2f3d 25%, #3A4150 50%, #2a2f3d 75%);
+  background-size: 200% 100%;
+  animation: loading-skeleton 1.5s infinite linear;
+}
+
+@keyframes loading-skeleton {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 </style>

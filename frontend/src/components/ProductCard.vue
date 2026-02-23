@@ -340,21 +340,26 @@ export default {
   background: rgba(255, 255, 255, 0.9);
   border: none;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   color: #333;
-  transition: all 0.2s;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 .action-btn:hover:not(:disabled) {
-  transform: scale(1.1);
+  transform: scale(1.15) translateY(-2px);
   background: white;
   color: var(--color-primary);
+  box-shadow: 0 8px 20px rgba(0, 161, 255, 0.3);
+}
+
+.action-btn:active:not(:disabled) {
+  transform: scale(0.95);
 }
 
 .action-btn:disabled {
@@ -430,13 +435,14 @@ export default {
   border-radius: var(--radius-sm, 6px);
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
   white-space: nowrap;
 }
 
 .eco-badge:hover {
   transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 }
 
 /* Eco Score Variantes */

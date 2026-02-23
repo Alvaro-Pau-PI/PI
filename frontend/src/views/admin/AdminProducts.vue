@@ -16,9 +16,7 @@
       </div>
     </div>
 
-    <!-- Error/Success Messages -->
-    <div v-if="error" class="alert alert-error">{{ error }}</div>
-    <div v-if="success" class="alert alert-success">{{ success }}</div>
+    <!-- Los Toast asumen la gestión de errores/éxitos ahora -->
 
     <!-- Tabla de Productos -->
     <div class="table-container">
@@ -55,14 +53,24 @@
             </td>
           </tr>
           <tr v-if="products.length === 0">
-            <td colspan="6" class="text-center">No hay productos disponibles.</td>
+            <td colspan="6" class="empty-state">
+              <div class="empty-state-content">
+                <span class="material-icons empty-icon">inventory_2</span>
+                <h3>No hay productos disponibles</h3>
+                <p>Empieza añadiendo tu primer producto o importando un Excel.</p>
+                <button @click="openCreateModal" class="btn-primary mt-3">
+                  <span class="material-icons">add</span> Nuevo Producto
+                </button>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <!-- Modal Formulario -->
-    <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
+    <transition name="modal-fade">
+      <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
       <div class="modal-content">
         <h2>{{ editingProduct ? 'Editar Producto' : 'Nuevo Producto' }}</h2>
         <ProductForm 
@@ -71,8 +79,9 @@
           @submit="handleSave"
           @cancel="closeModal"
         />
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -80,11 +89,12 @@
 import { ref, onMounted } from 'vue';
 import http from '@/services/http';
 import ProductForm from './ProductForm.vue';
+import { useToastStore } from '@/stores/toast';
+
+const toast = useToastStore();
 
 const products = ref([]);
 const loading = ref(false);
-const error = ref(null);
-const success = ref(null);
 const showModal = ref(false);
 const editingProduct = ref(null);
 const fileInput = ref(null);
@@ -104,9 +114,10 @@ const exportExcel = async () => {
     link.setAttribute('download', 'productos.csv');
     document.body.appendChild(link);
     link.click();
+    toast.addToast("Excel exportado con éxito", "success");
     document.body.removeChild(link);
   } catch (err) {
-    error.value = "Error al exportar los productos.";
+    toast.addToast("Error al exportar los productos.", "error");
     console.error(err);
   }
 };
@@ -119,17 +130,15 @@ const handleFileUpload = async (event) => {
   formData.append('file', file);
 
   loading.value = true;
-  error.value = null;
-  success.value = null;
 
   try {
     const response = await http.post('/api/products/import', formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
-    success.value = response.data.message || "Excel importado correctamente.";
+    toast.addToast(response.data.message || "Excel importado correctamente.", "success");
     fetchProducts();
   } catch (err) {
-    error.value = err.response?.data?.message || "Error al importar el archivo Excel.";
+    toast.addToast(err.response?.data?.message || "Error al importar el archivo Excel.", "error");
     console.error(err);
   } finally {
     loading.value = false;
@@ -144,7 +153,7 @@ const fetchProducts = async () => {
     const response = await http.get('/api/products?page=1&per_page=100'); 
     products.value = response.data.data;
   } catch (err) {
-    error.value = "Error al cargar productos: " + err.message;
+    toast.addToast("Error al cargar productos: " + err.message, "error");
   } finally {
     loading.value = false;
   }
@@ -153,8 +162,6 @@ const fetchProducts = async () => {
 const openCreateModal = () => {
   editingProduct.value = null;
   showModal.value = true;
-  error.value = null;
-  success.value = null;
 };
 
 const editProduct = (product) => {
@@ -169,25 +176,21 @@ const closeModal = () => {
 
 const handleSave = async (formData) => {
   loading.value = true;
-  error.value = null;
   
   try {
     if (editingProduct.value) {
-      // Update
       const response = await http.put(`/api/products/${editingProduct.value.id}`, formData);
-      success.value = "Producto actualizado correctamente.";
-      // Actualizar en lista local
+      toast.addToast("Producto actualizado correctamente.", "success");
       const index = products.value.findIndex(p => p.id === editingProduct.value.id);
       if (index !== -1) products.value[index] = response.data;
     } else {
-      // Create
       const response = await http.post('/api/products', formData);
-      success.value = "Producto creado exitosamente.";
+      toast.addToast("Producto creado exitosamente.", "success");
       products.value.unshift(response.data);
     }
     closeModal();
   } catch (err) {
-    error.value = err.response?.data?.message || "Error al guardar producto.";
+    toast.addToast(err.response?.data?.message || "Error al guardar producto.", "error");
     console.error(err);
   } finally {
     loading.value = false;
@@ -200,9 +203,9 @@ const confirmDelete = async (product) => {
   try {
     await http.delete(`/api/products/${product.id}`);
     products.value = products.value.filter(p => p.id !== product.id);
-    success.value = "Producto eliminado.";
+    toast.addToast("Producto eliminado.", "success");
   } catch (err) {
-    error.value = "No se pudo eliminar el producto.";
+    toast.addToast("No se pudo eliminar el producto.", "error");
   }
 };
 
@@ -235,9 +238,17 @@ onMounted(() => {
 
 .products-table th, 
 .products-table td {
-  padding: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
   text-align: left;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.products-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.products-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .products-table th {
@@ -252,13 +263,16 @@ onMounted(() => {
 }
 
 .btn-icon {
-  background: none;
-  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--text-secondary);
   cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
+  padding: 8px;
+  border-radius: var(--radius-sm);
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-icon:hover {
@@ -290,6 +304,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -299,13 +314,61 @@ onMounted(() => {
 .modal-content {
   background: var(--bg-card);
   padding: var(--spacing-xl);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   width: 90%;
-  max-width: 600px;
+  max-width: 700px;
   max-height: 90vh;
   overflow-y: auto;
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-xl);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Transición para el modal */
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
+}
+
+.modal-fade-enter-active .modal-content,
+.modal-fade-leave-active .modal-content {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.modal-fade-enter-from .modal-content,
+.modal-fade-leave-to .modal-content {
+  transform: scale(0.95) translateY(20px);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-3xl) var(--spacing-xl);
+}
+
+.empty-state-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--text-secondary);
+}
+
+.empty-icon {
+  font-size: 64px;
+  color: var(--border-color);
+  margin-bottom: var(--spacing-sm);
+}
+
+.empty-state-content h3 {
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.mt-3 {
+  margin-top: var(--spacing-lg);
 }
 
 .modal-content h2 {

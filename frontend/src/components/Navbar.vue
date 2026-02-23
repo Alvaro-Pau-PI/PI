@@ -7,9 +7,14 @@
         </router-link>
       </div>
 
-      <button class="mobile-menu-btn" @click="toggleMobileMenu" aria-label="Abrir menú">
+      <button class="mobile-menu-btn" @click="toggleMobileMenu" aria-label="Abrir menú" :class="{'open': mobileMenuOpen}">
         <span class="material-icons">{{ mobileMenuOpen ? 'close' : 'menu' }}</span>
       </button>
+
+      <!-- Overlay para menú móvil -->
+      <transition name="fade">
+        <div v-if="mobileMenuOpen" class="mobile-menu-overlay" @click="closeMobileMenu"></div>
+      </transition>
 
       <nav class="nav-box" :class="{ 'nav-box--mobile-open': mobileMenuOpen }" aria-label="Navegación principal">
         <router-link to="/" class="nav-link" @click="closeMobileMenu">Inici</router-link>
@@ -130,6 +135,29 @@ const vClickOutside = {
 </script>
 
 <style scoped>
+/* Cabecera Principal - Sticky & Glassmorphism */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  background: rgba(26, 29, 36, 0.85); /* Semi-transparente */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.cabecera {
+  max-width: var(--max-width-container, 1400px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 200px 1fr auto;
+  align-items: center;
+  padding: 10px 20px;
+  gap: 20px;
+}
+
 /* Icono Carrito con Badge */
 .icon-cart-wrapper {
   position: relative;
@@ -241,6 +269,17 @@ const vClickOutside = {
   color: #ffd700;
 }
 
+/* Animación Fade para Overlay */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 /* Transiciones Dropdown */
 .dropdown-fade-enter-active,
 .dropdown-fade-leave-active {
@@ -297,22 +336,32 @@ const vClickOutside = {
   font-size: 2rem;
 }
 
+/* Estilos móviles Off-canvas */
 @media (max-width: 768px) {
   .cabecera {
-    grid-template-areas:
-      "logo icons nav"
-      "search search search";
-    grid-template-columns: 1fr auto auto;
-    align-items: center;
-    gap: 15px;
-    padding: 10px 15px;
+    grid-template-columns: auto 1fr auto;
+    padding: 12px 16px;
+  }
+
+  /* Overlay de fondo */
+  .mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 950;
   }
 
   .mobile-menu-btn {
     display: flex;
-    margin-left: 0;
+    justify-content: flex-end;
     align-items: center;
-    justify-content: center;
+    z-index: 1000;
+    position: relative;
+    grid-area: auto; /* reset */
   }
   
   .iconos-box {
@@ -320,37 +369,41 @@ const vClickOutside = {
     gap: 15px;
   }
   
+  /* Menú lateral (Off-canvas) */
   .nav-box {
-    display: none;
-    position: absolute;
-    top: var(--header-height);
-    left: 0;
-    width: 100%;
-    background: var(--bg-card);
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 260px;
+    height: 100vh;
+    background: #1A1D24; /* Fondo oscuro sólido */
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
     flex-direction: column;
-    padding: 20px 0;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-    z-index: 1000;
+    padding: 80px 20px 20px; /* Space for the close button */
+    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+    z-index: 999;
+    transition: right 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    align-items: flex-start;
   }
   
   .nav-box--mobile-open {
-    display: flex;
+    right: 0;
   }
   
   .nav-link {
     width: 100%;
-    text-align: center;
-    padding: 15px;
-    font-size: 1.1rem;
-    border-radius: 0;
+    text-align: left;
+    padding: 16px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background 0.2s, padding-left 0.2s;
   }
   
   .nav-link:hover {
     background: rgba(0, 161, 255, 0.1);
-  }
-
-  .iconos-box {
-    justify-self: center; /* Se remueve al usar grid auto */
+    padding-left: 22px;
   }
 }
 </style>
