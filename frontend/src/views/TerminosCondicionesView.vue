@@ -31,7 +31,7 @@
 
 <script>
 export default {
-  name: 'TermsView'
+  name: 'TerminosCondicionesView'
 }
 </script>
 

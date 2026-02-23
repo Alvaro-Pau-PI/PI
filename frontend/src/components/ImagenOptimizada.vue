@@ -22,7 +22,7 @@
 
 <script>
 /**
- * Componente OptimizedImage
+ * Componente ImagenOptimizada
  * 
  * Componente para cargar imágenes optimizadas con soporte WebP
  * y lazy loading. Implementa sostenibilidad reduciendo el peso
@@ -30,7 +30,7 @@
  * 
  * @component
  * @example
- * <OptimizedImage 
+ * <ImagenOptimizada 
  *   src="/img/product.jpg" 
  *   webp-src="/img/product.webp"
  *   alt="Procesador Intel i9"
@@ -40,7 +40,7 @@
  * />
  */
 export default {
-  name: 'OptimizedImage',
+  name: 'ImagenOptimizada',
   
   props: {
     /**
@@ -126,7 +126,7 @@ export default {
      * Útil para debugging y fallback
      */
     handleImageError(event) {
-      console.warn(`[OptimizedImage] Error cargando imagen: ${this.src}`);
+      console.warn(`[ImagenOptimizada] Error cargando imagen: ${this.src}`);
       this.$emit('error', event);
     }
   }

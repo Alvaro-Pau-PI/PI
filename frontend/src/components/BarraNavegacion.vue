@@ -17,9 +17,9 @@
       </transition>
 
       <nav class="nav-box" :class="{ 'nav-box--mobile-open': mobileMenuOpen }" aria-label="Navegación principal">
-        <router-link to="/" class="nav-link" @click="closeMobileMenu">Inici</router-link>
-        <router-link to="/products" class="nav-link" @click="closeMobileMenu">Productes</router-link>
-        <router-link to="/contact" class="nav-link" @click="closeMobileMenu">Contacte</router-link>
+        <router-link to="/" class="nav-link" @click="closeMobileMenu">Inicio</router-link>
+        <router-link to="/products" class="nav-link" @click="closeMobileMenu">Productos</router-link>
+        <router-link to="/contact" class="nav-link" @click="closeMobileMenu">Contacto</router-link>
       </nav>
 
       <div class="iconos-box">
@@ -41,28 +41,28 @@
             <ul v-if="dropdownOpen" class="dropdown-menu">
               <li>
                 <router-link to="/profile" class="dropdown-item">
-                  <span class="material-icons">manage_accounts</span> El meu perfil
+                  <span class="material-icons">manage_accounts</span> Mi perfil
                 </router-link>
               </li>
               <li>
                 <router-link to="/orders" class="dropdown-item">
-                  <span class="material-icons">receipt_long</span> Les meves comandes
+                  <span class="material-icons">receipt_long</span> Mis pedidos
                 </router-link>
               </li>
               <li>
                 <router-link to="/favorites" class="dropdown-item">
-                  <span class="material-icons">favorite</span> Preferits
+                  <span class="material-icons">favorite</span> Favoritos
                 </router-link>
               </li>
               <li v-if="canManage" class="admin-option">
                 <router-link to="/admin" class="dropdown-item">
-                  <span class="material-icons">admin_panel_settings</span> Panel de Gestió
+                  <span class="material-icons">admin_panel_settings</span> Panel de Gestión
                 </router-link>
               </li>
               <li class="divider"></li>
               <li>
                 <button @click="logout" class="dropdown-item logout-btn">
-                  <span class="material-icons">logout</span> Tancar sessió
+                  <span class="material-icons">logout</span> Cerrar sesión
                 </button>
               </li>
             </ul>
@@ -70,9 +70,9 @@
         </div>
 
         <template v-else>
-          <router-link to="/login" class="login-btn-nav" title="Iniciar sessió" aria-label="Iniciar sesión">
+          <router-link to="/login" class="login-btn-nav" title="Iniciar sesión" aria-label="Iniciar sesión">
             <span class="material-icons">account_circle</span>
-            <span>Accedir</span>
+            <span>Acceder</span>
           </router-link>
         </template>
       </div>
@@ -118,7 +118,7 @@ const logout = async () => {
   router.push('/login');
 };
 
-// Directiva personalizada simple para click outside
+// Directiva personalizada simple para clic fuera (click outside)
 const vClickOutside = {
   mounted(el, binding) {
     el.clickOutsideEvent = function(event) {
@@ -292,7 +292,7 @@ header {
   transform: translateY(-10px);
 }
 
-/* General Navbar ajustes */
+/* General BarraNavegacion ajustes */
 /* Botón Login Nav */
 .login-btn-nav {
   display: flex;

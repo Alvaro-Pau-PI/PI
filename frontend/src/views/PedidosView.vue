@@ -1,28 +1,37 @@
 <template>
-  <div class="orders-view">
-    <div class="orders-container">
-      <h1 class="page-title">Les Meues Comandes</h1>
+  <div class="profile-container">
+    <div class="profile-dashboard-layout">
+      <!-- Sidebar (Componente Reutilizable) -->
+      <UserSidebar activeTab="orders" />
+
+      <!-- Área de Pedidos Principal -->
+      <main class="profile-content">
+        <section class="content-section glass-card">
+          <header class="section-header">
+            <h2 class="card-title"><span class="material-icons title-icon">receipt_long</span> Mis pedidos</h2>
+            <p class="card-desc">Historial completo de todas las compras realizadas en la tienda.</p>
+          </header>
       
       <!-- Estado de carga -->
       <div v-if="loading" class="loading-state">
         <div class="spinner-large"></div>
-        <p>Carregant comandes...</p>
+        <p>Cargando pedidos...</p>
       </div>
 
       <!-- Sin pedidos -->
-      <div v-else-if="orders.length === 0" class="empty-state glass-card">
+      <div v-else-if="orders.length === 0" class="empty-state inner-glass">
         <span class="material-icons empty-icon">receipt_long</span>
-        <h2>Encara no tens comandes</h2>
-        <p>Quan facis la teua primera compra, apareixerà ací.</p>
+        <h2>Todavía no tienes pedidos</h2>
+        <p>Cuando hagas tu primera compra, aparecerá aquí.</p>
         <router-link to="/products" class="btn-primary">
           <span class="material-icons">shopping_bag</span>
-          Explorar Productes
+          Explorar Productos
         </router-link>
       </div>
 
       <!-- Lista de pedidos -->
       <div v-else class="orders-list">
-        <div v-for="order in orders" :key="order.id" class="order-card glass-card" @click="toggleOrder(order.id)">
+        <div v-for="order in orders" :key="order.id" class="order-card inner-glass" @click="toggleOrder(order.id)">
           
           <!-- Cabecera del pedido -->
           <div class="order-header">
@@ -56,12 +65,12 @@
             <!-- Cancelado -->
             <div v-if="order.status === 'cancelled'" class="cancelled-notice">
               <span class="material-icons">cancel</span>
-              <span>Aquesta comanda ha estat cancel·lada.</span>
+              <span>Este pedido ha sido cancelado.</span>
             </div>
 
             <!-- Items del pedido -->
             <div class="order-items-detail">
-              <h4>Productes de la comanda</h4>
+              <h4>Productos del pedido</h4>
               <div v-for="item in order.items" :key="item.id" class="order-item-row">
                 <div class="order-item-left">
                   <span class="item-qty-badge">x{{ item.quantity }}</span>
@@ -89,7 +98,7 @@
 
             <!-- Info de envío -->
             <div class="shipping-info">
-              <h4>📦 Adreça d'enviament</h4>
+              <h4>📦 Dirección de envío</h4>
               <p>{{ order.shipping_name }}</p>
               <p>{{ order.shipping_address }}</p>
               <p>{{ order.shipping_postal }} {{ order.shipping_city }}</p>
@@ -98,12 +107,14 @@
 
             <!-- Pago -->
             <div class="payment-info">
-              <h4>💳 Pagament</h4>
-              <p>Targeta acabada en •••• {{ order.card_last_four }}</p>
+              <h4>💳 Pago</h4>
+              <p>Tarjeta acabada en •••• {{ order.card_last_four }}</p>
             </div>
           </div>
         </div>
       </div>
+        </section>
+      </main>
     </div>
   </div>
 </template>
@@ -111,6 +122,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useOrdersStore } from '@/stores/orders';
+import UserSidebar from '@/components/UserSidebar.vue';
 
 const ordersStore = useOrdersStore();
 const loading = ref(true);
@@ -120,10 +132,10 @@ const orders = computed(() => ordersStore.orders);
 
 // Pasos del tracking
 const trackingSteps = [
-  { key: 'pending', label: 'Pendent', description: 'Comanda rebuda, pendent de confirmació', icon: 'schedule' },
-  { key: 'confirmed', label: 'Confirmada', description: 'Pagament verificat, preparant enviament', icon: 'thumb_up' },
-  { key: 'shipped', label: 'Enviada', description: 'El teu paquet està en camí', icon: 'local_shipping' },
-  { key: 'delivered', label: 'Entregada', description: 'Comanda lliurada correctament', icon: 'check_circle' }
+  { key: 'pending', label: 'Pendiente', description: 'Pedido recibido, pendiente de confirmación', icon: 'schedule' },
+  { key: 'confirmed', label: 'Confirmado', description: 'Pago verificado, preparando envío', icon: 'thumb_up' },
+  { key: 'shipped', label: 'Enviado', description: 'Tu paquete está en camino', icon: 'local_shipping' },
+  { key: 'delivered', label: 'Entregado', description: 'Pedido entregado correctamente', icon: 'check_circle' }
 ];
 
 const statusOrder = { pending: 0, confirmed: 1, shipped: 2, delivered: 3, cancelled: -1 };
@@ -135,11 +147,11 @@ const isStepActive = (orderStatus, stepKey) => {
 
 const statusLabel = (status) => {
   const labels = {
-    pending: 'Pendent',
-    confirmed: 'Confirmada',
-    shipped: 'Enviada',
-    delivered: 'Entregada',
-    cancelled: 'Cancel·lada'
+    pending: 'Pendiente',
+    confirmed: 'Confirmado',
+    shipped: 'Enviado',
+    delivered: 'Entregado',
+    cancelled: 'Cancelado'
   };
   return labels[status] || status;
 };
@@ -149,7 +161,7 @@ const toggleOrder = (orderId) => {
 };
 
 const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('ca-ES', {
+  return new Date(dateString).toLocaleDateString('es-ES', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -166,25 +178,70 @@ onMounted(async () => {
 
 <style scoped>
 /* ══════════════════════════════════════════════════════════════
-   CONTENEDOR
+   LAYOUT DASHBOARD (IDÉNTICO AL PERFIL)
    ══════════════════════════════════════════════════════════════ */
-.orders-view {
-  min-height: 80vh;
-  padding: 30px 20px 60px;
-}
-.orders-container {
-  max-width: 900px;
+.profile-container {
+  width: 100%;
+  max-width: 1400px;
   margin: 0 auto;
+  padding: 40px 20px 100px;
+  min-height: calc(100vh - 80px);
 }
-.page-title {
-  font-size: 2rem;
-  margin-bottom: 30px;
-  background: linear-gradient(to right, #fff, #94a3b8);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 800;
-  text-align: center;
+
+.profile-dashboard-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.glass-card {
+  background: rgba(30, 34, 43, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.content-section {
+  padding: 45px;
+}
+
+.section-header {
+  margin-bottom: 35px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 20px;
+}
+
+.card-title {
+  font-size: 1.6em;
+  color: #fff;
+  margin-bottom: 8px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title-icon {
+  color: #00A1FF;
+  font-size: 1.2em;
+  background: rgba(0, 161, 255, 0.1);
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.card-desc {
+  color: #94a3b8;
+  font-size: 0.95em;
+  line-height: 1.5;
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -245,12 +302,12 @@ onMounted(async () => {
 /* ══════════════════════════════════════════════════════════════
    TARJETA DE PEDIDO
    ══════════════════════════════════════════════════════════════ */
-.glass-card {
-  background: rgba(30, 34, 43, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 20px;
+.inner-glass {
+  background: rgba(20, 24, 32, 0.7);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   padding: 25px 30px;
 }
 
@@ -506,6 +563,22 @@ onMounted(async () => {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1024px) {
+  .profile-dashboard-layout {
+    grid-template-columns: 280px 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 860px) {
+  .profile-dashboard-layout {
+    grid-template-columns: 1fr;
+  }
+  .content-section {
+    padding: 30px;
+  }
 }
 
 @media (max-width: 768px) {

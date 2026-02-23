@@ -2,39 +2,39 @@
   <div class="admin-orders">
     <div class="admin-container">
       <div class="header-section">
-        <h1>📦 Gestió de Comandes</h1>
-        <p class="header-subtitle">Administra i realitza el seguiment de totes les comandes</p>
+        <h1>📦 Gestión de Pedidos</h1>
+        <p class="header-subtitle">Administra y realiza el seguimiento de todos los pedidos</p>
       </div>
 
       <!-- Filtros y búsqueda -->
       <div class="filters-bar glass-card">
         <div class="filter-group">
-          <label>Estat:</label>
+          <label>Estado:</label>
           <select v-model="selectedStatus" @change="fetchOrders">
-            <option value="all">Tots</option>
-            <option value="pending">Pendents</option>
-            <option value="confirmed">Confirmades</option>
-            <option value="shipped">Enviades</option>
-            <option value="delivered">Entregades</option>
-            <option value="cancelled">Cancel·lades</option>
+            <option value="all">Todos</option>
+            <option value="pending">Pendientes</option>
+            <option value="confirmed">Confirmados</option>
+            <option value="shipped">Enviados</option>
+            <option value="delivered">Entregados</option>
+            <option value="cancelled">Cancelados</option>
           </select>
         </div>
         <div class="filter-group search-group">
           <span class="material-icons">search</span>
-          <input v-model="searchQuery" @input="debouncedSearch" placeholder="Buscar per número de comanda..." />
+          <input v-model="searchQuery" @input="debouncedSearch" placeholder="Buscar por número de pedido..." />
         </div>
         <div class="stats-row">
           <div class="stat-chip pending">
             <span class="material-icons">schedule</span>
-            {{ statusCounts.pending }} pendents
+            {{ statusCounts.pending }} pendientes
           </div>
           <div class="stat-chip shipped">
             <span class="material-icons">local_shipping</span>
-            {{ statusCounts.shipped }} enviades
+            {{ statusCounts.shipped }} enviados
           </div>
           <div class="stat-chip delivered">
             <span class="material-icons">check_circle</span>
-            {{ statusCounts.delivered }} entregades
+            {{ statusCounts.delivered }} entregados
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@
       <!-- Cargando -->
       <div v-if="loading" class="loading-state">
         <div class="spinner"></div>
-        <p>Carregant comandes...</p>
+        <p>Cargando pedidos...</p>
       </div>
 
       <!-- Tabla de pedidos -->
@@ -50,72 +50,72 @@
         <table class="orders-table" v-if="orders.length > 0">
           <thead>
             <tr>
-              <th>Comanda</th>
-              <th>Client</th>
-              <th>Data</th>
-              <th>Productes</th>
+              <th>Pedido</th>
+              <th>Cliente</th>
+              <th>Fecha</th>
+              <th>Productos</th>
               <th>Total</th>
-              <th>Estat</th>
-              <th>Accions</th>
+              <th>Estado</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="order in orders" :key="order.id" :class="{ 'row-pending': order.status === 'pending' }">
-              <td>
+              <td data-label="Pedido">
                 <span class="order-number">{{ order.order_number }}</span>
                 <span class="order-payment">💳 •••• {{ order.card_last_four }}</span>
               </td>
-              <td>
+              <td data-label="Cliente">
                 <div class="client-info">
                   <span class="client-name">{{ order.user?.name || 'N/A' }}</span>
                   <span class="client-email">{{ order.user?.email || '' }}</span>
                 </div>
               </td>
-              <td class="date-cell">{{ formatDate(order.created_at) }}</td>
-              <td>
+              <td data-label="Fecha" class="date-cell">{{ formatDate(order.created_at) }}</td>
+              <td data-label="Productos">
                 <div class="items-preview">
                   <span v-for="item in order.items?.slice(0, 2)" :key="item.id" class="item-tag">
                     {{ item.quantity }}x {{ truncate(item.product_name, 20) }}
                   </span>
-                  <span v-if="order.items?.length > 2" class="more-items">+{{ order.items.length - 2 }} més</span>
+                  <span v-if="order.items?.length > 2" class="more-items">+{{ order.items.length - 2 }} más</span>
                 </div>
               </td>
-              <td class="total-cell">{{ order.total }}€</td>
-              <td>
+              <td data-label="Total" class="total-cell">{{ order.total }}€</td>
+              <td data-label="Estado">
                 <span class="status-badge" :class="order.status">{{ statusLabel(order.status) }}</span>
               </td>
-              <td class="actions-cell">
+              <td data-label="Acciones" class="actions-cell">
                 <div class="action-buttons">
                   <!-- Botones de avance de estado -->
                   <button v-if="order.status === 'pending'" 
                     @click="changeStatus(order, 'confirmed')" 
                     class="action-btn confirm-btn" 
-                    title="Confirmar comanda">
+                    title="Confirmar pedido">
                     <span class="material-icons">thumb_up</span>
                     Confirmar
                   </button>
                   <button v-if="order.status === 'confirmed'" 
                     @click="changeStatus(order, 'shipped')" 
                     class="action-btn ship-btn" 
-                    title="Marcar com enviada">
+                    title="Marcar como enviado">
                     <span class="material-icons">local_shipping</span>
                     Enviar
                   </button>
                   <button v-if="order.status === 'shipped'" 
                     @click="changeStatus(order, 'delivered')" 
                     class="action-btn deliver-btn" 
-                    title="Marcar com entregada">
+                    title="Marcar como entregado">
                     <span class="material-icons">check_circle</span>
-                    Entregat
+                    Entregado
                   </button>
                   <button v-if="order.status !== 'delivered' && order.status !== 'cancelled'" 
                     @click="changeStatus(order, 'cancelled')" 
                     class="action-btn cancel-btn" 
-                    title="Cancel·lar comanda">
+                    title="Cancelar pedido">
                     <span class="material-icons">cancel</span>
                   </button>
-                  <span v-if="order.status === 'delivered'" class="delivered-text">✅ Completada</span>
-                  <span v-if="order.status === 'cancelled'" class="cancelled-text">❌ Cancel·lada</span>
+                  <span v-if="order.status === 'delivered'" class="delivered-text">✅ Completado</span>
+                  <span v-if="order.status === 'cancelled'" class="cancelled-text">❌ Cancelado</span>
                 </div>
               </td>
             </tr>
@@ -124,7 +124,7 @@
 
         <div v-else class="no-results">
           <span class="material-icons">inbox</span>
-          <p>No s'han trobat comandes amb els filtres seleccionats.</p>
+          <p>No se han encontrado pedidos con los filtros seleccionados.</p>
         </div>
 
         <!-- Paginación -->
@@ -132,7 +132,7 @@
           <button @click="changePage(currentPage - 1)" :disabled="currentPage <= 1" class="page-btn">
             <span class="material-icons">chevron_left</span>
           </button>
-          <span class="page-info">Pàgina {{ currentPage }} de {{ totalPages }}</span>
+          <span class="page-info">Página {{ currentPage }} de {{ totalPages }}</span>
           <button @click="changePage(currentPage + 1)" :disabled="currentPage >= totalPages" class="page-btn">
             <span class="material-icons">chevron_right</span>
           </button>
@@ -165,11 +165,11 @@ let searchTimeout = null;
 
 const statusLabel = (status) => {
   const labels = {
-    pending: 'Pendent',
-    confirmed: 'Confirmada',
-    shipped: 'Enviada',
-    delivered: 'Entregada',
-    cancelled: 'Cancel·lada'
+    pending: 'Pendiente',
+    confirmed: 'Confirmado',
+    shipped: 'Enviado',
+    delivered: 'Entregado',
+    cancelled: 'Cancelado'
   };
   return labels[status] || status;
 };
@@ -180,7 +180,7 @@ const truncate = (str, len) => {
 };
 
 const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('ca-ES', {
+  return new Date(dateString).toLocaleDateString('es-ES', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
@@ -196,14 +196,14 @@ const fetchOrders = async () => {
     if (selectedStatus.value !== 'all') params.status = selectedStatus.value;
     if (searchQuery.value) params.search = searchQuery.value;
 
-    const response = await ordersStore.fetchAdminOrders(params);
+    const response = await ordersStore.fetchAdminPedidos(params);
     orders.value = response.data;
     totalPages.value = response.last_page || 1;
 
     // Contar estados para los chips
     updateStatusCounts();
   } catch (err) {
-    console.error('Error al cargar comandes:', err);
+    console.error('Error al cargar pedidos:', err);
   } finally {
     loading.value = false;
   }
@@ -226,18 +226,18 @@ const debouncedSearch = () => {
 const changeStatus = async (order, newStatus) => {
   const statusNames = {
     confirmed: 'confirmar',
-    shipped: 'marcar com enviada',
-    delivered: 'marcar com entregada',
-    cancelled: 'cancel·lar'
+    shipped: 'marcar como enviado',
+    delivered: 'marcar como entregado',
+    cancelled: 'cancelar'
   };
 
   const result = await Swal.fire({
-    title: `${statusNames[newStatus]}?`,
-    text: `Vas a ${statusNames[newStatus]} la comanda ${order.order_number}.`,
+    title: `¿${statusNames[newStatus].charAt(0).toUpperCase() + statusNames[newStatus].slice(1)}?`,
+    text: `Vas a ${statusNames[newStatus]} el pedido ${order.order_number}.`,
     icon: newStatus === 'cancelled' ? 'warning' : 'question',
     showCancelButton: true,
     confirmButtonText: 'Sí, continuar',
-    cancelButtonText: 'No, tornar',
+    cancelButtonText: 'No, volver',
     background: '#1a1f2e',
     color: '#ffffff',
     confirmButtonColor: newStatus === 'cancelled' ? '#ef4444' : '#00A1FF'
@@ -254,8 +254,8 @@ const changeStatus = async (order, newStatus) => {
 
     Swal.fire({
       icon: 'success',
-      title: 'Estat actualitzat',
-      text: `Comanda ${order.order_number}: ${statusLabel(newStatus)}`,
+      title: 'Estado actualizado',
+      text: `Pedido ${order.order_number}: ${statusLabel(newStatus)}`,
       timer: 2000,
       showConfirmButton: false,
       background: '#1a1f2e',
@@ -265,7 +265,7 @@ const changeStatus = async (order, newStatus) => {
     Swal.fire({
       icon: 'error',
       title: 'Error',
-      text: 'No s\'ha pogut actualitzar l\'estat.',
+      text: 'No se ha podido actualizar el estado.',
       background: '#1a1f2e',
       color: '#ffffff'
     });
@@ -588,5 +588,71 @@ onMounted(() => {
 @media (max-width: 900px) {
   .orders-table { font-size: 0.85rem; }
   .stats-row { flex-wrap: wrap; }
+}
+
+@media (max-width: 768px) {
+  .table-container {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .orders-table,
+  .orders-table tbody,
+  .orders-table tr,
+  .orders-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .orders-table thead {
+    display: none;
+  }
+
+  .orders-table tr {
+    margin-bottom: 20px;
+    background: var(--bg-card, rgba(30, 34, 43, 0.65));
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 10px;
+  }
+  
+  .row-pending {
+    border-left: 4px solid #fbbf24 !important;
+  }
+
+  .orders-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    text-align: right;
+  }
+
+  .orders-table td:last-child {
+    border-bottom: none;
+  }
+
+  /* Mostrar la etiqueta de la columna en móvil */
+  .orders-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #8896AB;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    margin-right: 15px;
+    text-align: left;
+  }
+
+  .client-info, .items-preview {
+    align-items: flex-end;
+  }
+  
+  .action-buttons {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
 }
 </style>

@@ -59,7 +59,7 @@ export const useAuthStore = defineStore('auth', {
                 if (error.response && error.response.status === 422) {
                     this.errors = error.response.data.errors || error.response.data;
                 } else {
-                    this.errors = { message: 'Error en el registre' };
+                    this.errors = { message: 'Error en el registro' };
                 }
                 throw error;
             } finally {

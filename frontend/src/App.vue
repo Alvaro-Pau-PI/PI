@@ -1,9 +1,9 @@
 <script setup>
 import { RouterView } from 'vue-router';
-import Navbar from './components/Navbar.vue';
-import Footer from './components/Footer.vue';
+import BarraNavegacion from './components/BarraNavegacion.vue';
+import PiePagina from './components/PiePagina.vue';
 import Chatbot from './components/Chatbot.vue';
-import ToastNotification from './components/ToastNotification.vue'; // Global Toasts
+import NotificacionToast from './components/NotificacionToast.vue'; // Global Toasts
 import { useAuthStore } from '@/stores/auth';
 import { ref, onMounted, onUnmounted } from 'vue';
 
@@ -29,15 +29,15 @@ onUnmounted(() => {
 
 <template>
   <div id="app-wrapper">
-    <Navbar />
+    <BarraNavegacion />
     
     <main>
       <RouterView />
     </main>
     
-    <Footer />
+    <PiePagina />
     <Chatbot />
-    <ToastNotification />
+    <NotificacionToast />
     
     <!-- Botón Scroll to Top -->
     <transition name="fade-slide">

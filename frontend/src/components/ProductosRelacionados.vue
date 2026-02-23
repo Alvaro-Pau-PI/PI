@@ -10,7 +10,7 @@
     </div>
     
     <div v-else class="products-grid">
-      <ProductCard 
+      <TarjetaProducto 
         v-for="product in relatedProducts" 
         :key="product.id" 
         :product="product"
@@ -23,7 +23,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import http from '@/services/http';
-import ProductCard from './ProductCard.vue';
+import TarjetaProducto from './TarjetaProducto.vue';
 
 const props = defineProps({
   productId: {
@@ -39,7 +39,7 @@ const props = defineProps({
 const relatedProducts = ref([]);
 const loading = ref(false);
 
-const fetchRelatedProducts = async () => {
+const fetchProductosRelacionados = async () => {
   if (!props.productId) return;
   
   loading.value = true;
@@ -58,12 +58,12 @@ const fetchRelatedProducts = async () => {
 
 // Cargar al montar
 onMounted(() => {
-  fetchRelatedProducts();
+  fetchProductosRelacionados();
 });
 
 // Recargar si cambia el producto
 watch(() => props.productId, () => {
-  fetchRelatedProducts();
+  fetchProductosRelacionados();
 });
 
 const getImageUrl = (path) => {
@@ -143,7 +143,7 @@ const formatRating = (rating) => {
   box-shadow: var(--shadow-lg);
 }
 
-/* Legacy styles removed: .card-link, .card-image, .card-info, etc. are now inside ProductCard component */
+/* Legacy styles removed: .card-link, .card-image, .card-info, etc. are now inside TarjetaProducto component */
 
 /* Responsive */
 @media (max-width: 768px) {

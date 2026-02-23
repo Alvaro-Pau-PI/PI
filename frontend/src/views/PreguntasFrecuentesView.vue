@@ -55,7 +55,7 @@
 
 <script>
 export default {
-  name: 'FaqView'
+  name: 'PreguntasFrecuentesView'
 }
 </script>
 

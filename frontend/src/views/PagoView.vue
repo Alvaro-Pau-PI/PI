@@ -4,12 +4,12 @@
       
       <!-- Breadcrumb -->
       <nav class="breadcrumb">
-        <router-link to="/cart">🛒 Carret</router-link>
+        <router-link to="/cart">🛒 Carrito</router-link>
         <span class="sep">›</span>
-        <span class="current">Finalitzar Compra</span>
+        <span class="current">Finalizar Compra</span>
       </nav>
 
-      <h1 class="checkout-title">Finalitzar Compra</h1>
+      <h1 class="checkout-title">Finalizar Compra</h1>
 
       <!-- Indicador de pasos -->
       <div class="steps-indicator">
@@ -18,7 +18,7 @@
             <span v-if="currentStep > 1" class="material-icons">check</span>
             <span v-else>1</span>
           </div>
-          <span class="step-label">Enviament</span>
+          <span class="step-label">Envío</span>
         </div>
         <div class="step-line" :class="{ active: currentStep > 1 }"></div>
         <div class="step" :class="{ active: currentStep >= 2, done: currentStep > 2 }">
@@ -26,12 +26,12 @@
             <span v-if="currentStep > 2" class="material-icons">check</span>
             <span v-else>2</span>
           </div>
-          <span class="step-label">Pagament</span>
+          <span class="step-label">Pago</span>
         </div>
         <div class="step-line" :class="{ active: currentStep > 2 }"></div>
         <div class="step" :class="{ active: currentStep >= 3 }">
           <div class="step-circle">3</div>
-          <span class="step-label">Confirmació</span>
+          <span class="step-label">Confirmación</span>
         </div>
       </div>
 
@@ -41,44 +41,44 @@
 
           <!-- PASO 1: Dirección de envío -->
           <div v-if="currentStep === 1" class="step-content glass-card animate-fade-in">
-            <h2>📦 Adreça d'Enviament</h2>
+            <h2>📦 Dirección de Envío</h2>
             <form @submit.prevent="nextStep" class="shipping-form">
               <div class="form-group">
-                <label for="shipping_name">Nom complet *</label>
+                <label for="shipping_name">Nombre completo *</label>
                 <input id="shipping_name" v-model="shippingData.name" type="text" required placeholder="Pau Albero" />
               </div>
               <div class="form-group">
-                <label for="shipping_address">Adreça *</label>
+                <label for="shipping_address">Dirección *</label>
                 <input id="shipping_address" v-model="shippingData.address" type="text" required placeholder="C/ Principal, 12, 2n" />
               </div>
               <div class="form-row">
                 <div class="form-group">
-                  <label for="shipping_city">Ciutat *</label>
-                  <input id="shipping_city" v-model="shippingData.city" type="text" required placeholder="València" />
+                  <label for="shipping_city">Ciudad *</label>
+                  <input id="shipping_city" v-model="shippingData.city" type="text" required placeholder="Valencia" />
                 </div>
                 <div class="form-group">
-                  <label for="shipping_postal">Codi Postal *</label>
+                  <label for="shipping_postal">Código Postal *</label>
                   <input id="shipping_postal" v-model="shippingData.postal" type="text" required maxlength="5" placeholder="46001" />
                 </div>
               </div>
               <div class="form-group">
-                <label for="shipping_phone">Telèfon *</label>
+                <label for="shipping_phone">Teléfono *</label>
                 <input id="shipping_phone" v-model="shippingData.phone" type="tel" required placeholder="+34 612 345 678" />
               </div>
               <div class="form-group">
-                <label for="notes">Notes (opcional)</label>
-                <textarea id="notes" v-model="shippingData.notes" rows="2" placeholder="Instruccions d'entrega..."></textarea>
+                <label for="notes">Notas (opcional)</label>
+                <textarea id="notes" v-model="shippingData.notes" rows="2" placeholder="Instrucciones de entrega..."></textarea>
               </div>
               <div class="step-actions">
-                <router-link to="/cart" class="btn-secondary">← Tornar al carret</router-link>
-                <button type="submit" class="btn-primary">Continuar al pagament →</button>
+                <router-link to="/cart" class="btn-secondary">← Volver al carrito</router-link>
+                <button type="submit" class="btn-primary">Continuar al pago →</button>
               </div>
             </form>
           </div>
 
           <!-- PASO 2: Datos de pago -->
           <div v-if="currentStep === 2" class="step-content glass-card animate-fade-in">
-            <h2>💳 Mètode de Pagament</h2>
+            <h2>💳 Método de Pago</h2>
             
             <!-- Tarjeta de crédito visual -->
             <div class="credit-card-preview" :class="cardType">
@@ -90,7 +90,7 @@
               <div class="card-bottom">
                 <div class="card-holder">
                   <small>TITULAR</small>
-                  <span>{{ shippingData.name || 'NOM COMPLET' }}</span>
+                  <span>{{ shippingData.name || 'NOMBRE COMPLETO' }}</span>
                 </div>
                 <div class="card-expiry-display">
                   <small>CADUCA</small>
@@ -101,7 +101,7 @@
 
             <form @submit.prevent="nextStep" class="payment-form">
               <div class="form-group">
-                <label for="card_number">Número de targeta *</label>
+                <label for="card_number">Número de tarjeta *</label>
                 <input id="card_number" 
                   v-model="cardData.number" 
                   type="text" 
@@ -113,7 +113,7 @@
               </div>
               <div class="form-row">
                 <div class="form-group">
-                  <label for="card_expiry">Caducitat *</label>
+                  <label for="card_expiry">Caducidad *</label>
                   <input id="card_expiry" 
                     v-model="cardData.expiry" 
                     type="text" 
@@ -136,23 +136,23 @@
               </div>
               <div class="secure-badge">
                 <span class="material-icons">lock</span>
-                Pagament segur amb xifrat SSL de 256 bits
+                Pago seguro con cifrado SSL de 256 bits
               </div>
               <div class="step-actions">
-                <button type="button" @click="prevStep" class="btn-secondary">← Enrere</button>
-                <button type="submit" class="btn-primary">Revisar comanda →</button>
+                <button type="button" @click="prevStep" class="btn-secondary">← Atrás</button>
+                <button type="submit" class="btn-primary">Revisar pedido →</button>
               </div>
             </form>
           </div>
 
           <!-- PASO 3: Confirmación -->
           <div v-if="currentStep === 3" class="step-content glass-card animate-fade-in">
-            <h2>✅ Resum de la Comanda</h2>
+            <h2>✅ Resumen del Pedido</h2>
             
             <div class="confirmation-sections">
               <!-- Resumen de envío -->
               <div class="confirm-section">
-                <h3>📦 Enviament</h3>
+                <h3>📦 Envío</h3>
                 <p>{{ shippingData.name }}</p>
                 <p>{{ shippingData.address }}</p>
                 <p>{{ shippingData.postal }} {{ shippingData.city }}</p>
@@ -162,14 +162,14 @@
 
               <!-- Resumen de pago -->
               <div class="confirm-section">
-                <h3>💳 Pagament</h3>
-                <p>Targeta que acaba en •••• {{ cardLastFour }}</p>
+                <h3>💳 Pago</h3>
+                <p>Tarjeta que termina en •••• {{ cardLastFour }}</p>
                 <p>{{ cardBrandIcon }} {{ cardBrandName }}</p>
               </div>
 
               <!-- Items del pedido -->
               <div class="confirm-section">
-                <h3>🛍️ Productes</h3>
+                <h3>🛍️ Productos</h3>
                 <div v-for="item in cartStore.items" :key="item.id" class="confirm-item">
                   <img :src="item.image" :alt="item.name" class="confirm-item-img" />
                   <div class="confirm-item-info">
@@ -182,15 +182,15 @@
             </div>
 
             <div class="step-actions">
-              <button @click="prevStep" class="btn-secondary">← Enrere</button>
+              <button @click="prevStep" class="btn-secondary">← Atrás</button>
               <button @click="submitOrder" class="btn-confirm" :disabled="processing">
                 <span v-if="!processing">
                   <span class="material-icons">shopping_bag</span>
-                  Confirmar i Pagar {{ cartStore.totalPrice }}€
+                  Confirmar y Pagar {{ cartStore.totalPrice }}€
                 </span>
                 <span v-else class="processing-text">
                   <span class="spinner"></span>
-                  Processant pagament...
+                  Procesando pago...
                 </span>
               </button>
             </div>
@@ -199,7 +199,7 @@
 
         <!-- Sidebar: Resumen del pedido -->
         <aside class="checkout-sidebar glass-card">
-          <h3>Resum</h3>
+          <h3>Resumen</h3>
           <div class="sidebar-items">
             <div v-for="item in cartStore.items" :key="item.id" class="sidebar-item">
               <img :src="item.image" :alt="item.name" />
@@ -220,8 +220,8 @@
             <span>{{ cartStore.tax }}€</span>
           </div>
           <div class="sidebar-row shipping-row">
-            <span>Enviament</span>
-            <span class="free-shipping">Gratuït</span>
+            <span>Envío</span>
+            <span class="free-shipping">Gratuito</span>
           </div>
           <div class="sidebar-divider"></div>
           <div class="sidebar-row total-row">
@@ -347,13 +347,13 @@ const submitOrder = async () => {
 
     await Swal.fire({
       icon: 'success',
-      title: '🎉 Comanda realitzada!',
+      title: '🎉 ¡Pedido realizado!',
       html: `
-        <p style="margin:8px 0">El teu número de comanda és:</p>
+        <p style="margin:8px 0">Tu número de pedido es:</p>
         <p style="font-size:1.3em;font-weight:bold;color:#00D4AA">${order.order_number}</p>
-        <p style="margin-top:8px;font-size:0.9em;color:#aaa">Rebras una confirmació amb els detalls.</p>
+        <p style="margin-top:8px;font-size:0.9em;color:#aaa">Recibirás una confirmación con los detalles.</p>
       `,
-      confirmButtonText: 'Veure les meues comandes',
+      confirmButtonText: 'Ver mis pedidos',
       background: '#1a1f2e',
       color: '#ffffff',
       confirmButtonColor: '#00A1FF'
@@ -363,8 +363,8 @@ const submitOrder = async () => {
   } catch (err) {
     await Swal.fire({
       icon: 'error',
-      title: 'Error al processar',
-      text: ordersStore.error || 'No s\'ha pogut completar la comanda.',
+      title: 'Error al procesar',
+      text: ordersStore.error || 'No se ha podido completar el pedido.',
       background: '#1a1f2e',
       color: '#ffffff',
       confirmButtonColor: '#ff4757'
@@ -409,6 +409,7 @@ const submitOrder = async () => {
   margin-bottom: 25px;
   background: linear-gradient(to right, #fff, #94a3b8);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 800;
 }

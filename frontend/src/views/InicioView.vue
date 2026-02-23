@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <section class="banner">
-      <BannerCarousel :slides="bannerSlides" />
+      <CarruselBanner :slides="bannerSlides" />
     </section>
 
     <main>
@@ -62,7 +62,7 @@
 import { onMounted, ref } from 'vue';
 import { useProductStore } from '@/stores/products';
 import http from '@/services/http';
-import BannerCarousel from '@/components/BannerCarousel.vue';
+import CarruselBanner from '@/components/CarruselBanner.vue';
 
 const bannerSlides = [
   { image: '/img/banner1.png', alt: 'Setup Gaming' },
@@ -190,8 +190,8 @@ main p {
   justify-content: center;
 }
 .card-image img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 80%;
+  height: 80%;
   object-fit: contain;
 }
 .card-info {

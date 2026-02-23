@@ -1,10 +1,10 @@
 <template>
   <article class="product-card" :aria-label="`Producto: ${product.name}`">
     <!-- Imagen del producto con optimización -->
-    <div class="product-card__image-wrapper">
+    <div class="product-card__image-wrapper" ref="wrapperRef" @mousemove="handleMouseMove" @mouseleave="handleMouseLeave">
       <router-link :to="`/products/${product.id}`" class="product-card__image-link">
-        <OptimizedImage
-          :src="productImage"
+        <ImagenOptimizada
+          :src="currentImageSrc"
           :alt="`Imagen de ${product.name} - ${product.category}`"
           width="300"
           height="300"
@@ -104,7 +104,7 @@
         {{ truncatedDescription }}
       </p>
       
-      <!-- Footer: Precio y Stock -->
+      <!-- PiePagina: Precio y Stock -->
       <div class="product-card__footer">
         <div class="product-card__price-section">
           <span class="product-card__price">{{ formattedPrice }}</span>
@@ -133,27 +133,27 @@
 </template>
 
 <script>
-import OptimizedImage from './OptimizedImage.vue';
+import ImagenOptimizada from './ImagenOptimizada.vue';
 import { useCartStore } from '@/stores/cart';
 import { useWishlistStore } from '@/stores/wishlist';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import Swal from 'sweetalert2';
 
 /**
- * ProductCard Component
+ * TarjetaProducto Component
  * 
  * Tarjeta de producto con soporte completo para etiquetas de sostenibilidad ASG.
  * Muestra información del producto, badges eco, y optimiza la carga de imágenes.
  * 
  * @component
  * @example
- * <ProductCard :product="productData" />
+ * <TarjetaProducto :product="productData" />
  */
 export default {
-  name: 'ProductCard',
+  name: 'TarjetaProducto',
   
   components: {
-    OptimizedImage
+    ImagenOptimizada
   },
   
   props: {
@@ -179,13 +179,78 @@ export default {
 
     const isFavorite = computed(() => wishlistStore.isInWishlist(props.product.id));
 
+    // AliExpress style image scrubbing hover effect
+    const hoverIndex = ref(0);
+    const wrapperRef = ref(null);
+
+    const galleryImages = computed(() => {
+      const images = [];
+      if (props.product.image) images.push(props.product.image);
+      
+      if (props.product.images && Array.isArray(props.product.images)) {
+        props.product.images.forEach(img => {
+          if (img && !images.includes(img)) images.push(img);
+        });
+      } else if (props.product.name) {
+        const knownExtraImages = [
+          "AMD Ryzen 5 7600X-2.webp", "AMD Ryzen 5 7600X-3.webp",
+          "ASUS Dual GeForce RTX 4070 Super-2.webp", "ASUS Dual GeForce RTX 4070 Super-3.webp", "ASUS Dual GeForce RTX 4070 Super-4.webp", "ASUS Dual GeForce RTX 4070 Super-5.webp",
+          "ASUS TUF GAMING B650-PLUS WIFI-2.jpg", "ASUS TUF GAMING B650-PLUS WIFI-3.jpg", "ASUS TUF GAMING B650-PLUS WIFI-4.jpg",
+          "CPU-AMD-7800X3D-2.webp", "Corsair 4000D Airflow Cristal Templado-2.webp", "Corsair 4000D Airflow Cristal Templado-3.jpg",
+          "Corsair Vengeance DDR5 32GB (2x16GB)-2.webp", "Corsair Vengeance DDR5 32GB (2x16GB)-3.webp",
+          "Intel Core i5-13600K-2.webp", "Intel Core i9-14900K-2.webp",
+          "Kingston FURY Beast DDR4 16GB (2x8GB)-2.webp", "Kingston FURY Beast DDR4 16GB (2x8GB)-3.webp",
+          "MSI MPG A1000G PCIE5 1000W 80 Plus Gold-2.webp", "MSI MPG A1000G PCIE5 1000W 80 Plus Gold-3.webp",
+          "Samsung 990 PRO 2TB-2.webp", "Samsung 990 PRO 2TB-3.webp", "Samsung 990 PRO 2TB-4.webp",
+          "WD_BLACK SN850X 1TB-2.webp", "WD_BLACK SN850X 1TB-3.webp"
+        ];
+        const extras = knownExtraImages.filter(img => img.startsWith(props.product.name + '-'));
+        extras.forEach(img => {
+          const fullPath = 'img/productos/' + img;
+          if (!images.includes(fullPath)) images.push(fullPath);
+        });
+        if (props.product.sku === 'CPU-AMD-7800X3D' || props.product.name.includes('7800X3D')) {
+          if (!images.includes('img/productos/CPU-AMD-7800X3D-2.webp')) {
+            images.push('img/productos/CPU-AMD-7800X3D-2.webp');
+          }
+        }
+      }
+      return images.length > 0 ? images : ['/img/placeholder-product.jpg'];
+    });
+
+    const currentImageSrc = computed(() => {
+      const img = galleryImages.value[hoverIndex.value] || galleryImages.value[0];
+      if (img.startsWith('http') || img.startsWith('/')) return img;
+      return `/${img}`;
+    });
+
+    const handleMouseMove = (e) => {
+      const images = galleryImages.value;
+      if (images.length <= 1 || !wrapperRef.value) return;
+      
+      const rect = wrapperRef.value.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const width = rect.width;
+      
+      const segment = width / images.length;
+      let index = Math.floor(x / segment);
+      if (index >= images.length) index = images.length - 1;
+      if (index < 0) index = 0;
+      
+      hoverIndex.value = index;
+    };
+
+    const handleMouseLeave = () => {
+      hoverIndex.value = 0;
+    };
+
     const addToCart = () => {
       cartStore.addItem(props.product);
       Swal.fire({
         toast: true,
-        position: 'top-end',
+        position: 'bottom-end',
         icon: 'success',
-        title: 'Afegit al carret',
+        title: 'Añadido al carrito',
         showConfirmButton: false,
         timer: 1500,
          background: '#1a1a1a',
@@ -200,19 +265,22 @@ export default {
     return {
       addToCart,
       toggleFavorite,
-      isFavorite
+      isFavorite,
+      wrapperRef,
+      handleMouseMove,
+      handleMouseLeave,
+      currentImageSrc,
+      galleryImages
     };
   },
   
   computed: {
     /**
      * Asegura que la ruta de la imagen sea absoluta si es local
+     * (Retenido temporalmente por retrocompatibilidad lógica)
      */
     productImage() {
-      const img = this.product.image;
-      if (!img) return '/img/placeholder-product.jpg';
-      if (img.startsWith('http') || img.startsWith('/')) return img;
-      return `/${img}`;
+      return this.currentImageSrc;
     },
 
     /**
@@ -371,6 +439,18 @@ export default {
   color: #ef4444;
 }
 
+.action-btn--fav.active .material-icons {
+  animation: heartbeat 0.6s ease-out forwards;
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.4); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
 /* Imagen */
 .product-card__image-wrapper {
   position: relative;
@@ -404,8 +484,8 @@ export default {
 }
 
 .product-card__image {
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
   object-fit: contain;
   transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -523,7 +603,7 @@ export default {
   margin: 0;
 }
 
-/* Footer */
+/* PiePagina */
 .product-card__footer {
   margin-top: auto;
   padding-top: 12px;
@@ -589,6 +669,24 @@ export default {
     font-size: 1rem;
   }
   
+  .product-card__footer {
+    flex-wrap: wrap; 
+    gap: 10px;
+    align-items: center;
+  }
+
+  .product-card__price-section {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .product-card__stock {
+    width: 100%;
+    text-align: left;
+  }
+
   .eco-badge {
     font-size: 0.7rem;
     padding: 3px 8px;

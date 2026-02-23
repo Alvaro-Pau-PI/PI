@@ -75,7 +75,7 @@
 
 <script>
 export default {
-  name: 'GuideView'
+  name: 'GuiaMontajeView'
 }
 </script>
 

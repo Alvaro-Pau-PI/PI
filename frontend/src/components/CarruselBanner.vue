@@ -43,7 +43,7 @@ const props = defineProps({
   slides: {
     type: Array,
     required: true,
-    // Expected format: [{ image: '/path/to/img.png', alt: 'Description' }]
+    // Formato esperado: [{ image: '/ruta/a/img.png', alt: 'Descripción' }]
   },
   interval: {
     type: Number,

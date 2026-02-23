@@ -4,7 +4,7 @@
       <div class="logo-container">
         <img src="/img/LOGO AlberoPerezTech.png" alt="Logo" class="login-logo"/>
       </div>
-      <h2>Iniciar Sessió</h2>
+      <h2>Iniciar Sesión</h2>
       <Form @submit="handleLogin" :validation-schema="schema" :initial-values="initialValues" v-slot="{ errors, isSubmitting }">
         <div class="form-group">
           <label for="email">Email</label>
@@ -12,7 +12,7 @@
           <ErrorMessage name="email" class="error-feedback" />
         </div>
         <div class="form-group">
-          <label for="password">Contrasenya</label>
+          <label for="password">Contraseña</label>
           <Field name="password" type="password" id="password" class="form-control" :class="{ 'is-invalid': errors.password }" placeholder="........" />
           <ErrorMessage name="password" class="error-feedback" />
         </div>
@@ -20,7 +20,7 @@
         <div class="form-group remember-me">
           <label class="checkbox-label">
             <input type="checkbox" v-model="rememberMe" />
-            <span>Recorda'm</span>
+            <span>Recuérdame</span>
           </label>
         </div>
 
@@ -33,7 +33,7 @@
         </button>
 
         <div class="divider">
-          <span>o continua amb</span>
+          <span>o continúa con</span>
         </div>
 
         <button type="button" class="google-btn" @click="handleGoogleLogin">
@@ -45,17 +45,17 @@
                 <path fill="#EA4335" d="M -14.754 43.769 C -12.984 43.769 -11.404 44.379 -10.154 45.579 L -6.734 42.159 C -8.804 40.229 -11.514 39.019 -14.754 39.019 C -19.464 39.019 -23.494 41.719 -25.464 45.639 L -21.484 48.729 C -20.534 45.879 -17.884 43.769 -14.754 43.769 Z"/>
               </g>
             </svg>
-            <span>Iniciar sessió amb Google</span>
+            <span>Iniciar sesión con Google</span>
         </button>
 
         <div class="auth-links">
           <div class="register-link">
-             <span class="text-muted">No tens compte?</span> 
-             <router-link to="/register" class="highlight-link">Registra't aquí</router-link>
+             <span class="text-muted">¿No tienes cuenta?</span> 
+             <router-link to="/register" class="highlight-link">Regístrate aquí</router-link>
           </div>
           <div class="back-link">
                <router-link to="/" class="subtle-link">
-                 <i class="bi bi-arrow-left"></i> Tornar a la botiga
+                 <i class="bi bi-arrow-left"></i> Volver a la tienda
                </router-link>
           </div>
         </div>
@@ -78,14 +78,14 @@ const localError = ref(null);
 const rememberMe = ref(false);
 
 const schema = yup.object({
-    email: yup.string().required('El email és obligatori').email('Email no vàlid'),
-    password: yup.string().required('La contrasenya és obligatoria').min(6, 'Mínim 6 caràcters')
+    email: yup.string().required('El email es obligatorio').email('Email no válido'),
+    password: yup.string().required('La contraseña es obligatoria').min(6, 'Mínimo 6 caracteres')
 });
 
 const errorMessage = computed(() => {
   if (localError.value) return localError.value;
   if (authStore.errors?.message) return authStore.errors.message;
-  if (authStore.errors) return 'Les credencials són incorrectes.';
+  if (authStore.errors) return 'Las credenciales son incorrectas.';
   return null;
 });
 
@@ -109,14 +109,14 @@ const handleLogin = async (values) => {
   } catch (error) {
     if (error.response) {
       if (error.response.status === 401) {
-        localError.value = 'Email o contrasenya incorrectes.';
+        localError.value = 'Email o contraseña incorrectos.';
       } else if (error.response.status === 422) {
-        localError.value = 'Dades no vàlides.';
+        localError.value = 'Datos no válidos.';
       } else {
         localError.value = 'Error en el servidor.';
       }
     } else {
-      localError.value = 'Error de connexió.';
+      localError.value = 'Error de conexión.';
     }
   }
 };

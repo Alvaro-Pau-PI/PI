@@ -1,31 +1,31 @@
 <template>
   <div class="products-container">
-    <h1>Catàleg de Productes</h1>
+    <h1>Catálogo de Productos</h1>
     
     <div class="catalog-layout">
       <!-- Botón Filtros Móvil -->
       <button class="mobile-filters-btn" @click="toggleFilters">
         <span class="material-icons">filter_list</span>
-        {{ filtersOpen ? 'Ocultar Filtres' : 'Mostrar Filtres' }}
+        {{ filtersOpen ? 'Ocultar Filtros' : 'Mostrar Filtros' }}
       </button>
 
       <!-- Filtros Sidebar -->
       <aside class="filters-sidebar" :class="{ 'filters-sidebar--open': filtersOpen }">
         <div class="filter-group">
-          <h3>Cerca</h3>
-          <input type="text" v-model="filters.search" placeholder="Nom del producte..." class="filter-input">
+          <h3>Búsqueda</h3>
+          <input type="text" v-model="filters.search" placeholder="Nombre del producto..." class="filter-input">
         </div>
 
         <div class="filter-group">
-          <h3>Categoria</h3>
+          <h3>Categoría</h3>
           <select v-model="filters.category" class="filter-select">
-            <option value="">Totes</option>
+            <option value="">Todas</option>
             <option v-for="cat in categories" :key="cat" :value="cat">{{ cat }}</option>
           </select>
         </div>
 
         <div class="filter-group">
-          <h3>Preu</h3>
+          <h3>Precio</h3>
           <div class="price-range">
             <input type="number" v-model.number="filters.min_price" placeholder="Min" class="price-input">
             <span>-</span>
@@ -34,22 +34,22 @@
         </div>
 
         <div class="filter-group sustainability-filter">
-          <h3>🌱 Sostenibilitat</h3>
+          <h3>🌱 Sostenibilidad</h3>
           <label class="checkbox-label">
             <input type="checkbox" v-model="filters.sustainable_only" />
-            <span>Només productes eco (Score ≥ 70)</span>
+            <span>Solo productos eco (Score ≥ 70)</span>
           </label>
           <label class="checkbox-label">
             <input type="checkbox" v-model="filters.refurbished_only" />
-            <span>♻️ Només reacondicionats</span>
+            <span>♻️ Solo reacondicionados</span>
           </label>
           <label class="checkbox-label">
             <input type="checkbox" v-model="filters.local_only" />
-            <span>🏠 Només proveïdors locals</span>
+            <span>🏠 Solo proveedores locales</span>
           </label>
         </div>
 
-        <button @click="resetFilters" class="btn-reset">Netejar Filtres</button>
+        <button @click="resetFilters" class="btn-reset">Limpiar Filtros</button>
       </aside>
 
       <!-- Grid de Productos -->
@@ -70,38 +70,38 @@
         <div v-else-if="productStore.error" class="error">{{ productStore.error }}</div>
         
         <div v-else-if="productStore.products.length === 0" class="no-results">
-            No s'han trobat productes amb aquests filtres.
+            No se han encontrado productos con estos filtros.
         </div>
 
         <div v-else>
             <div class="products-grid">
-              <ProductCard 
+              <TarjetaProducto 
                 v-for="product in productStore.products" 
                 :key="product.id"
                 :product="product"
               />
             </div>
 
-            <!-- Paginación -->
-            <div class="pagination-controls" v-if="productStore.pagination.last_page > 1">
-                <button 
-                    :disabled="productStore.pagination.current_page === 1" 
-                    @click="changePage(productStore.pagination.current_page - 1)"
-                    class="page-btn"
-                >
-                    &laquo; Anterior
-                </button>
-                
-                <span class="page-info">
-                    Pàgina {{ productStore.pagination.current_page }} de {{ productStore.pagination.last_page }}
-                </span>
+            <!-- Paginación: Mostrar estado -->
+            <div class="pagination-overview" v-if="productStore.pagination.total > 0">
+                <p class="items-count">
+                  Mostrando <strong>{{ productStore.products.length }}</strong> de <strong>{{ productStore.pagination.total }}</strong> productos
+                </p>
+                <!-- Barra de progreso visual -->
+                <div class="progress-bar">
+                  <div class="progress-fill" :style="{ width: Math.min((productStore.products.length / productStore.pagination.total) * 100, 100) + '%' }"></div>
+                </div>
+            </div>
 
+            <!-- Botón Cargar Más -->
+            <div class="pagination-controls load-more-container" v-if="productStore.pagination.current_page < productStore.pagination.last_page">
                 <button 
-                    :disabled="productStore.pagination.current_page === productStore.pagination.last_page" 
-                    @click="changePage(productStore.pagination.current_page + 1)"
-                    class="page-btn"
+                    @click="loadMore"
+                    class="btn-load-more"
+                    :disabled="productStore.loading"
                 >
-                    Següent &raquo;
+                    <span v-if="productStore.loading" class="material-icons spin">refresh</span>
+                    <span>{{ productStore.loading ? 'Cargando...' : 'Ver más productos' }}</span>
                 </button>
             </div>
         </div>
@@ -114,7 +114,7 @@
 import { onMounted, ref, watch } from 'vue';
 import { useProductStore } from '@/stores/products';
 import { storeToRefs } from 'pinia';
-import ProductCard from '@/components/ProductCard.vue';
+import TarjetaProducto from '@/components/TarjetaProducto.vue';
 
 const productStore = useProductStore();
 const { filters } = storeToRefs(productStore);
@@ -127,15 +127,15 @@ const toggleFilters = () => {
 
 // Categorías basadas en el modelo de Laravel
 const categories = [
-    'Processadors',
-    'Targetes Gràfiques',
-    'Plaques Base',
-    'Memòria RAM',
-    'Emmagatzematge',
-    'Fonts Alimentació',
-    'Caixes',
-    'Refrigeració',
-    'Altres'
+    'Procesadores',
+    'Tarjetas Gráficas',
+    'Placas Base',
+    'Memoria RAM',
+    'Almacenamiento',
+    'Fuentes Alimentación',
+    'Cajas',
+    'Refrigeración',
+    'Otros'
 ];
 
 // Debounce timer
@@ -154,9 +154,10 @@ watch(filters, () => {
     }, 500); // 500ms debounce
 }, { deep: true });
 
-const changePage = (page) => {
-    if (page >= 1 && page <= productStore.pagination.last_page) {
-        productStore.fetchProducts(page);
+const loadMore = () => {
+    const next = productStore.pagination.current_page + 1;
+    if (next <= productStore.pagination.last_page) {
+        productStore.fetchProducts(next, true);
     }
 };
 
@@ -206,6 +207,23 @@ h1 {
     border-radius: 12px;
     border: 1px solid #3A4150;
     height: fit-content;
+    /* Sticky Sidebar */
+    position: sticky;
+    top: 90px;
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
+}
+
+/* Scrollbar personalizado para el sidebar */
+.filters-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.filters-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.filters-sidebar::-webkit-scrollbar-thumb {
+  background-color: #3A4150;
+  border-radius: 10px;
 }
 
 .products-main {
@@ -230,6 +248,14 @@ h1 {
     border-radius: 6px;
     color: white;
     margin-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+.filter-input:focus, .filter-select:focus, .price-input:focus {
+    outline: none;
+    border-color: #00A1FF;
+    box-shadow: 0 0 12px rgba(0, 161, 255, 0.4);
+    background: #1A1D24;
 }
 
 .price-range {
@@ -372,26 +398,80 @@ h1 {
     background: rgba(0, 161, 255, 0.1);
 }
 
-.pagination-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin-top: 40px;
+/* --- PAGINACIÓN MODERNA --- */
+.pagination-overview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 50px;
+  margin-bottom: 25px;
 }
 
-.page-btn {
-    padding: 8px 16px;
-    background: #00A1FF;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+.items-count {
+  font-size: 1.05rem;
+  color: #9BA3B0;
+  margin: 0;
 }
 
-.page-btn:disabled {
-    background: #3A4150;
-    cursor: not-allowed;
+.items-count strong {
+  color: #EAEAEA;
+  font-weight: 600;
+}
+
+.progress-bar {
+  width: 100%;
+  max-width: 300px;
+  height: 6px;
+  background: #242833;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00A1FF, #00E4FF);
+  border-radius: 10px;
+  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-load-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 40px;
+  background: transparent;
+  color: #00A1FF;
+  border: 2px solid #00A1FF;
+  border-radius: 30px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-load-more:hover:not(:disabled) {
+  background: rgba(0, 161, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 161, 255, 0.2);
+}
+
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
 }
 
 .mobile-filters-btn {

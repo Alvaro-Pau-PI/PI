@@ -31,7 +31,7 @@
 
 <script>
 export default {
-  name: 'CookiesPolicyView'
+  name: 'PoliticaCookiesView'
 }
 </script>
 

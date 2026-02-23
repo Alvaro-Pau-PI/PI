@@ -33,17 +33,17 @@
         </thead>
         <tbody>
           <tr v-for="product in products" :key="product.id">
-            <td>#{{ product.id }}</td>
-            <td>
+            <td data-label="ID">#{{ product.id }}</td>
+            <td data-label="Nombre">
               <div class="product-name">
                 <span class="name-text">{{ product.name }}</span>
                 <span v-if="product.eco_score > 70" class="eco-badge">🌱</span>
               </div>
             </td>
-            <td>{{ product.category }}</td>
-            <td>{{ product.price }}€</td>
-            <td :class="{'low-stock': product.stock < 5}">{{ product.stock }}</td>
-            <td class="actions-cell">
+            <td data-label="Categoría">{{ product.category }}</td>
+            <td data-label="Precio">{{ product.price }}€</td>
+            <td data-label="Stock" :class="{'low-stock': product.stock < 5}">{{ product.stock }}</td>
+            <td data-label="Acciones" class="actions-cell">
               <button @click="editProduct(product)" class="btn-icon" title="Editar">
                 <span class="material-icons">edit</span>
               </button>
@@ -73,7 +73,7 @@
       <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
       <div class="modal-content">
         <h2>{{ editingProduct ? 'Editar Producto' : 'Nuevo Producto' }}</h2>
-        <ProductForm 
+        <FormularioProducto 
           :product="editingProduct" 
           :loading="loading"
           @submit="handleSave"
@@ -88,7 +88,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import http from '@/services/http';
-import ProductForm from './ProductForm.vue';
+import FormularioProducto from './FormularioProducto.vue';
 import { useToastStore } from '@/stores/toast';
 
 const toast = useToastStore();
@@ -392,5 +392,85 @@ onMounted(() => {
   background: rgba(46, 213, 115, 0.1);
   border: 1px solid #2ed573;
   color: #2ed573;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVO: TABLAS COMO TARJETAS MÓVILES
+   ══════════════════════════════════════════════════════════════ */
+@media (max-width: 860px) {
+  .header-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .action-buttons {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .action-buttons button {
+    flex: 1;
+    justify-content: center;
+    font-size: 0.9em;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-container {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  .products-table,
+  .products-table tbody,
+  .products-table tr,
+  .products-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .products-table thead {
+    display: none; /* Ocultar cabeceras en móvil */
+  }
+
+  .products-table tr {
+    margin-bottom: 20px;
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 10px;
+  }
+
+  .products-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    text-align: right; /* Alinear valor a la derecha */
+  }
+
+  .products-table td:last-child {
+    border-bottom: none;
+  }
+
+  /* Etiqueta inyectada vía dataset CSS */
+  .products-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    margin-right: 15px;
+    text-align: left;
+  }
+
+  .actions-cell {
+    justify-content: flex-end;
+  }
 }
 </style>

@@ -116,7 +116,7 @@
         </div>
         
         <div v-else-if="sustainableProducts.length > 0" class="products-grid">
-          <ProductCard 
+          <TarjetaProducto 
             v-for="product in sustainableProducts" 
             :key="product.id"
             :product="product"
@@ -215,14 +215,14 @@
 </template>
 
 <script>
-import ProductCard from '@/components/ProductCard.vue';
+import TarjetaProducto from '@/components/TarjetaProducto.vue';
 import axios from 'axios';
 
 export default {
-  name: 'SustainabilityView',
+  name: 'SostenibilidadView',
   
   components: {
-    ProductCard
+    TarjetaProducto
   },
   
   data() {

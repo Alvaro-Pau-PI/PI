@@ -1,8 +1,28 @@
 <template>
   <div class="product-detail-container">
-    <div v-if="productStore.loading" class="loading-state">
-      <div class="spinner"></div>
-      <p>Carregant producte...</p>
+    <div v-if="productStore.loading" class="loading-state skeleton-detail">
+      <nav class="breadcrumb skeleton-breadcrumb"></nav>
+      <div class="product-card-glass skeleton-glass">
+        <div class="product-layout">
+          <div class="product-image-section">
+            <div class="image-frame skeleton-image"></div>
+            <div class="gallery-thumbnails">
+               <div class="thumbnail-btn skeleton-thumb" v-for="i in 3" :key="i"></div>
+            </div>
+          </div>
+          <div class="product-info-section">
+            <div class="skeleton-line category"></div>
+            <div class="skeleton-line title"></div>
+            <div class="skeleton-line title short"></div>
+            <div class="skeleton-line ref"></div>
+            <div class="skeleton-line price"></div>
+            <div class="skeleton-btn big"></div>
+            <div class="skeleton-line text"></div>
+            <div class="skeleton-line text"></div>
+            <div class="skeleton-line text short"></div>
+          </div>
+        </div>
+      </div>
     </div>
     <div v-else-if="productStore.error" class="error-state">
       <span class="material-icons error-icon">error_outline</span>
@@ -12,9 +32,9 @@
     <div v-else-if="product" class="detail-wrapper">
       <!-- Breadcrumb -->
       <nav class="breadcrumb">
-        <router-link to="/">Inici</router-link>
+        <router-link to="/">Inicio</router-link>
         <span class="separator">›</span>
-        <router-link to="/products">Productes</router-link>
+        <router-link to="/products">Productos</router-link>
         <span class="separator">›</span>
         <span class="current">{{ product.name }}</span>
       </nav>
@@ -43,7 +63,7 @@
                 :class="{ active: currentImage === img }"
                 @click="currentImage = img"
                 type="button"
-                :aria-label="`Veure imatge ${index + 1}`"
+                :aria-label="`Ver imagen ${index + 1}`"
               >
                 <img :src="getImageUrl(img)" :alt="`${product.name} - Miniatura ${index + 1}`" />
               </button>
@@ -53,7 +73,7 @@
           <!-- Columna Info -->
           <div class="product-info-section">
             <!-- Categoría -->
-            <span class="product-category">{{ product.category || 'Producte' }}</span>
+            <span class="product-category">{{ product.category || 'Producto' }}</span>
             
             <h1 class="product-title">{{ product.name }}</h1>
             <p class="product-ref">REF: {{ product.sku || 'N/A' }}</p>
@@ -63,19 +83,19 @@
               <div class="stars-inline">
                 <span v-for="n in 5" :key="n" class="star" :class="{ filled: n <= averageRating }">★</span>
               </div>
-              <span class="rating-count">({{ product.reviews.length }} valoracions)</span>
+              <span class="rating-count">({{ product.reviews.length }} valoraciones)</span>
             </div>
 
             <div class="price-stock-box">
               <h2 class="product-price">{{ formatPrice(product.price) }}</h2>
               <span class="stock-badge" :class="{'in-stock': hasStock, 'out-stock': !hasStock}">
                 <span class="material-icons stock-icon">{{ hasStock ? 'check_circle' : 'cancel' }}</span>
-                {{ hasStock ? `En Estoc (${product.stock} u.)` : 'Esgotat' }}
+                {{ hasStock ? `En Stock (${product.stock} u.)` : 'Agotado' }}
               </span>
             </div>
 
             <div class="product-description-box">
-              <h3 class="description-title">Descripció del producte</h3>
+              <h3 class="description-title">Descripción del producto</h3>
               <p class="description-text">{{ product.description }}</p>
             </div>
 
@@ -83,9 +103,9 @@
             <div class="actions-box">
               <button class="add-cart-btn" :disabled="!hasStock" @click="addToCart">
                 <span class="material-icons btn-icon">shopping_cart</span>
-                <span class="btn-label">Afegir al Carret</span>
+                <span class="btn-label">Añadir al Carrito</span>
               </button>
-              <button class="wishlist-btn" @click="toggleFavorite" :class="{ 'active': isFavorite }" :title="isFavorite ? 'Treure de preferits' : 'Afegir a preferits'">
+              <button class="wishlist-btn" @click="toggleFavorite" :class="{ 'active': isFavorite }" :title="isFavorite ? 'Quitar de favoritos' : 'Añadir a favoritos'">
                 <span class="material-icons">{{ isFavorite ? 'favorite' : 'favorite_border' }}</span>
               </button>
             </div>
@@ -94,15 +114,15 @@
             <div class="quick-features">
               <div class="feature-item">
                 <span class="material-icons">local_shipping</span>
-                <span>Enviament gratuït +50€</span>
+                <span>Envío gratuito +50€</span>
               </div>
               <div class="feature-item">
                 <span class="material-icons">verified_user</span>
-                <span>Garantia 2 anys</span>
+                <span>Garantía de 2 años</span>
               </div>
               <div class="feature-item">
                 <span class="material-icons">replay</span>
-                <span>Devolució 30 dies</span>
+                <span>Devolución rápida en 30 días</span>
               </div>
             </div>
           </div>
@@ -112,7 +132,7 @@
         <div v-if="hasSustainabilityData" class="sustainability-section">
           <h3 class="section-title eco-title">
             <span class="material-icons">eco</span>
-            Compromís AlberoPerez Sostenible
+            Compromiso Sostenible AlberoPerez
           </h3>
           <div class="sustainability-grid">
             <div v-if="product.eco_score" class="eco-card" :class="ecoScoreClass">
@@ -127,20 +147,20 @@
             </div>
             <div v-if="product.is_refurbished" class="eco-card badge-refurbished">
               <span class="eco-emoji">♻️</span>
-              <span class="eco-card-label">Reacondicionat</span>
+              <span class="eco-card-label">Reacondicionado</span>
             </div>
             <div v-if="product.has_eco_packaging" class="eco-card badge-packaging">
               <span class="eco-emoji">📦</span>
-              <span class="eco-card-label">Embalatge Reciclable</span>
+              <span class="eco-card-label">Embalaje Reciclable</span>
             </div>
             <div v-if="product.is_local_supplier" class="eco-card badge-local">
               <span class="eco-emoji">🏠</span>
-              <span class="eco-card-label">Proveïdor Local</span>
+              <span class="eco-card-label">Proveedor Local</span>
             </div>
           </div>
           <div v-if="product.carbon_footprint" class="carbon-info">
             <span class="material-icons">public</span>
-            Petjada de carboni: <strong>{{ product.carbon_footprint }} kg CO2</strong>
+            Huella de carbono: <strong>{{ product.carbon_footprint }} kg CO2</strong>
           </div>
         </div>
       </div>
@@ -151,17 +171,17 @@
           <div class="reviews-title-group">
             <h3 class="section-title">
               <span class="material-icons">rate_review</span>
-              Valoracions
+              Valoraciones
             </h3>
             <span class="reviews-count" v-if="product.reviews && product.reviews.length > 0">
-              {{ product.reviews.length }} {{ product.reviews.length === 1 ? 'valoració' : 'valoracions' }}
+              {{ product.reviews.length }} {{ product.reviews.length === 1 ? 'valoración' : 'valoraciones' }}
             </span>
           </div>
           <button class="write-review-btn" @click="handleReviewClick" 
             :disabled="userHasReviewed" 
             :class="{ 'already-reviewed': userHasReviewed }">
             <span class="material-icons">{{ userHasReviewed ? 'check_circle' : 'edit' }}</span>
-            {{ userHasReviewed ? 'Ja has valorat' : 'Escriure Valoració' }}
+            {{ userHasReviewed ? 'Ya has valorado' : 'Escribir Valoración' }}
           </button>
         </div>
 
@@ -172,7 +192,7 @@
             <div class="big-stars">
               <span v-for="n in 5" :key="n" class="star" :class="{ filled: n <= Math.round(averageRating) }">★</span>
             </div>
-            <span class="total-reviews">{{ product.reviews.length }} valoracions</span>
+            <span class="total-reviews">{{ product.reviews.length }} valoraciones</span>
           </div>
           <div class="rating-bars">
             <div v-for="star in [5,4,3,2,1]" :key="star" class="bar-row">
@@ -188,11 +208,11 @@
         <!-- Lista de reviews -->
         <div v-if="!product.reviews || product.reviews.length === 0" class="no-reviews">
           <span class="material-icons empty-icon">forum</span>
-          <p class="empty-title">Encara no hi ha valoracions</p>
-          <p class="empty-subtitle">Sigues el primer en compartir la teva experiència amb aquest producte!</p>
+          <p class="empty-title">Todavía no hay valoraciones</p>
+          <p class="empty-subtitle">¡Sé el primero en compartir tu experiencia con este producto!</p>
           <button v-if="!userHasReviewed" class="write-review-btn primary" @click="handleReviewClick">
             <span class="material-icons">star</span>
-            Escriure la primera valoració
+            Escribir la primera valoración
           </button>
         </div>
         
@@ -204,7 +224,7 @@
                   {{ (review.user ? review.user.name : 'A').charAt(0).toUpperCase() }}
                 </div>
                 <div class="reviewer-details">
-                  <span class="reviewer-name">{{ review.user ? review.user.name : 'Anònim' }}</span>
+                  <span class="reviewer-name">{{ review.user ? review.user.name : 'Anónimo' }}</span>
                   <span class="review-date" v-if="review.created_at">{{ formatDate(review.created_at) }}</span>
                 </div>
               </div>
@@ -218,13 +238,13 @@
       </div>
 
       <!-- Productos Relacionados -->
-      <RelatedProducts v-if="product" :product-id="product.id" :limit="4" />
+      <ProductosRelacionados v-if="product" :product-id="product.id" :limit="4" />
 
       <!-- Modal de Reseña -->
-      <ReviewModal 
-        v-if="showReviewModal" 
+      <ModalResena 
+        v-if="showModalResena" 
         :productId="product.id"
-        @close="showReviewModal = false"
+        @close="showModalResena = false"
         @submit="handleReviewSubmit"
       />
 
@@ -232,14 +252,14 @@
       <div class="back-link">
         <router-link to="/products">
           <span class="material-icons">arrow_back</span>
-          Tornar al catàleg
+          Volver al catálogo
         </router-link>
       </div>
     </div>
     
     <div v-else class="error-state">
       <span class="material-icons error-icon">search_off</span>
-      <p>Producte no trobat</p>
+      <p>Producto no encontrado</p>
     </div>
   </div>
 </template>
@@ -251,8 +271,8 @@ import { useAuthStore } from '@/stores/auth';
 import { useCartStore } from '@/stores/cart';
 import { useWishlistStore } from '@/stores/wishlist';
 import { useRoute, useRouter } from 'vue-router';
-import ReviewModal from '@/components/ReviewModal.vue';
-import RelatedProducts from '@/components/RelatedProducts.vue';
+import ModalResena from '@/components/ModalResena.vue';
+import ProductosRelacionados from '@/components/ProductosRelacionados.vue';
 import Swal from 'sweetalert2';
 
 const route = useRoute();
@@ -261,7 +281,7 @@ const productStore = useProductStore();
 const authStore = useAuthStore();
 const cartStore = useCartStore();
 const wishlistStore = useWishlistStore();
-const showReviewModal = ref(false);
+const showModalResena = ref(false);
 const currentImage = ref('');
 
 const product = computed(() => productStore.currentProduct);
@@ -378,9 +398,9 @@ const ecoEmoji = computed(() => {
 
 const ecoRatingText = computed(() => {
   const score = product.value?.eco_score || 0;
-  if (score >= 80) return 'Excel·lent';
-  if (score >= 70) return 'Molt Bo';
-  if (score >= 60) return 'Bo';
+  if (score >= 80) return 'Excelente';
+  if (score >= 70) return 'Muy Bueno';
+  if (score >= 60) return 'Bueno';
   return 'Aceptable';
 });
 
@@ -404,7 +424,7 @@ const getImageUrl = (path) => {
 
 const formatDate = (dateStr) => {
   const date = new Date(dateStr);
-  return date.toLocaleDateString('ca-ES', { year: 'numeric', month: 'short', day: 'numeric' });
+  return date.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' });
 };
 
 const handleReviewClick = () => {
@@ -415,30 +435,30 @@ const handleReviewClick = () => {
     });
     return;
   }
-  showReviewModal.value = true;
+  showModalResena.value = true;
 };
 
 const handleReviewSubmit = async (reviewData) => {
   try {
     await productStore.addReview(product.value.id, reviewData);
-    showReviewModal.value = false;
+    showModalResena.value = false;
   } catch (e) {
     console.error('Error enviant ressenya:', e);
     if (e.response?.status === 409) {
       Swal.fire({
         icon: 'warning',
-        title: 'Ja has valorat',
-        text: e.response.data.message || 'Només pots deixar una valoració per producte.',
+        title: 'Ya has valorado',
+        text: e.response.data.message || 'Solo puedes dejar una valoración por producto.',
         background: '#1a1f2e',
         color: '#ffffff',
         confirmButtonColor: '#00A1FF'
       });
-      showReviewModal.value = false;
+      showModalResena.value = false;
     } else {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'No s\'ha pogut enviar la ressenya. Si us plau, torna-ho a intentar.',
+        text: 'No se ha podido enviar la reseña. Por favor, inténtalo de nuevo.',
         background: '#1a1f2e',
         color: '#ffffff',
         confirmButtonColor: '#ff4757'
@@ -464,7 +484,7 @@ const addToCart = () => {
         toast.addEventListener('mouseleave', Swal.resumeTimer);
       }
     });
-    Toast.fire({ icon: 'success', title: 'Afegit al carret! 🛒' });
+    Toast.fire({ icon: 'success', title: '¡Añadido al carrito! 🛒' });
   }
 };
 
@@ -543,7 +563,7 @@ const toggleFavorite = () => {
 }
 
 .image-frame {
-  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  background: white; /* linear-gradient(145deg, #ffffff, #f0f0f0); */
   border-radius: 20px;
   padding: 30px;
   display: flex;
@@ -554,9 +574,9 @@ const toggleFavorite = () => {
 }
 
 .main-image {
-  width: 100%;
+  width: 80%;
   max-width: 400px;
-  height: auto;
+  height: 80%;
   max-height: 400px;
   object-fit: contain;
   transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -784,6 +804,23 @@ const toggleFavorite = () => {
   box-shadow: 0 8px 30px rgba(14, 165, 233, 0.5);
 }
 .add-cart-btn:active:not(:disabled) { transform: translateY(-1px); }
+.add-cart-btn:active:not(:disabled)::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: ripple 0.6s ease-out forwards;
+}
+@keyframes ripple {
+  0% { width: 0; height: 0; opacity: 1; }
+  100% { width: 400px; height: 400px; opacity: 0; }
+}
+
 .add-cart-btn:disabled {
   background: #334155;
   cursor: not-allowed;
@@ -1167,4 +1204,38 @@ const toggleFavorite = () => {
   .quick-features { flex-direction: column; }
   .sustainability-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   SKELETON LOADERS (CARGA)
+   ══════════════════════════════════════════════════════════════ */
+.skeleton-detail {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.skeleton-breadcrumb {
+  height: 20px; width: 150px;
+  background: linear-gradient(90deg, #1A1D24 25%, #242833 50%, #1A1D24 75%);
+  background-size: 200% 100%; animation: skeleton-load 1.5s infinite linear;
+  border-radius: 4px; border: none;
+}
+.skeleton-glass { background: rgba(30, 34, 43, 0.65); border-radius: 24px; padding: 45px; }
+.skeleton-image { background: linear-gradient(90deg, #1A1D24 25%, #242833 50%, #1A1D24 75%); background-size: 200% 100%; animation: skeleton-load 1.5s infinite linear; box-shadow: none; border: none; }
+.skeleton-thumb { background: linear-gradient(90deg, #1A1D24 25%, #242833 50%, #1A1D24 75%); background-size: 200% 100%; animation: skeleton-load 1.5s infinite linear; border: none; }
+.skeleton-line { height: 20px; border-radius: 4px; background: linear-gradient(90deg, #1A1D24 25%, #242833 50%, #1A1D24 75%); background-size: 200% 100%; animation: skeleton-load 1.5s infinite linear; margin-bottom: 12px; }
+.skeleton-line.category { width: 100px; height: 25px; border-radius: 50px; margin-bottom: 15px;}
+.skeleton-line.title { width: 90%; height: 40px; margin-bottom: 5px; }
+.skeleton-line.title.short { width: 60%; margin-bottom: 20px; }
+.skeleton-line.ref { width: 120px; height: 15px; margin-bottom: 30px; }
+.skeleton-line.price { width: 180px; height: 50px; margin-bottom: 40px; }
+.skeleton-btn.big { width: 100%; height: 60px; border-radius: 14px; margin-bottom: 30px; background: linear-gradient(90deg, #1A1D24 25%, #242833 50%, #1A1D24 75%); background-size: 200% 100%; animation: skeleton-load 1.5s infinite linear; }
+.skeleton-line.text { width: 100%; height: 16px; margin-bottom: 8px; }
+.skeleton-line.text.short { width: 70%; }
+
+@keyframes skeleton-load { 
+  0% { background-position: 200% 0; } 
+  100% { background-position: -200% 0; } 
+}
+
 </style>

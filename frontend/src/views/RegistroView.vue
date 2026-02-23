@@ -4,27 +4,27 @@
       <div class="logo-container">
         <img src="/img/LOGO AlberoPerezTech.png" alt="Logo" class="login-logo"/>
       </div>
-      <h2>Crear Compte</h2>
+      <h2>Crear Cuenta</h2>
       <form @submit.prevent="handleRegister">
         
         <div class="form-group">
-          <label for="name">Nom</label>
-          <input type="text" id="name" v-model="name" required placeholder="El teu nom" />
+          <label for="name">Nombre</label>
+          <input type="text" id="name" v-model="name" required placeholder="Tu nombre" />
         </div>
 
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" v-model="email" required placeholder="tucorreu@exemple.com" />
+          <input type="email" id="email" v-model="email" required placeholder="tucorreo@ejemplo.com" />
         </div>
 
         <div class="form-group">
-          <label for="password">Contrasenya</label>
-          <input type="password" id="password" v-model="password" required placeholder="Mínim 8 caràcters" />
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" v-model="password" required placeholder="Mínimo 8 caracteres" />
         </div>
         
         <div class="form-group">
-          <label for="password_confirmation">Confirmar Contrasenya</label>
-          <input type="password" id="password_confirmation" v-model="password_confirmation" required placeholder="Repeteix la contrasenya" />
+          <label for="password_confirmation">Confirmar Contraseña</label>
+          <input type="password" id="password_confirmation" v-model="password_confirmation" required placeholder="Repite la contraseña" />
         </div>
 
         <div v-if="errorMessage" class="error-msg">
@@ -32,14 +32,14 @@
         </div>
 
         <button type="submit" :disabled="authStore.loading">
-            {{ authStore.loading ? 'Creant compte...' : "Registra't" }}
+            {{ authStore.loading ? 'Creando cuenta...' : "Regístrate" }}
         </button>
 
         <div class="register-link">
-            Ja tens compte? <router-link to="/login">Inicia Sessió</router-link>
+            ¿Ya tienes cuenta? <router-link to="/login">Inicia Sesión</router-link>
         </div>
         <div class="back-link">
-             <router-link to="/">← Tornar a la botiga</router-link>
+             <router-link to="/">← Volver a la tienda</router-link>
         </div>
       </form>
     </div>
@@ -76,12 +76,12 @@ const handleRegister = async () => {
     authStore.errors = null;
     
     if (password.value !== password_confirmation.value) {
-        localError.value = 'Les contrasenyes no coincideixen. Torna-ho a intentar.';
+        localError.value = 'Las contraseñas no coinciden. Vuelve a intentarlo.';
         return;
     }
     
     if (password.value.length < 8) {
-        localError.value = 'La contrasenya ha de tenir almenys 8 caràcters.';
+        localError.value = 'La contraseña debe tener al menos 8 caracteres.';
         return;
     }
 
@@ -99,19 +99,19 @@ const handleRegister = async () => {
             if (error.response.status === 422) {
                 const errors = error.response.data.errors;
                 if (errors?.email) {
-                    localError.value = 'Aquest email ja està registrat. Prova a iniciar sessió.';
+                    localError.value = 'Este email ya está registrado. Prueba a iniciar sesión.';
                 } else {
-                    localError.value = 'Les dades introduïdes no són vàlides. Revisa els camps.';
+                    localError.value = 'Los datos introducidos no son válidos. Revisa los campos.';
                 }
             } else if (error.response.status === 404) {
-                localError.value = 'El servei de registre no està disponible. Contacta amb l\'administrador.';
+                localError.value = 'El servicio de registro no está disponible. Contacta con el administrador.';
             } else {
-                localError.value = 'Error en el servidor. Torna-ho a intentar més tard.';
+                localError.value = 'Error en el servidor. Vuelve a intentarlo más tarde.';
             }
         } else if (error.message?.includes('Network Error')) {
-            localError.value = 'No es pot connectar amb el servidor. Verifica la teva connexió a Internet.';
+            localError.value = 'No se puede conectar con el servidor. Verifica tu conexión a internet.';
         } else {
-            localError.value = 'Error desconegut. Torna-ho a intentar.';
+            localError.value = 'Error desconocido. Vuelve a intentarlo.';
         }
     }
 };
