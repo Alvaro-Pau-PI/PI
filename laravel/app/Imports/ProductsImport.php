@@ -35,6 +35,17 @@ class ProductsImport implements ToModel, WithHeadingRow, WithValidation
             $product->category = $product->getCategoryFromSku();
         }
 
+        // Procesar imágenes extra desde CSV (separadas por coma)
+        $extraImgsRaw = $row['imatges_extra'] ?? $row['images'] ?? $row['imatges'] ?? null;
+        if ($extraImgsRaw) {
+            // Dividir por comas y limpiar espacios
+            $imgsArray = array_map('trim', explode(',', $extraImgsRaw));
+            // Filtrar elementos vacíos por si acaso
+            $product->images = array_filter($imgsArray, function($val) {
+                return !empty($val);
+            });
+        }
+
         $product->save();
 
         return $product;

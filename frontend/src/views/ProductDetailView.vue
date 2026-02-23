@@ -22,14 +22,31 @@
       <!-- Tarjeta principal de producto -->
       <div class="product-card-glass">
         <div class="product-layout">
-          <!-- Columna Imagen -->
+          <!-- Columna Imagen y Galería -->
           <div class="product-image-section">
             <div class="image-frame">
-              <img :src="getImageUrl(product.image)" :alt="product.name" class="main-image" />
+              <transition name="fade" mode="out-in">
+                <img :key="currentImage" :src="getImageUrl(currentImage)" :alt="product.name" class="main-image" />
+              </transition>
             </div>
             <!-- Badge Eco en la imagen -->
             <div v-if="product.eco_score >= 70" class="image-eco-badge" :class="ecoScoreClass">
               {{ ecoEmoji }} {{ product.eco_score }}
+            </div>
+            
+            <!-- Miniaturas (Galería) -->
+            <div v-if="galleryImages.length > 1" class="gallery-thumbnails">
+              <button 
+                v-for="(img, index) in galleryImages" 
+                :key="index"
+                class="thumbnail-btn"
+                :class="{ active: currentImage === img }"
+                @click="currentImage = img"
+                type="button"
+                :aria-label="`Veure imatge ${index + 1}`"
+              >
+                <img :src="getImageUrl(img)" :alt="`${product.name} - Miniatura ${index + 1}`" />
+              </button>
             </div>
           </div>
 
@@ -57,8 +74,9 @@
               </span>
             </div>
 
-            <div class="product-description">
-              <p>{{ product.description }}</p>
+            <div class="product-description-box">
+              <h3 class="description-title">Descripció del producte</h3>
+              <p class="description-text">{{ product.description }}</p>
             </div>
 
             <!-- Botones de acción principales -->
@@ -244,10 +262,57 @@ const authStore = useAuthStore();
 const cartStore = useCartStore();
 const wishlistStore = useWishlistStore();
 const showReviewModal = ref(false);
+const currentImage = ref('');
 
 const product = computed(() => productStore.currentProduct);
 const hasStock = computed(() => product.value?.stock > 0);
 const isFavorite = computed(() => product.value ? wishlistStore.isInWishlist(product.value.id) : false);
+
+// Llista d'imatges addicionals detectades al servidor per evitar 404s innecessaris
+const knownExtraImages = [
+  "AMD Ryzen 5 7600X-2.webp", "AMD Ryzen 5 7600X-3.webp",
+  "ASUS Dual GeForce RTX 4070 Super-2.webp", "ASUS Dual GeForce RTX 4070 Super-3.webp", "ASUS Dual GeForce RTX 4070 Super-4.webp", "ASUS Dual GeForce RTX 4070 Super-5.webp",
+  "ASUS TUF GAMING B650-PLUS WIFI-2.jpg", "ASUS TUF GAMING B650-PLUS WIFI-3.jpg", "ASUS TUF GAMING B650-PLUS WIFI-4.jpg",
+  "CPU-AMD-7800X3D-2.webp", "Corsair 4000D Airflow Cristal Templado-2.webp", "Corsair 4000D Airflow Cristal Templado-3.jpg",
+  "Corsair Vengeance DDR5 32GB (2x16GB)-2.webp", "Corsair Vengeance DDR5 32GB (2x16GB)-3.webp",
+  "Intel Core i5-13600K-2.webp", "Intel Core i9-14900K-2.webp",
+  "Kingston FURY Beast DDR4 16GB (2x8GB)-2.webp", "Kingston FURY Beast DDR4 16GB (2x8GB)-3.webp",
+  "MSI MPG A1000G PCIE5 1000W 80 Plus Gold-2.webp", "MSI MPG A1000G PCIE5 1000W 80 Plus Gold-3.webp",
+  "Samsung 990 PRO 2TB-2.webp", "Samsung 990 PRO 2TB-3.webp", "Samsung 990 PRO 2TB-4.webp",
+  "WD_BLACK SN850X 1TB-2.webp", "WD_BLACK SN850X 1TB-3.webp"
+];
+
+// Computed per la galeria d'imatges
+const galleryImages = computed(() => {
+  if (!product.value) return [];
+  const images = [];
+  
+  // 1. Imatge principal per defecte
+  if (product.value.image) images.push(product.value.image);
+  
+  // 2. Imatges extres del backend JSON (si existeixen)
+  if (product.value.images && Array.isArray(product.value.images) && product.value.images.length > 0) {
+    product.value.images.forEach(img => {
+      if (img && !images.includes(img)) images.push(img);
+    });
+  } else {
+    // 3. Fallback: buscar imatges extres a la llista coneguda per nom
+    if(product.value.name) {
+      const extras = knownExtraImages.filter(img => img.startsWith(product.value.name + '-'));
+      extras.forEach(img => {
+        const fullPath = 'img/productos/' + img;
+        if(!images.includes(fullPath)) images.push(fullPath);
+      });
+      // Cas especial per a la CPU 7800X3D segons el SKU o nom
+      if (product.value.sku === 'CPU-AMD-7800X3D' || product.value.name.includes('7800X3D')) {
+         if (!images.includes('img/productos/CPU-AMD-7800X3D-2.webp')) {
+           images.push('img/productos/CPU-AMD-7800X3D-2.webp');
+         }
+      }
+    }
+  }
+  return images;
+});
 
 // Comprovar si l'usuari actual ja ha valorat aquest producte
 const userHasReviewed = computed(() => {
@@ -285,6 +350,15 @@ watch(() => route.params.id, (newId) => {
     window.scrollTo(0, 0);
   }
 });
+
+// Inicialitzar la imatge principal en carregar el producte
+watch(() => product.value, (newProduct) => {
+  if (newProduct && newProduct.image) {
+    if(!currentImage.value || !galleryImages.value.includes(currentImage.value)) {
+      currentImage.value = newProduct.image;
+    }
+  }
+}, { immediate: true });
 
 const hasSustainabilityData = computed(() => {
   if (!product.value) return false;
@@ -591,14 +665,81 @@ const toggleFavorite = () => {
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
-/* Descripción */
-.product-description {
-  font-size: 1em;
-  line-height: 1.7;
-  color: #94A3B8;
+/* Descripción Rediseñada */
+.product-description-box {
   margin-bottom: 30px;
   border-top: 1px solid rgba(255,255,255,0.06);
-  padding-top: 18px;
+  padding-top: 24px;
+}
+.description-title {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #E2E8F0;
+  margin-bottom: 12px;
+}
+.description-text {
+  font-size: 1.05em;
+  line-height: 1.8;
+  color: #94A3B8;
+  letter-spacing: 0.2px;
+}
+
+/* Galerías y Animaciones */
+.gallery-thumbnails {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.2) transparent;
+}
+.thumbnail-btn {
+  background: rgba(255,255,255,0.03);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  min-width: 80px;
+  width: 80px;
+  height: 80px;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.thumbnail-btn img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+.thumbnail-btn:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.2);
+}
+.thumbnail-btn:hover img {
+  transform: scale(1.1);
+}
+.thumbnail-btn.active {
+  border-color: #00A1FF;
+  background: rgba(0, 161, 255, 0.05);
+  box-shadow: 0 0 15px rgba(0, 161, 255, 0.2);
+}
+
+/* Animaciones de cambio de imagen */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.fade-enter-from {
+  opacity: 0;
+  transform: scale(0.98);
+}
+.fade-leave-to {
+  opacity: 0;
+  transform: scale(1.02);
 }
 
 /* ══════════════════════════════════════════════════════════════

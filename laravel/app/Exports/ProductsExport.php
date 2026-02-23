@@ -26,11 +26,18 @@ class ProductsExport implements FromCollection, WithHeadings, WithMapping
             'PREU',
             'ESTOC',
             'IMG',
+            'IMATGES_EXTRA', // Nueva cabecera
         ];
     }
 
     public function map($product): array
     {
+        // Convertir el array de imágenes a un string separado por comas
+        $extraImagesStr = '';
+        if (is_array($product->images) && count($product->images) > 0) {
+            $extraImagesStr = implode(',', $product->images);
+        }
+
         return [
             $product->sku,
             $product->name,
@@ -38,6 +45,7 @@ class ProductsExport implements FromCollection, WithHeadings, WithMapping
             $product->price,
             $product->stock,
             $product->image,
+            $extraImagesStr, // Nueva columna mapeada
         ];
     }
 }
