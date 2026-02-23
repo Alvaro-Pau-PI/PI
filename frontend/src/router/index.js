@@ -49,6 +49,31 @@ const router = createRouter({
             component: () => import('../views/SustainabilityView.vue')
         },
         {
+            path: '/guia-montaje',
+            name: 'guide',
+            component: () => import('../views/GuideView.vue')
+        },
+        {
+            path: '/faq',
+            name: 'faq',
+            component: () => import('../views/FaqView.vue')
+        },
+        {
+            path: '/politica-privacidad',
+            name: 'privacy-policy',
+            component: () => import('../views/PrivacyPolicyView.vue')
+        },
+        {
+            path: '/terminos-condiciones',
+            name: 'terms',
+            component: () => import('../views/TermsView.vue')
+        },
+        {
+            path: '/politica-cookies',
+            name: 'cookies-policy',
+            component: () => import('../views/CookiesPolicyView.vue')
+        },
+        {
             path: '/cart',
             name: 'cart',
             component: () => import('../views/CartView.vue'),

@@ -30,16 +30,16 @@
         <ul>
           <li><router-link to="/contact">Contacto</router-link></li>
           <li><router-link to="/sostenibilidad">🌱 Sostenibilidad</router-link></li>
-          <li><a href="#">Guía de montaje de PCs</a></li>
-          <li><a href="#">FAQ</a></li>
+          <li><router-link to="/guia-montaje">Guía de montaje de PCs</router-link></li>
+          <li><router-link to="/faq">FAQ</router-link></li>
         </ul>
       </div>
       <div class="footerEspacio">
         <strong>Legal</strong>
         <ul>
-          <li><a href="#">Política de Privacidad</a></li>
-          <li><a href="#">Términos y Condiciones</a></li>
-          <li><a href="#">Política de Cookies</a></li>
+          <li><router-link to="/politica-privacidad">Política de Privacidad</router-link></li>
+          <li><router-link to="/terminos-condiciones">Términos y Condiciones</router-link></li>
+          <li><router-link to="/politica-cookies">Política de Cookies</router-link></li>
         </ul>
       </div>
     </div>
