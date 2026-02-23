@@ -19,16 +19,15 @@ class ProductsImport implements ToModel, WithHeadingRow, WithValidation
         // Buscar producto existente por SKU o crear uno nuevo
         $product = Product::firstOrNew(['sku' => $row['sku']]);
 
-        $product->name = $row['name'];
-        $product->description = $row['description'] ?? null;
-        $product->price = $row['price'];
-        $product->stock = $row['stock'];
-        $product->category = $row['category'] ?? null;
+        $product->name = $row['nom'] ?? $row['name'] ?? null;
+        $product->description = $row['descripcio'] ?? $row['description'] ?? null;
+        $product->price = $row['preu'] ?? $row['price'] ?? 0;
+        $product->stock = $row['estoc'] ?? $row['stock'] ?? 0;
+        $product->category = $row['categoria'] ?? $row['category'] ?? null;
         
-        // Si la imagen se proporciona en el excel, guardarla. 
-        // Nota: Esto espera una cadena de ruta, no el manejo real de subida de archivos dentro del excel por ahora.
-        if (isset($row['image'])) {
-            $product->image = $row['image'];
+        $img = $row['img'] ?? $row['image'] ?? null;
+        if ($img) {
+            $product->image = $img;
         }
         
         // Asignar categoría automáticamente si falta y es posible
@@ -45,10 +44,9 @@ class ProductsImport implements ToModel, WithHeadingRow, WithValidation
     {
         return [
             'sku' => 'required|string|max:50',
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-            // 'image' y 'category' son opcionales
+            'nom' => 'required_without:name|string|max:255',
+            'preu' => 'required_without:price|numeric|min:0',
+            'estoc' => 'required_without:stock|integer|min:0',
         ];
     }
 }

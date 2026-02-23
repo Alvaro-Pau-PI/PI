@@ -2,9 +2,18 @@
   <div class="admin-products container">
     <div class="header-actions">
       <h1>Gestión de Productos</h1>
-      <button @click="openCreateModal" class="btn-primary">
-        <span class="material-icons">add</span> Nuevo Producto
-      </button>
+      <div class="action-buttons" style="display: flex; gap: 10px;">
+        <button @click="triggerFileInput" class="btn-primary" style="background-color: #2ed573; color: white;">
+          <span class="material-icons">upload_file</span> Importar Excel
+        </button>
+        <button @click="exportExcel" class="btn-primary" style="background-color: #f39c12; color: white;">
+          <span class="material-icons">download</span> Exportar Excel
+        </button>
+        <button @click="openCreateModal" class="btn-primary">
+          <span class="material-icons">add</span> Nuevo Producto
+        </button>
+        <input type="file" ref="fileInput" @change="handleFileUpload" accept=".xlsx, .xls, .csv" style="display: none;" />
+      </div>
     </div>
 
     <!-- Error/Success Messages -->
@@ -78,14 +87,61 @@ const error = ref(null);
 const success = ref(null);
 const showModal = ref(false);
 const editingProduct = ref(null);
+const fileInput = ref(null);
+
+const triggerFileInput = () => {
+  if (fileInput.value) {
+    fileInput.value.click();
+  }
+};
+
+const exportExcel = async () => {
+  try {
+    const response = await http.get('/api/products/export', { responseType: 'blob' });
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'productos.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (err) {
+    error.value = "Error al exportar los productos.";
+    console.error(err);
+  }
+};
+
+const handleFileUpload = async (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  loading.value = true;
+  error.value = null;
+  success.value = null;
+
+  try {
+    const response = await http.post('/api/products/import', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    success.value = response.data.message || "Excel importado correctamente.";
+    fetchProducts();
+  } catch (err) {
+    error.value = err.response?.data?.message || "Error al importar el archivo Excel.";
+    console.error(err);
+  } finally {
+    loading.value = false;
+    event.target.value = '';
+  }
+};
 
 const fetchProducts = async () => {
   loading.value = true;
   try {
-    // Usamos el endpoint apiIndex que ya existe, asumiendo que lista todo paginado.
-    // Para simplificar, pedimos la primera página o si hay un endpoint "all" mejor.
-    // Usaremos apiIndex por defecto.
-    const response = await http.get('/api/products?page=1'); 
+    // Pedimos 100 productos por página para el panel de admin
+    const response = await http.get('/api/products?page=1&per_page=100'); 
     products.value = response.data.data;
   } catch (err) {
     error.value = "Error al cargar productos: " + err.message;
