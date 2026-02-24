@@ -7,7 +7,10 @@ const props = defineProps({
   webhookUrl: {
     type: String,
     // Usa variable de entorno o localhost por defecto
-    default: import.meta.env.VITE_N8N_WEBHOOK_URL || 'http://localhost:5678/webhook/MARK_PLACEHOLDER/chat'
+    default: () => {
+      const baseUrl = import.meta.env.VITE_N8N_BASE_URL || 'http://localhost:5678';
+      return `${baseUrl}/webhook/5627f35d-f3ea-4298-ab19-9c535ccec08d/chat`;
+    }
   }
 });
 
@@ -43,25 +46,42 @@ onMounted(() => {
 
 <style>
 /* Estilos globales para forzar el tema del Chatbot */
-:root {
-  --chat--color--primary: #FF6C00 !important;
-  --chat--color--secondary: #242833 !important;
-  --chat--color--dark: #1A1D24 !important;
-  --chat--color--light: #EAEAEA !important;
+:root, body {
+  /* Strategy: Define ALL potential variable variations to ensure override */
+  
+  /* Primary Colors */
+  --chat--color-primary: #FF6C00 !important;
+  --chat--color-secondary: #FF6C00 !important; 
+  --chat--color-dark: #1A1D24 !important;
+  --chat--color-light: #FFFFFF !important;
 
-  --chat--window--background-color: #1A1D24 !important;
-  --chat--header--background-color: #242833 !important;
-  --chat--header--color: #EAEAEA !important;
+  /* Header */
+  --chat--header-background: #FF6C00 !important;
+  --chat--header-color: #FFFFFF !important;
+  --chat--header--background: #FF6C00 !important;
+  --chat--header--color: #FFFFFF !important;
 
-  --chat--message--bot--background-color: #242833 !important;
-  --chat--message--bot--color: #EAEAEA !important;
+  /* Window */
+  --chat--window-background: #242833 !important;
+  --chat--window--background: #242833 !important;
 
-  --chat--message--user--background-color: #FF6C00 !important;
+  /* Bot Messages (Black/White) */
+  --chat--message-bot-background: #000000 !important;
+  --chat--message-bot-color: #FFFFFF !important;
+  --chat--message--bot--background: #000000 !important;
+  --chat--message--bot--color: #FFFFFF !important;
+
+  /* User Messages (Orange/White) */
+  --chat--message-user-background: #FF6C00 !important;
+  --chat--message-user-color: #FFFFFF !important;
+  --chat--message--user--background: #FF6C00 !important;
   --chat--message--user--color: #FFFFFF !important;
 
-  --chat--toggle--background-color: #FF6C00 !important;
-  --chat--toggle--hover--background-color: #e65c00 !important;
-  --chat--toggle--active--background-color: #e65c00 !important;
+  /* Toggle Button */
+  --chat--toggle-background: #FF6C00 !important;
+  --chat--toggle-hover-background: #e65c00 !important;
+  --chat--toggle--background: #FF6C00 !important;
+  --chat--toggle--hover--background: #e65c00 !important;
 }
 
 /* Ocultar marca de agua de n8n */
@@ -80,5 +100,124 @@ onMounted(() => {
 /* Asegurar que el chat esté por encima de todo */
 .n8n-chat-widget {
   z-index: 9999 !important;
+}
+
+/* OVERRIDES DIRECTOS PARA FORZAR ESTILOS */
+/* Fondo del chat completo */
+.chat-layout,
+.chat-window,
+.chat-body,
+.conversation-view,
+.n8n-chat-window,
+[class*="chat-window"],
+[class*="chat-layout"] {
+  background-color: #242833 !important;
+  background: #242833 !important;
+}
+
+/* Subtítulo de la cabecera en negro */
+.chat-header p,
+.chat-header span,
+div[class*="subtitle"] {
+  color: #000000 !important;
+}
+
+/* Mensajes del Usuario (Texto Blanco, Fondo Naranja) */
+.chat-message-user,
+.chat-message-user p, 
+.chat-message-user span,
+.chat-message-user div,
+.chat-message-user * {
+  background-color: transparent !important; /* Para que herede del padre si es necesario */
+  color: #FFFFFF !important;
+  font-weight: 500 !important;
+}
+.chat-message-user {
+  background-color: #FF6C00 !important; /* Solo el contenedor principal naranja */
+}
+
+/* Y si n8n usa otra clase para el texto dentro del globo naranja: */
+div[class*="message-user"] *,
+div[class*="ChatMessageUser"] * {
+  color: #FFFFFF !important;
+}
+
+/* Mensajes del Bot (Fondo Negro, Texto Blanco) */
+.chat-message-bot {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+.chat-message-bot p, 
+.chat-message-bot span,
+.chat-message-bot div,
+.chat-message-bot * {
+  color: #FFFFFF !important;
+}
+
+/* Input Area */
+.chat-input-container,
+.chat-footer {
+  background-color: #1A1D24 !important;
+}
+.chat-input {
+  color: #FFFFFF !important;
+  background-color: #1A1D24 !important;
+}
+.chat-input::placeholder {
+  color: #888888 !important;
+}
+
+/* Arreglos Avanzados para Tablas n8n en Chat */
+.n8n-chat-window table {
+  display: block !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+  border-collapse: collapse !important;
+  margin: 15px 0 !important;
+  font-size: 0.8rem !important; /* Letra más pequeña para que quepa más */
+  border-radius: 8px !important;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3) !important;
+  background-color: #1A1D24 !important;
+}
+
+/* Scrollbar estilizada para la tabla */
+.n8n-chat-window table::-webkit-scrollbar {
+  height: 6px;
+}
+.n8n-chat-window table::-webkit-scrollbar-thumb {
+  background-color: #00A1FF;
+  border-radius: 4px;
+}
+
+.n8n-chat-window th,
+.n8n-chat-window td {
+  padding: 10px 12px !important;
+  border: 1px solid #3A4150 !important;
+  white-space: nowrap !important; /* Totalmente prohibido hacer saltos de línea */
+  word-break: normal !important; /* Prohibido partir palabras */
+  text-align: left !important;
+}
+
+/* Forzar que ciertas columnas descriptivas puedan crecer un poco si lo necesitan, 
+   pero que sus textos sigan sin romperse */
+.n8n-chat-window td {
+  min-width: 80px;
+}
+
+.n8n-chat-window th {
+  background-color: #1A1D24 !important;
+  color: #00A1FF !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  border-bottom: 2px solid #00A1FF !important;
+}
+
+.n8n-chat-window tr:nth-child(even) td {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+.n8n-chat-window tr:hover td {
+  background-color: rgba(0, 161, 255, 0.1) !important;
 }
 </style>

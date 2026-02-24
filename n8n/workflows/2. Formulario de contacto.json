@@ -1,0 +1,118 @@
+{
+  "name": "2. Formulario de contacto",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "contact-form",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "webhook-node-id",
+      "name": "Webhook"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "={{ 'INSERT INTO contacts (name, email, subject, message, created_at, updated_at) VALUES (\\'' + $json.body.name + '\\', \\'' + $json.body.email + '\\', \\'' + $json.body.subject + '\\', \\'' + $json.body.message + '\\', NOW(), NOW());' }}"
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 1,
+      "position": [
+        220,
+        0
+      ],
+      "id": "mysql-node-id",
+      "name": "Insert into DB",
+      "credentials": {
+        "mySql": {
+          "id": "MYSQL_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "VaroPMo@gmail.com",
+        "subject": "={{ 'Propuesta de Proyecto: ' + $('Webhook').item.json.body.subject }}",
+        "message": "=<h1>Nuevo Mensaje de Contacto</h1>\n<p><strong>De:</strong> {{ $('Webhook').item.json.body.name }} ({{ $('Webhook').item.json.body.email }})</p>\n<p><strong>Asunto:</strong> {{ $('Webhook').item.json.body.subject }}</p>\n<p><strong>Mensaje:</strong></p>\n<p>{{ $('Webhook').item.json.body.message }}</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "gmail-node-id",
+      "name": "Send Email",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "e0eU2WPm0uiozVHe",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "responseBody": "={\n  \"status\": \"success\",\n  \"message\": \"Mensaje recibido y guardado correctamente\"\n}"
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        660,
+        0
+      ],
+      "id": "respond-node-id",
+      "name": "Respond to Frontend"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Insert into DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert into DB": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email": {
+      "main": [
+        [
+          {
+            "node": "Respond to Frontend",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

@@ -24,7 +24,7 @@ export const useProductStore = defineStore('products', {
         error: null
     }),
     actions: {
-        async fetchProducts(page = 1) {
+        async fetchProducts(page = 1, append = false) {
             this.loading = true;
             try {
                 // Construir query string manualmente para control total
@@ -73,17 +73,23 @@ export const useProductStore = defineStore('products', {
                     };
                 });
 
-                this.products = products;
+                let processedProducts = products;
 
                 // FILTRADO LOCAL (Solo mientras se use simulación)
                 if (this.filters.sustainable_only) {
-                    this.products = this.products.filter(p => p.eco_score >= 70);
+                    processedProducts = processedProducts.filter(p => p.eco_score >= 70);
                 }
                 if (this.filters.refurbished_only) {
-                    this.products = this.products.filter(p => p.is_refurbished);
+                    processedProducts = processedProducts.filter(p => p.is_refurbished);
                 }
                 if (this.filters.local_only) {
-                    this.products = this.products.filter(p => p.is_local_supplier);
+                    processedProducts = processedProducts.filter(p => p.is_local_supplier);
+                }
+
+                if (append && page > 1) {
+                    this.products = [...this.products, ...processedProducts];
+                } else {
+                    this.products = processedProducts;
                 }
 
                 this.pagination = {
@@ -93,8 +99,8 @@ export const useProductStore = defineStore('products', {
                     per_page: response.data.per_page
                 };
             } catch (err) {
-                this.error = err.message || 'Error carregant productes';
-                this.products = [];
+                this.error = err.message || 'Error cargando productos';
+                if (!append) this.products = [];
             } finally {
                 this.loading = false;
             }
@@ -114,7 +120,7 @@ export const useProductStore = defineStore('products', {
         async fetchProduct(id) {
             this.loading = true;
             try {
-                // Fetch product details
+                // Obtener los detalles del producto
                 const response = await http.get(`/api/products/${id}`);
                 const product = response.data;
 
@@ -130,7 +136,7 @@ export const useProductStore = defineStore('products', {
                     carbon_footprint: ecoSeed === 0 ? 2.5 : ecoSeed === 1 ? 3.8 : ecoSeed === 2 ? 4.2 : null
                 };
 
-                // Fetch reviews if endpoint exists
+                // Obtener reseñas si el endpoint existe
                 try {
                     const reviewsResponse = await http.get(`/api/products/${id}/reviews`);
                     this.currentProduct.reviews = reviewsResponse.data;
@@ -139,19 +145,20 @@ export const useProductStore = defineStore('products', {
                 }
 
             } catch (err) {
-                this.error = err.message || 'Error carregant producte';
+                if (err.response && err.response.status === 404) {
+                    this.error = 'Este producto ya no forma parte de nuestro catálogo o ha sido descatalogado.';
+                } else {
+                    this.error = err.message || 'Error cargando producto';
+                }
             } finally {
                 this.loading = false;
             }
         },
         async addReview(productId, reviewData) {
-            try {
-                await http.post(`/api/products/${productId}/reviews`, reviewData);
-                // Refresh product to see new review
-                await this.fetchProduct(productId);
-            } catch (error) {
-                throw error;
-            }
+            const response = await http.post(`/api/products/${productId}/reviews`, reviewData);
+            // Refrescar el producte per veure la nova ressenya
+            await this.fetchProduct(productId);
+            return response.data;
         }
     }
 })

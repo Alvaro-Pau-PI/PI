@@ -25,8 +25,22 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // Crear alguns usuaris de prova
-        User::factory(5)->create();
+        // Crear alguns usuaris de prova (Estàtics per evitar dependència de Faker en producció)
+        $testUsers = [
+            ['name' => 'Pau Albero', 'email' => 'pau@example.test'],
+            ['name' => 'Alvaro Perez', 'email' => 'alvaro@example.test'],
+            ['name' => 'User Test', 'email' => 'user@example.test'],
+        ];
+
+        foreach ($testUsers as $userData) {
+            User::updateOrCreate(
+                ['email' => $userData['email']],
+                [
+                    'name' => $userData['name'],
+                    'password' => bcrypt('password'),
+                ]
+            );
+        }
 
         // Executar ProductSeeder
         $this->call([

@@ -1,0 +1,39 @@
+name: Admin Command
+
+# ⚙️ Workflow Manual per a executar comandes artisan a Producció
+# Útil per a: migracions, seeds, neteja de cache, cues, etc.
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: 'Comanda Artisan a executar (sense "php artisan")'
+        required: true
+        default: 'migrate --force'
+        type: string
+      confirm:
+        description: 'Escriu "YES" per confirmar l execució a PRODUCCIÓ'
+        required: true
+        default: 'NO'
+
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'YES'
+    steps:
+      - name: Executing Admin Command on EC2
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          COMMAND: ${{ github.event.inputs.command }}
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            echo "--- 🚀 Executant: php artisan $COMMAND ---"
+            cd /home/ubuntu/PI
+            
+            # Executar dins del contenidor de l'aplicació
+            docker compose -f docker-compose.prod.yml exec -T laravel-app php artisan $COMMAND
+            
+            echo "--- ✅ Comanda finalitzada ---"

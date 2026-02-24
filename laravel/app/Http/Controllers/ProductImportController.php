@@ -37,4 +37,38 @@ class ProductImportController extends Controller
             return back()->with('error', 'S\'ha produït un error durant la importació: ' . $e->getMessage());
         }
     }
+    /**
+     * Manejar la petición de importación vía API.
+     */
+    public function storeAPI(Request $request)
+    {
+        if ($request->user()->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized action.'], 403);
+        }
+
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv|max:2048',
+        ]);
+
+        try {
+            Excel::import(new ProductsImport, $request->file('file'));
+            return response()->json(['message' => 'Productes importats correctament.'], 200);
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            return response()->json(['message' => 'Error en la validació de les dades.', 'failures' => $e->failures()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'S\'ha produït un error durant la importació: ' . $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Manejar la petición de exportación vía API.
+     */
+    public function exportAPI(Request $request)
+    {
+        if ($request->user()->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized action.'], 403);
+        }
+
+        return Excel::download(new \App\Exports\ProductsExport, 'productos.csv');
+    }
 }

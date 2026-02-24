@@ -53,6 +53,17 @@ class ReviewController extends Controller
             'rating' => 'nullable|integer|min:1|max:5',
         ]);
 
+        // Comprovar si l'usuari ja ha valorat aquest producte
+        $existingReview = Review::where('user_id', $request->user()->id)
+            ->where('product_id', $productId)
+            ->first();
+
+        if ($existingReview) {
+            return response()->json([
+                'message' => 'Ja has valorat aquest producte. Només es permet una valoració per producte.'
+            ], 409);
+        }
+
         $review = Review::create([
             'user_id' => $request->user()->id,
             'product_id' => $productId,
