@@ -5,11 +5,11 @@
     </section>
 
     <main>
-      <h2>🏆 Productos Destacados con IA</h2>
-      <p>Los componentes más populares y mejor valorados según nuestro algoritmo inteligente.</p>
+      <h2>{{ $t('home.featured_title') }}</h2>
+      <p>{{ $t('home.featured_desc') }}</p>
       
       <div class="catalog-btn-container">
-        <router-link to="/products" class="btn-catalog">Ver Catálogo Completo →</router-link>
+        <router-link to="/products" class="btn-catalog">{{ $t('home.view_catalog') }} &rarr;</router-link>
       </div>
 
       <section class="productos">
@@ -39,9 +39,15 @@
                   <span class="review-count">({{ product.reviews_count }})</span>
                 </div>
                 
-                <p class="price">{{ formatPrice(product.price) }}</p>
+                <div class="price-wrapper" style="display: flex; flex-direction: column; margin-bottom: 15px;">
+                  <span v-if="hasOffer(product)" class="price-original" style="font-size: 0.85em; color: #64748B; text-decoration: line-through;">{{ formatPrice(product.price) }}</span>
+                  <p class="price" :style="hasOffer(product) ? 'color: #ff4757; margin-bottom: 0;' : 'margin-bottom: 0;'">
+                    {{ formatPrice(getEffectivePrice(product)) }}
+                  </p>
+                </div>
+                
                 <div class="actions">
-                   <router-link :to="'/products/' + product.id" class="btn-details">Detalles</router-link>
+                   <router-link :to="'/products/' + product.id" class="btn-details">{{ $t('home.details') }}</router-link>
                 </div>
               </div>
            </div>
@@ -50,9 +56,9 @@
 
       <br>
 
-      <h2>Montaje</h2>
+      <h2>{{ $t('home.assembly') }}</h2>
       <video class="video-con-bordes" src="/img/VideoOrdenadorInfinito.mp4" autoplay muted loop playsinline>
-        Tu navegador no soporta el elemento de video.
+        {{ $t('home.video_unsupported') }}
       </video>
     </main>
   </div>
@@ -63,6 +69,7 @@ import { onMounted, ref } from 'vue';
 import { useProductStore } from '@/stores/products';
 import http from '@/services/http';
 import CarruselBanner from '@/components/CarruselBanner.vue';
+import { isOfferValid, getEffectivePrice } from '@/utils/offers';
 
 const bannerSlides = [
   { image: '/img/banner1.png', alt: 'Setup Gaming' },
@@ -113,6 +120,10 @@ const formatPrice = (price) => {
 
 const formatRating = (rating) => {
   return parseFloat(rating).toFixed(1);
+};
+
+const hasOffer = (product) => {
+  return isOfferValid(product);
 };
 </script>
 

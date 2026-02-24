@@ -1,55 +1,55 @@
 <template>
   <div class="products-container">
-    <h1>Catálogo de Productos</h1>
+    <h1>{{ $t('products.title') }}</h1>
     
     <div class="catalog-layout">
       <!-- Botón Filtros Móvil -->
       <button class="mobile-filters-btn" @click="toggleFilters">
         <span class="material-icons">filter_list</span>
-        {{ filtersOpen ? 'Ocultar Filtros' : 'Mostrar Filtros' }}
+        {{ filtersOpen ? $t('products.hide_filters') : $t('products.show_filters') }}
       </button>
 
       <!-- Filtros Sidebar -->
       <aside class="filters-sidebar" :class="{ 'filters-sidebar--open': filtersOpen }">
         <div class="filter-group">
-          <h3>Búsqueda</h3>
-          <input type="text" v-model="filters.search" placeholder="Nombre del producto..." class="filter-input">
+          <h3>{{ $t('products.search') }}</h3>
+          <input type="text" v-model="filters.search" :placeholder="$t('products.search_ph')" class="filter-input">
         </div>
 
         <div class="filter-group">
-          <h3>Categoría</h3>
+          <h3>{{ $t('products.category') }}</h3>
           <select v-model="filters.category" class="filter-select">
-            <option value="">Todas</option>
+            <option value="">{{ $t('products.all') }}</option>
             <option v-for="cat in categories" :key="cat" :value="cat">{{ cat }}</option>
           </select>
         </div>
 
         <div class="filter-group">
-          <h3>Precio</h3>
+          <h3>{{ $t('products.price') }}</h3>
           <div class="price-range">
-            <input type="number" v-model.number="filters.min_price" placeholder="Min" class="price-input">
+            <input type="number" v-model.number="filters.min_price" :placeholder="$t('products.min')" class="price-input">
             <span>-</span>
-            <input type="number" v-model.number="filters.max_price" placeholder="Max" class="price-input">
+            <input type="number" v-model.number="filters.max_price" :placeholder="$t('products.max')" class="price-input">
           </div>
         </div>
 
         <div class="filter-group sustainability-filter">
-          <h3>🌱 Sostenibilidad</h3>
+          <h3>{{ $t('products.sustainability') }}</h3>
           <label class="checkbox-label">
             <input type="checkbox" v-model="filters.sustainable_only" />
-            <span>Solo productos eco (Score ≥ 70)</span>
+            <span>{{ $t('products.eco') }}</span>
           </label>
           <label class="checkbox-label">
             <input type="checkbox" v-model="filters.refurbished_only" />
-            <span>♻️ Solo reacondicionados</span>
+            <span>{{ $t('products.refurbished') }}</span>
           </label>
           <label class="checkbox-label">
             <input type="checkbox" v-model="filters.local_only" />
-            <span>🏠 Solo proveedores locales</span>
+            <span>{{ $t('products.local') }}</span>
           </label>
         </div>
 
-        <button @click="resetFilters" class="btn-reset">Limpiar Filtros</button>
+        <button @click="resetFilters" class="btn-reset">{{ $t('products.clear_filters') }}</button>
       </aside>
 
       <!-- Grid de Productos -->
@@ -70,7 +70,7 @@
         <div v-else-if="productStore.error" class="error">{{ productStore.error }}</div>
         
         <div v-else-if="productStore.products.length === 0" class="no-results">
-            No se han encontrado productos con estos filtros.
+            {{ $t('products.no_results') }}
         </div>
 
         <div v-else>
@@ -85,7 +85,7 @@
             <!-- Paginación: Mostrar estado -->
             <div class="pagination-overview" v-if="productStore.pagination.total > 0">
                 <p class="items-count">
-                  Mostrando <strong>{{ productStore.products.length }}</strong> de <strong>{{ productStore.pagination.total }}</strong> productos
+                  {{ $t('products.showing') }} <strong>{{ productStore.products.length }}</strong> {{ $t('products.of') }} <strong>{{ productStore.pagination.total }}</strong> {{ $t('products.products_lower') }}
                 </p>
                 <!-- Barra de progreso visual -->
                 <div class="progress-bar">
@@ -101,7 +101,7 @@
                     :disabled="productStore.loading"
                 >
                     <span v-if="productStore.loading" class="material-icons spin">refresh</span>
-                    <span>{{ productStore.loading ? 'Cargando...' : 'Ver más productos' }}</span>
+                    <span>{{ productStore.loading ? $t('products.loading') : $t('products.load_more') }}</span>
                 </button>
             </div>
         </div>

@@ -3,49 +3,54 @@
     <div class="footer">
       <div class="footerEspacio">
         <img src="/img/LOGO AlberoPerezTech.png" alt="Logo AlberoPerez Tech pie">
-        <p>Tu tienda de informática y componentes de confianza.</p>
+        <p>{{ $t('footer.tagline') }}</p>
       </div>
       <div class="footerEspacio">
-        <strong>¡Suscríbete!</strong>
-        <p>Recibe las mejores ofertas y novedades.</p>
+        <strong>{{ $t('footer.subscribe_title') }}</strong>
+        <p>{{ $t('footer.subscribe_desc') }}</p>
         <div class="newsletter-form">
-          <label for="newsletter-email" class="sr-only">Correo electrónico para newsletter</label>
+          <label for="newsletter-email" class="sr-only">{{ $t('footer.email_aria') }}</label>
           <input 
             id="newsletter-email" 
             type="email" 
-            placeholder="Escribe tu email aquí"
-            aria-label="Correo electrónico para newsletter"
+            :placeholder="$t('footer.email_ph')"
+            :aria-label="$t('footer.email_aria')"
             required
           >
           <button 
             type="submit" 
-            aria-label="Suscribirse al newsletter"
+            :aria-label="$t('footer.subscribe_aria')"
           >
-            Suscribirse
+            {{ $t('footer.subscribe_btn') }}
           </button>
         </div>
       </div>
       <div class="footerEspacio">
-        <strong>Enlaces Útiles</strong>
+        <strong>{{ $t('footer.links_title') }}</strong>
         <ul>
-          <li><router-link to="/contact">Contacto</router-link></li>
-          <li><router-link to="/sostenibilidad">🌱 Sostenibilidad</router-link></li>
-          <li><router-link to="/guia-montaje">Guía de montaje de PCs</router-link></li>
-          <li><router-link to="/faq">FAQ</router-link></li>
+          <li><router-link to="/contact">{{ $t('footer.contact') }}</router-link></li>
+          <li><router-link to="/sostenibilidad">{{ $t('footer.sustainability') }}</router-link></li>
+          <li><router-link to="/guia-montaje">{{ $t('footer.guide') }}</router-link></li>
+          <li><router-link to="/faq">{{ $t('footer.faq') }}</router-link></li>
         </ul>
       </div>
       <div class="footerEspacio">
-        <strong>Legal</strong>
+        <strong>{{ $t('footer.legal_title') }}</strong>
         <ul>
-          <li><router-link to="/politica-privacidad">Política de Privacidad</router-link></li>
-          <li><router-link to="/terminos-condiciones">Términos y Condiciones</router-link></li>
-          <li><router-link to="/politica-cookies">Política de Cookies</router-link></li>
+          <li><router-link to="/politica-privacidad">{{ $t('footer.privacy') }}</router-link></li>
+          <li><router-link to="/terminos-condiciones">{{ $t('footer.terms') }}</router-link></li>
+          <li><router-link to="/politica-cookies">{{ $t('footer.cookies') }}</router-link></li>
         </ul>
       </div>
     </div>
-    <span class="copyright">&copy; {{ new Date().getFullYear() }} AlberoPerez Tech. Todos los derechos reservados.</span>
+    <span class="copyright">&copy; {{ new Date().getFullYear() }} AlberoPerez Tech. {{ $t('footer.rights') }}</span>
   </footer>
 </template>
+
+<script setup>
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+</script>
 
 <style scoped>
 /* Estilos footer específicos si no están en global */

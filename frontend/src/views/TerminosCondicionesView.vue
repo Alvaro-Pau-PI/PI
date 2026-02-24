@@ -2,28 +2,28 @@
   <div class="static-view">
     <section class="hero-section">
       <div class="container">
-        <h1 class="hero__title">⚖️ Términos y Condiciones</h1>
-        <p class="hero__subtitle">Condiciones de venta y uso correcto de nuestra plataforma</p>
+        <h1 class="hero__title">{{ $t('legal.terms_t') }}</h1>
+        <p class="hero__subtitle">{{ $t('legal.terms_s') }}</p>
       </div>
     </section>
 
     <section class="content-section">
       <div class="container document-style">
-        <h2>1. Identidad del Titular Web</h2>
-        <p>Las condiciones aquí recogidas rigen el uso de este sitio web y el correspondiente acuerdo para las adquisiciones entre tú y nosotros. El mero acceso a esta página web nos exime de responsabilidades que puedan surgir fuera del uso intencionado descrito.</p>
+        <h2>{{ $t('legalb.terms1_t') }}</h2>
+        <p>{{ $t('legalb.terms1_b') }}</p>
 
-        <h2>2. Uso del Sitio Web</h2>
-        <p>El Usuario se compromete a realizar un uso adecuado y lícito del Sitio Web así como de los contenidos y servicios, de conformidad con la legislación aplicable en cada momento, las presentes Condiciones Generales de Uso, la moral, así como las buenas costumbres.</p>
-        <p>Está prohibido usar software que comprometa la integridad estructural o extraiga datos sin autorización.</p>
+        <h2>{{ $t('legalb.terms2_t') }}</h2>
+        <p>{{ $t('legalb.terms2_b1') }}</p>
+        <p>{{ $t('legalb.terms2_b2') }}</p>
 
-        <h2>3. Proceso de Presupuesto o Compra</h2>
-        <p>Para poder hacer compras en esta plataforma necesitas estar debidamente registrado, o en su defecto aceptar el tratamiento en la fase de pago de "invitado". Te expondremos siempre el subtotal y los impuestos (IVA aplicable) antes de la finalización de un pago con tu entidad bancaria.</p>
+        <h2>{{ $t('legalb.terms3_t') }}</h2>
+        <p>{{ $t('legalb.terms3_b') }}</p>
 
-        <h2>4. Precios y Forma de pago</h2>
-        <p>Nuestros precios se muestran con carácter ordinario con los impuestos correspondientes si procede. Utilizamos pasarelas de pago seguro para salvaguardar tu capacidad de pago. Nos reservamos el derecho de revisión de precios en cualquier momento en el catálogo de productos.</p>
+        <h2>{{ $t('legalb.terms4_t') }}</h2>
+        <p>{{ $t('legalb.terms4_b') }}</p>
 
-        <h2>5. Envíos y Reclamaciones</h2>
-        <p>Trataremos que los envíos se tramiten en un límite razonable nunca superior a tres semanas desde la formalización a menos que el producto estuviese explícitamente sin stock de reserva.</p>
+        <h2>{{ $t('legalb.terms5_t') }}</h2>
+        <p>{{ $t('legalb.terms5_b') }}</p>
       </div>
     </section>
   </div>

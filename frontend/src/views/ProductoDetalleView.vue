@@ -32,9 +32,9 @@
     <div v-else-if="product" class="detail-wrapper">
       <!-- Breadcrumb -->
       <nav class="breadcrumb">
-        <router-link to="/">Inicio</router-link>
+        <router-link to="/">{{ $t('detail.home') }}</router-link>
         <span class="separator">›</span>
-        <router-link to="/products">Productos</router-link>
+        <router-link to="/products">{{ $t('detail.products') }}</router-link>
         <span class="separator">›</span>
         <span class="current">{{ product.name }}</span>
       </nav>
@@ -52,6 +52,12 @@
             <!-- Badge Eco en la imagen -->
             <div v-if="product.eco_score >= 70" class="image-eco-badge" :class="ecoScoreClass">
               {{ ecoEmoji }} {{ product.eco_score }}
+            </div>
+
+            <!-- Badge Oferta -->
+            <div v-if="hasOffer" class="image-offer-badge">
+              <span class="discount-pill">-{{ discountPercentage }}%</span>
+              <span v-if="expiringSoon" class="expiring-pill">⏳ ¡Termina pronto!</span>
             </div>
             
             <!-- Miniaturas (Galería) -->
@@ -76,26 +82,29 @@
             <span class="product-category">{{ product.category || 'Producto' }}</span>
             
             <h1 class="product-title">{{ product.name }}</h1>
-            <p class="product-ref">REF: {{ product.sku || 'N/A' }}</p>
+            <p class="product-ref">{{ $t('detail.ref') }}: {{ product.sku || 'N/A' }}</p>
             
             <!-- Valoración media -->
             <div class="rating-summary" v-if="product.reviews && product.reviews.length > 0">
               <div class="stars-inline">
                 <span v-for="n in 5" :key="n" class="star" :class="{ filled: n <= averageRating }">★</span>
               </div>
-              <span class="rating-count">({{ product.reviews.length }} valoraciones)</span>
+              <span class="rating-count">({{ product.reviews.length }} {{ $t('detail.ratings') }})</span>
             </div>
 
             <div class="price-stock-box">
-              <h2 class="product-price">{{ formatPrice(product.price) }}</h2>
+              <div class="price-wrapper">
+                <span v-if="hasOffer" class="product-price-original">{{ formatPrice(product.price) }}</span>
+                <h2 class="product-price" :class="{'price-discounted': hasOffer}">{{ formatPrice(effectivePrice) }}</h2>
+              </div>
               <span class="stock-badge" :class="{'in-stock': hasStock, 'out-stock': !hasStock}">
                 <span class="material-icons stock-icon">{{ hasStock ? 'check_circle' : 'cancel' }}</span>
-                {{ hasStock ? `En Stock (${product.stock} u.)` : 'Agotado' }}
+                {{ hasStock ? `${$t('detail.in_stock')} (${product.stock} u.)` : $t('detail.out_stock') }}
               </span>
             </div>
 
             <div class="product-description-box">
-              <h3 class="description-title">Descripción del producto</h3>
+              <h3 class="description-title">{{ $t('detail.desc_title') }}</h3>
               <p class="description-text">{{ product.description }}</p>
             </div>
 
@@ -103,7 +112,7 @@
             <div class="actions-box">
               <button class="add-cart-btn" :disabled="!hasStock" @click="addToCart">
                 <span class="material-icons btn-icon">shopping_cart</span>
-                <span class="btn-label">Añadir al Carrito</span>
+                <span class="btn-label">{{ $t('detail.add_cart') }}</span>
               </button>
               <button class="wishlist-btn" @click="toggleFavorite" :class="{ 'active': isFavorite }" :title="isFavorite ? 'Quitar de favoritos' : 'Añadir a favoritos'">
                 <span class="material-icons">{{ isFavorite ? 'favorite' : 'favorite_border' }}</span>
@@ -114,15 +123,15 @@
             <div class="quick-features">
               <div class="feature-item">
                 <span class="material-icons">local_shipping</span>
-                <span>Envío gratuito +50€</span>
+                <span>{{ $t('detail.free_shipping') }}</span>
               </div>
               <div class="feature-item">
                 <span class="material-icons">verified_user</span>
-                <span>Garantía de 2 años</span>
+                <span>{{ $t('detail.warranty') }}</span>
               </div>
               <div class="feature-item">
                 <span class="material-icons">replay</span>
-                <span>Devolución rápida en 30 días</span>
+                <span>{{ $t('detail.return') }}</span>
               </div>
             </div>
           </div>
@@ -132,7 +141,7 @@
         <div v-if="hasSustainabilityData" class="sustainability-section">
           <h3 class="section-title eco-title">
             <span class="material-icons">eco</span>
-            Compromiso Sostenible AlberoPerez
+            {{ $t('detail.eco_commitment') }} AlberoPerez
           </h3>
           <div class="sustainability-grid">
             <div v-if="product.eco_score" class="eco-card" :class="ecoScoreClass">
@@ -147,41 +156,41 @@
             </div>
             <div v-if="product.is_refurbished" class="eco-card badge-refurbished">
               <span class="eco-emoji">♻️</span>
-              <span class="eco-card-label">Reacondicionado</span>
+              <span class="eco-card-label">{{ $t('detail.refurbished') }}</span>
             </div>
             <div v-if="product.has_eco_packaging" class="eco-card badge-packaging">
               <span class="eco-emoji">📦</span>
-              <span class="eco-card-label">Embalaje Reciclable</span>
+              <span class="eco-card-label">{{ $t('detail.eco_pack') }}</span>
             </div>
             <div v-if="product.is_local_supplier" class="eco-card badge-local">
               <span class="eco-emoji">🏠</span>
-              <span class="eco-card-label">Proveedor Local</span>
+              <span class="eco-card-label">{{ $t('detail.local_sup') }}</span>
             </div>
           </div>
           <div v-if="product.carbon_footprint" class="carbon-info">
             <span class="material-icons">public</span>
-            Huella de carbono: <strong>{{ product.carbon_footprint }} kg CO2</strong>
+            {{ $t('detail.carbon') }}: <strong>{{ product.carbon_footprint }} kg CO2</strong>
           </div>
         </div>
       </div>
 
-      <!-- Sección de Valoraciones rediseñada -->
+      <!-- Sección de {{ $t('detail.reviews_title') }} rediseñada -->
       <div class="reviews-section">
         <div class="reviews-header">
           <div class="reviews-title-group">
             <h3 class="section-title">
               <span class="material-icons">rate_review</span>
-              Valoraciones
+              {{ $t('detail.reviews_title') }}
             </h3>
             <span class="reviews-count" v-if="product.reviews && product.reviews.length > 0">
-              {{ product.reviews.length }} {{ product.reviews.length === 1 ? 'valoración' : 'valoraciones' }}
+              {{ product.reviews.length }} {{ product.reviews.length === 1 ? $t('detail.rating_single') : $t('detail.ratings') }}
             </span>
           </div>
           <button class="write-review-btn" @click="handleReviewClick" 
             :disabled="userHasReviewed" 
             :class="{ 'already-reviewed': userHasReviewed }">
             <span class="material-icons">{{ userHasReviewed ? 'check_circle' : 'edit' }}</span>
-            {{ userHasReviewed ? 'Ya has valorado' : 'Escribir Valoración' }}
+            {{ userHasReviewed ? $t('detail.already_reviewed') : $t('detail.write_review') }}
           </button>
         </div>
 
@@ -208,11 +217,11 @@
         <!-- Lista de reviews -->
         <div v-if="!product.reviews || product.reviews.length === 0" class="no-reviews">
           <span class="material-icons empty-icon">forum</span>
-          <p class="empty-title">Todavía no hay valoraciones</p>
-          <p class="empty-subtitle">¡Sé el primero en compartir tu experiencia con este producto!</p>
+          <p class="empty-title">{{ $t('detail.no_reviews') }}</p>
+          <p class="empty-subtitle">{{ $t('detail.be_first') }}</p>
           <button v-if="!userHasReviewed" class="write-review-btn primary" @click="handleReviewClick">
             <span class="material-icons">star</span>
-            Escribir la primera valoración
+            {{ $t('detail.write_first') }}
           </button>
         </div>
         
@@ -252,14 +261,14 @@
       <div class="back-link">
         <router-link to="/products">
           <span class="material-icons">arrow_back</span>
-          Volver al catálogo
+          {{ $t('detail.back') }}
         </router-link>
       </div>
     </div>
     
     <div v-else class="error-state">
       <span class="material-icons error-icon">search_off</span>
-      <p>Producto no encontrado</p>
+      <p>{{ $t('detail.not_found') }}</p>
     </div>
   </div>
 </template>
@@ -274,6 +283,8 @@ import { useRoute, useRouter } from 'vue-router';
 import ModalResena from '@/components/ModalResena.vue';
 import ProductosRelacionados from '@/components/ProductosRelacionados.vue';
 import Swal from 'sweetalert2';
+import { useI18n } from 'vue-i18n';
+import { isOfferValid, getEffectivePrice, getDiscountPercentage, isExpiringSoon } from '@/utils/offers';
 
 const route = useRoute();
 const router = useRouter();
@@ -283,10 +294,16 @@ const cartStore = useCartStore();
 const wishlistStore = useWishlistStore();
 const showModalResena = ref(false);
 const currentImage = ref('');
+const { t } = useI18n();
 
 const product = computed(() => productStore.currentProduct);
 const hasStock = computed(() => product.value?.stock > 0);
 const isFavorite = computed(() => product.value ? wishlistStore.isInWishlist(product.value.id) : false);
+
+const hasOffer = computed(() => isOfferValid(product.value));
+const effectivePrice = computed(() => getEffectivePrice(product.value));
+const discountPercentage = computed(() => getDiscountPercentage(product.value));
+const expiringSoon = computed(() => isExpiringSoon(product.value));
 
 // Llista d'imatges addicionals detectades al servidor per evitar 404s innecessaris
 const knownExtraImages = [
@@ -447,7 +464,7 @@ const handleReviewSubmit = async (reviewData) => {
     if (e.response?.status === 409) {
       Swal.fire({
         icon: 'warning',
-        title: 'Ya has valorado',
+        title: t('detail.already_reviewed'),
         text: e.response.data.message || 'Solo puedes dejar una valoración por producto.',
         background: '#1a1f2e',
         color: '#ffffff',
@@ -597,6 +614,44 @@ const toggleFavorite = () => {
 .image-eco-badge.eco-very-good { background: rgba(34, 197, 94, 0.85); color: #fff; }
 .image-eco-badge.eco-good { background: rgba(132, 204, 22, 0.85); color: #fff; }
 
+.image-offer-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.discount-pill {
+  background: linear-gradient(135deg, #ff4757, #ff6b81);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 1.1em;
+  box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+  animation: pulse-soft 2s infinite;
+}
+
+.expiring-pill {
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffeb3b;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.85em;
+  font-weight: bold;
+  border: 1px solid rgba(255, 235, 59, 0.3);
+  backdrop-filter: blur(4px);
+}
+
+@keyframes pulse-soft {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
 /* ══════════════════════════════════════════════════════════════
    INFO DEL PRODUCTO
    ══════════════════════════════════════════════════════════════ */
@@ -647,7 +702,6 @@ const toggleFavorite = () => {
 .stars-inline .star.filled { color: #FBBF24; }
 .rating-count { color: #64748B; font-size: 0.85em; }
 
-/* Precio y stock */
 .price-stock-box {
   margin-bottom: 20px;
   display: flex;
@@ -656,12 +710,30 @@ const toggleFavorite = () => {
   gap: 16px;
 }
 
+.price-wrapper {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.product-price-original {
+  font-size: 1.2em;
+  color: #64748B;
+  text-decoration: line-through;
+  margin-bottom: 2px;
+}
+
 .product-price {
   color: #00E4FF;
   font-size: 2.6em;
   font-weight: 800;
   margin: 0;
   text-shadow: 0 0 20px rgba(0, 228, 255, 0.15);
+}
+
+.product-price.price-discounted {
+  color: #ff4757;
+  text-shadow: 0 0 20px rgba(255, 71, 87, 0.2);
 }
 
 .stock-badge {
@@ -997,7 +1069,7 @@ const toggleFavorite = () => {
   font-weight: 600;
 }
 
-/* Botón Escribir Valoración */
+/* Botón {{ $t('detail.write_review') }} */
 .write-review-btn {
   display: flex;
   align-items: center;

@@ -38,10 +38,17 @@
               <div class="product-name">
                 <span class="name-text">{{ product.name }}</span>
                 <span v-if="product.eco_score > 70" class="eco-badge">🌱</span>
+                <span v-if="product.is_offer_active" class="offer-badge" title="Oferta Activa">🔥 -{{ product.discount_percentage }}%</span>
               </div>
             </td>
             <td data-label="Categoría">{{ product.category }}</td>
-            <td data-label="Precio">{{ product.price }}€</td>
+            <td data-label="Precio">
+              <div v-if="product.is_offer_active" class="price-admin-wrapper">
+                <span class="old-price">{{ product.price }}€</span>
+                <span class="new-price">{{ product.discount_price }}€</span>
+              </div>
+              <span v-else>{{ product.price }}€</span>
+            </td>
             <td data-label="Stock" :class="{'low-stock': product.stock < 5}">{{ product.stock }}</td>
             <td data-label="Acciones" class="actions-cell">
               <button @click="editProduct(product)" class="btn-icon" title="Editar">
@@ -302,6 +309,37 @@ onMounted(() => {
   background: var(--bg-elevated);
   font-weight: 600;
   color: var(--text-secondary);
+}
+
+.product-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.offer-badge {
+  background: linear-gradient(135deg, #ff4757, #ff6b81);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.price-admin-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #9ca3af;
+  font-size: 0.85em;
+}
+
+.new-price {
+  color: #ff4757;
+  font-weight: bold;
 }
 
 .actions-cell {

@@ -4,23 +4,23 @@
       <div class="logo-container">
         <img src="/img/LOGO AlberoPerezTech.png" alt="Logo" class="login-logo"/>
       </div>
-      <h2>Iniciar Sesión</h2>
+      <h2>{{ $t('login.title') }}</h2>
       <Form @submit="handleLogin" :validation-schema="schema" :initial-values="initialValues" v-slot="{ errors, isSubmitting }">
         <div class="form-group">
-          <label for="email">Email</label>
-          <Field name="email" type="email" id="email" class="form-control" :class="{ 'is-invalid': errors.email }" placeholder="nombre@gmail.com" />
+          <label for="email">{{ $t('login.email') }}</label>
+          <Field name="email" type="email" id="email" class="form-control" :class="{ 'is-invalid': errors.email }" :placeholder="$t('login.email_ph')" />
           <ErrorMessage name="email" class="error-feedback" />
         </div>
         <div class="form-group">
-          <label for="password">Contraseña</label>
-          <Field name="password" type="password" id="password" class="form-control" :class="{ 'is-invalid': errors.password }" placeholder="........" />
+          <label for="password">{{ $t('login.password') }}</label>
+          <Field name="password" type="password" id="password" class="form-control" :class="{ 'is-invalid': errors.password }" :placeholder="$t('login.password_ph')" />
           <ErrorMessage name="password" class="error-feedback" />
         </div>
         
         <div class="form-group remember-me">
           <label class="checkbox-label">
             <input type="checkbox" v-model="rememberMe" />
-            <span>Recuérdame</span>
+            <span>{{ $t('login.remember') }}</span>
           </label>
         </div>
 
@@ -29,11 +29,11 @@
         </div>
 
         <button type="submit" :disabled="isSubmitting || authStore.loading" class="primary-btn" :class="{ 'loading': isSubmitting || authStore.loading }">
-            {{ (isSubmitting || authStore.loading) ? '' : 'Entrar' }}
+            {{ (isSubmitting || authStore.loading) ? '' : $t('login.enter') }}
         </button>
 
         <div class="divider">
-          <span>o continúa con</span>
+          <span>{{ $t('login.or') }}</span>
         </div>
 
         <button type="button" class="google-btn" @click="handleGoogleLogin">
@@ -45,17 +45,17 @@
                 <path fill="#EA4335" d="M -14.754 43.769 C -12.984 43.769 -11.404 44.379 -10.154 45.579 L -6.734 42.159 C -8.804 40.229 -11.514 39.019 -14.754 39.019 C -19.464 39.019 -23.494 41.719 -25.464 45.639 L -21.484 48.729 C -20.534 45.879 -17.884 43.769 -14.754 43.769 Z"/>
               </g>
             </svg>
-            <span>Iniciar sesión con Google</span>
+            <span>{{ $t('login.google') }}</span>
         </button>
 
         <div class="auth-links">
           <div class="register-link">
-             <span class="text-muted">¿No tienes cuenta?</span> 
-             <router-link to="/register" class="highlight-link">Regístrate aquí</router-link>
+             <span class="text-muted">{{ $t('login.no_account') }}</span> 
+             <router-link to="/register" class="highlight-link">{{ $t('login.register_here') }}</router-link>
           </div>
           <div class="back-link">
                <router-link to="/" class="subtle-link">
-                 <i class="bi bi-arrow-left"></i> Volver a la tienda
+                 <i class="bi bi-arrow-left"></i> {{ $t('login.back') }}
                </router-link>
           </div>
         </div>

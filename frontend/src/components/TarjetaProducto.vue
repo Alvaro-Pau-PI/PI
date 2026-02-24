@@ -1,5 +1,5 @@
 <template>
-  <article class="product-card" :aria-label="`Producto: ${product.name}`">
+  <article class="product-card" :class="{ 'has-active-offer': hasOffer }" :aria-label="`Producto: ${product.name}`">
     <!-- Imagen del producto con optimización -->
     <div class="product-card__image-wrapper" ref="wrapperRef" @mousemove="handleMouseMove" @mouseleave="handleMouseLeave">
       <router-link :to="`/products/${product.id}`" class="product-card__image-link">
@@ -31,6 +31,12 @@
         >
           <span class="material-icons">{{ isFavorite ? 'favorite' : 'favorite_border' }}</span>
         </button>
+      </div>
+      
+      <!-- Badge de Oferta Principal -->
+      <div v-if="hasOffer" class="product-card__offer-badges">
+        <span class="discount-pill">-{{ discountPercentage }}%</span>
+        <span v-if="expiringSoon" class="expiring-pill" title="Oferta por tiempo limitado">⏳ ¡Termina pronto!</span>
       </div>
       
       <!-- Badges de sostenibilidad -->
@@ -107,7 +113,10 @@
       <!-- PiePagina: Precio y Stock -->
       <div class="product-card__footer">
         <div class="product-card__price-section">
-          <span class="product-card__price">{{ formattedPrice }}</span>
+          <div class="price-wrapper">
+            <span v-if="hasOffer" class="product-card__price-original">{{ formattedOriginalPrice }}</span>
+            <span class="product-card__price" :class="{'price-discounted': hasOffer}">{{ formattedEffectivePrice }}</span>
+          </div>
           
           <!-- Huella de carbono (si disponible) -->
           <span 
@@ -138,6 +147,7 @@ import { useCartStore } from '@/stores/cart';
 import { useWishlistStore } from '@/stores/wishlist';
 import { computed, ref } from 'vue';
 import Swal from 'sweetalert2';
+import { isOfferValid, getEffectivePrice, getDiscountPercentage, isExpiringSoon } from '@/utils/offers';
 
 /**
  * TarjetaProducto Component
@@ -176,6 +186,11 @@ export default {
   setup(props) {
     const cartStore = useCartStore();
     const wishlistStore = useWishlistStore();
+
+    const hasOffer = computed(() => isOfferValid(props.product));
+    const effectivePrice = computed(() => getEffectivePrice(props.product));
+    const discountPercentage = computed(() => getDiscountPercentage(props.product));
+    const expiringSoon = computed(() => isExpiringSoon(props.product));
 
     const isFavorite = computed(() => wishlistStore.isInWishlist(props.product.id));
 
@@ -270,7 +285,11 @@ export default {
       handleMouseMove,
       handleMouseLeave,
       currentImageSrc,
-      galleryImages
+      galleryImages,
+      hasOffer,
+      effectivePrice,
+      discountPercentage,
+      expiringSoon
     };
   },
   
@@ -320,13 +339,23 @@ export default {
     },
     
     /**
-     * Precio formateado en euros
+     * Precio formateado en euros (Original)
      */
-    formattedPrice() {
+    formattedOriginalPrice() {
       return new Intl.NumberFormat('es-ES', {
         style: 'currency',
         currency: 'EUR'
       }).format(this.product.price);
+    },
+
+    /**
+     * Precio formateado en euros (Efectivo / Oferta)
+     */
+    formattedEffectivePrice() {
+      return new Intl.NumberFormat('es-ES', {
+        style: 'currency',
+        currency: 'EUR'
+      }).format(this.effectivePrice);
     },
     
     /**
@@ -378,6 +407,11 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+.product-card.has-active-offer {
+  border: 1px solid rgba(255, 107, 129, 0.3);
+  box-shadow: 0 4px 15px rgba(255, 71, 87, 0.1);
 }
 
 .product-card:hover {
@@ -587,13 +621,13 @@ export default {
 }
 
 .product-card__title a {
-  color: var(--color-text, #111827);
+  color: var(--color-primary, #00A1FF); /* Blue by default */
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .product-card__title a:hover {
-  color: var(--color-primary, #3b82f6);
+  color: #005f99; /* Darker blue on hover */
 }
 
 .product-card__description {
@@ -619,10 +653,66 @@ export default {
   gap: 4px;
 }
 
+.price-wrapper {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.product-card__price-original {
+  font-size: 0.9rem;
+  color: var(--color-text-muted, #9ca3af);
+  text-decoration: line-through;
+}
+
 .product-card__price {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--color-primary, #3b82f6);
+}
+
+.product-card__price.price-discounted {
+  color: #ff4757;
+}
+
+/* Offer Badges */
+.product-card__offer-badges {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  z-index: 2;
+}
+
+.discount-pill {
+  background: linear-gradient(135deg, #ff4757, #ff6b81);
+  color: white;
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3);
+  animation: pulse-soft 2s infinite;
+}
+
+.expiring-pill {
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  color: #ffeb3b;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 235, 59, 0.3);
+}
+
+@keyframes pulse-soft {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
 .product-card__carbon {

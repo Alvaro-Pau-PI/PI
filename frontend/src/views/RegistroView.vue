@@ -4,27 +4,27 @@
       <div class="logo-container">
         <img src="/img/LOGO AlberoPerezTech.png" alt="Logo" class="login-logo"/>
       </div>
-      <h2>Crear Cuenta</h2>
+      <h2>{{ $t('register.title') }}</h2>
       <form @submit.prevent="handleRegister">
         
         <div class="form-group">
-          <label for="name">Nombre</label>
-          <input type="text" id="name" v-model="name" required placeholder="Tu nombre" />
+          <label for="name">{{ $t('register.name') }}</label>
+          <input type="text" id="name" v-model="name" required :placeholder="$t('register.name_ph')" />
         </div>
 
         <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" v-model="email" required placeholder="tucorreo@ejemplo.com" />
+          <label for="email">{{ $t('register.email') }}</label>
+          <input type="email" id="email" v-model="email" required :placeholder="$t('register.email_ph')" />
         </div>
 
         <div class="form-group">
-          <label for="password">Contraseña</label>
-          <input type="password" id="password" v-model="password" required placeholder="Mínimo 8 caracteres" />
+          <label for="password">{{ $t('register.password') }}</label>
+          <input type="password" id="password" v-model="password" required :placeholder="$t('register.password_ph')" />
         </div>
         
         <div class="form-group">
-          <label for="password_confirmation">Confirmar Contraseña</label>
-          <input type="password" id="password_confirmation" v-model="password_confirmation" required placeholder="Repite la contraseña" />
+          <label for="password_confirmation">{{ $t('register.confirm_password') }}</label>
+          <input type="password" id="password_confirmation" v-model="password_confirmation" required :placeholder="$t('register.confirm_ph')" />
         </div>
 
         <div v-if="errorMessage" class="error-msg">
@@ -32,14 +32,14 @@
         </div>
 
         <button type="submit" :disabled="authStore.loading">
-            {{ authStore.loading ? 'Creando cuenta...' : "Regístrate" }}
+            {{ authStore.loading ? $t('register.creating') : $t('register.register') }}
         </button>
 
         <div class="register-link">
-            ¿Ya tienes cuenta? <router-link to="/login">Inicia Sesión</router-link>
+            {{ $t('register.have_account') }} <router-link to="/login">{{ $t('register.login_here') }}</router-link>
         </div>
         <div class="back-link">
-             <router-link to="/">← Volver a la tienda</router-link>
+             <router-link to="/">← {{ $t('register.back') }}</router-link>
         </div>
       </form>
     </div>

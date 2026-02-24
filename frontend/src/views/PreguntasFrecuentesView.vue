@@ -2,8 +2,8 @@
   <div class="static-view">
     <section class="hero-section">
       <div class="container">
-        <h1 class="hero__title">❓ Preguntas Frecuentes (FAQ)</h1>
-        <p class="hero__subtitle">Resolvemos todas tus inquietudes al instante.</p>
+        <h1 class="hero__title">{{ $t('faq.title') }}</h1>
+        <p class="hero__subtitle">{{ $t('faq.subtitle') }}</p>
       </div>
     </section>
 
@@ -11,41 +11,41 @@
       <div class="container">
         <!-- FAQ 1 -->
         <div class="faq-card">
-          <h2 class="faq-card__question">¿Ofrecéis envíos a domicilio?</h2>
+          <h2 class="faq-card__question">{{ $t('legalb.faq1_q') }}</h2>
           <div class="faq-card__answer">
-            <p>Sí, realizamos envíos a domicilio tanto a nivel nacional como internacional. Los tiempos de tránsito habituales son de 24 a 48 horas tras el procesamiento de tu pedido.</p>
+            <p>{{ $t('legalb.faq1_a') }}</p>
           </div>
         </div>
 
         <!-- FAQ 2 -->
         <div class="faq-card">
-          <h2 class="faq-card__question">¿Qué garantías tienen los productos reacondicionados?</h2>
+          <h2 class="faq-card__question">{{ $t('legalb.faq2_q') }}</h2>
           <div class="faq-card__answer">
-            <p>Todos nuestros productos reacondicionados han pasado un riguroso testeo de estrés y de calidad y cuentan con <strong>1 año entero de garantía</strong>, al igual que nuestro compromiso de sostenibilidad.</p>
+            <p>{{ $t('legalb.faq2_a') }}</p>
           </div>
         </div>
 
         <!-- FAQ 3 -->
         <div class="faq-card">
-          <h2 class="faq-card__question">¿Puedo devolver un componente si no es compatible?</h2>
+          <h2 class="faq-card__question">{{ $t('legalb.faq3_q') }}</h2>
           <div class="faq-card__answer">
-            <p>Dispones de 14 días naturales desde la recepción de tu envío para efectuar cualquier devolución sin penalización, siempre que el embalaje original se encuentre en perfectas condiciones y no presente indicios de maltrato.</p>
+            <p>{{ $t('legalb.faq3_a') }}</p>
           </div>
         </div>
 
         <!-- FAQ 4 -->
         <div class="faq-card">
-          <h2 class="faq-card__question">¿Cuáles son los métodos de pago aceptados?</h2>
+          <h2 class="faq-card__question">{{ $t('legalb.faq4_q') }}</h2>
           <div class="faq-card__answer">
-            <p>Aceptamos tarjetas de crédito o débito (Visa, MasterCard, American Express) de forma totalmente segura a través de nuestra pasarela cifrada.</p>
+            <p>{{ $t('legalb.faq4_a') }}</p>
           </div>
         </div>
 
         <!-- FAQ 5 -->
         <div class="faq-card">
-          <h2 class="faq-card__question">¿Cómo puedo aplicar un descuento de Eco-Score?</h2>
+          <h2 class="faq-card__question">{{ $t('legalb.faq5_q') }}</h2>
           <div class="faq-card__answer">
-            <p>Añadiendo productos con alto Eco-Score a tu cesta y acudiendo a tu área de cliente, en alguna de las promociones te indicarán como se aplica mecánicamente en tu pedido.</p>
+            <p>{{ $t('legalb.faq5_a') }}</p>
           </div>
         </div>
       </div>

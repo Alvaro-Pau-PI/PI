@@ -4,10 +4,10 @@
     <section class="sustainability-hero">
       <div class="container">
         <h1 class="sustainability-hero__title">
-          🌱 Compromiso con el Planeta
+          {{ $t('sus.title') }}
         </h1>
         <p class="sustainability-hero__subtitle">
-          Construyendo un futuro sostenible, un componente a la vez
+          {{ $t('sus.subtitle') }}
         </p>
       </div>
     </section>
@@ -19,25 +19,25 @@
           <div class="stat-card">
             <div class="stat-card__icon">♻️</div>
             <div class="stat-card__value">{{ stats.sustainable_products }}</div>
-            <div class="stat-card__label">Productos Sostenibles</div>
+            <div class="stat-card__label">{{ $t('sus.stat1') }}</div>
           </div>
           
           <div class="stat-card">
             <div class="stat-card__icon">📊</div>
             <div class="stat-card__value">{{ stats.sustainability_percentage }}%</div>
-            <div class="stat-card__label">Catálogo Eco</div>
+            <div class="stat-card__label">{{ $t('sus.stat2') }}</div>
           </div>
           
           <div class="stat-card">
             <div class="stat-card__icon">🔄</div>
             <div class="stat-card__value">{{ stats.refurbished_count }}</div>
-            <div class="stat-card__label">Reacondicionados</div>
+            <div class="stat-card__label">{{ $t('sus.stat3') }}</div>
           </div>
           
           <div class="stat-card">
             <div class="stat-card__icon">🏠</div>
             <div class="stat-card__value">{{ stats.local_suppliers_count }}</div>
-            <div class="stat-card__label">Proveedores Locales</div>
+            <div class="stat-card__label">{{ $t('sus.stat4') }}</div>
           </div>
         </div>
       </div>
@@ -46,57 +46,57 @@
     <!-- Explicación de Etiquetas Eco -->
     <section class="eco-labels-explanation">
       <div class="container">
-        <h2 class="section-title">🏷️ Nuestras Etiquetas de Sostenibilidad</h2>
+        <h2 class="section-title">{{ $t('sus.lbl_t') }}</h2>
         <p class="section-description">
-          Cada producto sostenible cuenta con etiquetas claras que te ayudan a tomar decisiones informadas
+          {{ $t('sus.lbl_s') }}
         </p>
         
         <div class="labels-grid">
           <div class="label-card">
             <div class="label-card__badge eco-badge--score eco-badge--excellent">🌿 80+</div>
-            <h3 class="label-card__title">Eco Score Excelente</h3>
+            <h3 class="label-card__title">{{ $t('sus.lvl1') }}</h3>
             <p class="label-card__description">
-              Productos con puntuación ecológica de 80 o superior. Máxima eficiencia y mínimo impacto ambiental.
+              {{ $t('sus.lvl1d') }}
             </p>
           </div>
           
           <div class="label-card">
             <div class="label-card__badge eco-badge--refurbished">♻️ Reacondicionado</div>
-            <h3 class="label-card__title">Producto Reacondicionado</h3>
+            <h3 class="label-card__title">{{ $t('sus.lvl2') }}</h3>
             <p class="label-card__description">
-              Segunda vida para componentes de calidad. Ahorro de recursos y reducción de residuos electrónicos.
+              {{ $t('sus.lvl2d') }}
             </p>
           </div>
           
           <div class="label-card">
             <div class="label-card__badge eco-badge--packaging">📦 Embalaje Eco</div>
-            <h3 class="label-card__title">Embalaje Reciclado</h3>
+            <h3 class="label-card__title">{{ $t('sus.lvl3') }}</h3>
             <p class="label-card__description">
-              Embalaje 100% reciclado y reciclable. Menos plástico, más sostenibilidad.
+              {{ $t('sus.lvl3d') }}
             </p>
           </div>
           
           <div class="label-card">
             <div class="label-card__badge eco-badge--local">🏠 Local</div>
-            <h3 class="label-card__title">Proveedor Local</h3>
+            <h3 class="label-card__title">{{ $t('sus.lvl4') }}</h3>
             <p class="label-card__description">
-              Distribuido localmente. Menor huella de carbono en transporte y apoyo a la economía local.
+              {{ $t('sus.lvl4d') }}
             </p>
           </div>
           
           <div class="label-card">
             <div class="label-card__badge eco-badge--recyclable">🌱 Reciclable</div>
-            <h3 class="label-card__title">Materiales Reciclables</h3>
+            <h3 class="label-card__title">{{ $t('sus.lvl5') }}</h3>
             <p class="label-card__description">
-              Fabricado con materiales reciclables. Diseñado para facilitar su reciclaje al final de su vida útil.
+              {{ $t('sus.lvl5d') }}
             </p>
           </div>
           
           <div class="label-card">
             <div class="label-card__badge eco-badge--carbon">🌍 Baja Huella</div>
-            <h3 class="label-card__title">Huella de Carbono Reducida</h3>
+            <h3 class="label-card__title">{{ $t('sus.lvl6') }}</h3>
             <p class="label-card__description">
-              Menos de 5 kg de CO₂ en su ciclo de vida. Comprometidos con la reducción de emisiones.
+              {{ $t('sus.lvl6d') }}
             </p>
           </div>
         </div>
@@ -106,13 +106,13 @@
     <!-- Economía Circular -->
     <section class="circular-economy">
       <div class="container">
-        <h2 class="section-title">🔄 Economía Circular</h2>
+        <h2 class="section-title">{{ $t('sus.circ_t') }}</h2>
         <p class="section-description">
-          Productos reacondicionados que demuestran que calidad y sostenibilidad van de la mano
+          {{ $t('sus.circ_s') }}
         </p>
         
         <div v-if="isLoadingProducts" class="loading">
-          <p>Cargando productos sostenibles...</p>
+          <p>{{ $t('sus.load') }}</p>
         </div>
         
         <div v-else-if="sustainableProducts.length > 0" class="products-grid">
@@ -124,12 +124,12 @@
         </div>
         
         <div v-else class="no-products">
-          <p>No hay productos sostenibles disponibles actualmente.</p>
+          <p>{{ $t('sus.empty') }}</p>
         </div>
         
         <div class="cta-button-wrapper">
           <router-link to="/products?sustainable_only=true" class="cta-button">
-            Ver todos los productos sostenibles →
+            {{ $t('sus.btn') }}
           </router-link>
         </div>
       </div>
@@ -138,45 +138,45 @@
     <!-- Políticas ASG -->
     <section class="asg-policies">
       <div class="container">
-        <h2 class="section-title">⚖️ Nuestros Pilares ASG</h2>
+        <h2 class="section-title">{{ $t('sus.asg_t') }}</h2>
         
         <div class="policies-grid">
-          <!-- Pilar Ambiental -->
+          <!-- Pilar {{ $t('sus.p1') }} -->
           <div class="policy-card">
             <div class="policy-card__icon">🌍</div>
-            <h3 class="policy-card__title">Ambiental</h3>
+            <h3 class="policy-card__title">{{ $t('sus.p1') }}</h3>
             <ul class="policy-card__list">
-              <li>✅ Optimización de recursos web (WebP, lazy loading)</li>
-              <li>✅ Promoción de productos reacondicionados</li>
-              <li>✅ Medición de huella de carbono</li>
-              <li>✅ Embalajes reciclados y reciclables</li>
-              <li>✅ Reducción de peso de página en 40%+</li>
+              <li>✅ {{ $t('sus.p1_1') }}</li>
+              <li>✅ {{ $t('sus.p1_2') }}</li>
+              <li>✅ {{ $t('sus.p1_3') }}</li>
+              <li>✅ {{ $t('sus.p1_4') }}</li>
+              <li>✅ {{ $t('sus.p1_5') }}</li>
             </ul>
           </div>
           
-          <!-- Pilar Social -->
+          <!-- Pilar {{ $t('sus.p2') }} -->
           <div class="policy-card">
             <div class="policy-card__icon">👥</div>
-            <h3 class="policy-card__title">Social</h3>
+            <h3 class="policy-card__title">{{ $t('sus.p2') }}</h3>
             <ul class="policy-card__list">
-              <li>✅ Accesibilidad WCAG AA completa</li>
-              <li>✅ Información clara y transparente</li>
-              <li>✅ UX inclusiva sin barreras</li>
-              <li>✅ Navegación por teclado optimizada</li>
-              <li>✅ Contraste de colores validado</li>
+              <li>✅ {{ $t('sus.p2_1') }}</li>
+              <li>✅ {{ $t('sus.p2_2') }}</li>
+              <li>✅ {{ $t('sus.p2_3') }}</li>
+              <li>✅ {{ $t('sus.p2_4') }}</li>
+              <li>✅ {{ $t('sus.p2_5') }}</li>
             </ul>
           </div>
           
-          <!-- Pilar Gobernanza -->
+          <!-- Pilar {{ $t('sus.p3') }} -->
           <div class="policy-card">
             <div class="policy-card__icon">⚖️</div>
-            <h3 class="policy-card__title">Gobernanza</h3>
+            <h3 class="policy-card__title">{{ $t('sus.p3') }}</h3>
             <ul class="policy-card__list">
-              <li>✅ Código documentado y trazable</li>
-              <li>✅ Criterios eco verificables</li>
-              <li>✅ Políticas publicadas y transparentes</li>
-              <li>✅ Mejora continua documentada</li>
-              <li>✅ Métricas de sostenibilidad públicas</li>
+              <li>✅ {{ $t('sus.p3_1') }}</li>
+              <li>✅ {{ $t('sus.p3_2') }}</li>
+              <li>✅ {{ $t('sus.p3_3') }}</li>
+              <li>✅ {{ $t('sus.p3_4') }}</li>
+              <li>✅ {{ $t('sus.p3_5') }}</li>
             </ul>
           </div>
         </div>
@@ -186,27 +186,27 @@
     <!-- Compromisos Futuros -->
     <section class="commitments">
       <div class="container">
-        <h2 class="section-title">🎯 Nuestros Objetivos 2026</h2>
+        <h2 class="section-title">{{ $t('sus.obj_t') }}</h2>
         
         <div class="commitments-list">
           <div class="commitment-item">
             <div class="commitment-item__number">50%</div>
-            <div class="commitment-item__text">del catálogo con etiqueta eco</div>
+            <div class="commitment-item__text">{{ $t('sus.obj1') }}</div>
           </div>
           
           <div class="commitment-item">
             <div class="commitment-item__number">100%</div>
-            <div class="commitment-item__text">proveedores con certificación ambiental</div>
+            <div class="commitment-item__text">{{ $t('sus.obj2') }}</div>
           </div>
           
           <div class="commitment-item">
             <div class="commitment-item__number">-60%</div>
-            <div class="commitment-item__text">reducción de huella de carbono web</div>
+            <div class="commitment-item__text">{{ $t('sus.obj3') }}</div>
           </div>
           
           <div class="commitment-item">
             <div class="commitment-item__number">95+</div>
-            <div class="commitment-item__text">score Lighthouse Accessibility</div>
+            <div class="commitment-item__text">{{ $t('sus.obj4') }}</div>
           </div>
         </div>
       </div>
@@ -529,7 +529,7 @@ export default {
   padding: 40px 0;
 }
 
-/* ASG Policies - Social, Ambiental, Governanza */
+/* ASG Policies - {{ $t('sus.p2') }}, {{ $t('sus.p1') }}, Governanza */
 .asg-policies {
   padding: 80px 20px;
   background: #1A1D24;
@@ -560,8 +560,8 @@ export default {
   background: #10b981;
 }
 
-.policy-card:nth-child(2)::before { background: #00A1FF; } /* Azul para Social */
-.policy-card:nth-child(3)::before { background: #f59e0b; } /* Naranja para Gobernanza */
+.policy-card:nth-child(2)::before { background: #00A1FF; } /* Azul para {{ $t('sus.p2') }} */
+.policy-card:nth-child(3)::before { background: #f59e0b; } /* Naranja para {{ $t('sus.p3') }} */
 
 .policy-card__icon {
   font-size: 4rem;

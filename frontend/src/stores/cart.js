@@ -20,13 +20,38 @@ export const useCartStore = defineStore('cart', {
         addItem(product) {
             const existingItem = this.items.find(item => item.id === product.id);
 
+            // Importación bajo demanda para resolver el precio efectivo de la oferta
+            let effectivePrice = parseFloat(product.price);
+            if (product.is_offer_active !== undefined) {
+                // Inline calculation to avoid circular dependencies if any
+                const now = new Date();
+                let isValid = product.is_offer_active;
+
+                if (isValid && product.offer_start_date) {
+                    const startDateStr = product.offer_start_date.endsWith('Z') ? product.offer_start_date.slice(0, -1) : product.offer_start_date;
+                    const startDate = new Date(startDateStr);
+                    if (startDate > now) isValid = false;
+                }
+
+                if (isValid && product.offer_end_date) {
+                    const endDateStr = product.offer_end_date.endsWith('Z') ? product.offer_end_date.slice(0, -1) : product.offer_end_date;
+                    const endDate = new Date(endDateStr);
+                    if (endDate < now) isValid = false;
+                }
+
+                if (isValid && product.discount_price !== null) {
+                    effectivePrice = parseFloat(product.discount_price);
+                }
+            }
+
             if (existingItem) {
                 existingItem.quantity++;
+                existingItem.price = effectivePrice; // Refresh price in case offer changed
             } else {
                 this.items.push({
                     id: product.id,
                     name: product.name,
-                    price: parseFloat(product.price),
+                    price: effectivePrice,
                     image: product.image,
                     quantity: 1
                 });
