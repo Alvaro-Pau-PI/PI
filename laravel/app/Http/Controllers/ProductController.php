@@ -297,13 +297,29 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'category' => 'required|string',
-            'image' => 'nullable|string', // Por ahora string, luego subida de archivos
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Ahora espera un archivo de imagen principal
+            'images' => 'nullable|array', // Las imágenes múltiples se gestionan en array
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Validación de cada imagen del array
             // Campos de sostenibilidad
             'eco_score' => 'nullable|integer|min:0|max:100',
             'is_refurbished' => 'boolean',
             'is_local_supplier' => 'boolean',
             'carbon_footprint' => 'nullable|numeric',
         ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('img/productos', 'public');
+            $validated['image'] = '/' . $imagePath;
+        }
+
+        if ($request->hasFile('images')) {
+            $multiImages = [];
+            foreach ($request->file('images') as $file) {
+                $path = $file->store('img/productos', 'public');
+                $multiImages[] = '/' . $path;
+            }
+            $validated['images'] = $multiImages;
+        }
 
         $product = Product::create($validated);
 
@@ -329,12 +345,61 @@ class ProductController extends Controller
             'price' => 'sometimes|numeric|min:0',
             'stock' => 'sometimes|integer|min:0',
             'category' => 'sometimes|string',
-            'image' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Actualizado a validación de archivo
+            'remove_main_image' => 'nullable|boolean',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'keep_images' => 'nullable|array', // Rutas existentes que queremos guardar
+            'keep_images.*' => 'string',
             'eco_score' => 'nullable|integer|min:0|max:100',
             'is_refurbished' => 'boolean',
             'is_local_supplier' => 'boolean',
             'carbon_footprint' => 'nullable|numeric',
         ]);
+
+        if ($request->hasFile('image')) {
+            // Eliminar imagen anterior si existe
+            if ($product->image && \Illuminate\Support\Facades\Storage::disk('public')->exists(ltrim($product->image, '/'))) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete(ltrim($product->image, '/'));
+            }
+
+            $imagePath = $request->file('image')->store('img/productos', 'public');
+            $validated['image'] = '/' . $imagePath;
+        } elseif ($request->boolean('remove_main_image')) {
+            // El usuario borro la imagen principal sin subir otra
+            if ($product->image && \Illuminate\Support\Facades\Storage::disk('public')->exists(ltrim($product->image, '/'))) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete(ltrim($product->image, '/'));
+            }
+            $validated['image'] = null; // o url de placeholder
+        }
+
+        // Recuperar las imágenes actuales que venían de BBDD
+        $oldImages = $product->images ?? [];
+        
+        // Las que el cliente ha marcado para mantener
+        $keepImages = $request->input('keep_images', []);
+
+        // Borrar del disco las que estaban en $oldImages PERO NO en $keepImages
+        $imagesToDelete = array_diff($oldImages, $keepImages);
+        foreach ($imagesToDelete as $imgToDelete) {
+             if (\Illuminate\Support\Facades\Storage::disk('public')->exists(ltrim($imgToDelete, '/'))) {
+                 \Illuminate\Support\Facades\Storage::disk('public')->delete(ltrim($imgToDelete, '/'));
+             }
+        }
+
+        // Nuestro nuevo baseline son las que mantenemos
+        $currentImages = $keepImages;
+
+        // Si se han enviado imágenes nuevas adicionales
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $path = $file->store('img/productos', 'public');
+                $currentImages[] = '/' . $path; // Se añaden en vez de sustituir (Aditiva por defecto)
+            }
+        }
+        
+        // Devolvemos el JSON codificado explícitamente al registro
+        $validated['images'] = $currentImages;
 
         $product->update($validated);
 
