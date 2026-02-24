@@ -2,7 +2,7 @@
   <div class="modal-backdrop" @click.self="$emit('close')">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>Deja tu opinión</h3>
+        <h3>{{ isEditing ? 'Editar tu reseña' : 'Deja tu opinión' }}</h3>
         <button class="close-btn" @click="$emit('close')">&times;</button>
       </div>
       
@@ -29,7 +29,7 @@
         </div>
 
         <button type="submit" :disabled="submitting" class="submit-btn">
-            {{ submitting ? 'Enviando...' : 'Enviar Valoración' }}
+            {{ submitting ? 'Enviando...' : (isEditing ? 'Guardar cambios' : 'Enviar Valoración') }}
         </button>
       </form>
     </div>
@@ -39,17 +39,28 @@
 <script setup>
 import { ref } from 'vue';
 
-const props = defineProps(['productId']);
+const props = defineProps({
+  productId: { type: [Number, String], required: true },
+  // Datos para edición (si existen, estamos editando)
+  editReview: { type: Object, default: null }
+});
+
 const emit = defineEmits(['close', 'submit']);
 
-const rating = ref(5);
-const comment = ref('');
+// Si hay datos de edición, usarlos como valores iniciales
+const isEditing = ref(!!props.editReview);
+const rating = ref(props.editReview?.rating || 5);
+const comment = ref(props.editReview?.text || props.editReview?.comment || '');
 const submitting = ref(false);
 
 const submitReview = async () => {
     submitting.value = true;
     try {
-        await emit('submit', { rating: rating.value, text: comment.value });
+        await emit('submit', { 
+          rating: rating.value, 
+          text: comment.value,
+          reviewId: props.editReview?.id || null
+        });
         emit('close');
     } catch (e) {
         console.error(e);

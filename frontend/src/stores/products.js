@@ -156,9 +156,20 @@ export const useProductStore = defineStore('products', {
         },
         async addReview(productId, reviewData) {
             const response = await http.post(`/api/products/${productId}/reviews`, reviewData);
-            // Refrescar el producte per veure la nova ressenya
+            // Refrescar el producto para ver la nueva reseña
             await this.fetchProduct(productId);
             return response.data;
+        },
+        async updateReview(reviewId, reviewData, productId) {
+            const response = await http.put(`/api/reviews/${reviewId}`, reviewData);
+            // Refrescar el producto para ver la reseña actualizada
+            await this.fetchProduct(productId);
+            return response.data;
+        },
+        async deleteReview(reviewId, productId) {
+            await http.delete(`/api/reviews/${reviewId}`);
+            // Refrescar el producto para eliminar la reseña de la lista
+            await this.fetchProduct(productId);
         }
     }
 })

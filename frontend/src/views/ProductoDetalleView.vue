@@ -237,8 +237,28 @@
                   <span class="review-date" v-if="review.created_at">{{ formatDate(review.created_at) }}</span>
                 </div>
               </div>
-              <div class="review-rating">
-                <span v-for="n in 5" :key="n" class="star" :class="{ filled: n <= review.rating }">★</span>
+              <div class="review-actions-group">
+                <div class="review-rating">
+                  <span v-for="n in 5" :key="n" class="star" :class="{ filled: n <= review.rating }">★</span>
+                </div>
+                <div class="review-actions" v-if="canEditReview(review) || canDeleteReview(review)">
+                  <button 
+                    v-if="canEditReview(review)" 
+                    class="review-action-btn edit-btn" 
+                    @click="openEditModal(review)"
+                    title="Editar reseña"
+                  >
+                    <span class="material-icons">edit</span>
+                  </button>
+                  <button 
+                    v-if="canDeleteReview(review)" 
+                    class="review-action-btn delete-btn" 
+                    @click="confirmDeleteReview(review)"
+                    title="Eliminar reseña"
+                  >
+                    <span class="material-icons">delete</span>
+                  </button>
+                </div>
               </div>
             </div>
             <p class="review-text">{{ review.text || review.comment }}</p>
@@ -249,11 +269,12 @@
       <!-- Productos Relacionados -->
       <ProductosRelacionados v-if="product" :product-id="product.id" :limit="4" />
 
-      <!-- Modal de Reseña -->
+      <!-- Modal de Reseña (crear o editar) -->
       <ModalResena 
         v-if="showModalResena" 
         :productId="product.id"
-        @close="showModalResena = false"
+        :editReview="editingReview"
+        @close="closeReviewModal"
         @submit="handleReviewSubmit"
       />
 
@@ -293,6 +314,7 @@ const authStore = useAuthStore();
 const cartStore = useCartStore();
 const wishlistStore = useWishlistStore();
 const showModalResena = ref(false);
+const editingReview = ref(null);
 const currentImage = ref('');
 const { t } = useI18n();
 
@@ -452,15 +474,103 @@ const handleReviewClick = () => {
     });
     return;
   }
+  editingReview.value = null;
   showModalResena.value = true;
+};
+
+// Cerrar el modal de reseña y limpiar estado de edición
+const closeReviewModal = () => {
+  showModalResena.value = false;
+  editingReview.value = null;
+};
+
+// Comprobar si el usuario actual puede editar una reseña (solo el propietario)
+const canEditReview = (review) => {
+  if (!authStore.user) return false;
+  return review.user_id === authStore.user.id;
+};
+
+// Comprobar si el usuario actual puede eliminar una reseña (propietario o admin)
+const canDeleteReview = (review) => {
+  if (!authStore.user) return false;
+  return review.user_id === authStore.user.id || authStore.user.role === 'admin';
+};
+
+// Abrir modal de edición con los datos de la reseña
+const openEditModal = (review) => {
+  editingReview.value = { ...review };
+  showModalResena.value = true;
+};
+
+// Confirmar eliminación de reseña con SweetAlert2
+const confirmDeleteReview = (review) => {
+  const isOwnReview = review.user_id === authStore.user?.id;
+  Swal.fire({
+    title: '¿Eliminar reseña?',
+    text: isOwnReview 
+      ? 'Se eliminará tu valoración de este producto.' 
+      : `Se eliminará la reseña de ${review.user?.name || 'este usuario'}.`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#ff4757',
+    cancelButtonColor: '#3A4150',
+    background: '#1a1f2e',
+    color: '#ffffff'
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        await productStore.deleteReview(review.id, product.value.id);
+        Swal.fire({
+          icon: 'success',
+          title: 'Eliminada',
+          text: 'La reseña ha sido eliminada correctamente.',
+          background: '#1a1f2e',
+          color: '#ffffff',
+          confirmButtonColor: '#00A1FF',
+          timer: 2000,
+          showConfirmButton: false
+        });
+      } catch (e) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se ha podido eliminar la reseña.',
+          background: '#1a1f2e',
+          color: '#ffffff',
+          confirmButtonColor: '#ff4757'
+        });
+      }
+    }
+  });
 };
 
 const handleReviewSubmit = async (reviewData) => {
   try {
-    await productStore.addReview(product.value.id, reviewData);
-    showModalResena.value = false;
+    if (reviewData.reviewId) {
+      // Editar reseña existente
+      await productStore.updateReview(reviewData.reviewId, {
+        text: reviewData.text,
+        rating: reviewData.rating
+      }, product.value.id);
+      Swal.fire({
+        icon: 'success',
+        title: 'Reseña actualizada',
+        text: 'Tu valoración se ha actualizado correctamente.',
+        background: '#1a1f2e',
+        color: '#ffffff',
+        confirmButtonColor: '#00A1FF',
+        timer: 2000,
+        showConfirmButton: false
+      });
+    } else {
+      // Crear nueva reseña
+      await productStore.addReview(product.value.id, reviewData);
+    }
+    closeReviewModal();
   } catch (e) {
-    console.error('Error enviant ressenya:', e);
+    console.error('Error al procesar reseña:', e);
     if (e.response?.status === 409) {
       Swal.fire({
         icon: 'warning',
@@ -470,12 +580,12 @@ const handleReviewSubmit = async (reviewData) => {
         color: '#ffffff',
         confirmButtonColor: '#00A1FF'
       });
-      showModalResena.value = false;
+      closeReviewModal();
     } else {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'No se ha podido enviar la reseña. Por favor, inténtalo de nuevo.',
+        text: 'No se ha podido procesar la reseña. Por favor, inténtalo de nuevo.',
         background: '#1a1f2e',
         color: '#ffffff',
         confirmButtonColor: '#ff4757'
@@ -1212,6 +1322,47 @@ const toggleFavorite = () => {
 .review-date { font-size: 0.78em; color: #64748B; }
 .review-rating .star { font-size: 1em; color: #374151; }
 .review-rating .star.filled { color: #FBBF24; }
+
+/* Acciones de reseña (editar / eliminar) */
+.review-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.review-actions {
+  display: flex;
+  gap: 6px;
+}
+.review-action-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.review-action-btn .material-icons {
+  font-size: 1.1em;
+}
+.review-action-btn.edit-btn {
+  color: #60A5FA;
+}
+.review-action-btn.edit-btn:hover {
+  background: rgba(96, 165, 250, 0.15);
+  border-color: rgba(96, 165, 250, 0.3);
+  transform: translateY(-1px);
+}
+.review-action-btn.delete-btn {
+  color: #F87171;
+}
+.review-action-btn.delete-btn:hover {
+  background: rgba(248, 113, 113, 0.15);
+  border-color: rgba(248, 113, 113, 0.3);
+  transform: translateY(-1px);
+}
 
 .review-text {
   font-size: 0.95em;
