@@ -2,13 +2,13 @@
   <div class="modal-backdrop" @click.self="$emit('close')">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>Deixa la teva opinió</h3>
+        <h3>Deja tu opinión</h3>
         <button class="close-btn" @click="$emit('close')">&times;</button>
       </div>
       
       <form @submit.prevent="submitReview">
         <div class="form-group">
-          <label>Puntuació (1-5)</label>
+          <label>Puntuación (1-5)</label>
           <div class="stars-input">
             <span 
                 v-for="star in 5" 
@@ -22,14 +22,14 @@
         <div class="form-group">
           <textarea 
             v-model="comment" 
-            placeholder="Escriu el teu comentari..." 
+            placeholder="Escribe tu comentario..." 
             required
             rows="4"
           ></textarea>
         </div>
 
         <button type="submit" :disabled="submitting" class="submit-btn">
-            {{ submitting ? 'Enviant...' : 'Enviar Valoració' }}
+            {{ submitting ? 'Enviando...' : 'Enviar Valoración' }}
         </button>
       </form>
     </div>
