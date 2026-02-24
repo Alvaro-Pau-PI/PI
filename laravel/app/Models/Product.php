@@ -30,6 +30,11 @@ class Product extends Model
         'has_eco_packaging',
         'is_local_supplier',
         'carbon_footprint',
+        'discount_price',
+        'discount_percentage',
+        'offer_start_date',
+        'offer_end_date',
+        'is_offer_active',
     ];
 
     /**
@@ -49,6 +54,11 @@ class Product extends Model
             'has_eco_packaging' => 'boolean',
             'is_local_supplier' => 'boolean',
             'carbon_footprint' => 'decimal:2',
+            'discount_price' => 'decimal:2',
+            'discount_percentage' => 'integer',
+            'offer_start_date' => 'datetime',
+            'offer_end_date' => 'datetime',
+            'is_offer_active' => 'boolean',
         ];
     }
 
@@ -166,5 +176,43 @@ class Product extends Model
 
         // Máximo 100
         return min($score, 100);
+    }
+
+    /**
+     * Comprueba si el producto tiene una oferta activa actualmente
+     * 
+     * @return bool
+     */
+    public function hasActiveOffer(): bool
+    {
+        if (!$this->is_offer_active) {
+            return false;
+        }
+
+        $now = now();
+        
+        if ($this->offer_start_date && $this->offer_start_date > $now) {
+            return false;
+        }
+
+        if ($this->offer_end_date && $this->offer_end_date < $now) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Obtiene el precio real a aplicar (oferta o normal)
+     * 
+     * @return float
+     */
+    public function getEffectivePriceAttribute(): float
+    {
+        if ($this->hasActiveOffer() && $this->discount_price !== null) {
+            return (float) $this->discount_price;
+        }
+        
+        return (float) $this->price;
     }
 }

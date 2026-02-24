@@ -2,33 +2,33 @@
   <div class="static-view">
     <section class="hero-section">
       <div class="container">
-        <h1 class="hero__title">🛡️ Política de Privacidad</h1>
-        <p class="hero__subtitle">Protegiendo tus datos al máximo nivel.</p>
+        <h1 class="hero__title">{{ $t('legal.privacy_t') }}</h1>
+        <p class="hero__subtitle">{{ $t('legal.privacy_s') }}</p>
       </div>
     </section>
 
     <section class="content-section">
       <div class="container document-style">
-        <h2>1. Información Básica sobre Protección de Datos</h2>
-        <p>De acuerdo con la legislación vigente en materia de protección de datos, te informamos que el responsable del tratamiento centralizado de tus datos personales es nuestra entidad organizativa. Estos datos serán objeto de tratamiento para gestionar las relaciones generadas con la base de clientes.</p>
+        <h2>{{ $t('legalb.priv1_t') }}</h2>
+        <p>{{ $t('legalb.priv1_b') }}</p>
 
-        <h2>2. Finalidad del Tratamiento de los Datos Personales</h2>
-        <p>Los datos que nos proporciones a lo largo de tu relación comercial y/o de uso como usuario de nuestros servicios se utilizan con las siguientes finalidades básicas:</p>
+        <h2>{{ $t('legalb.priv2_t') }}</h2>
+        <p>{{ $t('legalb.priv2_b') }}</p>
         <ul>
-          <li>Mantenimiento, desarrollo y control de la relación contractual, a través de compras.</li>
-          <li>Gestión de contacto e incidencias.</li>
-          <li>Acciones de márketing si te inscribes previamente.</li>
+          <li>{{ $t('legalb.priv2_l1') }}</li>
+          <li>{{ $t('legalb.priv2_l2') }}</li>
+          <li>{{ $t('legalb.priv2_l3') }}</li>
         </ul>
 
-        <h2>3. Plazo de Conservación de sus Datos</h2>
-        <p>Los datos proporcionados se conservarán mientras se mantenga la relación comercial, o durante los años necesarios para cumplir con las obligaciones legales aplicables.</p>
+        <h2>{{ $t('legalb.priv3_t') }}</h2>
+        <p>{{ $t('legalb.priv3_b') }}</p>
 
-        <h2>4. Legitimación para el Tratamiento</h2>
-        <p>La base legal para el tratamiento de tus datos es la ejecución de un contrato o nuestro interés legítimo para la funcionalidad administrativa de nuestra página.</p>
+        <h2>{{ $t('legalb.priv4_t') }}</h2>
+        <p>{{ $t('legalb.priv4_b') }}</p>
 
-        <h2>5. Derechos del Usuario</h2>
-        <p>Tienes derecho a obtener confirmación sobre si estamos tratando tus datos personales por tanto, tienes la potestad de ejercer los siguientes derechos: <strong>Acceso, Rectificación, Supresión u Olvido, Oposición, Limitación y Portabilidad</strong>.</p>
-        <p>Podrás ejercer tus derechos mediante correo electrónico en nuestra página de <router-link to="/contact">Contacto</router-link>.</p>
+        <h2>{{ $t('legalb.priv5_t') }}</h2>
+        <p>Tienes derecho a obtener confirmación sobre si estamos tratando tus datos personales por tanto, tienes la potestad de ejercer los siguientes derechos: <strong>{{ $t('legalb.priv5_b1').split(':')[1] || $t('legalb.priv5_b1') }}</strong>.</p>
+        <p>{{ $t('legalb.priv5_b2') }}</p>
       </div>
     </section>
   </div>

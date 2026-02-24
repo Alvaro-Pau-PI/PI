@@ -1,33 +1,33 @@
 <template>
   <div class="contact-container">
-    <h1>Contacta amb Nosaltres</h1>
-    <p class="subtitle">Tens dubtes o vols demanar pressupost? Escriu-nos!</p>
+    <h1>{{ $t('contact.title') }}</h1>
+    <p class="subtitle">{{ $t('contact.subtitle') }}</p>
 
     <div class="contact-box">
       <form @submit.prevent="submitForm">
         <div class="form-group">
-          <label for="name">Nom</label>
-          <input type="text" id="name" v-model="name" :class="{ 'is-invalid': nameError }" placeholder="El teu nom" />
+          <label for="name">{{ $t('contact.name') }}</label>
+          <input type="text" id="name" v-model="name" :class="{ 'is-invalid': nameError }" :placeholder="$t('contact.name_ph')" />
           <span v-if="nameError" class="error-msg">{{ nameError }}</span>
         </div>
         <div class="form-group">
-          <label for="email">Correu Electrònic</label>
-          <input type="email" id="email" v-model="email" :class="{ 'is-invalid': emailError }" placeholder="tucorreu@exemple.com" />
+          <label for="email">{{ $t('contact.email') }}</label>
+          <input type="email" id="email" v-model="email" :class="{ 'is-invalid': emailError }" :placeholder="$t('contact.email_ph')" />
           <span v-if="emailError" class="error-msg">{{ emailError }}</span>
         </div>
         <div class="form-group">
-          <label for="subject">Assumpte</label>
-          <input type="text" id="subject" v-model="subject" :class="{ 'is-invalid': subjectError }" placeholder="Assumpte del missatge" />
+          <label for="subject">{{ $t('contact.subject') }}</label>
+          <input type="text" id="subject" v-model="subject" :class="{ 'is-invalid': subjectError }" :placeholder="$t('contact.subject_ph')" />
           <span v-if="subjectError" class="error-msg">{{ subjectError }}</span>
         </div>
         <div class="form-group">
-          <label for="message">Missatge</label>
-          <textarea id="message" v-model="message" rows="5" :class="{ 'is-invalid': messageError }" placeholder="Escriu aquí el teu missatge..."></textarea>
+          <label for="message">{{ $t('contact.message') }}</label>
+          <textarea id="message" v-model="message" rows="5" :class="{ 'is-invalid': messageError }" :placeholder="$t('contact.message_ph')"></textarea>
           <span v-if="messageError" class="error-msg">{{ messageError }}</span>
         </div>
 
         <button type="submit" class="btn-send" :disabled="isSubmitting">
-          {{ isSubmitting ? 'Enviant...' : 'Enviar Missatge' }}
+          {{ isSubmitting ? $t('contact.sending') : $t('contact.send') }}
         </button>
       </form>
     </div>
@@ -38,6 +38,9 @@
 import { ref } from 'vue';
 import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const validationSchema = yup.object({
   name: yup.string()
@@ -83,14 +86,14 @@ const submitForm = handleSubmit(async (values, { resetForm }) => {
     });
 
     if (response.ok) {
-      alert("¡Mensaje enviado correctamente! Nos pondremos en contacto contigo pronto.");
+      alert(t('contact.success'));
       resetForm();
     } else {
       throw new Error('Error en el envío');
     }
   } catch (error) {
     console.error("Error submitting form:", error);
-    alert("Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.");
+    alert(t('contact.error'));
   } finally {
     isSubmitting.value = false;
   }

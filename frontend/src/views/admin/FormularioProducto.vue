@@ -147,6 +147,74 @@
         ></textarea>
       </div>
 
+      <!-- Sección de Ofertas -->
+      <div class="sustainability-section offer-section">
+        <h3>Gestión de Ofertas</h3>
+        
+        <div class="checkbox-group" style="margin-top: 0; margin-bottom: var(--spacing-md);">
+          <label class="switch-label">
+            <span class="switch">
+              <input type="checkbox" v-model="form.is_offer_active" />
+              <span class="slider"></span>
+            </span>
+            <span>Activar oferta para este producto</span>
+          </label>
+        </div>
+
+        <div v-if="form.is_offer_active" class="offer-details">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="discount_price">Precio de Oferta (€)</label>
+              <input 
+                id="discount_price" 
+                v-model.number="form.discount_price" 
+                @input="calculatePercentage"
+                type="number" 
+                step="0.01" 
+                min="0"
+                :max="form.price"
+                class="form-input"
+                placeholder="Ej: 399.99"
+              />
+            </div>
+            <div class="form-group">
+              <label for="discount_percentage">Descuento (%)</label>
+              <input 
+                id="discount_percentage" 
+                v-model.number="form.discount_percentage" 
+                @input="calculateDiscountPrice"
+                type="number" 
+                min="0" 
+                max="100" 
+                class="form-input"
+                placeholder="Ej: 20"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="offer_start_date">Fecha de Inicio</label>
+              <input 
+                id="offer_start_date" 
+                v-model="form.offer_start_date" 
+                type="datetime-local" 
+                class="form-input"
+              />
+            </div>
+            <div class="form-group">
+              <label for="offer_end_date">Fecha de Fin</label>
+              <input 
+                id="offer_end_date" 
+                v-model="form.offer_end_date" 
+                type="datetime-local"
+                :min="form.offer_start_date"
+                class="form-input"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Sección Sostenibilidad -->
       <div class="sustainability-section">
         <h3>Sostenibilidad</h3>
@@ -229,7 +297,39 @@ const form = reactive({
   eco_score: null,
   is_refurbished: false,
   is_local_supplier: false,
-  carbon_footprint: null
+  carbon_footprint: null,
+  is_offer_active: false,
+  discount_price: null,
+  discount_percentage: null,
+  offer_start_date: null,
+  offer_end_date: null
+});
+
+// Calculate Percentage from Discount Price
+const calculatePercentage = () => {
+  if (form.price > 0 && form.discount_price > 0 && form.discount_price <= form.price) {
+    const savings = form.price - form.discount_price;
+    form.discount_percentage = Math.round((savings / form.price) * 100);
+  } else if (!form.discount_price) {
+    form.discount_percentage = null;
+  }
+};
+
+// Calculate Discount Price from Percentage
+const calculateDiscountPrice = () => {
+  if (form.price > 0 && form.discount_percentage > 0 && form.discount_percentage <= 100) {
+    const newPrice = form.price - (form.price * (form.discount_percentage / 100));
+    form.discount_price = Number(newPrice.toFixed(2));
+  } else if (!form.discount_percentage) {
+    form.discount_price = null;
+  }
+};
+
+// Watchers for Price changes to recalculate if offer is active
+watch(() => form.price, () => {
+  if (form.is_offer_active && form.discount_percentage) {
+    calculateDiscountPrice();
+  }
 });
 
 const mainFileInput = ref(null);
@@ -275,11 +375,33 @@ watch(() => props.product, (newVal) => {
       existingExtraImages.value = [];
     }
     
+    // Formatear fechas para los inputs datetime-local si existen
+    if (newVal.offer_start_date) {
+      form.offer_start_date = new Date(newVal.offer_start_date).toISOString().slice(0, 16);
+    }
+    if (newVal.offer_end_date) {
+      form.offer_end_date = new Date(newVal.offer_end_date).toISOString().slice(0, 16);
+    }
+    
     // Reseteamos las temporales al editar otro
     additionalImageFiles.value = [];
     previewAdditionalImages.value.forEach(p => URL.revokeObjectURL(p.url));
     previewAdditionalImages.value = [];
     
+  } else {
+    // Reset form when adding new
+    Object.assign(form, {
+      name: '', description: '', price: 0, stock: 0, category: '', eco_score: null,
+      is_refurbished: false, is_local_supplier: false, carbon_footprint: null,
+      is_offer_active: false, discount_price: null, discount_percentage: null,
+      offer_start_date: null, offer_end_date: null
+    });
+    isEdit.value = false;
+    previewImage.value = null;
+    existingExtraImages.value = [];
+    additionalImageFiles.value = [];
+    previewAdditionalImages.value.forEach(p => URL.revokeObjectURL(p.url));
+    previewAdditionalImages.value = [];
   }
 }, { immediate: true });
 

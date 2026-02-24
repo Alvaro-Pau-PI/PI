@@ -17,9 +17,9 @@
       </transition>
 
       <nav class="nav-box" :class="{ 'nav-box--mobile-open': mobileMenuOpen }" aria-label="Navegación principal">
-        <router-link to="/" class="nav-link" @click="closeMobileMenu">Inicio</router-link>
-        <router-link to="/products" class="nav-link" @click="closeMobileMenu">Productos</router-link>
-        <router-link to="/contact" class="nav-link" @click="closeMobileMenu">Contacto</router-link>
+        <router-link to="/" class="nav-link" @click="closeMobileMenu">{{ $t('nav.home') }}</router-link>
+        <router-link to="/products" class="nav-link" @click="closeMobileMenu">{{ $t('nav.products') }}</router-link>
+        <router-link to="/contact" class="nav-link" @click="closeMobileMenu">{{ $t('nav.contact') }}</router-link>
       </nav>
 
       <div class="iconos-box">
@@ -41,28 +41,28 @@
             <ul v-if="dropdownOpen" class="dropdown-menu">
               <li>
                 <router-link to="/profile" class="dropdown-item">
-                  <span class="material-icons">manage_accounts</span> Mi perfil
+                  <span class="material-icons">manage_accounts</span> {{ $t('nav.profile') }}
                 </router-link>
               </li>
               <li>
                 <router-link to="/orders" class="dropdown-item">
-                  <span class="material-icons">receipt_long</span> Mis pedidos
+                  <span class="material-icons">receipt_long</span> {{ $t('nav.orders') }}
                 </router-link>
               </li>
               <li>
                 <router-link to="/favorites" class="dropdown-item">
-                  <span class="material-icons">favorite</span> Favoritos
+                  <span class="material-icons">favorite</span> {{ $t('nav.favorites') }}
                 </router-link>
               </li>
               <li v-if="canManage" class="admin-option">
                 <router-link to="/admin" class="dropdown-item">
-                  <span class="material-icons">admin_panel_settings</span> Panel de Gestión
+                  <span class="material-icons">admin_panel_settings</span> {{ $t('nav.admin') }}
                 </router-link>
               </li>
               <li class="divider"></li>
               <li>
                 <button @click="logout" class="dropdown-item logout-btn">
-                  <span class="material-icons">logout</span> Cerrar sesión
+                  <span class="material-icons">logout</span> {{ $t('nav.logout') }}
                 </button>
               </li>
             </ul>
@@ -72,9 +72,32 @@
         <template v-else>
           <router-link to="/login" class="login-btn-nav" title="Iniciar sesión" aria-label="Iniciar sesión">
             <span class="material-icons">account_circle</span>
-            <span>Acceder</span>
+            <span>{{ $t('nav.login') }}</span>
           </router-link>
         </template>
+
+        <!-- IDIOMA (Dropdown) -->
+        <div class="user-dropdown-container lang-dropdown" @click="toggleLangDropdown" v-click-outside="closeLangDropdown">
+          <div class="user-trigger">
+            <span class="material-icons" style="color: var(--color-text); margin-right: 5px;">language</span>
+            <span class="lang-flag" style="font-size: 1.2em;">{{ locale === 'es' ? '🇪🇸' : locale === 'en' ? '🇬🇧' : '🇪🇸' }}</span>
+            <span class="material-icons arrow-icon" style="margin-left: 2px;">{{ langDropdownOpen ? 'expand_less' : 'expand_more' }}</span>
+          </div>
+          
+          <transition name="dropdown-fade">
+            <ul v-if="langDropdownOpen" class="dropdown-menu lang-menu">
+              <li>
+                <button @click.stop="changeLanguage('es')" class="dropdown-item"><span style="margin-right: 8px;">🇪🇸</span> Español</button>
+              </li>
+              <li>
+                <button @click.stop="changeLanguage('en')" class="dropdown-item"><span style="margin-right: 8px;">🇬🇧</span> English</button>
+              </li>
+              <li>
+                <button @click.stop="changeLanguage('ca')" class="dropdown-item"><span style="margin-right: 8px;">🇪🇸</span> Valencià</button>
+              </li>
+            </ul>
+          </transition>
+        </div>
       </div>
     </div>
   </header>
@@ -86,15 +109,18 @@ import { useCartStore } from '@/stores/cart';
 import { useRouter } from 'vue-router';
 import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { useRole } from '@/modules/roles/composables/useRole';
+import { useI18n } from 'vue-i18n';
 
 const authStore = useAuthStore();
 const cartStore = useCartStore();
 const router = useRouter();
 const { isAdmin } = useRole();
+const { locale } = useI18n();
 
 const canManage = computed(() => isAdmin());
 const dropdownOpen = ref(false);
 const mobileMenuOpen = ref(false);
+const langDropdownOpen = ref(false);
 
 const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value;
@@ -116,6 +142,21 @@ const logout = async () => {
   await authStore.logout();
   closeDropdown();
   router.push('/login');
+};
+
+const toggleLangDropdown = () => {
+  langDropdownOpen.value = !langDropdownOpen.value;
+  if(langDropdownOpen.value) dropdownOpen.value = false;
+};
+
+const closeLangDropdown = () => {
+  langDropdownOpen.value = false;
+};
+
+const changeLanguage = (lang) => {
+  locale.value = lang;
+  localStorage.setItem('lang', lang);
+  closeLangDropdown();
 };
 
 // Directiva personalizada simple para clic fuera (click outside)
@@ -267,6 +308,16 @@ header {
 
 .admin-option .dropdown-item {
   color: #ffd700;
+}
+
+/* Lang Dropdown Styles */
+.lang-dropdown {
+  margin-left: 10px;
+}
+
+.lang-menu {
+  width: 150px;
+  right: -20px; /* Adjust dropdown position slightly */
 }
 
 /* Animación Fade para Overlay */

@@ -1,12 +1,12 @@
 <template>
   <div class="cart-view">
     <div class="container animate-fade-in">
-      <h1 class="page-title">Mi carrito</h1>
+      <h1 class="page-title">{{ $t('cart.title') }}</h1>
 
       <div v-if="cartStore.items.length === 0" class="empty-cart">
         <span class="material-icons empty-icon">shopping_cart_checkout</span>
-        <p>Tu carrito está vacío.</p>
-        <router-link to="/products" class="btn btn-primary">Explorar Productos</router-link>
+        <p>{{ $t('cart.empty') }}</p>
+        <router-link to="/products" class="btn btn-primary">{{ $t('cart.explore') }}</router-link>
       </div>
 
       <div v-else class="cart-layout">
@@ -33,24 +33,24 @@
         </div>
 
         <div class="cart-summary glass-card">
-          <h2>Resumen del pedido</h2>
+          <h2>{{ $t('cart.summary') }}</h2>
           <div class="summary-row">
-            <span>Subtotal</span>
+            <span>{{ $t('cart.subtotal') }}</span>
             <span>{{ cartStore.subtotal }}€</span>
           </div>
           <div class="summary-row">
-            <span>IVA (21%)</span>
+            <span>{{ $t('cart.tax') }}</span>
             <span>{{ cartStore.tax }}€</span>
           </div>
           <div class="summary-divider"></div>
           <div class="summary-row total">
-            <span>Total</span>
+            <span>{{ $t('cart.total') }}</span>
             <span>{{ cartStore.totalPrice }}€</span>
           </div>
           
           <button @click="processCheckout" class="btn btn-primary btn-block checkout-btn" :disabled="processing">
-            <span v-if="!processing">Tramitar Pedido</span>
-            <span v-else>Procesando...</span>
+            <span v-if="!processing">{{ $t('cart.checkout') }}</span>
+            <span v-else>{{ $t('cart.processing') }}</span>
           </button>
         </div>
       </div>

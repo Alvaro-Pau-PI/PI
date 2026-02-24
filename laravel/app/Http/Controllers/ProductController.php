@@ -305,6 +305,11 @@ class ProductController extends Controller
             'is_refurbished' => 'boolean',
             'is_local_supplier' => 'boolean',
             'carbon_footprint' => 'nullable|numeric',
+            'discount_price' => 'nullable|numeric|min:0',
+            'discount_percentage' => 'nullable|integer|min:0|max:100',
+            'offer_start_date' => 'nullable|date',
+            'offer_end_date' => 'nullable|date|after_or_equal:offer_start_date',
+            'is_offer_active' => 'boolean',
         ]);
 
         if ($request->hasFile('image')) {
@@ -355,6 +360,11 @@ class ProductController extends Controller
             'is_refurbished' => 'boolean',
             'is_local_supplier' => 'boolean',
             'carbon_footprint' => 'nullable|numeric',
+            'discount_price' => 'nullable|numeric|min:0',
+            'discount_percentage' => 'nullable|integer|min:0|max:100',
+            'offer_start_date' => 'nullable|date',
+            'offer_end_date' => 'nullable|date|after_or_equal:offer_start_date',
+            'is_offer_active' => 'boolean',
         ]);
 
         if ($request->hasFile('image')) {

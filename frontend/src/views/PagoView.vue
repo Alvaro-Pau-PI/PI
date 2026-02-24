@@ -6,10 +6,10 @@
       <nav class="breadcrumb">
         <router-link to="/cart">🛒 Carrito</router-link>
         <span class="sep">›</span>
-        <span class="current">Finalizar Compra</span>
+        <span class="current">{{ $t('payment.checkout') }}</span>
       </nav>
 
-      <h1 class="checkout-title">Finalizar Compra</h1>
+      <h1 class="checkout-title">{{ $t('payment.checkout') }}</h1>
 
       <!-- Indicador de pasos -->
       <div class="steps-indicator">
@@ -186,7 +186,7 @@
               <button @click="submitOrder" class="btn-confirm" :disabled="processing">
                 <span v-if="!processing">
                   <span class="material-icons">shopping_bag</span>
-                  Confirmar y Pagar {{ cartStore.totalPrice }}€
+                  Confirmar y {{ $t('payment.pay') }} {{ cartStore.totalPrice }}€
                 </span>
                 <span v-else class="processing-text">
                   <span class="spinner"></span>

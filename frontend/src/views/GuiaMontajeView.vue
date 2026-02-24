@@ -2,30 +2,30 @@
   <div class="static-view">
     <section class="hero-section">
       <div class="container">
-        <h1 class="hero__title">🛠️ Guía de Montaje de PCs</h1>
-        <p class="hero__subtitle">Tu guía paso a paso para construir el equipo de tus sueños</p>
+        <h1 class="hero__title">{{ $t('guide.title') }}</h1>
+        <p class="hero__subtitle">{{ $t('guide.subtitle') }}</p>
       </div>
     </section>
 
     <section class="content-section">
       <div class="container">
         <div class="content-block">
-          <h2>1. Preparación y Herramientas</h2>
+          <h2>{{ $t('legalb.guide1_t') }}</h2>
           <p>
-            Antes de empezar a ensamblar tu nuevo PC, asegúrate de contar con un espacio amplio, limpio y bien iluminado. Necesitarás:
+            {{ $t('legalb.guide1_b') }}
           </p>
           <ul>
-            <li>Destornillador de estrella (Phillips) de tamaño mediano (idealmente magnético).</li>
-            <li>Pulsera antiestática (opcional pero recomendada).</li>
-            <li>Bridas o cintas de velcro para la gestión de cables.</li>
-            <li>Pasta térmica extra (aunque muchos sistemas de refrigeración ya la tienen pre-aplicada).</li>
+            <li>{{ $t('legalb.guide1_l1') }}</li>
+            <li>{{ $t('legalb.guide1_l2') }}</li>
+            <li>{{ $t('legalb.guide1_l3') }}</li>
+            <li>{{ $t('legalb.guide1_l4') }}</li>
           </ul>
         </div>
 
         <div class="content-block">
-          <h2>2. Instalación de la CPU y Memoria RAM</h2>
+          <h2>{{ $t('legalb.guide2_t') }}</h2>
           <p>
-            Es más fácil instalar estos componentes en la placa base <strong>antes</strong> de colocarla dentro de la caja.
+            {{ $t('legalb.guide2_b') }}
           </p>
           <ul>
             <li><strong>Procesador (CPU):</strong> Levanta la palanca del socket, alinea el triángulo dorado de la CPU con la marca del socket y déjala caer suavemente sin hacer presión. Baja la palanca para fijarla.</li>
@@ -34,38 +34,36 @@
         </div>
 
         <div class="content-block">
-          <h2>3. Almacenamiento M.2 y Disipador</h2>
+          <h2>{{ $t('legalb.guide3_t') }}</h2>
           <p>
-            Si tienes un SSD NVMe M.2, localiza la ranura en la placa base, insértalo en un ángulo de unos 30 grados y bájalo hasta atornillarlo suavemente. 
-            A continuación, instala el sistema de refrigeración sobre la CPU (quitando el plástico protector si tiene pasta térmica pre-aplicada).
+            {{ $t('legalb.guide3_b') }}
           </p>
         </div>
 
         <div class="content-block">
-          <h2>4. Montaje de la Placa Base en la Caja</h2>
+          <h2>{{ $t('legalb.guide4_t') }}</h2>
           <p>
-            Instala el protector I/O en la parte trasera de la caja (si tu placa no lo lleva integrado). Asegúrate de que los separadores metálicos de la caja coincidan con los agujeros de tu placa base. 
-            Colora la placa y atorníllala en forma de cruz sin forzar demasiado.
+            {{ $t('legalb.guide4_b') }}
           </p>
         </div>
 
         <div class="content-block">
-          <h2>5. Fuente de Alimentación y Cableado Frontal</h2>
+          <h2>{{ $t('legalb.guide5_t') }}</h2>
           <p>
-            Instala la fuente de alimentación (PSU) en la parte inferior de la caja con el ventilador apuntando hacia abajo o hacia el filtro antipolvo. Pasa los cables EPS de la CPU, el ATX de 24 pines y los PCI-e requeridos para la tarjeta gráfica hacia la parte delantera de la placa.
+            {{ $t('legalb.guide5_b1') }}
           </p>
           <p>
-            Conecta los diminutos cables del panel frontal (Power SW, Reset SW, HD LED) de la caja en los pines indicados en el manual de tu placa base.
+            {{ $t('legalb.guide5_b2') }}
           </p>
         </div>
 
         <div class="content-block">
-          <h2>6. Tarjeta Gráfica y Detalles Finales</h2>
+          <h2>{{ $t('legalb.guide6_t') }}</h2>
           <p>
-            Retira las tapas metálicas traseras necesarias de la caja. Inserta la GPU en la ranura PCIe principal (la más cercana al procesador) hasta hacer "clic" y atorníllala a la estructura. Conecta los cables de alimentación PCIe procedentes de la fuente.
+            {{ $t('legalb.guide6_b1') }}
           </p>
           <p>
-            ¡Revisa todas las conexiones, organiza los cables (cable management), cierra la caja y prepárate para encenderla e instalar tu Sistema Operativo!
+            {{ $t('legalb.guide6_b2') }}
           </p>
         </div>
       </div>

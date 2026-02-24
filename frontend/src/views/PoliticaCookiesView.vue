@@ -2,28 +2,28 @@
   <div class="static-view">
     <section class="hero-section">
       <div class="container">
-        <h1 class="hero__title">🍪 Política de Cookies</h1>
-        <p class="hero__subtitle">Navegación transparente, control en tus manos</p>
+        <h1 class="hero__title">{{ $t('legal.cookies_t') }}</h1>
+        <p class="hero__subtitle">{{ $t('legal.cookies_s') }}</p>
       </div>
     </section>
 
     <section class="content-section">
       <div class="container document-style">
-        <h2>1. ¿Qué son las Cookies?</h2>
-        <p>Una cookie es un pequeño archivo de texto que un sitio web almacena en el ordenador o dispositivo móvil del usuario de navegación. Gracias a las cookies, el sitio web recuerda las acciones y preferencias del usuario (tales como inicio de sesión, el idioma, el tamaño de letra u otras preferencias) durante un periodo de tiempo, de manera que no debe volver a configurarlos.</p>
+        <h2>{{ $t('legalb.cookies1_t') }}</h2>
+        <p>{{ $t('legalb.cookies1_b') }}</p>
 
-        <h2>2. Cookies Propias que Utilizamos</h2>
-        <p>A nivel de nuestra aplicación, podemos hacer uso de las siguientes cookies intrínsecas:</p>
+        <h2>{{ $t('legalb.cookies2_t') }}</h2>
+        <p>{{ $t('legalb.cookies2_b') }}</p>
         <ul>
           <li><strong>Cookies técnicas:</strong> Imprescindibles para que puedas navegar con fluidez, gestionar tu carrito de compra y mantener el inicio de sesión como usuario de nuestra aplicación. Son siempre necesarias.</li>
           <li><strong>Cookies de personalización:</strong> Mantienen tus preferencias de diseño o idioma para tu deleite personal y facilitar tu comodidad.</li>
         </ul>
 
-        <h2>3. Cookies de Terceros</h2>
-        <p>En caso de integrar analíticas de comportamiento (como Google Analytics) u otros servicios de monitorización, esta página web recabará información estándar de registro y sobre tendencias en general. Para gestionar o deshabilitar estas cookies, puedes proceder siempre desde el control propio de su desarrollador correspondiente.</p>
+        <h2>{{ $t('legalb.cookies3_t') }}</h2>
+        <p>{{ $t('legalb.cookies3_b') }}</p>
 
-        <h2>4. Gestión y Eliminación de Cookies</h2>
-        <p>La mayoría de los navegadores aceptan las cookies automáticamente, no obstante, puedes modificar la parametrización de tu navegador para declinarlas en caso de que así te plazca. Ten en cuenta que, si deshabilitas algunas cookies u optas por una protección rigurosa de rastreo, secciones completas de la funcionalidad de inicio de sesión o área transaccional dejarán previsiblemente de funcionar.</p>
+        <h2>{{ $t('legalb.cookies4_t') }}</h2>
+        <p>{{ $t('legalb.cookies4_b') }}</p>
       </div>
     </section>
   </div>
