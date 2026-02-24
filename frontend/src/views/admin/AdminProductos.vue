@@ -174,17 +174,64 @@ const closeModal = () => {
   editingProduct.value = null;
 };
 
-const handleSave = async (formData) => {
+const handleSave = async (formDataEvent) => {
   loading.value = true;
   
   try {
+    const formData = new FormData();
+    // Añadir todos los campos del producto (excepto arrays extra / control)
+    for (const key in formDataEvent) {
+      if (!['imageFile', 'image', 'additionalImages', 'images', 'keepImages', 'removeMainImage'].includes(key)) {
+        const val = formDataEvent[key];
+        if (val !== null && val !== undefined) {
+          // Convertir booleanos a 1/0 para la request
+          if (typeof val === 'boolean') {
+             formData.append(key, val ? '1' : '0');
+          } else {
+             formData.append(key, val);
+          }
+        }
+      }
+    }
+    
+    // Bandera para borrar foto principal
+    if (formDataEvent.removeMainImage) {
+      formData.append('remove_main_image', '1');
+    }
+
+    // Si hay una nueva imagen subida
+    if (formDataEvent.imageFile) {
+      formData.append('image', formDataEvent.imageFile);
+    }
+
+    // Si hay nuevas imágenes adicionales
+    if (formDataEvent.additionalImages && formDataEvent.additionalImages.length > 0) {
+      formDataEvent.additionalImages.forEach(file => {
+        formData.append('images[]', file);
+      });
+    }
+
+    // Array de imágenes que el usuario NO ha borrado del servidor
+    if (formDataEvent.keepImages && formDataEvent.keepImages.length > 0) {
+      formDataEvent.keepImages.forEach(imgUrl => {
+         // Eliminamos rutas completas para guardar solo el path relativo si VITE inyecta servidor local
+         const relativePath = imgUrl.replace(/^https?:\/\/[^\/]+/, '');
+         formData.append('keep_images[]', relativePath);
+      });
+    }
+
     if (editingProduct.value) {
-      const response = await http.put(`/api/products/${editingProduct.value.id}`, formData);
+      formData.append('_method', 'PUT'); // Trick for Laravel PUT with FormData
+      const response = await http.post(`/api/products/${editingProduct.value.id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
       toast.addToast("Producto actualizado correctamente.", "success");
       const index = products.value.findIndex(p => p.id === editingProduct.value.id);
       if (index !== -1) products.value[index] = response.data;
     } else {
-      const response = await http.post('/api/products', formData);
+      const response = await http.post('/api/products', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
       toast.addToast("Producto creado exitosamente.", "success");
       products.value.unshift(response.data);
     }
