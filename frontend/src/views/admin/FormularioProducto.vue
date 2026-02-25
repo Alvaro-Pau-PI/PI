@@ -1,7 +1,7 @@
 <template>
   <div class="product-form-container">
     <form @submit.prevent="handleSubmit" class="product-form">
-      <!-- Nombre -->
+      <!-- Nombre del Producto -->
       <div class="form-group">
         <label for="name">Nombre del Producto</label>
         <input 
@@ -14,7 +14,7 @@
         />
       </div>
 
-      <!-- Imagen Principal -->
+      <!-- Imagen Principal con Drag & Drop -->
       <div class="form-group">
         <label>Imagen Principal del Producto</label>
         <div 
@@ -32,6 +32,7 @@
             @change="handleImageChange" 
             class="hidden-input"
           />
+          <!-- Previsualización de la imagen principal -->
           <div class="preview-container single" v-if="previewImage" @click.stop>
             <div class="image-preview">
               <img :src="previewImage" alt="Previsualización de Imagen Principal" />
@@ -48,7 +49,7 @@
         </div>
       </div>
 
-      <!-- Imágenes Adicionales -->
+      <!-- Imágenes Adicionales para la Galería -->
       <div class="form-group">
         <label>Imágenes Secundarias Adicionales (Opcional)</label>
         <div 
@@ -73,14 +74,16 @@
           </div>
         </div>
         
-        <!-- Galería de visualización -->
+        <!-- Cuadrícula de previsualización de la galería -->
         <div class="gallery-grid" v-if="existingExtraImages.length > 0 || previewAdditionalImages.length > 0">
+          <!-- Imágenes que ya existen en el servidor -->
           <div class="image-preview" v-for="(img, idx) in existingExtraImages" :key="`exist-${idx}`">
             <img :src="getImageUrl(img)" :alt="`Existente ${idx}`" />
             <button type="button" class="btn-remove" @click="removeExistingImage(idx)" title="Borrar imagen del servidor">
               <span class="material-icons">close</span>
             </button>
           </div>
+          <!-- Nuevas imágenes cargadas por el usuario -->
           <div class="image-preview is-new" v-for="(img, idx) in previewAdditionalImages" :key="`new-${idx}`">
             <img :src="img.url" :alt="`Nueva ${idx}`" />
             <button type="button" class="btn-remove" @click="removeNewImage(idx)" title="Borrar nueva imagen">
@@ -91,179 +94,109 @@
         </div>
       </div>
 
-      <!-- Categoría -->
+      <!-- Categoría del Producto -->
       <div class="form-group">
         <label for="category">Categoría</label>
-        <select id="category" v-model="form.category" required class="form-input">
+        <select id="category" v-model="form.category" required class="form-input category-select">
           <option value="" disabled>Selecciona una categoría</option>
-          <option value="Targetes Gràfiques">Targetes Gràfiques</option>
-          <option value="Processadors">Processadors</option>
-          <option value="Plaques Base">Plaques Base</option>
-          <option value="Memòria RAM">Memòria RAM</option>
-          <option value="Emmagatzematge">Emmagatzematge</option>
-          <option value="Fonts d'Alimentació">Fonts d'Alimentació</option>
-          <option value="Caixes">Caixes</option>
-          <option value="Refrigeració">Refrigeració</option>
-          <option value="Perifèrics">Perifèrics</option>
+          <option value="Tarjetas Gráficas">Tarjetas Gráficas</option>
+          <option value="Procesadores">Procesadores</option>
+          <option value="Memoria RAM">Memoria RAM</option>
+          <option value="Placas Base">Placas Base</option>
+          <option value="Almacenamiento">Almacenamiento (SSD/HDD)</option>
+          <option value="Fuentes de Alimentación">Fuentes de Alimentación</option>
+          <option value="Cajas / Chasis">Cajas / Chasis</option>
+          <option value="Refrigeración">Refrigeración</option>
+          <option value="Periféricos">Periféricos</option>
+          <option value="Monitores">Monitores</option>
         </select>
       </div>
 
-      <!-- Precio y Stock -->
-      <div class="form-row">
+      <!-- Grid para Precio y Stock -->
+      <div class="form-grid">
         <div class="form-group">
-          <label for="price">Precio (€)</label>
-          <input 
-            id="price" 
-            v-model.number="form.price" 
-            type="number" 
-            step="0.01" 
-            min="0" 
-            required 
-            class="form-input"
-          />
+          <label for="price">Precio Original (€)</label>
+          <input id="price" v-model.number="form.price" type="number" step="0.01" required class="form-input" @input="syncDiscount('price')" />
         </div>
         <div class="form-group">
           <label for="stock">Stock</label>
-          <input 
-            id="stock" 
-            v-model.number="form.stock" 
-            type="number" 
-            min="0" 
-            required 
-            class="form-input"
-          />
+          <input id="stock" v-model.number="form.stock" type="number" required class="form-input" />
         </div>
       </div>
 
-      <!-- Descripción -->
+      <!-- Descripción del Producto -->
       <div class="form-group">
         <label for="description">Descripción</label>
-        <textarea 
-          id="description" 
-          v-model="form.description" 
-          rows="4" 
-          required 
-          class="form-input"
-        ></textarea>
+        <textarea id="description" v-model="form.description" required class="form-input" rows="4"></textarea>
       </div>
 
-      <!-- Sección de Ofertas -->
-      <div class="sustainability-section offer-section">
-        <h3>Gestión de Ofertas</h3>
-        
-        <div class="checkbox-group" style="margin-top: 0; margin-bottom: var(--spacing-md);">
-          <label class="switch-label">
-            <span class="switch">
+      <!-- Secciones Expandibles: Oferta y Sostenibilidad -->
+      <div class="expandable-sections">
+        <!-- Sección de Oferta -->
+        <div class="section-card offer-card" :class="{ 'is-active': form.is_offer_active }">
+          <div class="section-header" @click="form.is_offer_active = !form.is_offer_active">
+            <span class="material-icons">{{ form.is_offer_active ? 'local_fire_department' : 'sell' }}</span>
+            <h3>Configuración de Oferta</h3>
+            <div class="toggle-switch">
               <input type="checkbox" v-model="form.is_offer_active" />
               <span class="slider"></span>
-            </span>
-            <span>Activar oferta para este producto</span>
-          </label>
-        </div>
-
-        <div v-if="form.is_offer_active" class="offer-details">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="discount_price">Precio de Oferta (€)</label>
-              <input 
-                id="discount_price" 
-                v-model.number="form.discount_price" 
-                @input="calculatePercentage"
-                type="number" 
-                step="0.01" 
-                min="0"
-                :max="form.price"
-                class="form-input"
-                placeholder="Ej: 399.99"
-              />
-            </div>
-            <div class="form-group">
-              <label for="discount_percentage">Descuento (%)</label>
-              <input 
-                id="discount_percentage" 
-                v-model.number="form.discount_percentage" 
-                @input="calculateDiscountPrice"
-                type="number" 
-                min="0" 
-                max="100" 
-                class="form-input"
-                placeholder="Ej: 20"
-              />
             </div>
           </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="offer_start_date">Fecha de Inicio</label>
-              <input 
-                id="offer_start_date" 
-                v-model="form.offer_start_date" 
-                type="datetime-local" 
-                class="form-input"
-              />
+          <div class="section-body" v-if="form.is_offer_active">
+            <div class="offer-grid">
+               <div class="form-group">
+                  <label>Precio de Oferta (€)</label>
+                  <input v-model.number="form.discount_price" type="number" step="0.01" class="form-input" @input="syncDiscount('discount_price')" />
+               </div>
+               <div class="form-group">
+                  <label>Porcentaje Descuento (%)</label>
+                  <input v-model.number="form.discount_percentage" type="number" min="0" max="99" class="form-input" @input="syncDiscount('percentage')" />
+               </div>
+               <div class="form-group">
+                  <label>Fecha Inicio</label>
+                  <input v-model="form.offer_start_date" type="datetime-local" class="form-input" />
+               </div>
+               <div class="form-group">
+                  <label>Fecha Fin</label>
+                  <input v-model="form.offer_end_date" type="datetime-local" class="form-input" />
+               </div>
             </div>
-            <div class="form-group">
-              <label for="offer_end_date">Fecha de Fin</label>
-              <input 
-                id="offer_end_date" 
-                v-model="form.offer_end_date" 
-                type="datetime-local"
-                :min="form.offer_start_date"
-                class="form-input"
-              />
+          </div>
+        </div>
+
+        <!-- Sección de Sostenibilidad y Extras -->
+        <div class="section-card eco-card">
+          <div class="section-header">
+            <span class="material-icons">eco</span>
+            <h3>Sostenibilidad y Atributos</h3>
+          </div>
+          <div class="section-body">
+            <div class="eco-grid">
+               <div class="eco-range">
+                  <label>Puntuación Ecológica ({{ form.eco_score }}/100)</label>
+                  <input type="range" v-model.number="form.eco_score" min="0" max="100" class="range-input" />
+               </div>
+               <div class="checkbox-group">
+                  <label class="checkbox-label">
+                     <input type="checkbox" v-model="form.is_local_supplier" />
+                     <span class="label-text">Proveedor Local</span>
+                  </label>
+                  <label class="checkbox-label">
+                     <input type="checkbox" v-model="form.is_refurbished" />
+                     <span class="label-text">Producto Reacondicionado</span>
+                  </label>
+               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Sección Sostenibilidad -->
-      <div class="sustainability-section">
-        <h3>Sostenibilidad</h3>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="eco_score">Eco Score (0-100)</label>
-            <input 
-              id="eco_score" 
-              v-model.number="form.eco_score" 
-              type="number" 
-              min="0" 
-              max="100" 
-              class="form-input"
-            />
-          </div>
-          <div class="form-group">
-            <label for="carbon_footprint">Huella de Carbono (kg CO2)</label>
-            <input 
-              id="carbon_footprint" 
-              v-model.number="form.carbon_footprint" 
-              type="number" 
-              step="0.01" 
-              class="form-input"
-            />
-          </div>
-        </div>
-        <div class="checkbox-group">
-          <label class="switch-label">
-            <span class="switch">
-              <input type="checkbox" v-model="form.is_refurbished" />
-              <span class="slider"></span>
-            </span>
-            <span>Producto Reacondicionado</span>
-          </label>
-          <label class="switch-label">
-            <span class="switch">
-              <input type="checkbox" v-model="form.is_local_supplier" />
-              <span class="slider"></span>
-            </span>
-            <span>Proveedor Local</span>
-          </label>
-        </div>
-      </div>
-
-      <!-- Botones -->
+      <!-- Botones de Acción -->
       <div class="form-actions">
-        <button type="button" @click="$emit('cancel')" class="btn-cancel">Cancelar</button>
-        <button type="submit" class="btn-submit" :disabled="loading">
-          {{ isEdit ? 'Actualizar Producto' : 'Crear Producto' }}
+        <button type="button" @click="$emit('cancel')" class="btn-secondary">Cancelar</button>
+        <button type="submit" class="btn-primary" :disabled="loading">
+          <span v-if="loading" class="spinner"></span>
+          {{ product ? 'Actualizar Producto' : 'Crear Producto' }}
         </button>
       </div>
     </form>
@@ -272,506 +205,325 @@
 
 <script setup>
 import { ref, reactive, watch } from 'vue';
+import { getImageUrl } from '@/utils/images';
+
+/**
+ * Formulario de producto avanzado.
+ * Gestiona ofertas con cálculo automático, sostenibilidad e imágenes múltiples.
+ */
 
 const props = defineProps({
-  product: {
-    type: Object,
-    default: null
-  },
-  loading: {
-    type: Boolean,
-    default: false
-  }
+  product: { type: Object, default: null },
+  loading: { type: Boolean, default: false }
 });
 
 const emit = defineEmits(['submit', 'cancel']);
 
-const isEdit = ref(!!props.product);
-
+// Estado inicial del formulario con todos los campos necesarios
 const form = reactive({
   name: '',
   description: '',
   price: 0,
-  stock: 0,
   category: '',
-  eco_score: null,
-  is_refurbished: false,
-  is_local_supplier: false,
-  carbon_footprint: null,
+  stock: 0,
+  eco_score: 50,
   is_offer_active: false,
-  discount_price: null,
-  discount_percentage: null,
-  offer_start_date: null,
-  offer_end_date: null
+  discount_price: 0,
+  discount_percentage: 0,
+  offer_start_date: '',
+  offer_end_date: '',
+  is_refurbished: false,
+  is_local_supplier: false
 });
 
-// Calculate Percentage from Discount Price
-const calculatePercentage = () => {
-  if (form.price > 0 && form.discount_price > 0 && form.discount_price <= form.price) {
-    const savings = form.price - form.discount_price;
-    form.discount_percentage = Math.round((savings / form.price) * 100);
-  } else if (!form.discount_price) {
-    form.discount_percentage = null;
-  }
-};
-
-// Calculate Discount Price from Percentage
-const calculateDiscountPrice = () => {
-  if (form.price > 0 && form.discount_percentage > 0 && form.discount_percentage <= 100) {
-    const newPrice = form.price - (form.price * (form.discount_percentage / 100));
-    form.discount_price = Number(newPrice.toFixed(2));
-  } else if (!form.discount_percentage) {
-    form.discount_price = null;
-  }
-};
-
-// Watchers for Price changes to recalculate if offer is active
-watch(() => form.price, () => {
-  if (form.is_offer_active && form.discount_percentage) {
-    calculateDiscountPrice();
-  }
-});
-
+// Referencias para archivos y previsualizaciones
 const mainFileInput = ref(null);
 const extraFileInput = ref(null);
+const imageFile = ref(null);
+const previewImage = ref(null);
+const previewAdditionalImages = ref([]);
+const existingExtraImages = ref([]);
+const keepImages = ref([]);
+const shouldRemoveMainImage = ref(false);
+
 const dragoverMain = ref(false);
 const dragoverExtra = ref(false);
 
-const imageFile = ref(null);
-const previewImage = ref(null);
-const removeMainImageFlag = ref(false); // Para emitir que borramos la principal aunque no subamos otra
+// Sincronización inteligente de descuentos
+const syncDiscount = (source) => {
+  if (!form.price || form.price <= 0) return;
 
-// Separamos existentes (strings BBDD) y nuevas (objetos File)
-const existingExtraImages = ref([]);
-const additionalImageFiles = ref([]);
-const previewAdditionalImages = ref([]); // Arrays { file, url } para render y borrado
-
-// Lógica de imágenes del proyecto
-const getImageUrl = (imagePath) => {
-  if (!imagePath) return '/img/placeholder.png';
-  if (imagePath.startsWith('http') || imagePath.startsWith('data:') || imagePath.startsWith('blob:')) return imagePath;
-  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-  return imagePath.startsWith('/') ? `${baseUrl}${imagePath}` : `${baseUrl}/${imagePath}`;
+  if (source === 'percentage') {
+    // Si cambio el %, calculo el precio
+    const calculated = form.price * (1 - form.discount_percentage / 100);
+    form.discount_price = parseFloat(calculated.toFixed(2));
+  } else if (source === 'discount_price' || source === 'price') {
+    // Si cambio el precio o el original, calculo el %
+    if (form.discount_price > 0 && form.discount_price < form.price) {
+      const calculated = ((form.price - form.discount_price) / form.price) * 100;
+      form.discount_percentage = Math.round(calculated);
+    } else if (source === 'discount_price' && form.discount_price >= form.price) {
+        form.discount_percentage = 0;
+    }
+  }
 };
 
-// Cargar datos si es edición
+// Cargar datos al editar
 watch(() => props.product, (newVal) => {
   if (newVal) {
-    Object.assign(form, newVal);
-    isEdit.value = true;
-    
-    if (newVal.image) {
-      previewImage.value = getImageUrl(newVal.image);
-    } else {
-      previewImage.value = null;
-    }
-    removeMainImageFlag.value = false;
-
-    if (newVal.images && Array.isArray(newVal.images)) {
-      existingExtraImages.value = [...newVal.images];
-    } else {
-      existingExtraImages.value = [];
-    }
-    
-    // Formatear fechas para los inputs datetime-local si existen
-    if (newVal.offer_start_date) {
-      form.offer_start_date = new Date(newVal.offer_start_date).toISOString().slice(0, 16);
-    }
-    if (newVal.offer_end_date) {
-      form.offer_end_date = new Date(newVal.offer_end_date).toISOString().slice(0, 16);
-    }
-    
-    // Reseteamos las temporales al editar otro
-    additionalImageFiles.value = [];
-    previewAdditionalImages.value.forEach(p => URL.revokeObjectURL(p.url));
-    previewAdditionalImages.value = [];
-    
-  } else {
-    // Reset form when adding new
     Object.assign(form, {
-      name: '', description: '', price: 0, stock: 0, category: '', eco_score: null,
-      is_refurbished: false, is_local_supplier: false, carbon_footprint: null,
-      is_offer_active: false, discount_price: null, discount_percentage: null,
-      offer_start_date: null, offer_end_date: null
+      name: newVal.name,
+      description: newVal.description || '',
+      price: newVal.price,
+      category: newVal.category || '',
+      stock: newVal.stock,
+      eco_score: newVal.eco_score || 50,
+      is_offer_active: !!newVal.is_offer_active,
+      discount_price: newVal.discount_price || 0,
+      discount_percentage: newVal.discount_percentage || 0,
+      offer_start_date: formatDateTimeForInput(newVal.offer_start_date),
+      offer_end_date: formatDateTimeForInput(newVal.offer_end_date),
+      is_refurbished: !!newVal.is_refurbished,
+      is_local_supplier: !!newVal.is_local_supplier
     });
-    isEdit.value = false;
-    previewImage.value = null;
-    existingExtraImages.value = [];
-    additionalImageFiles.value = [];
-    previewAdditionalImages.value.forEach(p => URL.revokeObjectURL(p.url));
-    previewAdditionalImages.value = [];
+    previewImage.value = newVal.image ? getImageUrl(newVal.image) : null;
+    existingExtraImages.value = newVal.images ? (Array.isArray(newVal.images) ? newVal.images : JSON.parse(newVal.images)) : [];
+    keepImages.value = [...existingExtraImages.value];
+    shouldRemoveMainImage.value = false;
+  } else {
+    resetForm();
   }
 }, { immediate: true });
 
-// Eventos de botones
-const triggerMainInput = () => { mainFileInput.value.click(); };
-const triggerExtraInput = () => { extraFileInput.value.click(); };
+function resetForm() {
+  Object.assign(form, {
+    name: '',
+    description: '',
+    price: 0,
+    category: '',
+    stock: 0,
+    eco_score: 50,
+    is_offer_active: false,
+    discount_price: 0,
+    discount_percentage: 0,
+    offer_start_date: '',
+    offer_end_date: '',
+    is_refurbished: false,
+    is_local_supplier: false
+  });
+  imageFile.value = null;
+  previewImage.value = null;
+  previewAdditionalImages.value = [];
+  existingExtraImages.value = [];
+  keepImages.value = [];
+  shouldRemoveMainImage.value = false;
+}
 
-const processMainFile = (file) => {
-  if (file) {
-    imageFile.value = file;
-    previewImage.value = URL.createObjectURL(file);
-    removeMainImageFlag.value = false;
-  }
+// Utilidad para formatear fechas de BBDD al input datetime-local
+function formatDateTimeForInput(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return '';
+    return d.toISOString().slice(0, 16);
+}
+
+// Gestión Imagen Principal
+const triggerMainInput = () => mainFileInput.value.click();
+const handleImageChange = (e) => {
+  const file = e.target.files[0];
+  if (file) processMainFile(file);
 };
-
-const handleImageChange = (event) => {
-  processMainFile(event.target.files[0]);
-};
-
-const handleMainDrop = (event) => {
+const handleMainDrop = (e) => {
   dragoverMain.value = false;
-  processMainFile(event.dataTransfer.files[0]);
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) processMainFile(file);
 };
-
+const processMainFile = (file) => {
+  imageFile.value = file;
+  previewImage.value = URL.createObjectURL(file);
+  shouldRemoveMainImage.value = false;
+};
 const removeMainImage = () => {
   imageFile.value = null;
-  if (previewImage.value && previewImage.value.startsWith('blob:')) {
-      URL.revokeObjectURL(previewImage.value);
-  }
   previewImage.value = null;
-  removeMainImageFlag.value = true;
-  if(mainFileInput.value) mainFileInput.value.value = '';
+  shouldRemoveMainImage.value = true;
 };
 
-// --- Múltiples Adicionales ---
-const processExtraFiles = (filesArray) => {
-  if (filesArray.length > 0) {
-    filesArray.forEach(file => {
-       additionalImageFiles.value.push(file);
-       previewAdditionalImages.value.push({
-           file: file,
-           url: URL.createObjectURL(file)
-       });
-    });
-  }
+// Gestión Galería
+const triggerExtraInput = () => extraFileInput.value.click();
+const handleAdditionalImagesChange = (e) => {
+  const files = Array.from(e.target.files);
+  processExtraFiles(files);
 };
-
-const handleAdditionalImagesChange = (event) => {
-  processExtraFiles(Array.from(event.target.files));
-  if(extraFileInput.value) extraFileInput.value.value = ''; // Reset
-};
-
-const handleExtraDrop = (event) => {
+const handleExtraDrop = (e) => {
   dragoverExtra.value = false;
-  processExtraFiles(Array.from(event.dataTransfer.files));
+  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+  processExtraFiles(files);
 };
-
-const removeExistingImage = (idx) => {
-  existingExtraImages.value.splice(idx, 1);
-};
-
-const removeNewImage = (idx) => {
-  const fileToRemove = previewAdditionalImages.value[idx];
-  URL.revokeObjectURL(fileToRemove.url);
-  additionalImageFiles.value.splice(idx, 1);
-  previewAdditionalImages.value.splice(idx, 1);
-};
-
-// Cleanup on unmount
-import { onUnmounted } from 'vue';
-onUnmounted(() => {
-  if (previewImage.value && previewImage.value.startsWith('blob:')) URL.revokeObjectURL(previewImage.value);
-  previewAdditionalImages.value.forEach(p => URL.revokeObjectURL(p.url));
-});
-
-const handleSubmit = () => {
-  emit('submit', { 
-    ...form, 
-    imageFile: imageFile.value,
-    removeMainImage: removeMainImageFlag.value,
-    additionalImages: additionalImageFiles.value,
-    keepImages: existingExtraImages.value
+const processExtraFiles = (files) => {
+  files.forEach(file => {
+    previewAdditionalImages.value.push({ file, url: URL.createObjectURL(file) });
   });
 };
+const removeNewImage = (idx) => previewAdditionalImages.value.splice(idx, 1);
+const removeExistingImage = (idx) => {
+  const removed = existingExtraImages.value.splice(idx, 1)[0];
+  keepImages.value = keepImages.value.filter(img => img !== removed);
+};
+
+// Envío
+const handleSubmit = () => {
+  const data = {
+    ...form,
+    imageFile: imageFile.value,
+    additionalImages: previewAdditionalImages.value.map(p => p.file),
+    keepImages: keepImages.value,
+    removeMainImage: shouldRemoveMainImage.value
+  };
+  emit('submit', data);
+};
+
+// La función getImageUrl ahora se importa de @/utils/images
 </script>
 
 <style scoped>
-.product-form-container {
-  background: transparent;
-  padding: var(--spacing-sm);
-  border-radius: var(--radius-lg);
-}
+.product-form-container { color: #EAEAEA; }
+.form-group { margin-bottom: var(--spacing-md); }
+label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-secondary); }
 
-.form-group {
-  margin-bottom: var(--spacing-md);
-}
-
-/* DRAG & DROP UI */
-.drag-drop-zone {
-  border: 2px dashed rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-md);
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background: rgba(0, 0, 0, 0.1);
-  position: relative;
-  min-height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.drag-drop-zone:hover, .drag-drop-zone.drag-over {
-  border-color: var(--color-primary);
-  background: rgba(0, 161, 255, 0.05);
-}
-
-.drag-drop-zone.has-file {
-  border-style: solid;
-  border-color: rgba(255, 255, 255, 0.1);
-  background: transparent;
-}
-
-.hidden-input {
-  display: none;
-}
-
-.upload-prompt {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: var(--text-secondary);
-  gap: 8px;
-  pointer-events: none;
-}
-
-.prompt-icon {
-  font-size: 38px;
-  color: var(--color-primary);
-  opacity: 0.8;
-}
-
-.gallery-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-md);
-}
-
-.image-preview {
-  position: relative;
-  width: 90px;
-  height: 90px;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.3);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.image-preview.is-new {
-  border-color: var(--color-primary);
-}
-
-.image-preview img {
+.form-input {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s;
-}
-
-.image-preview:hover img {
-  transform: scale(1.05);
-}
-
-.btn-remove {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  background: rgba(255, 71, 87, 0.9);
+  padding: 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-md);
   color: white;
-  border: none;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  opacity: 0;
-  transform: scale(0.8);
-  transition: all 0.2s;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  outline: none;
+}
+.form-input:focus { border-color: var(--color-primary); }
+
+/* Arreglo para que el select se vea bien y sea legible */
+.category-select {
+    cursor: pointer;
+    appearance: auto; /* Usar flecha nativa para mejor compatibilidad */
+}
+.category-select option {
+    background-color: #1a1e26;
+    color: white;
 }
 
-.btn-remove .material-icons {
-  font-size: 14px;
-}
-
-.image-preview:hover .btn-remove {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.badge-new {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: var(--color-primary);
-  color: #000;
-  font-size: 0.6em;
-  font-weight: bold;
-  text-align: center;
-  padding: 2px 0;
-}
-
-.help-text {
-  font-size: 0.8em;
-  color: var(--text-secondary);
-  opacity: 0.7;
-}
-
-.form-row {
+.form-grid, .offer-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-md);
 }
 
-label {
-  display: block;
-  margin-bottom: var(--spacing-xs);
-  color: var(--text-secondary);
-  font-weight: 500;
+.drag-drop-zone {
+  border: 2px dashed rgba(255,255,255,0.1);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  text-align: center;
+  background: rgba(255,255,255,0.02);
+  cursor: pointer;
+}
+.drag-drop-zone.drag-over { border-color: var(--color-primary); }
+.hidden-input { display: none; }
+
+.image-preview {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.image-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
 }
 
-.form-input {
-  width: 100%;
+.btn-remove {
+  position: absolute;
+  top: 2px; right: 2px;
+  background: #ff4757;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px; height: 20px;
+  cursor: pointer;
+}
+
+.section-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+.section-header {
   padding: 12px 16px;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-md);
-  color: var(--text-primary);
-  font-family: inherit;
-  transition: all 0.3s ease;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 4px rgba(0, 161, 255, 0.15);
-  background: rgba(0, 0, 0, 0.4);
-}
-
-.sustainability-section {
-  margin-top: var(--spacing-lg);
-  padding-top: var(--spacing-md);
-  border-top: 1px solid var(--border-color);
-}
-
-.checkbox-group {
-  margin-top: var(--spacing-lg);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-}
-
-.switch-label {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
+  gap: 10px;
   cursor: pointer;
-  color: var(--text-primary);
-  font-weight: 500;
+}
+.section-body { padding: 15px; border-top: 1px solid rgba(255,255,255,0.05); }
+
+/* Sostenibilidad Grid */
+.eco-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.checkbox-group {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: var(--text-primary);
+}
+.checkbox-label input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-primary);
 }
 
-/* Toggle Switch puro CSS */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 44px;
-  height: 24px;
-}
-
-.switch input { 
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.1);
-  transition: .3s;
-  border-radius: 24px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: .3s;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-input:checked + .slider {
-  background-color: var(--color-primary);
-}
-
-input:focus-visible + .slider {
-  box-shadow: 0 0 0 3px rgba(0, 161, 255, 0.3);
-}
-
-input:checked + .slider:before {
-  transform: translateX(20px);
-}
+.range-input { width: 100%; accent-color: #2ed573; }
 
 .form-actions {
   display: flex;
   justify-content: flex-end;
-  gap: var(--spacing-md);
-  margin-top: var(--spacing-xl);
+  gap: 12px;
+  margin-top: 20px;
 }
 
-.btn-submit {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  color: white;
+.btn-primary {
+  background: var(--color-primary);
+  color: black;
+  padding: 10px 25px;
+  border-radius: 8px;
+  font-weight: bold;
   border: none;
-  padding: 12px 24px;
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  font-family: var(--font-headings);
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 161, 255, 0.3);
 }
-
-.btn-submit:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 161, 255, 0.5);
-}
-
-.btn-cancel {
-  background: transparent;
-  color: var(--text-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 12px 24px;
-  border-radius: var(--radius-md);
-  font-family: var(--font-headings);
-  font-weight: 500;
+.btn-secondary {
+  background: rgba(255,255,255,0.05);
+  color: white;
+  padding: 10px 25px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
   cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.btn-cancel:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-primary);
-}
-
-.btn-submit:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
+@media (max-width: 600px) {
+  .form-grid, .offer-grid { grid-template-columns: 1fr; }
 }
 </style>

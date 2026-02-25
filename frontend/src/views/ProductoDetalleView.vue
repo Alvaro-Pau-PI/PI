@@ -46,7 +46,7 @@
           <div class="product-image-section">
             <div class="image-frame">
               <transition name="fade" mode="out-in">
-                <img :key="currentImage" :src="getImageUrl(currentImage)" :alt="product.name" class="main-image" />
+                <img :key="currentImage" :src="getImageUrl(currentImage)" :alt="product.name" class="main-image" @error="handleMainImageError" />
               </transition>
             </div>
             <!-- Badge Eco en la imagen -->
@@ -71,7 +71,7 @@
                 type="button"
                 :aria-label="`Ver imagen ${index + 1}`"
               >
-                <img :src="getImageUrl(img)" :alt="`${product.name} - Miniatura ${index + 1}`" />
+                <img :src="getImageUrl(img)" :alt="`${product.name} - Miniatura ${index + 1}`" @error="(e) => handleThumbnailError(e, img)" />
               </button>
             </div>
           </div>
@@ -306,6 +306,7 @@ import ProductosRelacionados from '@/components/ProductosRelacionados.vue';
 import Swal from 'sweetalert2';
 import { useI18n } from 'vue-i18n';
 import { isOfferValid, getEffectivePrice, getDiscountPercentage, isExpiringSoon } from '@/utils/offers';
+import { getImageUrl } from '@/utils/images';
 
 const route = useRoute();
 const router = useRouter();
@@ -327,6 +328,9 @@ const effectivePrice = computed(() => getEffectivePrice(product.value));
 const discountPercentage = computed(() => getDiscountPercentage(product.value));
 const expiringSoon = computed(() => isExpiringSoon(product.value));
 
+// Set reactivo para rastrear imágenes que fallaron al cargar
+const brokenImages = ref(new Set());
+
 // Llista d'imatges addicionals detectades al servidor per evitar 404s innecessaris
 const knownExtraImages = [
   "AMD Ryzen 5 7600X-2.webp", "AMD Ryzen 5 7600X-3.webp",
@@ -341,35 +345,38 @@ const knownExtraImages = [
   "WD_BLACK SN850X 1TB-2.webp", "WD_BLACK SN850X 1TB-3.webp"
 ];
 
-// Computed per la galeria d'imatges
+// Computed para la galería de imágenes (usa solo datos reales del backend)
 const galleryImages = computed(() => {
   if (!product.value) return [];
   const images = [];
   
-  // 1. Imatge principal per defecte
+  // 1. Imagen principal
   if (product.value.image) images.push(product.value.image);
   
-  // 2. Imatges extres del backend JSON (si existeixen)
-  if (product.value.images && Array.isArray(product.value.images) && product.value.images.length > 0) {
+  // 2. Imágenes adicionales del array del backend
+  if (product.value.images && Array.isArray(product.value.images)) {
     product.value.images.forEach(img => {
       if (img && !images.includes(img)) images.push(img);
     });
-  } else {
-    // 3. Fallback: buscar imatges extres a la llista coneguda per nom
-    if(product.value.name) {
-      const extras = knownExtraImages.filter(img => img.startsWith(product.value.name + '-'));
-      extras.forEach(img => {
-        const fullPath = 'img/productos/' + img;
-        if(!images.includes(fullPath)) images.push(fullPath);
-      });
-      // Cas especial per a la CPU 7800X3D segons el SKU o nom
-      if (product.value.sku === 'CPU-AMD-7800X3D' || product.value.name.includes('7800X3D')) {
-         if (!images.includes('img/productos/CPU-AMD-7800X3D-2.webp')) {
-           images.push('img/productos/CPU-AMD-7800X3D-2.webp');
-         }
-      }
+  }
+
+  // 3. Fallback: buscar imatges extres a la llista coneguda per nom
+  if (images.length <= 1 && product.value.name) {
+    const extras = knownExtraImages.filter(img => img.startsWith(product.value.name + '-'));
+    extras.forEach(img => {
+      const fullPath = 'img/productos/' + img;
+      if (!images.includes(fullPath)) images.push(fullPath);
+    });
+    
+    // Cas especial per a la CPU 7800X3D segons el SKU o nom
+    if (product.value.sku === 'CPU-AMD-7800X3D' || product.value.name.includes('7800X3D')) {
+       if (!images.includes('img/productos/CPU-AMD-7800X3D-2.webp')) {
+         images.push('img/productos/CPU-AMD-7800X3D-2.webp');
+       }
     }
   }
+  
+  // 4. Devolvemos todas las imágenes encontradas
   return images;
 });
 
@@ -455,16 +462,25 @@ const formatPrice = (price) => {
   return isNaN(numPrice) ? '0.00 €' : `${numPrice.toFixed(2)} €`;
 };
 
-const getImageUrl = (path) => {
-  if (!path) return '/img/placeholder.png';
-  if (path.startsWith('http')) return path;
-  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-  return path.startsWith('/') ? `${baseUrl}${path}` : `${baseUrl}/${path}`;
-};
+// La función getImageUrl ahora se importa de @/utils/images
 
 const formatDate = (dateStr) => {
   const date = new Date(dateStr);
   return date.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' });
+};
+
+// Manejo de error en la imagen principal: muestra placeholder
+const handleMainImageError = (e) => {
+  e.target.src = '/img/placeholder.png';
+};
+
+// Manejo de error en miniaturas: marca como rota y la elimina del array reactivo
+const handleThumbnailError = (e, img) => {
+  brokenImages.value.add(img);
+  // Si la imagen rota es la que se muestra actualmente, cambia a la primera disponible
+  if (currentImage.value === img && galleryImages.value.length > 0) {
+    currentImage.value = galleryImages.value[0];
+  }
 };
 
 const handleReviewClick = () => {

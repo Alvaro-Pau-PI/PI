@@ -1,6 +1,6 @@
 <template>
   <div class="admin-layout">
-    <!-- Sidebar -->
+    <!-- Barra Lateral (Sidebar) -->
     <aside class="admin-sidebar">
       <div class="sidebar-header">
         <span class="material-icons header-icon">admin_panel_settings</span>
@@ -8,10 +8,27 @@
       </div>
 
       <nav class="sidebar-nav">
+        <!-- Enlace a Productos -->
         <router-link to="/admin/products" class="sidebar-link" active-class="active">
           <span class="material-icons">inventory_2</span>
           <span class="link-text">Productos</span>
         </router-link>
+        <!-- Enlace a Usuarios -->
+        <router-link to="/admin/users" class="sidebar-link" active-class="active">
+          <span class="material-icons">people</span>
+          <span class="link-text">Usuarios</span>
+        </router-link>
+        <!-- Enlace a Ressenyes -->
+        <router-link to="/admin/reviews" class="sidebar-link" active-class="active">
+          <span class="material-icons">rate_review</span>
+          <span class="link-text">Reseñas</span>
+        </router-link>
+        <!-- Enlace a Mensajes de Contacto (NUEVO) -->
+        <router-link to="/admin/contacts" class="sidebar-link" active-class="active">
+          <span class="material-icons">email</span>
+          <span class="link-text">Mensajes</span>
+        </router-link>
+        <!-- Enlace a Pedidos con Badge de Notificación -->
         <router-link to="/admin/orders" class="sidebar-link" active-class="active">
           <span class="material-icons">receipt_long</span>
           <span class="link-text">Pedidos</span>
@@ -31,7 +48,7 @@
       </div>
     </aside>
 
-    <!-- Contenido principal -->
+    <!-- Contenido principal (Vista de la ruta secundaria) -->
     <main class="admin-main">
       <router-view />
     </main>
@@ -42,15 +59,20 @@
 import { ref, onMounted } from 'vue';
 import http from '@/services/http';
 
+/**
+ * Maqueta base para el panel de administración.
+ * Gestiona la navegación lateral y el conteo de pedidos pendientes.
+ */
+
 const pendingCount = ref(0);
 
-// Obtener conteo de pedidos pendientes para el badge
+// Obtener el número de pedidos pendientes al cargar el componente
 onMounted(async () => {
   try {
     const response = await http.get('/api/admin/orders', { params: { status: 'pending' } });
     pendingCount.value = response.data?.total || response.data?.data?.length || 0;
   } catch {
-    // No pasa nada si falla, el badge no se muestra
+    // Si falla la petición, simplemente no mostramos el badge
   }
 });
 </script>
@@ -61,9 +83,7 @@ onMounted(async () => {
   min-height: calc(100vh - 70px);
 }
 
-/* ══════════════════════════════════════════════════════════════
-   SIDEBAR
-   ══════════════════════════════════════════════════════════════ */
+/* Estilos de la Sidebar */
 .admin-sidebar {
   width: 260px;
   background: rgba(15, 18, 25, 0.95);
@@ -104,9 +124,7 @@ onMounted(async () => {
   margin: 0;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   NAVEGACIÓN SIDEBAR
-   ══════════════════════════════════════════════════════════════ */
+/* Estilos de los enlaces de navegación */
 .sidebar-nav {
   flex: 1;
   display: flex;
@@ -157,6 +175,7 @@ onMounted(async () => {
   text-align: center;
 }
 
+/* Badge de notificaciones en rojo */
 .notif-badge {
   margin-left: auto;
   background: #ef4444;
@@ -172,9 +191,6 @@ onMounted(async () => {
   padding: 0 6px;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   FOOTER SIDEBAR
-   ══════════════════════════════════════════════════════════════ */
 .sidebar-footer {
   padding: 16px 12px 0;
   border-top: 1px solid rgba(255,255,255,0.06);
@@ -189,9 +205,6 @@ onMounted(async () => {
   color: #00A1FF !important;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   CONTENIDO PRINCIPAL
-   ══════════════════════════════════════════════════════════════ */
 .admin-main {
   flex: 1;
   min-width: 0;
@@ -199,9 +212,7 @@ onMounted(async () => {
   overflow-x: auto;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   RESPONSIVE
-   ══════════════════════════════════════════════════════════════ */
+/* Estilos responsivos para tablets y móviles */
 @media (max-width: 900px) {
   .admin-layout {
     flex-direction: column;

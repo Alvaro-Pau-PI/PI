@@ -36,7 +36,22 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Gestión de pedidos (Admin)
     Route::get('/admin/orders', [OrderController::class, 'adminIndex']);
     Route::patch('/admin/orders/{id}/status', [OrderController::class, 'updateStatus']);
+
+    // Gestión de usuarios (Admin)
+    Route::get('/admin/users', [\App\Http\Controllers\Api\UserController::class, 'index']);
+    Route::patch('/admin/users/{user}/role', [\App\Http\Controllers\Api\UserController::class, 'updateRole']);
+    Route::delete('/admin/users/{user}', [\App\Http\Controllers\Api\UserController::class, 'destroy']);
+
+    // Gestión de reseñas (Admin)
+    Route::get('/admin/reviews', [ReviewController::class, 'adminIndex']);
+
+    // Gestión de contactos/mensajes (Admin)
+    Route::get('/admin/contacts', [\App\Http\Controllers\Api\ContactController::class, 'index']);
+    Route::delete('/admin/contacts/{contact}', [\App\Http\Controllers\Api\ContactController::class, 'destroy']);
 });
+
+// Rutas de contactos (Públicas)
+Route::post('/contacts', [\App\Http\Controllers\Api\ContactController::class, 'store']);
 
 // Rutas de productos (Públicas)
 // IMPORTANTE: Rutas específicas ANTES que rutas con parámetros

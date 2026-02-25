@@ -28,6 +28,30 @@ class ReviewController extends Controller
     }
 
     /**
+     * [ADMIN] Listar todas las reseñas con filtros.
+     */
+    public function adminIndex(Request $request)
+    {
+        $query = Review::with(['user', 'product']);
+
+        if ($request->has('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('text', 'like', '%' . $request->search . '%')
+                  ->orWhereHas('user', function($qu) use ($request) {
+                      $qu->where('name', 'like', '%' . $request->search . '%');
+                  })
+                  ->orWhereHas('product', function($qp) use ($request) {
+                      $qp->where('name', 'like', '%' . $request->search . '%');
+                  });
+            });
+        }
+
+        $reviews = $query->orderBy('created_at', 'desc')->paginate(15);
+        
+        return response()->json($reviews);
+    }
+
+    /**
      * Crear una reseña
      *
      * Almacena una nueva reseña para un producto. El usuario debe estar autenticado.

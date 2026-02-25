@@ -1,33 +1,33 @@
 <template>
   <div class="contact-container">
-    <h1>{{ $t('contact.title') }}</h1>
-    <p class="subtitle">{{ $t('contact.subtitle') }}</p>
+    <h1>{{ t('contact.title') }}</h1>
+    <p class="subtitle">{{ t('contact.subtitle') }}</p>
 
     <div class="contact-box">
       <form @submit.prevent="submitForm">
         <div class="form-group">
-          <label for="name">{{ $t('contact.name') }}</label>
-          <input type="text" id="name" v-model="name" :class="{ 'is-invalid': nameError }" :placeholder="$t('contact.name_ph')" />
+          <label for="name">{{ t('contact.name') }}</label>
+          <input type="text" id="name" v-model="name" :class="{ 'is-invalid': nameError }" :placeholder="t('contact.name_ph')" />
           <span v-if="nameError" class="error-msg">{{ nameError }}</span>
         </div>
         <div class="form-group">
-          <label for="email">{{ $t('contact.email') }}</label>
-          <input type="email" id="email" v-model="email" :class="{ 'is-invalid': emailError }" :placeholder="$t('contact.email_ph')" />
+          <label for="email">{{ t('contact.email') }}</label>
+          <input type="email" id="email" v-model="email" :class="{ 'is-invalid': emailError }" :placeholder="t('contact.email_ph')" />
           <span v-if="emailError" class="error-msg">{{ emailError }}</span>
         </div>
         <div class="form-group">
-          <label for="subject">{{ $t('contact.subject') }}</label>
-          <input type="text" id="subject" v-model="subject" :class="{ 'is-invalid': subjectError }" :placeholder="$t('contact.subject_ph')" />
+          <label for="subject">{{ t('contact.subject') }}</label>
+          <input type="text" id="subject" v-model="subject" :class="{ 'is-invalid': subjectError }" :placeholder="t('contact.subject_ph')" />
           <span v-if="subjectError" class="error-msg">{{ subjectError }}</span>
         </div>
         <div class="form-group">
-          <label for="message">{{ $t('contact.message') }}</label>
-          <textarea id="message" v-model="message" rows="5" :class="{ 'is-invalid': messageError }" :placeholder="$t('contact.message_ph')"></textarea>
+          <label for="message">{{ t('contact.message') }}</label>
+          <textarea id="message" v-model="message" rows="5" :class="{ 'is-invalid': messageError }" :placeholder="t('contact.message_ph')"></textarea>
           <span v-if="messageError" class="error-msg">{{ messageError }}</span>
         </div>
 
         <button type="submit" class="btn-send" :disabled="isSubmitting">
-          {{ isSubmitting ? $t('contact.sending') : $t('contact.send') }}
+          {{ isSubmitting ? t('contact.sending') : t('contact.send') }}
         </button>
       </form>
     </div>
@@ -71,28 +71,37 @@ const isSubmitting = ref(false);
 const submitForm = handleSubmit(async (values, { resetForm }) => {
   isSubmitting.value = true;
   try {
-    // Usamos variable de entorno inyectada durante el build
-    // En dev: http://localhost:5678
-    // En prod: https://AlberoPerezTech.ddaw.es (vía Nginx)
-    const baseUrl = import.meta.env.VITE_N8N_BASE_URL || 'http://localhost:5678';
-    const webhookUrl = `${baseUrl}/webhook/contact-form`; 
-
-    const response = await fetch(webhookUrl, {
+    // 1. Guardar en nuestra base de datos local a través de la API de Laravel
+    const responseLocal = await fetch('/api/contacts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify(values)
     });
 
-    if (response.ok) {
-      alert(t('contact.success'));
-      resetForm();
-    } else {
-      throw new Error('Error en el envío');
+    if (!responseLocal.ok) throw new Error('Error al guardar en la base de datos');
+
+    // 2. Opcional: Notificar a través de n8n (webhook)
+    const baseUrlN8n = import.meta.env.VITE_N8N_BASE_URL;
+    if (baseUrlN8n) {
+      try {
+        const webhookUrl = `${baseUrlN8n}/webhook/contact-form`; 
+        await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(values)
+        });
+      } catch (n8nError) {
+        console.warn("Fallo al notificar a n8n, pero el mensaje se guardó en la DB:", n8nError);
+      }
     }
+
+    alert(t('contact.success'));
+    resetForm();
   } catch (error) {
-    console.error("Error submitting form:", error);
+    console.error("Error al enviar el formulario:", error);
     alert(t('contact.error'));
   } finally {
     isSubmitting.value = false;
@@ -205,47 +214,18 @@ input.is-invalid, textarea.is-invalid {
 
 /* Diseño responsivo */
 @media (max-width: 768px) {
-  .contact-container {
-    padding: 40px 20px;
-  }
-  
-  h1 {
-    font-size: 2.2em;
-  }
-  
-  .contact-box {
-    padding: 30px 25px;
-  }
-  
-  textarea {
-    min-height: 120px;
-  }
+  .contact-container { padding: 40px 20px; }
+  h1 { font-size: 2.2em; }
+  .contact-box { padding: 30px 25px; }
+  textarea { min-height: 120px; }
 }
 
 @media (max-width: 480px) {
-  .contact-container {
-    padding: 30px 15px;
-  }
-  
-  h1 {
-    font-size: 1.8em;
-  }
-  
-  .subtitle {
-    font-size: 1em;
-  }
-  
-  .contact-box {
-    padding: 25px 20px;
-  }
-  
-  input, textarea {
-    padding: 12px;
-  }
-  
-  .btn-send {
-    padding: 14px;
-    font-size: 1em;
-  }
+  .contact-container { padding: 30px 15px; }
+  h1 { font-size: 1.8em; }
+  .subtitle { font-size: 1em; }
+  .contact-box { padding: 25px 20px; }
+  input, textarea { padding: 12px; }
+  .btn-send { padding: 14px; font-size: 1em; }
 }
 </style>

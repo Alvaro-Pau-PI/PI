@@ -148,6 +148,7 @@ import { useWishlistStore } from '@/stores/wishlist';
 import { computed, ref } from 'vue';
 import Swal from 'sweetalert2';
 import { isOfferValid, getEffectivePrice, getDiscountPercentage, isExpiringSoon } from '@/utils/offers';
+import { getImageUrl } from '@/utils/images';
 
 /**
  * TarjetaProducto Component
@@ -202,11 +203,15 @@ export default {
       const images = [];
       if (props.product.image) images.push(props.product.image);
       
+      // 1. Imatges extres del backend JSON
       if (props.product.images && Array.isArray(props.product.images)) {
         props.product.images.forEach(img => {
           if (img && !images.includes(img)) images.push(img);
         });
-      } else if (props.product.name) {
+      }
+      
+      // 2. Fallback: buscar imatges extres a la llista coneguda per nom
+      if (props.product.name) {
         const knownExtraImages = [
           "AMD Ryzen 5 7600X-2.webp", "AMD Ryzen 5 7600X-3.webp",
           "ASUS Dual GeForce RTX 4070 Super-2.webp", "ASUS Dual GeForce RTX 4070 Super-3.webp", "ASUS Dual GeForce RTX 4070 Super-4.webp", "ASUS Dual GeForce RTX 4070 Super-5.webp",
@@ -224,20 +229,21 @@ export default {
           const fullPath = 'img/productos/' + img;
           if (!images.includes(fullPath)) images.push(fullPath);
         });
+        
+        // Caso especial SKU
         if (props.product.sku === 'CPU-AMD-7800X3D' || props.product.name.includes('7800X3D')) {
           if (!images.includes('img/productos/CPU-AMD-7800X3D-2.webp')) {
             images.push('img/productos/CPU-AMD-7800X3D-2.webp');
           }
         }
       }
+      
       return images.length > 0 ? images : ['/img/placeholder-product.jpg'];
     });
 
     const currentImageSrc = computed(() => {
       const img = galleryImages.value[hoverIndex.value] || galleryImages.value[0];
-      if (img.startsWith('http')) return img;
-      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-      return img.startsWith('/') ? `${baseUrl}${img}` : `${baseUrl}/${img}`;
+      return getImageUrl(img);
     });
 
     const handleMouseMove = (e) => {

@@ -99,19 +99,34 @@ const router = createRouter({
         },
         {
             path: '/admin',
-            component: () => import('../views/admin/AdminLayout.vue'),
+            component: () => import('../views/admin/MaquetaAdmin.vue'),
             meta: { requiresAuth: true, role: 'admin' },
             redirect: '/admin/products',
             children: [
                 {
                     path: 'products',
                     name: 'admin-products',
-                    component: () => import('../views/admin/AdminProductos.vue')
+                    component: () => import('../views/admin/GestionProductos.vue')
+                },
+                {
+                    path: 'users',
+                    name: 'admin-users',
+                    component: () => import('../views/admin/GestionUsuarios.vue')
+                },
+                {
+                    path: 'reviews',
+                    name: 'admin-reviews',
+                    component: () => import('../views/admin/GestionResenas.vue')
+                },
+                {
+                    path: 'contacts',
+                    name: 'admin-contacts',
+                    component: () => import('../views/admin/GestionMensajes.vue')
                 },
                 {
                     path: 'orders',
                     name: 'admin-orders',
-                    component: () => import('../views/admin/AdminPedidos.vue')
+                    component: () => import('../views/admin/GestionPedidos.vue')
                 }
             ]
         },

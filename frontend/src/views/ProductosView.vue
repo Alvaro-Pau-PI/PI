@@ -115,6 +115,7 @@ import { onMounted, ref, watch } from 'vue';
 import { useProductStore } from '@/stores/products';
 import { storeToRefs } from 'pinia';
 import TarjetaProducto from '@/components/TarjetaProducto.vue';
+import { getImageUrl } from '@/utils/images';
 
 const productStore = useProductStore();
 const { filters } = storeToRefs(productStore);
@@ -165,11 +166,7 @@ const resetFilters = () => {
     productStore.resetFilters();
 };
 
-const getImageUrl = (path) => {
-  if (!path) return '/img/placeholder.png';
-  if (path.startsWith('http')) return path;
-  return '/' + path; 
-};
+// La función getImageUrl ahora se importa de @/utils/images
 
 const formatPrice = (price) => {
   return parseFloat(price).toFixed(2) + ' €';

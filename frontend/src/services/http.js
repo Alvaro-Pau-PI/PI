@@ -2,7 +2,9 @@ import axios from 'axios';
 import { useAuthStore } from '@/stores/auth';
 
 const http = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
+    // En producción usamos ruta relativa para que el proxy de Nginx redirija al backend
+    // En desarrollo (Vite) usamos localhost:8000 directamente
+    baseURL: import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api' : 'http://localhost:8000'),
     withCredentials: true,
     headers: {
         'Accept': 'application/json',

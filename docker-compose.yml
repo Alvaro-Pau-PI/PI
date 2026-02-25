@@ -9,6 +9,8 @@ services:
       - laravel-app
       - nginx
       - n8n
+    networks:
+      - pi_network
 
   nginx:
     image: nginx:stable-alpine
