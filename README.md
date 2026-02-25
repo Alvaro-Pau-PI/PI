@@ -158,8 +158,9 @@ PI/
 ### Sprint 1: Entorno, escaparate y contacto
 - [Informe Sprint 1](docs/sprint1.md) *(resume actividades realizadas, resultados y entregas de la primera iteración)*
 
-### Sprint 2: Migració a PHP + JSON Server
+### Sprint 2: Migración a PHP + JSON Server
 - [Informe Sprint 2](docs/sprint2.md) *(versión backend legacy con PHP nativo)*
+- [Documento de Despliegue C4 (PDF)](docs/Entrega%20Projecte%20Intermodular%20Part%20I%20Desplegament%20d'aplicacions%20WEB.pdf)
 
 ### Sprint 3: Migració a Laravel v2
 - [Informe Sprint 3](docs/sprint3.md) *(backend moderno con Laravel, Breeze y MySQL)*

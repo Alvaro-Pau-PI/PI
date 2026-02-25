@@ -20,7 +20,7 @@
           <h3>{{ $t('products.category') }}</h3>
           <select v-model="filters.category" class="filter-select">
             <option value="">{{ $t('products.all') }}</option>
-            <option v-for="cat in categories" :key="cat" :value="cat">{{ cat }}</option>
+            <option v-for="cat in categories" :key="cat.value" :value="cat.value">{{ cat.label }}</option>
           </select>
         </div>
 
@@ -125,17 +125,17 @@ const toggleFilters = () => {
   filtersOpen.value = !filtersOpen.value;
 };
 
-// Categorías basadas en el modelo de Laravel
+// Categorías mapeadas con valor real en base de datos
 const categories = [
-    'Procesadores',
-    'Tarjetas Gráficas',
-    'Placas Base',
-    'Memoria RAM',
-    'Almacenamiento',
-    'Fuentes Alimentación',
-    'Cajas',
-    'Refrigeración',
-    'Otros'
+    { value: 'Processadors', label: 'Procesadores' },
+    { value: 'Targetes Gràfiques', label: 'Tarjetas Gráficas' },
+    { value: 'Plaques Base', label: 'Placas Base' },
+    { value: 'Memòria RAM', label: 'Memoria RAM' },
+    { value: 'Emmagatzematge', label: 'Almacenamiento' },
+    { value: 'Fonts Alimentació', label: 'Fuentes Alimentación' },
+    { value: 'Caixes', label: 'Cajas' },
+    { value: 'Refrigeració', label: 'Refrigeración' },
+    { value: 'Altres', label: 'Otros' }
 ];
 
 // Debounce timer

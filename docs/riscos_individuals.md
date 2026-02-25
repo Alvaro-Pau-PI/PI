@@ -1,34 +1,34 @@
 # Riesgos individuales
 
-## Reflexió personal sobre el meu entorn de treball
-Actualment treballo principalment des de casa amb un portàtil, utilitzant VSCode i el terminal durant sessions llargues de desenvolupament web. Solem tenir sessions de codi de 2-3 hores seguides sense pauses adequades, amb il·luminació artificial i soroll de fons variable. La meva cadira no és ergonòmica i sovint adopto postures incorrectes quan estic concentrat programant.
+## Reflexión personal sobre mi entorno de trabajo
+Actualmente trabajo principalmente desde casa con un portátil, utilizando VSCode y la terminal durante sesiones largas de desarrollo web. Solemos tener sesiones de código de 2-3 horas seguidas sin pausas adecuadas, con iluminación artificial y ruido de fondo variable. Mi silla no es ergonómica y a menudo adopto posturas incorrectas cuando estoy concentrado programando.
 
-## 👀 Físics
+## 👀 Físicos
 
-### Risc 1: Fatiga visual
-- **Descripciónn**: La vista es cansa després de llargues sessions davant la pantalla sense descansos, especialment treballant amb VSCode i múltiplas terminals.
-- **Mesura preventiva**: Pauses cada 45 minuts, ajustar la brillantor i ús de filtres antireflector. Aplicar la regla 20-20-20 (cada 20 minuts, mirar 20 según a 20 peus de distància).
+### Riesgo 1: Fatiga visual
+- **Descripción**: La vista se cansa después de largas sesiones frente a la pantalla sin descansos, especialmente trabajando con VSCode y múltiples terminales.
+- **Medida preventiva**: Pausas cada 45 minutos, ajustar el brillo y uso de filtros antirreflejantes. Aplicar la regla 20-20-20 (cada 20 minutos, mirar 20 segundos a 20 pies de distancia).
 - **Responsable**: Pau
-- **Seguiment**: Revisió mensual durant reunions de equip.
+- **Seguimiento**: Revisión mensual durante reuniones de equipo.
 
-### Risc 2: Síndrome del túnel carpià / Dolor de canells
-- **Descripciónn**: Ús repetitiu del teclat i ratolí durant llargues sessions de codi pot causar dolor, formigueig i debilitat a las mans i canells.
-- **Mesura preventiva**: Ús de reposacanells ergonòmics, estirar mans i canells cada hora, posició correcta dlos braços (angle 90°), considerar teclats mecànics ergonòmics.
+### Riesgo 2: Síndrome del túnel carpiano / Dolor de muñecas
+- **Descripción**: Uso repetitivo del teclado y ratón durante largas sesiones de código puede causar dolor, hormigueo y debilidad en las manos y muñecas.
+- **Medida preventiva**: Uso de reposamuñecas ergonómicos, estirar manos y muñecas cada hora, posición correcta de los brazos (ángulo 90°), considerar teclados mecánicos ergonómicos.
 - **Responsable**: Pau
-- **Seguiment**: Control setmanal i exercicis preventius diaris.
+- **Seguimiento**: Control semanal y ejercicios preventivos diarios.
 
-## 🔊 Ambientals
+## 🔊 Ambientales
 
-### Risc: Soroll ambiental
-- **Descripciónn**: Sorolls externs que dificulten la concentració i augmenten el estrès durant las sessions de programació.
-- **Mesura preventiva**: Ús de auriculars cancel·ladors de soroll, buscar espais tranquils per treballar, establir horaris de màxima concentració.
+### Riesgo: Ruido ambiental
+- **Descripción**: Ruidos externos que dificultan la concentración y aumentan el estrés durante las sesiones de programación.
+- **Medida preventiva**: Uso de auriculares canceladores de ruido, buscar espacios tranquilos para trabajar, establecer horarios de máxima concentración.
 - **Responsable**: Álvaro
-- **Seguiment**: Autoreportatge i control en las reunions.
+- **Seguimiento**: Autorreporte y control en las reuniones.
 
-## 😰 Psicosocials
+## 😰 Psicosociales
 
-### Risc: Estrès per pressió de terminis
-- **Descripciónn**: El estrès generat per la pressió per complir deadlines i sprints pot afectar la salut mental i la qualitat del codi.
-- **Mesura preventiva**: Planificació realista amb estimacions adequades, suport entre companys, espais per parlar i expressar dubtes, retrospectives honestes.
-- **Responsable**: Equip complet
-- **Seguiment**: Avaluació en las retrospectives de sprint.
+### Riesgo: Estrés por presión de plazos
+- **Descripción**: El estrés generado por la presión para cumplir deadlines y sprints puede afectar a la salud mental y a la calidad del código.
+- **Medida preventiva**: Planificación realista con estimaciones adecuadas, apoyo entre compañeros, espacios para hablar y expresar dudas, retrospectivas honestas.
+- **Responsable**: Equipo completo
+- **Seguimiento**: Evaluación en las retrospectivas de sprint.

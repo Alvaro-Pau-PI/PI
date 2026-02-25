@@ -1,78 +1,78 @@
-# 👥 Guía de Contribución i Normes de el Equip
+# 👥 Guía de Contribución y Normas del Equipo
 
-Este document estableix las normes de treball col·laboratiu per garantir la qualitat del codi i la fluïdesa en el desenvolupament del projecte.
+Este documento establece las normas de trabajo colaborativo para garantizar la calidad del código y la fluidez en el desarrollo del proyecto.
 
-## 🌿 Estratègia de Branques (Branching Strategy)
+## 🌿 Estrategia de Ramas (Branching Strategy)
 
-Utilitzem una versió simplificada de **Gitflow**:
+Utilizamos una versión simplificada de **Gitflow**:
 
-- **`main`**: Branca de **Producció**. El codi aquí SEMPRE ha de ser estable i desplegable.
-  - Los pushes directes estan PROHIBITS.
-  - Només rep canvis via Pull Request (PR).
+- **`main`**: Rama de **Producción**. El código aquí SIEMPRE debe ser estable y desplegable.
+  - Los pushes directos están PROHIBIDOS.
+  - Solo recibe cambios vía Pull Request (PR).
   
-- **`develop`**: Branca de **Integració**. Aquí es fusionen las features acabades.
-  - És la base per crear noves branques de funcionalitat.
+- **`develop`**: Rama de **Integración**. Aquí se fusionan las funcionalidades terminadas.
+  - Es la base para crear nuevas ramas de funcionalidad.
 
-- **`feature/nom-de-la-tasca`**: Branques temporals per a desenvolupament.
-  - Exemple: `feature/login-page`, `feature/api-products`.
-  - Es creen des de `develop`.
-  - S'esborren després de fer merge.
+- **`feature/nombre-de-la-tarea`**: Ramas temporales para desarrollo.
+  - Ejemplo: `feature/login-page`, `feature/api-products`.
+  - Se crean desde `develop`.
+  - Se borran después de hacer merge.
 
-- **`fix/descripcio`**: Branques per corregir bugs crítics.
-  - Exemple: `fix/cors-error`.
+- **`fix/descripcion`**: Ramas para corregir bugs críticos.
+  - Ejemplo: `fix/cors-error`.
 
-### Flux de Treball Típic
+### Flujo de Trabajo Típico
 1. `git checkout develop`
-2. `git pull origin develop` (actualitzar)
-3. `git checkout -b feature/nova-funcionalitat`
-4. ... fer feina, commits ...
-5. `git push origin feature/nova-funcionalitat`
-6. Crear Pull Request a GitHub (`feature/...` -> `develop`)
+2. `git pull origin develop` (actualizar)
+3. `git checkout -b feature/nueva-funcionalidad`
+4. ... trabajar en ella, commits ...
+5. `git push origin feature/nueva-funcionalidad`
+6. Crear Pull Request en GitHub (`feature/...` -> `develop`)
 
 ## 📝 Commit Policy (Política de Commits)
 
-Seguim la convenció **Conventional Commits** per mantenir un historial clar:
+Seguimos la convención **Conventional Commits** para mantener un historial claro:
 
-- `feat: Missatge`: Una nova funcionalitat.
-- `fix: Missatge`: Correcció de un error.
-- `docs: Missatge`: Canvis només en la documentació.
-- `style: Missatge`: Canvis de format, espais, etc. (no lógica).
-- `refactor: Missatge`: Refactorització de codi (sense canvis lògics).
-- `test: Missatge`: Añadir o corregir tests.
-- `chore: Missatge`: Tarees de manteniment (build, deps...).
+- `feat: Mensaje`: Una nueva funcionalidad.
+- `fix: Mensaje`: Corrección de un error.
+- `docs: Mensaje`: Cambios solo en la documentación.
+- `style: Mensaje`: Cambios de formato, espacios, etc. (no lógica).
+- `refactor: Mensaje`: Refactorización de código (sin cambios lógicos).
+- `test: Mensaje`: Añadir o corregir tests.
+- `chore: Mensaje`: Tareas de mantenimiento (build, deps...).
 
-**Exemple bo:** `feat: Añadir validació al formulari de registre`
-**Exemple dolent:** `canvis al login`
+**Ejemplo correcto:** `feat: Añadir validación al formulario de registro`
+**Ejemplo incorrecto:** `cambios en el login`
 
-## 💅 Code Style (Estil de Codi)
+## 💅 Code Style (Estilo de Código)
 
 ### Frontend (Vue)
-- Utilitzem **ESLint** amb la configuració recomanada de Vue 3 (`plugin:vue/vue3-recommended`).
-- Noms de components: **PascalCase** (`ProductCard.vue`).
-- Props i Emits definits explícitament.
+- Utilizamos **ESLint** con la configuración recomendada de Vue 3 (`plugin:vue/vue3-recommended`).
+- Nombres de componentes: **PascalCase** (`ProductCard.vue`).
+- Props y Emits definidos explícitamente.
 
 ### Backend (Laravel)
-- Utilitzem **Laravel Pint** (basat en PHP-CS-Fixer) per estandaritzar el estil PSR-12.
-- Noms de classes: **PascalCase**.
-- Noms de mètodes/variablas: **camelCase**.
-- Noms de taulas: **snake_case** (plural).
+- Utilizamos **Laravel Pint** (basado en PHP-CS-Fixer) para estandarizar el estilo PSR-12.
+- Nombres de clases: **PascalCase**.
+- Nombres de métodos/variables: **camelCase**.
+- Nombres de tablas: **snake_case** (plural).
 
-## ✔️ Criteris de Acceptació (Definition of Done)
+## ✔️ Criterios de Aceptación (Definition of Done)
 
-Una tasca es considera "acabada" quan:
-1. El codi compleix el estil definit.
-2. Funciona en el entorn local (Docker).
-3. S'ha documentat si és necessari.
-4. Ha passat la revisió (Code Review) de un company.
-5. El pipeline de CI/CD (Tests) ha passat en verd.
+Una tarea se considera "terminada" cuando:
+1. El código cumple el estilo definido.
+2. Funciona en el entorno local (Docker).
+3. Se ha documentado si es necesario.
+4. Ha pasado la revisión (Code Review) de un compañero.
+5. El pipeline de CI/CD (Tests) ha pasado en verde.
 
-## 🤝 Repartiment de Responsabilitats
+## 🤝 Reparto de Responsabilidades
 
 - **Frontend Leader**: Álvaro Pérez
   - Responsable de Vue, CSS, UX/UI.
 - **Backend Leader**: Pau Albero
   - Responsable de Laravel, BD, API.
-- **DevOps Shared**: Ambdós
-  - Responsable de Docker, AWS, GitHub Actions.
+- **DevOps Shared**: Ambos
+  - Responsables de Docker, AWS, GitHub Actions.
 
-> *Tots los membres de el equip han de conèixer el funcionament bàsic de el àrea de el altre i poder fer canvis menors.*
+> *Todos los miembros del equipo deben conocer el funcionamiento básico del área del otro y poder hacer cambios menores.*

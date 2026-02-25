@@ -235,8 +235,9 @@ export default {
 
     const currentImageSrc = computed(() => {
       const img = galleryImages.value[hoverIndex.value] || galleryImages.value[0];
-      if (img.startsWith('http') || img.startsWith('/')) return img;
-      return `/${img}`;
+      if (img.startsWith('http')) return img;
+      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      return img.startsWith('/') ? `${baseUrl}${img}` : `${baseUrl}/${img}`;
     });
 
     const handleMouseMove = (e) => {

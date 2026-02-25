@@ -1,11 +1,11 @@
 # 🧭 Sprint 4 — Cliente SPA con Vue y control de roles
 
-Este sprint tiene como objetivo consolidar la part **client** del projecte intermodular mediante la creación de una **interfaz moderna, dinámica y segura** amb **Vue.js**. 
-A partir del backend ya desplegado (Laravel, API REST), se implementarán las funcionalidades principalas del frontend, incluyendo:
+Este sprint tiene como objetivo consolidar la parte **cliente** del proyecto intermodular mediante la creación de una **interfaz moderna, dinámica y segura** con **Vue.js**. 
+A partir del backend ya desplegado (Laravel, API REST), se implementarán las funcionalidades principales del frontend, incluyendo:
 
-- **C1.** Desarrollo d’una interfície SPA amb components Vue i rutes dinàmiques.
+- **C1.** Desarrollo de una interfaz SPA con componentes Vue y rutas dinámicas.
 - **C2.** Integración del sistema de autenticación y gestión de sesiones mediante API.
-- **C3.** Gestiónnn de rolas y permisos de usuario para un control de acceso granular.
+- **C3.** Gestión de roles y permisos de usuario para un control de acceso granular.
 
 El objetivo es conseguir una experiencia de usuario fluida y segura, respetando los principios de modularidad, escalabilidad y buenas prácticas de desarrollo web profesional.
 
@@ -13,40 +13,40 @@ El objetivo es conseguir una experiencia de usuario fluida y segura, respetando 
 
 ## Índice
 
-1. [⚡ C1. Interfaz de usuario avanzada amb Vue.js](#c1--interfície-dusuari-avançada-amb-vuejs)
-2. [🔐 C2. Integración de la autenticación mediante API](#c2--integració-de-lautenticació-mediante-api)
-3. [👥 C3. Gestiónnn de rolas de usuario y permisos](#c3--gestió-de-rols-dusuari-i-permisos)
+1. [⚡ C1. Interfaz de usuario avanzada con Vue.js](#c1--interfaz-de-usuario-avanzada-con-vuejs)
+2. [🔐 C2. Integración de la autenticación mediante API](#c2--integración-de-la-autenticación-mediante-api)
+3. [👥 C3. Gestión de roles de usuario y permisos](#c3--gestión-de-roles-de-usuario-y-permisos)
 
 ---
 
-## C1. ⚡ Interfaz de usuario avanzada amb Vue.js
+## C1. ⚡ Interfaz de usuario avanzada con Vue.js
 
 ### 1️⃣ Objetivos
 
-Desarrollar una **interfície d’usuari moderna i interactiva** basada en **Vue.js**, transformando el proyecto en una **SPA (Single Page Application)**. 
-El objetivo es ofrecer una experiencia de uso más fluida, sin recargas completas de página, con navegación dinámica y actual.zación reactiva de datos.
+Desarrollar una **interfaz de usuario moderna e interactiva** basada en **Vue.js**, transformando el proyecto en una **SPA (Single Page Application)**. 
+El objetivo es ofrecer una experiencia de uso más fluida, sin recargas completas de página, con navegación dinámica y actualización reactiva de datos.
 
 Esta implementación permitirá:
 
-- 🧩 Separar claramente la **lógica**, la **presentaciónnn** i el **comportamiento** del client.
-- 🚀 Mejorar la **usabilidad y velocidad** de navegació.
-- 🖥️ Conseguir una experiencia parecida a una aplicación d’escriptori.
+- 🧩 Separar claramente la **lógica**, la **presentación** y el **comportamiento** del cliente.
+- 🚀 Mejorar la **usabilidad y velocidad** de navegación.
+- 🖥️ Conseguir una experiencia parecida a una aplicación de escritorio.
 
 Corresponde a los resultados de aprendizaje:
 
-- **DWEC RA6.h** → Diseña aplicaciones SPA amb frameworks moderns.
-- **DWEC RA6.c** → Implementa componentes reutilizablas y modulares.
+- **DWEC RA6.h** → Diseña aplicaciones SPA con frameworks modernos.
+- **DWEC RA6.c** → Implementa componentes reutilizables y modulares.
 - **DWEC RA4.f** → Aplica buenas prácticas en la manipulación del DOM y el uso de eventos.
 
 ---
 
 ### 2️⃣ Requisitos previos
 
-✅ Node.js i npm instalados (**v20 o superior**) 
-✅ Entorno Docker con servicio para el’API (PHP/Laravel) i MySQL 
-✅ Estructura del projecte Vue amb `vite` 
-✅ Conocimiento básico de componentes, props, `v-model` i rutes (`vue-router`) 
-✅ Conocimiento d’API REST i integración con `axios`
+✅ Node.js y npm instalados (**v20 o superior**) 
+✅ Entorno Docker con servicio para la API (PHP/Laravel) y MySQL 
+✅ Estructura del proyecto Vue con `vite` 
+✅ Conocimiento básico de componentes, props, `v-model` y rutas (`vue-router`) 
+✅ Conocimiento de API REST e integración con `axios`
 
 📦 **Estructura orientativa del proyecto Vue.js:**
 
@@ -54,12 +54,12 @@ Corresponde a los resultados de aprendizaje:
 frontend/
 ├── src/
 │   ├── assets/               # Recursos estáticos (imágenes, iconos, CSS)
-│   ├── components/           # Componentes reutilizablas (Botones, Navbar, CardProducto)
-│   ├── views/                # Vistas principalas (Home, Productos, Perfil, Login)
+│   ├── components/           # Componentes reutilizables (Botones, Navbar, CardProducto)
+│   ├── views/                # Vistas principales (Home, Productos, Perfil, Login)
 │   ├── router/
 │   │   └── index.js          # Definición de rutas SPA
-│   ├── store/                # (Opcional) Gestiónnn de estado global amb Pinia
-│   ├── App.vue               # Component raíz
+│   ├── store/                # (Opcional) Gestión de estado global con Pinia
+│   ├── App.vue               # Componente raíz
 │   └── main.js               # Punto de entrada de la aplicación
 ├── public/
 │   └── index.html            # Página HTML principal
@@ -80,7 +80,7 @@ frontend/
 🔹 **2. Creación de componentes básicos**
 
 - `Navbar.vue`, `Footer.vue`, `CardProducto.vue`, etc.
-- Utilizar **props** para pasar datos y **events** (`@click`, `@submit`) para comunicar componentes.
+- Utilizar **props** para pasar datos y **eventos** (`@click`, `@submit`) para comunicar componentes.
 
 🔹 **3. Definición de rutas SPA**
 
@@ -88,15 +88,15 @@ frontend/
 
 🔹 **4. Integración con el backend (API REST)**
 
-- Utilizar `fetch` o `axios` para recuperar y enviar datos a l’API.
-- Mostrar datos dinámicamente con `v-for`, `v-if` i `computed`.
+- Utilizar `fetch` o `axios` para recuperar y enviar datos a la API.
+- Mostrar datos dinámicamente con `v-for`, `v-if` y `computed`.
 
-🔹 **5. Gestiónnn de estado y autenticación**
+🔹 **5. Gestión de estado y autenticación**
 
 - Utilizar **Pinia** para compartir datos entre componentes.
 - Implementar rutas protegidas y redirecciones después del login.
 
-🔹 **6. Optimització i desplegament**
+🔹 **6. Optimización y despliegue**
 
 - Compilar la aplicación para producción con `npm run build`.
 - Integrar el frontend con Nginx o el contenedor Docker correspondiente.
@@ -115,7 +115,7 @@ frontend/
 
 ### 5️⃣ Buenas prácticas
 
-🧱 **Modularitat** · 🔐 **Seguridad** · ♻️ **Reactividad controlada** · 💬 **Feedback visual** · 🧠 **Organización del código** · 📁 **Gestiónnn de estado limpia**
+🧱 **Modularidad** · 🔐 **Seguridad** · ♻️ **Reactividad controlada** · 💬 **Feedback visual** · 🧠 **Organización del código** · 📁 **Gestión de estado limpia**
 
 ---
 
@@ -123,15 +123,15 @@ frontend/
 
 #### 🟦 To Do
 
-- Crear projecte amb Vite.
-- Definir rutas i components bàsics.
-- Configurar comunicaciónnn amb API REST.
+- Crear proyecto con Vite.
+- Definir rutas y componentes básicos.
+- Configurar comunicación con API REST.
 
 #### 🟨 In Progress
 
-- Integració amb backend (login, productes, comentaris).
+- Integración con backend (login, productos, comentarios).
 - Añadir animaciones y transiciones.
-- Gestiónnn de estado global i autenticació.
+- Gestión de estado global y autenticación.
 
 #### 🟩 Done
 
@@ -144,12 +144,12 @@ frontend/
 
 ## C2. 🔐 Integración de la autenticación mediante API
 
-### 1️⃣ Objetivos (amb mapeig DWEC)
+### 1️⃣ Objetivos (con mapeo DWEC)
 
-Implementar la autenticación del usuario desde el **client Vue 3** comunicándose con el **servidor Laravel** mediante **llamadas HTTP asíncronas** amb Axios.  
-La aplicación debe gestionar de manera segura las **sesiones, tokens o cookies**, i **actual.tzar la interfície** según l’estat d’autenticació.
+Implementar la autenticación del usuario desde el **cliente Vue 3** comunicándose con el **servidor Laravel** mediante **llamadas HTTP asíncronas** con Axios.  
+La aplicación debe gestionar de manera segura las **sesiones, tokens o cookies**, y **actualizar la interfaz** según el estado de autenticación.
 
-**Referència DWEC:**
+**Referencia DWEC:**
 
 - **RA7.f:** Implementa mecanismos de seguridad en aplicaciones web del lado cliente.
 
@@ -157,20 +157,20 @@ La aplicación debe gestionar de manera segura las **sesiones, tokens o cookies*
 
 ### 2️⃣ Requisitos previos
 
-- API Laravel amb endpoints:
+- API Laravel con endpoints:
   - `POST /api/login`
   - `POST /api/logout`
   - `GET /api/user` (usuario autenticado)
-- Autenticación basada en **token (Bearer)** o **cookie de sesión.*.
-- Front-end Vue 3 amb **Axios**, **Pinia**, **Vue Router** i **persistencia local** (`localStorage` o `sessionStorage`).
+- Autenticación basada en **token (Bearer)** o **cookie de sesión**.
+- Front-end Vue 3 con **Axios**, **Pinia**, **Vue Router** y **persistencia local** (`localStorage` o `sessionStorage`).
 
 ---
 
-### 3️⃣ Estructura de projecte (mòdul `auth`)
+### 3️⃣ Estructura de proyecto (módulo `auth`)
 
 ```text
 src/
-├─ modulas/
+├─ modulos/
 │  ├─ auth/
 │  │  ├─ views/
 │  │  │  ├─ LoginView.vue
@@ -193,7 +193,7 @@ src/
 
 ---
 
-### 4️⃣ Flux d’autenticació
+### 4️⃣ Flujo de autenticación
 
 #### 🔹 Login
 
@@ -202,25 +202,25 @@ src/
 3. El servidor Laravel devuelve:
    - Token JWT → se almacena en `localStorage`.
    - o cookie HTTP-only (si está configurado así).
-4. `authStore` actual.za el estado (`isAuthenticated = true`) y guarda `user`.
-5. El router redirige el `/dashboard` o `/profile`.
+4. `authStore` actualiza el estado (`isAuthenticated = true`) y guarda `user`.
+5. El router redirige a `/dashboard` o `/profile`.
 
 #### 🔹 Logout
 
 1. `authStore.logout()` → `authApi.logout()`.
-2. Se limpian el token y el usuario de `store` i `localStorage`.
+2. Se limpian el token y el usuario del `store` y `localStorage`.
 3. Se redirige a `/login`.
 
-#### 🔹 Refresh / Persistència
+#### 🔹 Refresh / Persistencia
 
 Al montar la aplicación (`App.vue`) o en un guard del router:
 
-- Si hay token válido → llama `authApi.getUser()` y restaura el estado.
+- Si hay token válido → llama a `authApi.getUser()` y restaura el estado.
 - Si no → redirige a `/login` (si la ruta es protegida).
 
 ---
 
-### 5️⃣ Pinia Store: `authStore.js` (exemple)
+### 5️⃣ Pinia Store: `authStore.js` (ejemplo)
 
 ```js
 import { defineStore } from 'pinia'
@@ -260,15 +260,15 @@ export const useAuthStore = defineStore('auth', {
 
 ---
 
-### 6️⃣ Servei HTTP i interceptors
+### 6️⃣ Servicio HTTP e interceptores
 
 ```js
 import axios from 'axios'
-import { useAuthStore } from '@/modulas/auth/store'
+import { useAuthStore } from '@/modulos/auth/store'
 
 const http = axios.create({
   baseURL: 'http://localhost:8000/api',
-  // Permite enviar cookies (si usas sesiones/CSRF amb cookies)
+  // Permite enviar cookies (si usas sesiones/CSRF con cookies)
   withCredentials: true
 })
 
@@ -281,7 +281,7 @@ http.interceptors.request.use((config) => {
   return config
 })
 
-// Gestiónnn de errores globalas (401, 403)
+// Gestión de errores globales (401, 403)
 http.interceptors.response.use(
   // Si todo va bien, devuelve la respuesta tal cual
   (response) => response,
@@ -299,7 +299,7 @@ http.interceptors.response.use(
 export default http
 ```
 
-> **RA7.f:** gestió segura del token, interceptors centralitzats, protecció davant accés no autoritzat.
+> **RA7.f:** gestión segura del token, interceptores centralizados, protección frente a acceso no autorizado.
 
 ---
 
@@ -315,7 +315,7 @@ router.beforeEach((to, from, next) => {
   // Si la ruta es protegida y el usuario no está autenticado
   if (to.meta.requiresAuth && !auth.isAuthenticated) {
     next('/login')
-  } lose {
+  } else {
     next()
   }
 })
@@ -328,7 +328,7 @@ router.beforeEach((to, from, next) => {
 
 ### 8️⃣ Actualización dinámica de la interfaz
 
-- Mostrar diferenteee **navbar** según `auth.isAuthenticated`.
+- Mostrar diferente **navbar** según `auth.isAuthenticated`.
 - Proteger secciones (botones o formularios) si el usuario no está conectado.
 - Mostrar nombre de usuario o avatar después del login.
 - En logout, el contenido privado desaparece sin recargar la página.
@@ -337,12 +337,12 @@ router.beforeEach((to, from, next) => {
 
 ---
 
-### 9️⃣ Seguridad (client)
+### 9️⃣ Seguridad (cliente)
 
 - No guardar contraseñas en ninguna variable persistente.
-- Token només en **localStorage** (si no se puede usar cookie HTTP-only).
+- Token solo en **localStorage** (si no se puede usar cookie HTTP-only).
 - Cerrar sesión automáticamente en 401.
-- Evitar exponer datos sensiblas al DOM.
+- Evitar exponer datos sensibles al DOM.
 - Añadir `timeout` en peticiones Axios y tratar errores de red.
 
 ---
@@ -350,119 +350,119 @@ router.beforeEach((to, from, next) => {
 ### 🔟 Testing y validación
 
 - **Pruebas de integración** del flujo login/logout (con API mockeada).
-- **Tests unitarios** per a `authStore` i `api.js`.
+- **Tests unitarios** para `authStore` y `api.js`.
 - **Pruebas E2E (Cypress o Playwright)** para simular un login real en navegador.
-- **Lint i auditoría** de dependencias (vulnerabilitats).
+- **Lint y auditoría** de dependencias (vulnerabilidades).
 
 ---
 
 ### 1️⃣1️⃣ Estado del desarrollo
 
-#### 🟦 To Do
+#### �� To Do
 
 - Crear endpoints de autenticación en el backend Laravel (`/login`, `/logout`, `/user`).
 - Configurar la instancia **Axios** con interceptores y `baseURL` común.
 - Implementar formulario de **LoginView.vue** y validaciones básicas.
-- Definir **router guards** per a rutes protegides.
+- Definir **router guards** para rutas protegidas.
 
 #### 🟨 In Progress
 
 - Desarrollo del **Pinia store (`authStore`)** con gestión de token y usuario.
-- Integración con l’API real de Laravel y pruebas de respuesta HTTP.
-- Actualització dinàmica del **navbar** i del contingut según l’estat de sessió.
+- Integración con la API real de Laravel y pruebas de respuesta HTTP.
+- Actualización dinámica del **navbar** y del contenido según el estado de sesión.
 - Añadir feedback visual (toasts, loading, errores de autenticación).
 
 #### 🟩 Done
 
 - Arquitectura básica del módulo `auth/` creada (views, components, api, store).
-- Navegación SPA funcional.con redirecciones después de login/logout.
-- Gestiónnn de errores globalas (401/403) y cierre automático de sesión.
+- Navegación SPA funcional con redirecciones después de login/logout.
+- Gestión de errores globales (401/403) y cierre automático de sesión.
 - Sesión persistente con token en el `localStorage` y restauración al reabrir la app.
 
 ---
 
-## C3. 👥 Gestiónnn de rolas de usuario y permisos
+## C3. 👥 Gestión de roles de usuario y permisos
 
-### 1️⃣ Objetivos (amb mapeig DWEC i DWES)
+### 1️⃣ Objetivos (con mapeo DWEC y DWES)
 
-Implementar un sistema de **gestió de rols i permisos** que permeta diferenciar funcionalitats según el tipus d’usuari.  
+Implementar un sistema de **gestión de roles y permisos** que permita diferenciar funcionalidades según el tipo de usuario.  
 La aplicación debe garantizar que **solo los usuarios autorizados** pueden acceder a determinadas rutas, opciones o acciones tanto en el **backend (Laravel)** como en el **frontend (Vue 3)**.
 
-**Referències:**
+**Referencias:**
 
 - **DWEC RA4.h:** Control de acceso y gestión de permisos en aplicaciones web.
-- **DWES RA7.e:** Gestiónnn de seguridad en el acceso a datos y funcionalidades.
-- **DWES RA7.f:** Restricció d’operacions según rols d’usuari.
-- **DWES RA7.g:** Validación y protección de endpoints d’API.
+- **DWES RA7.e:** Gestión de seguridad en el acceso a datos y funcionalidades.
+- **DWES RA7.f:** Restricción de operaciones según roles de usuario.
+- **DWES RA7.g:** Validación y protección de endpoints de API.
 - **DWES RA7.h:** Implementación de autenticación y autorización en entornos web.
 
 ---
 
 ### 2️⃣ Requisitos previos
 
-- API Laravel amb **middleware de autenticación y autorización** (`auth:sanctum`, `can`, `role` o policies).
+- API Laravel con **middleware de autenticación y autorización** (`auth:sanctum`, `can`, `role` o policies).
 - Modelos y relaciones de base de datos:
   - `users`
-  - `rolas`
+  - `roles`
   - `role_user` (tabla pivot)
-- Rolas principalas:
+- Roles principales:
   - **Administrador (gerente):** acceso completo a la aplicación y a la gestión de todos los recursos.
   - **Vendedor:** puede crear, editar y eliminar sus propios productos.
   - **Editor:** gestiona comentarios y contenidos publicados por otros usuarios.
   - **Usuario básico:** acceso solo a funcionalidades públicas o de consulta.
-- Front-end Vue 3 amb **Pinia**, **Axios**, **Vue Router** i components visuals condicionals según el rol.
+- Front-end Vue 3 con **Pinia**, **Axios**, **Vue Router** y componentes visuales condicionales según el rol.
 
 ---
 
-### 3️⃣ Estructura de projecte (mòdul `rolas`)
+### 3️⃣ Estructura de proyecto (módulo `roles`)
 
 ```text
 src/
-├─ modulas/
-│  ├─ rolas/
-│  │  ├─ composablas/
-│  │  │  └─ useRole.js            # composable con helpers de verificación de rolas
+├─ modulos/
+│  ├─ roles/
+│  │  ├─ composables/
+│  │  │  └─ useRole.js            # composable con helpers de verificación de roles
 │  │  ├─ components/
-│  │  │  ├─ RoleGuard.vue         # mostra o oculta contingut según rol/permisos
+│  │  │  ├─ RoleGuard.vue         # muestra u oculta contenido según rol/permisos
 │  │  │  └─ RoleBadge.vue         # etiqueta visual del rol (Admin, Vendor, etc.)
 │  │  ├─ views/
 │  │  │  └─ RoleManagementView.vue (para admins/gerentes)
-│  │  ├─ store.js                 # Pinia store para rols i permisos (opcional)
-│  │  └─ api.js                   # llamadas Axios para obtener/modificar rolas (opcional)
+│  │  ├─ store.js                 # Pinia store para roles y permisos (opcional)
+│  │  └─ api.js                   # llamadas Axios para obtener/modificar roles (opcional)
 │  └─ ...
 ├─ router/
-│  └─ guards/roleGuard.js         # redirecció según permisos de l’usuari
+│  └─ guards/roleGuard.js         # redirección según permisos del usuario
 └─ services/
-   └─ http.js                     # instància Axios con interceptores y auth
+   └─ http.js                     # instancia Axios con interceptores y auth
 ```
 
-> **DWES RA7.e–RA7.h:** estructura modular que separa la lógica d’autorització i evita accessos no autoritzats des del client.
+> **DWES RA7.e–RA7.h:** estructura modular que separa la lógica de autorización y evita accesos no autorizados desde el cliente.
 
 ---
 
-### 4️⃣ Model de rols i permisos
+### 4️⃣ Modelo de roles y permisos
 
-| Rol | Descripciónnn | Acciones permitidas |
+| Rol | Descripción | Acciones permitidas |
 |---|---|---|
-| **Administrador / Gerent** | Control total de la aplicación | CRUD completo, gestión de usuarios, productos y comentarios |
-| **Venedor** | Administra sus productos | Crear, editar y eliminar productos propios |
+| **Administrador / Gerente** | Control total de la aplicación | CRUD completo, gestión de usuarios, productos y comentarios |
+| **Vendedor** | Administra sus productos | Crear, editar y eliminar productos propios |
 | **Editor** | Gestiona contenido y comentarios | Moderar y eliminar comentarios, editar descripciones |
-| **Usuari** | Consumidor final | Consultar productos, comentar, editar perfil |
+| **Usuario** | Consumidor final | Consultar productos, comentar, editar perfil |
 
 ---
 
-### 5️⃣ Flux d’autorització al backend (Laravel)
+### 5️⃣ Flujo de autorización en el backend (Laravel)
 
 1. **Middleware `auth:sanctum`** valida la sesión o el token.
-2. Cada endpoint incorpora **políticas (Policy)** o middleware `role:` que limiten l’accés según el rol.
+2. Cada endpoint incorpora **políticas (Policy)** o middleware `role:` que limitan el acceso según el rol.
 3. Los controladores Laravel llaman métodos como `authorize('update', $product)` o `Gate::allows(...)`.
 4. El backend responde con código `403 Forbidden` si el usuario no tiene permisos suficientes.
 
-> **DWES RA7.g:** protección granular de endpoints de la ’API por rolas y acciones.
+> **DWES RA7.g:** protección granular de endpoints de la API por roles y acciones.
 
 ---
 
-### 6️⃣ Flux d’autorització al frontend (Vue 3)
+### 6️⃣ Flujo de autorización en el frontend (Vue 3)
 
 1. Después del login, el servidor envía el **rol del usuario** dentro del token o dentro del objeto `user`.
 2. El `authStore` guarda `user.role` (Pinia).
@@ -472,18 +472,18 @@ src/
 router.beforeEach((to, from, next) => {
   const auth = useAuthStore()
 
-  // Si la ruta define rolas permitidos y el rol actual.no está dentro
-  if (to.meta.rolas && !to.meta.rolas.includes(auth.user?.role)) {
+  // Si la ruta define roles permitidos y el rol actual no está dentro
+  if (to.meta.roles && !to.meta.roles.includes(auth.user?.role)) {
     next('/forbidden')
-  } lose {
+  } else {
     next()
   }
 })
 ```
 
-4. En componentes, se utiliza `v-if="can('delete')"` o un componenteee `<RoleGuard>` para ocultar funcionalidades no permitidas.
+4. En componentes, se utiliza `v-if="can('delete')"` o un componente `<RoleGuard>` para ocultar funcionalidades no permitidas.
 
-> **DWEC RA4.h / DWES RA7.f:** gestió visual i lógica dlos permisos a nivell de component i ruta.
+> **DWEC RA4.h / DWES RA7.f:** gestión visual y lógica de los permisos a nivel de componente y ruta.
 
 ---
 
@@ -491,17 +491,17 @@ router.beforeEach((to, from, next) => {
 
 ```js
 import { storeToRefs } from 'pinia'
-import { useAuthStore } from '@/modulas/auth/store'
+import { useAuthStore } from '@/modulos/auth/store'
 
 export function useRole() {
   // Convertimos propiedades del store a refs reactivas
   const { user } = storeToRefs(useAuthStore())
 
   const can = (permission) => {
-    // Llegim el rol del usuario actual
+    // Leemos el rol del usuario actual
     const role = user.value?.role
 
-    const rulas = {
+    const rules = {
       admin: ['create', 'edit', 'delete', 'moderate'],
       vendor: ['create', 'edit', 'delete'],
       editor: ['moderate'],
@@ -509,7 +509,7 @@ export function useRole() {
     }
 
     // Devuelve true si el permiso está dentro de las reglas del rol
-    return rulas[role]?.includes(permission) ?? false
+    return rules[role]?.includes(permission) ?? false
   }
 
   return { can }
@@ -520,7 +520,7 @@ export function useRole() {
 
 ```vue
 <script setup>
-import { useRole } from '@/modulas/rolas/composablas/useRole'
+import { useRole } from '@/modulos/roles/composables/useRole'
 
 const { can } = useRole()
 </script>
@@ -531,34 +531,34 @@ const { can } = useRole()
 </template>
 ```
 
-> **DWEC RA4.h:** encapsulació de la lógica d’autorització per a ús en tota la interfície.
+> **DWEC RA4.h:** encapsulación de la lógica de autorización para uso en toda la interfaz.
 
 ---
 
 ### 8️⃣ Componentes de control visual
 
-- **`<RoleGuard>`:** component d’ordre superior per ocultar contingut según permisos.
+- **`<RoleGuard>`:** componente de orden superior para ocultar contenido según permisos.
 - **`<RoleBadge>`:** etiqueta visual que indica el rol actual.
 - **Menús dinámicos:** elementos del menú principal controlados por `v-if="auth.user?.role === 'admin'"`.
 
-> **DWES RA7.h:** retroalimentació visual clara según el nivell d’autorització.
+> **DWES RA7.h:** retroalimentación visual clara según el nivel de autorización.
 
 ---
 
 ### 9️⃣ Testing y validación
 
 - **Tests unitarios (Vitest):** verificación de `useRole().can()` para cada tipo de usuario.
-- **Tests de integración:** comprovació de visibilitat d’opcions en components según rol.
+- **Tests de integración:** comprobación de visibilidad de opciones en componentes según rol.
 - **E2E (Cypress o Playwright):** comprobación de acceso restringido a rutas protegidas y flujo de login real.
 - **Simulaciones de API:** respuestas 403 y redirecciones automáticas.
 
 ---
 
-### 🔟 Buenas prácticas de seguretat
+### 🔟 Buenas prácticas de seguridad
 
 - No confiar en la validación del front-end: todas las restricciones también se aplican al backend.
-- Limitar la informació retornada per l’API según rol (principi de mínim privilegi).
-- Verificar rolas a cada petición (`authorize`, `Gate`, `Policy`).
+- Limitar la información devuelta por la API según rol (principio de mínimo privilegio).
+- Verificar roles en cada petición (`authorize`, `Gate`, `Policy`).
 - Controlar excepciones y mostrar mensajes de error claros pero no demasiado detallados (para evitar fugas de información).
 
 ---
@@ -567,21 +567,22 @@ const { can } = useRole()
 
 #### 🟦 To Do
 
-- Definir tablas y relaciones de rolas en el backend (Laravel).
+- Definir tablas y relaciones de roles en el backend (Laravel).
 - Crear middleware y policies para el control de acceso.
-- Configurar `meta.rolas` en las rutas Vue.
-- Diseñoar components `RoleGuard` i `RoleBadge`.
+- Configurar `meta.roles` en las rutas Vue.
+- Diseñar componentes `RoleGuard` y `RoleBadge`.
 
 #### 🟨 In Progress
 
 - Implementación del **composable `useRole()`** y pruebas de permisos.
 - Integración con el **Pinia `authStore`** para leer el rol autenticado.
-- Control visual de menús i seccions según rol.
+- Control visual de menús y secciones según rol.
 - Validación de respuestas 403 y tratamiento de errores en el cliente.
 
 #### 🟩 Done
 
-- Modelo base de rolas creado en Laravel y asociaciones correctas.
-- Asignación de rolas a usuarios y pruebas con API REST.
+- Modelo base de roles creado en Laravel y asociaciones correctas.
+- Asignación de roles a usuarios y pruebas con API REST.
 - Control de acceso funcional en rutas y componentes Vue.
-- Gestiónn visual coherent según el rol d’usuari.
+- Gestión visual coherente según el rol de usuario.
+

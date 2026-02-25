@@ -1,295 +1,293 @@
 # 🧩 Sprint 5 y Sprint 6 — Integraciones externas, Swagger, Docker, Despliegue final, calidad y entrega del producto
 
-Este sprint tiene como objetivo ampliar i professionalitzar el projecte intermodular incorporant **integracions externes** amb **OAuth2**, documentació formal de l’API amb **Swagger/OpenAPI**, **dockerització completa** i un flux bàsic de **CI/CD**. 
-A més, com a activitat vinculada a l’assignatura **Introducció al Núvol Públic (NUV)**, es desplegarà una versió del projecte en **AWS**, documentant el procés i comparant-lo amb el desplegament local mediante **Docker Compose**.
-Completarem el projecte amb un resultat **professional, estable i llast per a producció**. 
-Es treballarà en la **presentaciónn final (UI/UX)**, la **digitalització del negoci (tecnologies intel·ligents)**, la **sostenibilitat (ASG i ecodisseny)**, i el **desplegament complet amb Docker en un servidor real amb HTTPS**.
+Este sprint tiene como objetivo ampliar y profesionalizar el proyecto intermodular incorporando **integraciones externas** con **OAuth2**, documentación formal de la API con **Swagger/OpenAPI**, **dockerización completa** y un flujo básico de **CI/CD**. 
+Además, como actividad vinculada a la asignatura **Introducción a la Nube Pública (NUV)**, se desplegará una versión del proyecto en **AWS**, documentando el proceso y comparándolo con el despliegue local mediante **Docker Compose**.
+Completaremos el proyecto con un resultado **profesional, estable y listo para producción**. 
+Se trabajará en la **presentación final (UI/UX)**, la **digitalización del negocio (tecnologías inteligentes)**, la **sostenibilidad (ASG y ecodiseño)**, y el **despliegue completo con Docker en un servidor real con HTTPS**.
 
-A més, es farà una revisió total de **qualitat i documentació**, incloent **manual d’usuari**, **accessibilitat** i una **sessió final de demostració** amb el client.
+Además, se hará una revisión total de **calidad y documentación**, incluyendo **manual de usuario**, **accesibilidad** y una **sesión final de demostración** con el cliente.
 
-Inclou los requisits del client i mapeja el treball als resultats d’aprenentatge:
+Incluye los requisitos del cliente y mapea el trabajo a los resultados de aprendizaje:
 
-- **C1** Integració amb serveis externs i gestió segura de tokens.(DWES) - RA9
-- **C2** Documentació de l’API pròpia amb Swagger (OpenAPI).(DWES) - RA9
-- **C3** Millores avançades de Vue (watchers, filtres, paginació, validació en temps real).(DWEC) RA3.g, RA4.d, RA5.g, RA6.e
-- **C4** Presentació estètica, consistència i accessibilitat professional (DIW).
-- **C5** Millora digital: dades, IA o recomanacions intel·ligents (DIG).
-- **C6** E-commerce sostenible: criteris ASG i ecodisseny (SOST).
-- **C7** Desplegament Cloud, DNS i CI/CD (DDAW + NUV). DAW RA2, RA2.i, DAW RA6.h, DAW RA3.i
-- **C8** Documentació final, manual d’usuari, validació i presentaciónn al client.DWES RA8.g, DWES RA9.f, DIW RA5.g, DIW RA6.f
+- **C1** Integración con servicios externos y gestión segura de tokens.(DWES) - RA9
+- **C2** Documentación de la API propia con Swagger (OpenAPI).(DWES) - RA9
+- **C3** Mejoras avanzadas de Vue (watchers, filtros, paginación, validación en tiempo real).(DWEC) RA3.g, RA4.d, RA5.g, RA6.e
+- **C4** Presentación estética, consistencia y accesibilidad profesional (DIW).
+- **C5** Mejora digital: datos, IA o recomendaciones inteligentes (DIG).
+- **C6** E-commerce sostenible: criterios ASG y ecodiseño (SOST).
+- **C7** Despliegue Cloud, DNS y CI/CD (DDAW + NUV). DAW RA2, RA2.i, DAW RA6.h, DAW RA3.i
+- **C8** Documentación final, manual de usuario, validación y presentación al cliente.DWES RA8.g, DWES RA9.f, DIW RA5.g, DIW RA6.f
 
 ---
 
 ## Índice
 
-1. [🔗 C1. Integració amb serveis externs (OAuth2)] DWES
-2. [📚 C2. Documentació de l’API pròpia amb Swagger (OpenAPI)] DWES
-4. [✨ C3. Millores avançades al front-end (Vue)] DWEC
-1. [🎨 C4. Diseño final i accessibilitat professional]DIW
-2. [🤖 C5. Digitalització de la tenda amb tecnologies intel·ligents]DIG
-3. [🌱 C6. Sostenibilitat: criteris ASG i ecodisseny]SOST
-4. [🐳 C7. Desplegament Cloud, DNS i CI/CD] DDAW + NUV
-6. [📚 C8. Documentació final, manual d’usuari i presentaciónn]
-6. [✅ Lliurablas i criteris de validació]
-
+1. [🔗 C1. Integración con servicios externos (OAuth2)] DWES
+2. [📚 C2. Documentación de la API propia con Swagger (OpenAPI)] DWES
+3. [✨ C3. Mejoras avanzadas al front-end (Vue)] DWEC
+4. [🎨 C4. Diseño final y accesibilidad profesional] DIW
+5. [🤖 C5. Digitalización de la tienda con tecnologías inteligentes] DIG
+6. [🌱 C6. Sostenibilidad: criterios ASG y ecodiseño] SOST
+7. [🐳 C7. Despliegue Cloud, DNS y CI/CD] DDAW + NUV
+8. [📚 C8. Documentación final, manual de usuario y presentación]
+9. [✅ Entregables y criterios de validación]
 
 ---
 
-## C1. 🔗 Integració amb serveis externs (OAuth2) - (DWES)
+## C1. 🔗 Integración con servicios externos (OAuth2) - (DWES)
 
 ### 1️⃣ Objetivos
 
-Añadir una integración con **almenys una API externa** que requerisca **OAuth2**, per ampliar funcionalitats o millorar l’experiència d’usuari.
+Añadir una integración con **al menos una API externa** que requiera **OAuth2**, para ampliar funcionalidades o mejorar la experiencia de usuario.
 
-Exemplas vàlids (tria’n **un** com a mínim):
+Ejemplos válidos (elige **uno** como mínimo):
 
-- **Login amb Google** (OpenID Connect sobre OAuth2).
-- **Importació de dades** des d’un servei extern relacionat (p. ex. Google Calendar/Drive, GitHub, Spotify, etc.) si té sentit amb el vostre projecte.
+- **Login con Google** (OpenID Connect sobre OAuth2).
+- **Importación de datos** desde un servicio externo relacionado (p. ej. Google Calendar/Drive, GitHub, Spotify, etc.) si tiene sentido con vuestro proyecto.
 
-**Referència:** **DWES RA9** (integración con serveis existents, gestió segura de tokens).
+**Referencia:** **DWES RA9** (integración con servicios existentes, gestión segura de tokens).
 
 ---
 
 ### 2️⃣ Requisitos previos
 
-✅ Backend Laravel (API REST) funcionant 
-✅ Frontend Vue (SPA) amb Axios / Pinia 
-✅ Variablas d’entorn preparades (`.env`) 
-✅ Compte desenvolupador del proveïdor (Google Console / etc.)
+✅ Backend Laravel (API REST) funcionando 
+✅ Frontend Vue (SPA) con Axios / Pinia 
+✅ Variables de entorno preparadas (`.env`) 
+✅ Cuenta desarrollador del proveedor (Google Console / etc.)
 
 ---
 
-### 3️⃣ Diseño recomanat (Laravel + OAuth2)
+### 3️⃣ Diseño recomendado (Laravel + OAuth2)
 
-La forma més estàndard en Laravel és fer servir **Laravel Socialite** per a inici de sessió amb proveïdors OAuth2.
+La forma más estándar en Laravel es usar **Laravel Socialite** para inicio de sesión con proveedores OAuth2.
 
-**Flux general (Authorization Code):**
-1. L’usuari prem “Inicia sessió amb Google” (frontend).
-2. El backend redirige a Google amb `client_id`, `redirect_uri`, `scope`, `state`.
-3. Google retorna un `code` al `redirect_uri`.
-4. El backend canvia `code` per `access_token` i (opcional) `refresh_token`.
-5. El backend crea/actualitza usuari local i genera un token propi (p. ex. Sanctum) per al frontend.
-6. El frontend guarda el token propi i treballa amb l’API pròpia.
+**Flujo general (Authorization Code):**
+1. El usuario pulsa “Inicia sesión con Google” (frontend).
+2. El backend redirige a Google con `client_id`, `redirect_uri`, `scope`, `state`.
+3. Google devuelve un `code` al `redirect_uri`.
+4. El backend cambia `code` por `access_token` y (opcional) `refresh_token`.
+5. El backend crea/actualiza usuario local y genera un token propio (p. ej. Sanctum) para el frontend.
+6. El frontend guarda el token propio y trabaja con la API propia.
 
-> Important: **no exposeu client_secret al frontend**. El secret ha d’estar **sempre** al backend.
+> Importante: **no expongáis client_secret al frontend**. El secreto debe estar **siempre** en el backend.
 
 ---
 
-### 4️⃣ Implementació orientativa
+### 4️⃣ Implementación orientativa
 
-#### A) Paquets i configuració
-- Instalar Socialite i configurar el proveïdor (Google).
-- Añadir credencials a `.env`:
+#### A) Paquetes y configuración
+- Instalar Socialite y configurar el proveedor (Google).
+- Añadir credenciales a `.env`:
   - `GOOGLE_CLIENT_ID=...`
   - `GOOGLE_CLIENT_SECRET=...`
   - `GOOGLE_REDIRECT_URI=https://.../api/oauth/google/callback`
 
-#### B) Rutes API
-- `GET /api/oauth/google/redirect` → redirige al proveïdor
-- `GET /api/oauth/google/callback` → rep el `code`, obté tokens, crea usuari, retorna token del vostre sistema
+#### B) Rutas API
+- `GET /api/oauth/google/redirect` → redirige al proveedor
+- `GET /api/oauth/google/callback` → recibe el `code`, obtiene tokens, crea usuario, devuelve token de vuestro sistema
 
-#### C) Gestiónn segura de tokens
-- Guardar tokens externs **xifrats** (si cal reutilitzar-los) o només usar-los per a una operació puntual.
-- Controlar expiració i renovació (si el projecte ho requereix).
-- Revocar o “desconnectar” compte extern (opcional però recomanat).
+#### C) Gestión segura de tokens
+- Guardar tokens externos **cifrados** (si es necesario reutilizarlos) o solo usarlos para una operación puntual.
+- Controlar expiración y renovación (si el proyecto lo requiere).
+- Revocar o “desconectar” cuenta externa (opcional pero recomendado).
 
 ---
 
-### 5️⃣ Testing i seguretat
+### 5️⃣ Testing y seguridad
 
-- Validar el paràmetre `state` (CSRF).
-- Comprovar permisos mínims (scopes mínims).
-- Provar errors típics:
-  - `invalid_grant`, `redirect_uri_mismatch`, token caducat.
+- Validar el parámetro `state` (CSRF).
+- Comprobar permisos mínimos (scopes mínimos).
+- Probar errores típicos:
+  - `invalid_grant`, `redirect_uri_mismatch`, token caducado.
 - No registrar tokens en logs.
-- Documentar el flux i captures de pantalla del funcionament.
+- Documentar el flujo y capturas de pantalla del funcionamiento.
 
 ---
 
-## C2. 📚 Documentació de l’API pròpia amb Swagger (OpenAPI) - (DWES)
+## C2. 📚 Documentación de la API propia con Swagger (OpenAPI) - (DWES)
 
 ### 1️⃣ Objetivos
 
-Generar una **documentació completa i interactiva** de l’API REST del projecte: endpoints, paràmetres, exemplas, codis d’estat i autenticació, accessible via interfície web.
+Generar una **documentación completa e interactiva** de la API REST del proyecto: endpoints, parámetros, ejemplos, códigos de estado y autenticación, accesible vía interfaz web.
 
-**Referència:** **DWES RA9** (facilitar integracions i transparència per a tercers).
-
----
-
-### 2️⃣ Eina recomanada en Laravel
-
-Opcions habituals:
-- `l5-swagger` (basat en swagger-php)
-- `scribe` (molt còmode per a docs automàtiques)
-
-En este sprint, s’accepta qualsevol opció que produïsca **OpenAPI** i una UI navegable (Swagger UI o similar).
+**Referencia:** **DWES RA9** (facilitar integraciones y transparencia para terceros).
 
 ---
 
-### 3️⃣ Contingut mínim que ha d’incloure la doc
+### 2️⃣ Herramienta recomendada en Laravel
 
-- **Tots los endpoints** del vostre backend (mínim los principals CRUD i auth).
-- Esquemes (modlos DTO) i exemplas JSON.
-- Codis d’estat (`200`, `201`, `400`, `401`, `403`, `404`, `422`, `500`).
-- Autenticació:
-  - Bearer Token (Sanctum/JWT) o cookie, según el vostre cas.
-- Possibilitat de **provar** peticions des de la UI.
+Opciones habituales:
+- `l5-swagger` (basado en swagger-php)
+- `scribe` (muy cómodo para docs automáticas)
 
----
-
-### 4️⃣ Verificació
-
-- URL funcional (p. ex. `/api/documentation` o `/docs`).
-- Captures i explicació de com s’autoritza a Swagger (on posar el Bearer token).
-- Documentar com regenerar la doc (comanda Artisan o script).
+En este sprint, se acepta cualquier opción que produzca **OpenAPI** y una UI navegable (Swagger UI o similar).
 
 ---
 
-## C3. ✨ Millores avançades al front-end (Vue) - (DWEC)
+### 3️⃣ Contenido mínimo que debe incluir la doc
+
+- **Todos los endpoints** de vuestro backend (mínimo los principales CRUD y auth).
+- Esquemas (modelos DTO) y ejemplos JSON.
+- Códigos de estado (`200`, `201`, `400`, `401`, `403`, `404`, `422`, `500`).
+- Autenticación:
+  - Bearer Token (Sanctum/JWT) o cookie, según vuestro caso.
+- Posibilidad de **probar** peticiones desde la UI.
+
+---
+
+### 4️⃣ Verificación
+
+- URL funcional (p. ej. `/api/documentation` o `/docs`).
+- Capturas y explicación de cómo se autoriza en Swagger (dónde poner el Bearer token).
+- Documentar cómo regenerar la doc (comando Artisan o script).
+
+---
+
+## C3. ✨ Mejoras avanzadas al front-end (Vue) - (DWEC)
 
 ### 1️⃣ Objetivos
 
-Refinar la interfície SPA amb funcionalitats avançades i reactives:
+Refinar la interfaz SPA con funcionalidades avanzadas y reactivas:
 
-- **Filtres i paginació** en llistats (p. ex. productes per categoria/preu, etc.)
-- Ús de **watchers** per reaccionar a canvis de model/estado global
-- Validació en temps real amb **Vee-Validate + Yup**
-- Compatibilitat entre navegadors i bones pràctiques
+- **Filtros y paginación** en listados (p. ej. productos por categoría/precio, etc.)
+- Uso de **watchers** para reaccionar a cambios de modelo/estado global
+- Validación en tiempo real con **Vee-Validate + Yup**
+- Compatibilidad entre navegadores y buenas prácticas
 
-**Referències:** **DWEC RA3.g, RA4.d, RA5.g, RA6.e**.
+**Referencias:** **DWEC RA3.g, RA4.d, RA5.g, RA6.e**.
 
 ---
 
-### 2️⃣ Filtres i paginació (patró recomanat)
+### 2️⃣ Filtros y paginación (patrón recomendado)
 
-- Controls UI: input de cerca, select de categoria, rang de preu, etc.
-- Estat a Pinia o dins de la vista:
-  - `filters` (objecte reactiu)
+- Controles UI: input de búsqueda, select de categoría, rango de precio, etc.
+- Estado en Pinia o dentro de la vista:
+  - `filters` (objeto reactivo)
   - `page`, `perPage`
-- Peticions a API amb query params:
+- Peticiones a API con query params:
   - `/api/products?search=...&category=...&min=...&max=...&page=...`
 
-> Si l’API encara no admet paginació/filtres, cal implementar-ho també al backend (p. ex. Eloquent `paginate()` + `when()` per filtres).
+> Si la API aún no admite paginación/filtros, hay que implementarlo también en el backend (p. ej. Eloquent `paginate()` + `when()` para filtros).
 
 ---
 
-### 3️⃣ Watchers (exemplas d’ús útil)
+### 3️⃣ Watchers (ejemplos de uso útil)
 
-- Si canvia un filtre → tornar a demanar dades automàticament
-- Si canvia `auth.user` o un valor global → refrescar vistes
-- Debounce en cerca (opcional, recomanat)
+- Si cambia un filtro → volver a pedir datos automáticamente
+- Si cambia `auth.user` o un valor global → refrescar vistas
+- Debounce en búsqueda (opcional, recomendado)
 
 ---
 
-### 4️⃣ Formularis amb Vee-Validate + Yup
+### 4️⃣ Formularios con Vee-Validate + Yup
 
-**Requisit:**
-- Validació immediata: camps obligats, formats, longituds, etc.
-- Feedback visual: missatges d’error i estats de camp (valid/invalid)
-- Esquemes Yup reutilitzablas per formularis
+**Requisito:**
+- Validación inmediata: campos obligados, formatos, longitudes, etc.
+- Feedback visual: mensajes de error y estados de campo (valid/invalid)
+- Esquemas Yup reutilizables para formularios
 
-Exemplas de formularis típics:
+Ejemplos de formularios típicos:
 - Login/Register
-- Crear/editar producte
-- Perfil d’usuari
+- Crear/editar producto
+- Perfil de usuario
 
 ---
 
-## C4. 🎨 Diseño final i accessibilitat professional (DIW)
+## C4. 🎨 Diseño final y accesibilidad profesional (DIW)
 
 ### 1️⃣ Objetivos
 
-Aplicar una capa final de **poliment visual**, assegurant:
+Aplicar una capa final de **pulido visual**, asegurando:
 
-- Estètica professional i coherent en totes las pàgines.
-- Fulls d’estil **organitzats** i **manteniblas**.
-- Compliment de bones pràctiques d’accessibilitat (WCAG bàsic):
-  - contrast adequat
-  - navegació amb teclat
-  - textos alternatius (`alt`)
-  - formularis accessiblas (`label`, `aria-*`)
-- Ús equilibrat de text, imatge i espais en blanc.
-- Imatges **optimitzades** (pes, formats moderns, dimensions correctes).
+- Estética profesional y coherente en todas las páginas.
+- Hojas de estilo **organizadas** y **mantenibles**.
+- Cumplimiento de buenas prácticas de accesibilidad (WCAG básico):
+  - contraste adecuado
+  - navegación con teclado
+  - textos alternativos (`alt`)
+  - formularios accesibles (`label`, `aria-*`)
+- Uso equilibrado de texto, imagen y espacios en blanco.
+- Imágenes **optimizadas** (peso, formatos modernos, dimensiones correctas).
 
-**Referències DIW:**
-- **DIW (Accessibilitat i usabilitat)** → contrast, navegació, components accessiblas, responsive.
-- **DIW (Maquetació moderna)** → CSS Grid/Flexbox, consistència visual.
-
----
-
-### 2️⃣ Requisits i bones pràctiques d’estils
-
-✅ Variablas CSS (`:root`) per colors, tipografies, espaiats i breakpoints 
-✅ Sistema de layout amb **Flexbox/Grid** 
-✅ Components reutilitzablas (botons, cards, formularis, badges) 
-✅ Ús de `rem`, `clamp()`, `minmax()` quan siga útil 
-✅ Fitxers CSS modulars i ben organitzats
-
+**Referencias DIW:**
+- **DIW (Accesibilidad y usabilidad)** → contraste, navegación, componentes accesibles, responsive.
+- **DIW (Maquetación moderna)** → CSS Grid/Flexbox, consistencia visual.
 
 ---
 
-### 3️⃣ Checklist d’accessibilitat
+### 2️⃣ Requisitos y buenas prácticas de estilos
 
-- [ ] Totes las imatges amb `alt` significatiu (o `alt=""` si decoratives).
-- [ ] Formularis amb `label` vinculats (`for` + `id`).
-- [ ] Validacions amb missatges clars i associats al camp (`aria-describedby`).
-- [ ] Focus visible i navegació amb teclat (Tab / Shift+Tab).
-- [ ] Contrast AA mínim (evitar gris clar sobre blanc).
-- [ ] Botones i enllaços amb text descriptiu (evitar “clic ací”).
-- [ ] Jerarquia semàntica: `h1 → h2 → h3`, `nav`, `main`, `footer`.
+✅ Variables CSS (`:root`) para colores, tipografías, espaciados y breakpoints 
+✅ Sistema de layout con **Flexbox/Grid** 
+✅ Componentes reutilizables (botones, cards, formularios, badges) 
+✅ Uso de `rem`, `clamp()`, `minmax()` cuando sea útil 
+✅ Archivos CSS modulares y bien organizados
+
+---
+
+### 3️⃣ Checklist de accesibilidad
+
+- [ ] Todas las imágenes con `alt` significativo (o `alt=""` si decorativas).
+- [ ] Formularios con `label` vinculados (`for` + `id`).
+- [ ] Validaciones con mensajes claros y asociados al campo (`aria-describedby`).
+- [ ] Focus visible y navegación con teclado (Tab / Shift+Tab).
+- [ ] Contraste AA mínimo (evitar gris claro sobre blanco).
+- [ ] Botones y enlaces con texto descriptivo (evitar “clic aquí”).
+- [ ] Jerarquía semántica: `h1 → h2 → h3`, `nav`, `main`, `footer`.
 
 ---
 
 ### 4️⃣ Estado del desarrollo
 
 #### 🟦 To Do
-- Auditoria de contrast i focus.
-- Revisar formularis (lablos, errors, aria).
-- Uniformitzar botons i cards.
+- Auditoría de contraste y focus.
+- Revisar formularios (labels, errores, aria).
+- Uniformizar botones y cards.
 
 #### 🟨 In Progress
-- Refactor CSS i estructura de fitxers.
-- Optimització d’imatges i responsive.
+- Refactor CSS y estructura de archivos.
+- Optimización de imágenes y responsive.
 
 #### 🟩 Done
-- Diseño coherent en totes las vistes.
-- Layout professional i accessible.
+- Diseño coherente en todas las vistas.
+- Layout profesional y accesible.
 
 ---
 
-## C5. 🤖 Digitalització de la tenda amb tecnologies intel·ligents (DIG)
+## C5. 🤖 Digitalización de la tienda con tecnologías inteligentes (DIG)
 
 ### 1️⃣ Objetivos
 
-Integrar una **millora digital** basada en tecnologies habilitadores digitals:
+Integrar una **mejora digital** basada en tecnologías habilitadoras digitales:
 
-- ☁️ Cloud (serveis en producció, deploy, persistència)
-- 🧠 IA / recomanacions (productes suggerits, destacats)
-- 📊 Anàlisi de dades (tendències, top vendes, productes més vistos)
+- ☁️ Cloud (servicios en producción, deploy, persistencia)
+- 🧠 IA / recomendaciones (productos sugeridos, destacados)
+- 📊 Análisis de datos (tendencias, top ventas, productos más vistos)
 
-L’equip haurà d’identificar i implementar **una millora concreta**, com per exemple:
+El equipo deberá identificar e implementar **una mejora concreta**, como por ejemplo:
 
-- Recomanador simple: “Productos relacionats” (categoria/etiquetes/preu).
-- “Productos destacats” según estadístiques (més venuts / millor valorats).
-- Panell mínim d’analytics per admin (visites, conversions, top productes).
-- Cerca intel·ligent amb suggeriments (autocomplete bàsic).
+- Recomendador simple: “Productos relacionados” (categoría/etiquetas/precio).
+- “Productos destacados” según estadísticas (más vendidos / mejor valorados).
+- Panel mínimo de analytics para admin (visitas, conversiones, top productos).
+- Búsqueda inteligente con sugerencias (autocomplete básico).
 
 ---
 
-### 2️⃣ Proposta d’implementació (exemplas)
+### 2️⃣ Propuesta de implementación (ejemplos)
 
-#### ✅ Opció A: Recomanacions intel·ligents (simple)
-- Algorisme: mateix `category_id`, preu semblant i bona valoració.
+#### ✅ Opción A: Recomendaciones inteligentes (simple)
+- Algoritmo: mismo `category_id`, precio parecido y buena valoración.
 - Endpoint: `GET /api/products/{id}/recommendations`
-- Vista: carrusel/llistat “Recomanats per a tu”.
+- Vista: carrusel/listado “Recomendados para ti”.
 
-#### ✅ Opció B: Productos destacats per dades
-- Guardar mètriques: `views`, `orders_count`, `rating_avg`.
+#### ✅ Opción B: Productos destacados por datos
+- Guardar métricas: `views`, `orders_count`, `rating_avg`.
 - Endpoint: `GET /api/products/featured`
-- Home: secció “Top productes de la setmana”.
+- Home: sección “Top productos de la semana”.
 
-#### ✅ Opció C: Mini-analytics admin
-- Taula / gràfic amb Top 5 vendes i Top 5 més vistos.
+#### ✅ Opción C: Mini-analytics admin
+- Tabla / gráfico con Top 5 ventas y Top 5 más vistos.
 - Endpoint: `GET /api/admin/analytics/summary`
 - Vista Admin: dashboard simple.
 
@@ -298,580 +296,579 @@ L’equip haurà d’identificar i implementar **una millora concreta**, com per
 ### 3️⃣ Estado del desarrollo
 
 #### 🟦 To Do
-- Triar una millora digital concreta (A/B/C).
-- Definir dades necessàries i modelat DB si cal.
+- Elegir una mejora digital concreta (A/B/C).
+- Definir datos necesarios y modelado DB si hace falta.
 
 #### 🟨 In Progress
-- Implementació endpoint + integració al front.
+- Implementación endpoint + integración al front.
 
 #### 🟩 Done
-- Millora digital visible i justificada al lliurament.
+- Mejora digital visible y justificada a la entrega.
 
 ---
 
-## C6. 🌱 Sostenibilitat: criteris ASG i ecodisseny (SOST)
+## C6. 🌱 Sostenibilidad: criterios ASG y ecodiseño (SOST)
 
 ### 1️⃣ Objetivos
 
-Aplicar sostenibilitat al projecte e-commerce incorporant:
+Aplicar sostenibilidad al proyecto e-commerce incorporando:
 
-- **Ambiental:** reducció de pes, optimització d’imatges, menys peticions, eficiència.
-- **Social:** accessibilitat, inclusió, informació clara, UX sense barreres.
-- **Governança:** transparència (políticas, traçabilitat), bones pràctiques i qualitat del codi.
+- **Ambiental:** reducción de peso, optimización de imágenes, menos peticiones, eficiencia.
+- **Social:** accesibilidad, inclusión, información clara, UX sin barreras.
+- **Gobernanza:** transparencia (políticas, trazabilidad), buenas prácticas y calidad del código.
 
 ---
 
-### 2️⃣ Millores sosteniblas recomanades
+### 2️⃣ Mejoras sostenibles recomendadas
 
-- 🖼️ Imatges en **WebP/AVIF**, lazy loading, dimensions adaptatives.
-- 📦 Reducció d’assets: minify, tree-shaking, compressió gzip/brotli en Nginx.
-- ♻️ Economía circular: secció “Reacondicionats”, “Reutilitzablas” o “Materials reciclats”.
-- 🏷️ Etiqueta eco als productes:
+- 🖼️ Imágenes en **WebP/AVIF**, lazy loading, dimensiones adaptativas.
+- 📦 Reducción de assets: minify, tree-shaking, compresión gzip/brotli en Nginx.
+- ♻️ Economía circular: sección “Reacondicionados”, “Reutilizables” o “Materiales reciclados”.
+- 🏷️ Etiqueta eco a los productos:
   - “Eco Score”
-  - “Embalatge reciclat”
-  - “Proveïdor local”
-- 🧾 Política de sostenibilitat visible (pàgina informativa).
+  - “Embalaje reciclado”
+  - “Proveedor local”
+- 🧾 Política de sostenibilidad visible (página informativa).
 
 ---
 
 ### 3️⃣ Estado del desarrollo
 
 #### 🟦 To Do
-- Definir quines millores ASG s’apliquen al projecte.
-- Añadir etiqueta eco i criteris al catàleg.
+- Definir qué mejoras ASG se aplican al proyecto.
+- Añadir etiqueta eco y criterios al catálogo.
 
 #### 🟨 In Progress
-- Optimització d’imatges i assets.
-- Ajustos en UI/UX per més claredat i inclusió.
+- Optimización de imágenes y assets.
+- Ajustes en UI/UX para más claridad e inclusión.
 
 #### 🟩 Done
-- Evidència clara de sostenibilitat + justificació en documentació.
+- Evidencia clara de sostenibilidad + justificación en documentación.
 
 ---
-## C7. 🧪 Desplegament Cloud, DNS i CI/CD (DDAW + NUV)
 
-### 🎯 Objectiu
+## C7. 🧪 Despliegue Cloud, DNS y CI/CD (DDAW + NUV)
 
-En estea fase del projecte intermòdul, el equip haurà de portar a producció el aplicació desenvolupada de:
+### 🎯 Objetivo
+
+En esta fase del proyecto intermódulo, el equipo deberá llevar a producción la aplicación desarrollada de:
 
 -   **Vue** (frontend)
 -   **Laravel** (backend)
 
-aplicant pràctiques professionals de:
+aplicando prácticas profesionales de:
 
--   Automatització de Tasques
--   Containerització
--   Integració i entrega Continuada
--   Gestiónn de dominis i DNS
+-   Automatización de Tareas
+-   Containerización
+-   Integración y entrega Continua
+-   Gestión de dominios y DNS
 -   Seguridad HTTPS
 -   Diseño de infraestructura escalable en AWS
 
 ------------------------------------------------------------------------
 
-## 🧭 PART 1 --- DNS del projecte 
-### Objectiu
+## 🧭 PARTE 1 --- DNS del proyecto 
+### Objetivo
 
-Gestionar una zona DNS pròpia delegada al vostre servidor. La zona de treball serà `projecteXX.ddaw.es' on XX serà el número de grup assignat per a la realització del projecte
+Gestionar una zona DNS propia delegada a vuestro servidor. La zona de trabajo será `projecteXX.ddaw.es` donde XX será el número de grupo asignado para la realización del proyecto.
 
-### Tasques a realitzar
+### Tareas a realizar
 
-1.  Implantar un **servidor DNS màster** al núvol (màquina virtual) o utilitzant un servici DNS en el núvol.
+1.  Implantar un **servidor DNS máster** en la nube (máquina virtual) o utilizando un servicio DNS en la nube.
 2.  Crear la zona:
 
-```{=html}
+```text
     projecteXX.ddaw.es
 ```
 
-3.  Definir com a mínim los registres necessàris per a publicar las vostres aplicacions:
+3.  Definir como mínimo los registros necesarios para publicar vuestras aplicaciones:
 
-4.  Facilitar a el administrador del DNS pare las dades necessàries per
-    fer la **delegació**.
-
-------------------------------------------------------------------------
-
-## 🐳 PART 2 --- Entorn de desenvolupament amb Docker
-
-### Objectiu
-
-Permetre que qualsevol membre de el equip puga engegar las 2 aplicacions en local.
-
-### Requisits
-
-Mitjançant `docker-compose` s'han de arrancar de forma independent los 2 projectes:
-
-### Obligatori
-
--   Dockerfile per a cada aplicació
--   variablas de entorn
--   persistència de la base de dades (en las que siga necessari)
--   Incloure en el README  de cada projecte las instruccions per fer-ho
+4.  Facilitar al administrador del DNS padre los datos necesarios para hacer la **delegación**.
 
 ------------------------------------------------------------------------
 
-##🚀 PART 3 --- Entorn de Producció i CI/CD
+## 🐳 PARTE 2 --- Entorno de desarrollo con Docker
 
-### Objectiu
+### Objetivo
 
-Automatitzar completament el pas de codi a producció en el núvol.
+Permitir que cualquier miembro del equipo pueda arrancar las 2 aplicaciones en local.
 
-### Repositoris independents → pipelines independents
+### Requisitos
 
-Cada aplicació ha de tindre el seu propi flux de desplegament.
+Mediante `docker-compose` se han de arrancar de forma independiente los 2 proyectos:
 
-### CI/CD mínim requerit
+### Obligatorio
+
+-   Dockerfile para cada aplicación
+-   variables de entorno
+-   persistencia de la base de datos (en las que sea necesario)
+-   Incluir en el README de cada proyecto las instrucciones para hacerlo
+
+------------------------------------------------------------------------
+
+## 🚀 PARTE 3 --- Entorno de Producción y CI/CD
+
+### Objetivo
+
+Automatizar completamente el paso de código a producción en la nube.
+
+### Repositorios independientes → pipelines independientes
+
+Cada aplicación ha de tener su propio flujo de despliegue.
+
+### CI/CD mínimo requerido
 
 #### Frontend
 
--   Instal·lació de dependencias
--   Build de producció
--   Desplegament automàtic
+-   Instalación de dependencias
+-   Build de producción
+-   Despliegue automático
 
 #### Backend (Laravel)
 
--   Instal·lació de dependencias
+-   Instalación de dependencias
 -   Test
--   Desplegament automàtic
--   **execució obligatòria de migracions** després del deploy
+-   Despliegue automático
+-   **ejecución obligatoria de migraciones** después del deploy
 
-### Aïllament de entorns
+### Aislamiento de entornos
 
-Frontend i backend han de funcionar de manera independent: 
-- Serveis/contenidors/Maquines virtuals separades
-- Configuracions pròpies
-- Capacitat de desplegar un sense afectar el altre
+Frontend y backend han de funcionar de manera independiente: 
+- Servicios/contenedores/Máquinas virtuales separadas
+- Configuraciones propias
+- Capacidad de desplegar uno sin afectar al otro
 
-### HTTPS amb Let's Encrypt
+### HTTPS con Let's Encrypt
 
-Las 2 aplicacions han de ser accessiblas amb certificats vàlids:
+Las 2 aplicaciones han de ser accesibles con certificados válidos:
 
-### Tecnologies vàlides
+### Tecnologías válidas
 
-Podeu utilitzar:
+Podéis utilizar:
 
--   màquines virtuals
+-   máquinas virtuales
 -   Docker
 -   ECS 
 -   Auto Scaling
--   Deployer o eines equivalents
+-   Deployer o herramientas equivalentes
 
 ------------------------------------------------------------------------
 
-## ☁️ PART 4 --- Arquitectura escalable en AWS
+## ☁️ PARTE 4 --- Arquitectura escalable en AWS
 
-### 🎯 Objectiu
+### 🎯 Objetivo
 
-Diseñoar una arquitectura en **AWS** capaç de suportar el desplegament
-en producció de el aplicació Vue + Laravel garantint:
+Diseñar una arquitectura en **AWS** capaz de soportar el despliegue en producción de la aplicación Vue + Laravel garantizando:
 
--   Separació de responsabilitats
--   Seguridad entre capes
--   Possibilitat de escalat
--   Alta disponibilitat
--   Facilitat de manteniment
+-   Separación de responsabilidades
+-   Seguridad entre capas
+-   Posibilidad de escalado
+-   Alta disponibilidad
+-   Facilidad de mantenimiento
 
 ------------------------------------------------------------------------
 
-### 🧱 Requisits tècnics obligatoris
+### 🧱 Requisitos técnicos obligatorios
 
-#### 1️⃣ Xarxa
+#### 1️⃣ Red
 
--   Creació de una **VPC pròpia**
--   Separació com a mínim en:
-    -   subxarxes **públiques**
-    -   subxarxes **privades de aplicació**
-    -   subxarxes **privades de dades**
+-   Creación de una **VPC propia**
+-   Separación como mínimo en:
+    -   subredes **públicas**
+    -   subredes **privadas de aplicación**
+    -   subredes **privadas de datos**
 
-S'haurà de explicar: 
-- Rang IP utilitzat
-- Distribució per AZ
-- Taulas de rutes
-- Accés a Internet
-- Necessitat o no de NAT
+Se deberá explicar: 
+- Rango IP utilizado
+- Distribución por AZ
+- Tablas de rutas
+- Acceso a Internet
+- Necesidad o no de NAT
 
 ------------------------------------------------------------------------
 
 #### 2️⃣ Capa de entrada (Edge)
 
-Ha de existir un punt únic de entrada de tràfic.
+Ha de existir un punto único de entrada de tráfico.
 
-Exemplas vàlids: 
-- Una EC2 amb Nginx (reverse proxy)
+Ejemplos válidos: 
+- Una EC2 con Nginx (reverse proxy)
 - Un Application Load Balancer
 
-Este component serà responsable de: 
-- Terminació HTTPS
-- Redireccions
-- Enviament del tràfic cap a backend o frontend
+Este componente será responsable de: 
+- Terminación HTTPS
+- Redirecciones
+- Envío del tráfico hacia backend o frontend
 
 ------------------------------------------------------------------------
 
-#### 3️⃣ Capa de aplicació
+#### 3️⃣ Capa de aplicación
 
-On s'executen:
+Donde se ejecutan:
 
--   Serveis del backend Laravel
--   Serveis del frontend Vue
+-   Servicios del backend Laravel
+-   Servicios del frontend Vue
 
-#### Nivel Avançat
+#### Nivel Avanzado
 
-Ha de permetre **replicar instàncies**.
+Ha de permitir **replicar instancias**.
 
-Exemplas vàlids: 
+Ejemplos válidos: 
 - Auto Scaling Group
-- ECS amb diverses tasques
-- múltiplas contenidors en diferents nodes
+- ECS con diversas tareas
+- múltiples contenedores en diferentes nodos
 
 ------------------------------------------------------------------------
 
-#### 4️⃣ Capa de dades
+#### 4️⃣ Capa de datos
 
-La base de dades haurà de estar en subxarxes privades.
+La base de datos deberá estar en subredes privadas.
 
-S'ha de implementar o proposar:
+Se ha de implementar o proponer:
 
 -   RDS Multi-AZ
--   Rèplica de lectura
--   Esquema de backup i recuperació
+-   Réplica de lectura
+-   Esquema de backup y recuperación
 
 ------------------------------------------------------------------------
 
 #### 5️⃣ Seguridad
 
-S'ha de demostrar aïllament entre capes mediante:
+Se ha de demostrar aislamiento entre capas mediante:
 
 -   Security Groups
--   normes de entrada i eixida
+-   normas de entrada y salida
 
-Exemple: 
-- la base de dades només accepta connexions del backend
-- el backend només rep tràfic del balancejador o proxy
+Ejemplo: 
+- la base de datos solo acepta conexiones del backend
+- el backend solo recibe tráfico del balanceador o proxy
 
 ------------------------------------------------------------------------
 
-## ☁️ PART 5 --- DOCUMENTACIÓ TÈCNICA DEL PROJECTE
+## ☁️ PARTE 5 --- DOCUMENTACIÓN TÉCNICA DEL PROYECTO
 
-### 🎯 Objectiu
+### 🎯 Objetivo
 
-El projecte intermòdular haurà d’anar acompanyat d’una documentació tècnica professional que descriga el sistema al llarg de tot el seu cicle de vida.
+El proyecto intermodular deberá ir acompañado de una documentación técnica profesional que describa el sistema a lo largo de todo su ciclo de vida.
 
-Estea documentació haurà de permetre que un equip extern siga capaç de:
+Esta documentación deberá permitir que un equipo externo sea capaz de:
 
-- Comprendre la solució implementada 
-- Llençar l’entorn de desenvolupament 
-- Reproduir la infraestructura al núvol 
-- Desplegar noves versions 
-- Operar i mantindre el servei 
-- Validar el funcionament de l’aplicació 
-- Continuar l’evolució del sistema 
-
----
-
-### 📂 Model documental obligatori
-
-Atés que el sistema està compost per diferents aplicacions en repositoris independents, la documentació haurà d’organitzar-se en dos nivells:
-
-1. documentació pròpia de cada aplicació 
-2. documentació global de la solució
+- Comprender la solución implementada 
+- Arrancar el entorno de desarrollo 
+- Reproducir la infraestructura en la nube 
+- Desplegar nuevas versiones 
+- Operar y mantener el servicio 
+- Validar el funcionamiento de la aplicación 
+- Continuar la evolución del sistema 
 
 ---
 
-### 📄 Documentació per repositori
+### 📂 Modelo documental obligatorio
 
-Cada aplicació (frontend i backend) haurà d’incloure la seua documentació específica dins del seu repositori.
+Dado que el sistema está compuesto por diferentes aplicaciones en repositorios independientes, la documentación deberá organizarse en dos niveles:
 
-Estea haurà de descriure, com a mínim:
+1. documentación propia de cada aplicación 
+2. documentación global de la solución
+
+---
+
+### 📄 Documentación por repositorio
+
+Cada aplicación (frontend y backend) deberá incluir su documentación específica dentro de su repositorio.
+
+Esta deberá describir, como mínimo:
 
 - Arquitectura interna.
-- Tecnologies Utilitzades. 
-- Configuració 
-- Execució en desenvolupament 
-- Procés de build 
-- Particularitats del desplegament 
-- Proves rellevants 
-- Los fluxos de CI/CD 
-- Los mecanismes d’escalabilitat i disponibilitat 
-- Qualssevol altra informació que cregueu necessària
+- Tecnologías Utilizadas. 
+- Configuración 
+- Ejecución en desarrollo 
+- Proceso de build 
+- Particularidades del despliegue 
+- Pruebas relevantes 
+- Los flujos de CI/CD 
+- Los mecanismos de escalabilidad y disponibilidad 
+- Cualquier otra información que creáis necesaria
 
-L’equip responsable del repositori serà també responsable de la qualitat i exactitud d’estea informació.
+El equipo responsable del repositorio será también responsable de la calidad y exactitud de esta información.
 
 ---
 
-### 💻 Documentació dlos entorns
+### 💻 Documentación de los entornos
 
-Per tal de diferenciar clarament los contextos d’execució, s’haurà de documentar separadament en cada repositori:
+Para diferenciar claramente los contextos de ejecución, se deberá documentar separadamente en cada repositorio:
 
-- l’entorn de desenvolupament 
-- l’entorn de producció 
+- el entorno de desarrollo 
+- el entorno de producción 
 
-Per a cada entorn s’haurà d’explicar:
+Para cada entorno se deberá explicar:
 
-- Objectiu 
+- Objetivo 
 - Infraestructura 
-- Configuracions específiques 
-- Forma d’accés 
-- Diferències respecte als altres entorns 
-- Captures de pantalla amb el funcionament bàsic
+- Configuraciones específicas 
+- Forma de acceso 
+- Diferencias respecto a los otros entornos 
+- Capturas de pantalla con el funcionamiento básico
 
 ---
 
-### 🔄 Integració i entrega continuada
+### 🔄 Integración y entrega continua
 
-Caldrà documentar el recorregut complet des d’un canvi en el repositori fins a la seua disponibilitat en producció.
+Habrá que documentar el recorrido completo desde un cambio en el repositorio hasta su disponibilidad en producción.
 
-S’hauran de descriure:
+Se deberán describir:
 
 - fases del pipeline 
-- processos automàtics 
-- desplegament 
-- migracions 
-- actualització de serveis 
+- procesos automáticos 
+- despliegue 
+- migraciones 
+- actualización de servicios 
 
 ---
 
-### 👥 Normes de contribució
+### 👥 Normas de contribución
 
-La documentació haurà d’explicar com s’ha organitzat el treball de l’equip.
+La documentación deberá explicar cómo se ha organizado el trabajo del equipo.
 
-Caldrà incloure:
+Habrá que incluir:
 
-- Estratègia de branques 
-- Procés de revisió de codi 
-- Criteris d’acceptació 
-- Política de versions 
+- Estrategia de ramas 
+- Proceso de revisión de código 
+- Criterios de aceptación 
+- Política de versiones 
 - Code Style
-- Distribució de responsabilitats 
+- Distribución de responsabilidades 
 
-### 👤 Usuaris de prova
+### 👤 Usuarios de prueba
 
-La documentació haurà d’incloure credencials o mecanismes que permeten verificar el funcionament del sistema.
+La documentación deberá incluir credenciales o mecanismos que permitan verificar el funcionamiento del sistema.
 
-No s’admetran comptes personals dlos membres de l’equip.
+No se admitirán cuentas personales de los miembros del equipo.
 
 
-### 🌐 Documentació global del sistema
+### 🌐 Documentación global del sistema
 
-A més de la documentació particular, s’haurà de lliurar una documentació transversal que descriga el comportamiento conjunt del sistema.
+Además de la documentación particular, se deberá entregar una documentación transversal que describa el comportamiento conjunto del sistema.
 
-Estea documentació haurà de permetre entendre:
+Esta documentación deberá permitir entender:
 
-- la relació entre frontend, backend i base de dades 
-- los diferents entorns existents 
+- la relación entre frontend, backend y base de datos 
+- los diferentes entornos existentes 
 - la infraestructura desplegada en AWS 
 - el sistema DNS 
-- las mesures de seguretat 
-- Qualssevol altra informació que cregueu necessària
+- las medidas de seguridad 
+- Cualquier otra información que creáis necesaria
 
-### ☁️ Infraestructura al núvol
+### ☁️ Infraestructura en la nube
 
-La documentació de producció haurà de descriure detalladament:
+La documentación de producción deberá describir detalladamente:
 
-- Organització de la xarxa 
-- Separació de recursos públics i privats 
-- Ubicació dlos serveis 
-- Punt d’entrada del trànsit 
-- Integració amb DNS 
-- Configuració d’HTTPS 
+- Organización de la red 
+- Separación de recursos públicos y privados 
+- Ubicación de los servicios 
+- Punto de entrada del tráfico 
+- Integración con DNS 
+- Configuración de HTTPS 
 
-### 🎓 Avaluació
+### 🎓 Evaluación
 
-La documentació es valorarà atenent a:
+La documentación se valorará atendiendo a:
 
-- Rigor tècnic 
-- Claredat 
+- Rigor técnico 
+- Claridad 
 - Completitud 
-- Capacitat de justificació 
-- Coherència amb la infraestructura real 
+- Capacidad de justificación 
+- Coherencia con la infraestructura real 
 
-Un sistema funcional però deficientment documentat no es considerarà una solució professional.
+Un sistema funcional pero deficientemente documentado no se considerará una solución profesional.
 ---
 
-## C8. 📚 Documentació final, manual d’usuari i presentaciónn (TOTS)
+## C8. 📚 Documentación final, manual de usuario y presentación (TODOS)
 
 ### 1️⃣ Objetivos
 
-Tancar el projecte amb un lliurament complet:
+Cerrar el proyecto con una entrega completa:
 
-- Revisió de codi i refactorització necessària.
-- Documentació tècnica completa:
+- Revisión de código y refactorización necesaria.
+- Documentación técnica completa:
   - arquitectura
-  - instal·lació
-  - configuració
-  - desplegament
-  - credencials / rols (sense exposar secrets)
-- Manual d’usuari final (clar i accessible).
-- Ajuda contextual dins l’app (tooltips, textos d’ajuda).
-- Proves en diferents navegadors i dispositius.
-- Presentació/demostració al client.
+  - instalación
+  - configuración
+  - despliegue
+  - credenciales / roles (sin exponer secretos)
+- Manual de usuario final (claro y accesible).
+- Ayuda contextual dentro de la app (tooltips, textos de ayuda).
+- Pruebas en diferentes navegadores y dispositivos.
+- Presentación/demostración al cliente.
 
-**Referències:**
-- **DWES RA8.g / RA9.f:** qualitat, manteniment i documentació.
-- **DIW RA5.g / RA6.f:** accessibilitat, usabilitat i proves multi-dispositiu.
-
----
-
-### 2️⃣ Documentació tècnica (mínims)
-
-📄 **README principal** ha d’incloure:
-
-- Descripciónn del projecte i stack tecnològic.
-- Com executar en desenvolupament (Docker).
-- Com desplegar en producció (docker-compose.prod).
-- Variablas d’entorn necessàries (sense secrets).
-- Estructura de carpetes i arquitectura.
-- API bàsica (endpoints clau).
-- Rols i permisos.
+**Referencias:**
+- **DWES RA8.g / RA9.f:** calidad, mantenimiento y documentación.
+- **DIW RA5.g / RA6.f:** accesibilidad, usabilidad y pruebas multi-dispositivo.
 
 ---
 
-### 3️⃣ Manual d’usuari (mínims)
+### 2️⃣ Documentación técnica (mínimos)
 
-- Com registrar-se/iniciar sessió (si aplica).
-- Navegació del catàleg, filtres, cerca.
-- Veure detall de producte, afegir al carret, compra (si aplica).
-- Gestiónn de perfil i comandes.
-- Funciones d’admin (si existeixen).
-- FAQ i resolució de problemes freqüents.
+📄 **README principal** debe incluir:
 
-📌 **Ajuda contextual dins l’app**
-- Tooltips en botons amb icones.
-- Text d’ajuda en pantallas complexes (checkout, formularis).
-- Missatges d’error comprensiblas (no tècnics).
+- Descripción del proyecto y stack tecnológico.
+- Cómo ejecutar en desarrollo (Docker).
+- Cómo desplegar en producción (docker-compose.prod).
+- Variables de entorno necesarias (sin secretos).
+- Estructura de carpetas y arquitectura.
+- API básica (endpoints clave).
+- Roles y permisos.
 
 ---
 
-### 4️⃣ Sessió de presentaciónn al client (demo)
+### 3️⃣ Manual de usuario (mínimos)
 
-La demostració ha d’incloure:
+- Cómo registrarse/iniciar sesión (si aplica).
+- Navegación del catálogo, filtros, búsqueda.
+- Ver detalle de producto, añadir al carrito, compra (si aplica).
+- Gestión de perfil y pedidos.
+- Funciones de admin (si existen).
+- FAQ y resolución de problemas frecuentes.
 
-- Recorrregut complet per la web i funcionalitats.
-- Explicació de com es compleixen los requisits inicials.
-- Mostra de: SPRINT1, SPRINT2, SPRINT3,SPRINT4, SPRINT5 i SPRINT6
-- Lliurament final:
-  - Diagrama de tasques Gantt
-  - repositori amb tag/release estable
-  - documentació tècnica
-  - manual d’usuari
+📌 **Ayuda contextual dentro de la app**
+- Tooltips en botones con iconos.
+- Texto de ayuda en pantallas complejas (checkout, formularios).
+- Mensajes de error comprensibles (no técnicos).
+
+---
+
+### 4️⃣ Sesión de presentación al cliente (demo)
+
+La demostración debe incluir:
+
+- Recorrido completo por la web y funcionalidades.
+- Explicación de cómo se cumplen los requisitos iniciales.
+- Muestra de: SPRINT1, SPRINT2, SPRINT3, SPRINT4, SPRINT5 y SPRINT6
+- Entrega final:
+  - Diagrama de tareas Gantt
+  - repositorio con tag/release estable
+  - documentación técnica
+  - manual de usuario
 
 ---
 
 ### 5️⃣ Estado del desarrollo
 
 #### 🟦 To Do
-- Completar README + documentació tècnica.
-- Escriure manual d’usuari i afegir ajuda contextual.
+- Completar README + documentación técnica.
+- Escribir manual de usuario y añadir ayuda contextual.
 
 #### 🟨 In Progress
-- Refactorització i revisió final (lint, errors, optimització).
-- Proves cross-browser i responsive.
+- Refactorización y revisión final (lint, errores, optimización).
+- Pruebas cross-browser y responsive.
 
 #### 🟩 Done
-- Lliurament complet i validat amb el client.
+- Entrega completa y validada con el cliente.
 
-## ✅ Checklist d’entregablas — Sprint 5 i Sprint 6
+## ✅ Checklist de entregables — Sprint 5 y Sprint 6
 
-> Format checklist per a marcar ✅ (en valencià)
+> Formato checklist para marcar ✅
 
-### 🔗 C1 — Integració externa (OAuth2) (DWES)
-- [ ] Integració amb **1 servei extern** amb OAuth2 (mínim)
-- [ ] Endpoints implementats:
+### 🔗 C1 — Integración externa (OAuth2) (DWES)
+- [ ] Integración con **1 servicio externo** con OAuth2 (mínimo)
+- [ ] Endpoints implementados:
 - [ ] `GET /api/oauth/.../redirect`
 - [ ] `GET /api/oauth/.../callback`
-- [ ] Tokens gestionats de forma segura (sense `client_secret` al front)
-- [ ] Migració en la BBDD amb nous camps de Google en la taula Users
-- [ ] Evidències: **captures** + explicació del flujo + proves
+- [ ] Tokens gestionados de forma segura (sin `client_secret` al front)
+- [ ] Migración en la BBDD con nuevos campos de Google en la tabla Users
+- [ ] Evidencias: **capturas** + explicación del flujo + pruebas
 
 ---
 
-### 📚 C2 — Documentació API amb Swagger / OpenAPI (DWES)
-- [ ] Swagger/OpenAPI accessible (ex: `/api/documentation` o `/docs`)
-- [ ] Documentació amb:
-- [ ] Endpoints principals (CRUD + auth)
-- [ ] Esquemes/modlos + exemplas JSON
-- [ ] Codis d’estat (200/201/400/401/403/404/422/500)
-- [ ] Autenticació Bearer (Sanctum/JWT o equivalent)
-- [ ] Es poden provar peticions des de la UI
-- [ ] Captures + com autoritzar (on posar el token) + com regenerar la doc
+### 📚 C2 — Documentación API con Swagger / OpenAPI (DWES)
+- [ ] Swagger/OpenAPI accesible (ej: `/api/documentation` o `/docs`)
+- [ ] Documentación con:
+- [ ] Endpoints principales (CRUD + auth)
+- [ ] Esquemas/modelos + ejemplos JSON
+- [ ] Códigos de estado (200/201/400/401/403/404/422/500)
+- [ ] Autenticación Bearer (Sanctum/JWT o equivalente)
+- [ ] Se pueden probar peticiones desde la UI
+- [ ] Capturas + cómo autorizar (dónde poner el token) + cómo regenerar la doc
 
 ---
 
-### ✨ C3 — Millores avançades Vue (DWEC)
-- [ ] Llistats amb **filtres + paginació**
-- [ ] Watchers aplicats (refresc automàtic quan canvien filtres/estat)
-- [ ] Formularis amb **Vee-Validate + Yup** i validació en temps real
-- [ ](Si cal) Backend amb filtres/paginació (`when()` + `paginate()`)
+### ✨ C3 — Mejoras avanzadas Vue (DWEC)
+- [ ] Listados con **filtros + paginación**
+- [ ] Watchers aplicados (refresco automático cuando cambian filtros/estado)
+- [ ] Formularios con **Vee-Validate + Yup** y validación en tiempo real
+- [ ] (Si hace falta) Backend con filtros/paginación (`when()` + `paginate()`)
 
 ---
 
-### 🎨 C4 — Diseño final i accessibilitat (DIW)
-- [ ] UI coherent i professional en totes las vistes
-- [ ] CSS estructurat (variablas, components reutilitzablas, responsive)
-- [ ] Accessibilitat bàsica (WCAG):
-- [ ] `alt` en imatges
-- [ ] `label` correctes en formularis
-- [ ] Focus visible i navegació amb teclat
-- [ ] Bon contrast
-- [ ] Estructura semàntica (`h1/h2`, `nav/main/footer`, etc.)
-- [ ] Imatges optimitzades (WebP/AVIF, pes reduït, lazy loading)
+### 🎨 C4 — Diseño final y accesibilidad (DIW)
+- [ ] UI coherente y profesional en todas las vistas
+- [ ] CSS estructurado (variables, componentes reutilizables, responsive)
+- [ ] Accesibilidad básica (WCAG):
+- [ ] `alt` en imágenes
+- [ ] `label` correctos en formularios
+- [ ] Focus visible y navegación con teclado
+- [ ] Buen contraste
+- [ ] Estructura semántica (`h1/h2`, `nav/main/footer`, etc.)
+- [ ] Imágenes optimizadas (WebP/AVIF, peso reducido, lazy loading)
 
 ---
 
-## 🤖 C5 — Millora digital / “intel·ligent” (DIG)
-- [ ] 1 millora digital implementada (tria 1):
-- [ ] Recomanador (relacionats)
-- [ ] Productos destacats per dades
+## 🤖 C5 — Mejora digital / “inteligente” (DIG)
+- [ ] 1 mejora digital implementada (elige 1):
+- [ ] Recomendador (relacionados)
+- [ ] Productos destacados por datos
 - [ ] Mini-analytics admin
-- [ ] Cerca intel·ligent (autocomplete bàsic)
-- [ ] Endpoint(s) creat(s) + integració al front
-- [ ] Justificació breu (què aporta i com funciona)
+- [ ] Búsqueda inteligente (autocomplete básico)
+- [ ] Endpoint(s) creado(s) + integración al front
+- [ ] Justificación breve (qué aporta y cómo funciona)
 
 ---
 
-## 🌱 C6 — Sostenibilitat (ASG + ecodisseny) (SOST)
-- [ ] Optimització sostenible aplicada:
-- [ ] Menys pes d’assets / minify / compressió (gzip/brotli si hi ha Nginx)
-- [ ] Imatges modernes + lazy load
-- [ ] Reducció de peticions (quan siga possible)
-- [ ] Element visible “eco” (ex: etiqueta eco, embalatge reciclat, proveïdor local…)
-- [ ] Pàgina o secció de sostenibilitat / criteris ASG (mínim explicació)
-- [ ] Evidències + justificació en documentació
+## 🌱 C6 — Sostenibilidad (ASG + ecodiseño) (SOST)
+- [ ] Optimización sostenible aplicada:
+- [ ] Menos peso de assets / minify / compresión (gzip/brotli si hay Nginx)
+- [ ] Imágenes modernas + lazy load
+- [ ] Reducción de peticiones (cuando sea posible)
+- [ ] Elemento visible “eco” (ej: etiqueta eco, embalaje reciclado, proveedor local…)
+- [ ] Página o sección de sostenibilidad / criterios ASG (mínimo explicación)
+- [ ] Evidencias + justificación en documentación
 
 ---
 
-## 🐳☁️ C7 — Docker, DNS, Cloud i CI/CD (DDAW + NUV)
+## 🐳☁️ C7 — Docker, DNS, Cloud y CI/CD (DDAW + NUV)
 
 ### DNS
 - [ ] Zona `projecteXX.ddaw.es` creada
-- [ ] Registres mínims per publicar apps (A/CNAME, etc.)
-- [ ] Dades entregades per a la **delegació** al DNS pare
+- [ ] Registros mínimos para publicar apps (A/CNAME, etc.)
+- [ ] Datos entregados para la **delegación** al DNS padre
 
-### Docker (desenvolupament)
-- [ ] `Dockerfile` per a **frontend** i **backend**
-- [ ] `docker-compose` per arrancar-ho en local
-- [ ] Variablas d’entorn (`.env.example`) i configuració
-- [ ] Persistència DB (volums) on toque
-- [ ] README amb instruccions (com arrancar i parar)
+### Docker (desarrollo)
+- [ ] `Dockerfile` para **frontend** y **backend**
+- [ ] `docker-compose` para arrancarlo en local
+- [ ] Variables de entorno (`.env.example`) y configuración
+- [ ] Persistencia DB (volúmenes) donde toque
+- [ ] README con instrucciones (cómo arrancar y parar)
 
-### Producció + CI/CD
-- [ ] Pipelines **separats** (repos independents)
-- [ ] Front: install → build → deploy automàtic
-- [ ] Back: install → test → deploy automàtic
-- [ ] Back: **migracions obligatòries** després del deploy
-- [ ] Front i back aïllats (serveis/containers/VM separats)
-- [ ] HTTPS amb Let’s Encrypt en las 2 aplicacions
+### Producción + CI/CD
+- [ ] Pipelines **separados** (repos independientes)
+- [ ] Front: install → build → deploy automático
+- [ ] Back: install → test → deploy automático
+- [ ] Back: **migraciones obligatorias** después del deploy
+- [ ] Front y back aislados (servicios/containers/VM separados)
+- [ ] HTTPS con Let’s Encrypt en las 2 aplicaciones
 
 ### Arquitectura AWS (documentada)
-- [ ] VPC + subxarxes públiques/privades (app i dades)
-- [ ] Edge únic (ALB o Nginx reverse proxy) + terminació HTTPS
-- [ ] Capa app escalable (ASG/ECS o equivalent)
-- [ ] Capa dades privada (RDS Multi-AZ / backups / recuperació)
-- [ ] Seguridad amb Security Groups (aïllament entre capes)
+- [ ] VPC + subredes públicas/privadas (app y datos)
+- [ ] Edge único (ALB o Nginx reverse proxy) + terminación HTTPS
+- [ ] Capa app escalable (ASG/ECS o equivalente)
+- [ ] Capa datos privada (RDS Multi-AZ / backups / recuperación)
+- [ ] Seguridad con Security Groups (aislamiento entre capas)
 
 ---
 
-## 📚 C8 — Documentació final + manual + presentaciónn
-- [ ] README global amb Documentació tècnica completa (arquitectura, CI/CD, entorns, accés)
-- [ ] Manual d’usuari (ús bàsic + FAQ) + ajuda contextual dins l’app
-- [ ] Proves en navegadors i dispositius (evidències)
-- [ ] Tag/Release estable al repositori
-- [ ] Gantt/planificació
-- [ ] Demo al client (mostrant Sprints 1–6)
+## 📚 C8 — Documentación final + manual + presentación
+- [ ] README global con Documentación técnica completa (arquitectura, CI/CD, entornos, acceso)
+- [ ] Manual de usuario (uso básico + FAQ) + ayuda contextual dentro de la app
+- [ ] Pruebas en navegadores y dispositivos (evidencias)
+- [ ] Tag/Release estable en el repositorio
+- [ ] Gantt/planificación
+- [ ] Demo al cliente (mostrando Sprints 1–6)

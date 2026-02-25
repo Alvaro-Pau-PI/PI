@@ -313,18 +313,20 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('img/productos', 'public');
+            $imagePath = $request->file('image')->store('img/productos', 'public_html');
             $validated['image'] = '/' . $imagePath;
         }
 
         if ($request->hasFile('images')) {
             $multiImages = [];
             foreach ($request->file('images') as $file) {
-                $path = $file->store('img/productos', 'public');
+                $path = $file->store('img/productos', 'public_html');
                 $multiImages[] = '/' . $path;
             }
             $validated['images'] = $multiImages;
         }
+
+        $validated['sku'] = 'PRD-' . strtoupper(\Illuminate\Support\Str::random(8));
 
         $product = Product::create($validated);
 
@@ -369,16 +371,16 @@ class ProductController extends Controller
 
         if ($request->hasFile('image')) {
             // Eliminar imagen anterior si existe
-            if ($product->image && \Illuminate\Support\Facades\Storage::disk('public')->exists(ltrim($product->image, '/'))) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete(ltrim($product->image, '/'));
+            if ($product->image && \Illuminate\Support\Facades\Storage::disk('public_html')->exists(ltrim($product->image, '/'))) {
+                \Illuminate\Support\Facades\Storage::disk('public_html')->delete(ltrim($product->image, '/'));
             }
 
-            $imagePath = $request->file('image')->store('img/productos', 'public');
+            $imagePath = $request->file('image')->store('img/productos', 'public_html');
             $validated['image'] = '/' . $imagePath;
         } elseif ($request->boolean('remove_main_image')) {
             // El usuario borro la imagen principal sin subir otra
-            if ($product->image && \Illuminate\Support\Facades\Storage::disk('public')->exists(ltrim($product->image, '/'))) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete(ltrim($product->image, '/'));
+            if ($product->image && \Illuminate\Support\Facades\Storage::disk('public_html')->exists(ltrim($product->image, '/'))) {
+                \Illuminate\Support\Facades\Storage::disk('public_html')->delete(ltrim($product->image, '/'));
             }
             $validated['image'] = null; // o url de placeholder
         }
@@ -392,8 +394,8 @@ class ProductController extends Controller
         // Borrar del disco las que estaban en $oldImages PERO NO en $keepImages
         $imagesToDelete = array_diff($oldImages, $keepImages);
         foreach ($imagesToDelete as $imgToDelete) {
-             if (\Illuminate\Support\Facades\Storage::disk('public')->exists(ltrim($imgToDelete, '/'))) {
-                 \Illuminate\Support\Facades\Storage::disk('public')->delete(ltrim($imgToDelete, '/'));
+             if (\Illuminate\Support\Facades\Storage::disk('public_html')->exists(ltrim($imgToDelete, '/'))) {
+                 \Illuminate\Support\Facades\Storage::disk('public_html')->delete(ltrim($imgToDelete, '/'));
              }
         }
 
@@ -403,7 +405,7 @@ class ProductController extends Controller
         // Si se han enviado imágenes nuevas adicionales
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $file) {
-                $path = $file->store('img/productos', 'public');
+                $path = $file->store('img/productos', 'public_html');
                 $currentImages[] = '/' . $path; // Se añaden en vez de sustituir (Aditiva por defecto)
             }
         }

@@ -458,7 +458,8 @@ const formatPrice = (price) => {
 const getImageUrl = (path) => {
   if (!path) return '/img/placeholder.png';
   if (path.startsWith('http')) return path;
-  return '/' + path;
+  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+  return path.startsWith('/') ? `${baseUrl}${path}` : `${baseUrl}/${path}`;
 };
 
 const formatDate = (dateStr) => {

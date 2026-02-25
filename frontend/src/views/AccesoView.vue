@@ -111,7 +111,7 @@ const handleLogin = async (values) => {
       if (error.response.status === 401) {
         localError.value = 'Email o contraseña incorrectos.';
       } else if (error.response.status === 422) {
-        localError.value = 'Datos no válidos.';
+        localError.value = 'Email o contraseña incorrectos.';
       } else {
         localError.value = 'Error en el servidor.';
       }

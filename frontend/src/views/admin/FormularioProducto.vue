@@ -350,10 +350,8 @@ const previewAdditionalImages = ref([]); // Arrays { file, url } para render y b
 const getImageUrl = (imagePath) => {
   if (!imagePath) return '/img/placeholder.png';
   if (imagePath.startsWith('http') || imagePath.startsWith('data:') || imagePath.startsWith('blob:')) return imagePath;
-  if (imagePath.startsWith('/storage')) {
-    return `http://localhost:8000${imagePath}`; // O usa VITE_API_URL
-  }
-  return imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+  return imagePath.startsWith('/') ? `${baseUrl}${imagePath}` : `${baseUrl}/${imagePath}`;
 };
 
 // Cargar datos si es edición
