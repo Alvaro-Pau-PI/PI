@@ -24,9 +24,9 @@ Sigue estos pasos AL PIE DE LA LETRA para desplegar tu proyecto y aprobar todos 
     *   **Key Pair**: Selecciona `vockey` (la clave automática de Academy). Descarga el archivo `LabsUser.pem` si no lo tienes, o una nueva si creas otra.
 
 ### 2. Configurar el Firewall (Security Group)
-En "Network settings", crea un **Security Group** nuevo y añade estas reglas ("Inbound rules"):
+En "Network settings", crea un **Security Group** nuevo y añade estas reglas ("Inbound rulas"):
 
-| Type | Protocol | Port Range | Source | Descripción |
+| Type | Protocol | Port Range | Source | Descripciónnn |
 | :--- | :--- | :--- | :--- | :--- |
 | SSH | TCP | 22 | 0.0.0.0/0 | Acceso terminal |
 | HTTP | TCP | 80 | 0.0.0.0/0 | Web normal |
@@ -55,7 +55,7 @@ Los archivos de configuración ya han sido personalizados con tus datos. **No ne
 *   *Nota: La base de datos y las claves se configurarán más adelante.*
 
 ### 2. Verifica las configuraciones de Apache (`deploy/config/*.conf`)
-*   Ya apuntan a tus dominios reales:
+*   Ya apuntan a tus dominios realas:
     *   `app.alberoperez.tech`
     *   `backup.alberoperez.tech`
     *   `test.alberoperez.tech`
@@ -140,7 +140,7 @@ sudo crontab -e
 
 AWS Academy machaca el archivo `authorized_keys` al reiniciar si no tienes cuidado. Para dar acceso a tus compañeros y profesor (RA4-b):
 
-1.  Pídeles su clave pública SSH (empieza por `ssh-rsa ...`).
+1.  Pídelas su clave pública SSH (empieza por `ssh-rsa ...`).
 2.  En el servidor:
     ```bash
     nano /home/ubuntu/.ssh/authorized_keys

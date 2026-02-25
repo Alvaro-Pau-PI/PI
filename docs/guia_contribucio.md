@@ -1,16 +1,16 @@
-# 👥 Guia de Contribució i Normes de l'Equip
+# 👥 Guía de Contribución i Normes de el Equip
 
-Aquest document estableix les normes de treball col·laboratiu per garantir la qualitat del codi i la fluïdesa en el desenvolupament del projecte.
+Este document estableix las normes de treball col·laboratiu per garantir la qualitat del codi i la fluïdesa en el desenvolupament del projecte.
 
 ## 🌿 Estratègia de Branques (Branching Strategy)
 
 Utilitzem una versió simplificada de **Gitflow**:
 
 - **`main`**: Branca de **Producció**. El codi aquí SEMPRE ha de ser estable i desplegable.
-  - Els pushes directes estan PROHIBITS.
+  - Los pushes directes estan PROHIBITS.
   - Només rep canvis via Pull Request (PR).
   
-- **`develop`**: Branca de **Integració**. Aquí es fusionen les features acabades.
+- **`develop`**: Branca de **Integració**. Aquí es fusionen las features acabades.
   - És la base per crear noves branques de funcionalitat.
 
 - **`feature/nom-de-la-tasca`**: Branques temporals per a desenvolupament.
@@ -34,14 +34,14 @@ Utilitzem una versió simplificada de **Gitflow**:
 Seguim la convenció **Conventional Commits** per mantenir un historial clar:
 
 - `feat: Missatge`: Una nova funcionalitat.
-- `fix: Missatge`: Correcció d'un error.
+- `fix: Missatge`: Correcció de un error.
 - `docs: Missatge`: Canvis només en la documentació.
-- `style: Missatge`: Canvis de format, espais, etc. (no lògica).
+- `style: Missatge`: Canvis de format, espais, etc. (no lógica).
 - `refactor: Missatge`: Refactorització de codi (sense canvis lògics).
-- `test: Missatge`: Afegir o corregir tests.
+- `test: Missatge`: Añadir o corregir tests.
 - `chore: Missatge`: Tarees de manteniment (build, deps...).
 
-**Exemple bo:** `feat: Afegir validació al formulari de registre`
+**Exemple bo:** `feat: Añadir validació al formulari de registre`
 **Exemple dolent:** `canvis al login`
 
 ## 💅 Code Style (Estil de Codi)
@@ -52,18 +52,18 @@ Seguim la convenció **Conventional Commits** per mantenir un historial clar:
 - Props i Emits definits explícitament.
 
 ### Backend (Laravel)
-- Utilitzem **Laravel Pint** (basat en PHP-CS-Fixer) per estandaritzar l'estil PSR-12.
+- Utilitzem **Laravel Pint** (basat en PHP-CS-Fixer) per estandaritzar el estil PSR-12.
 - Noms de classes: **PascalCase**.
-- Noms de mètodes/variables: **camelCase**.
-- Noms de taules: **snake_case** (plural).
+- Noms de mètodes/variablas: **camelCase**.
+- Noms de taulas: **snake_case** (plural).
 
-## ✔️ Criteris d'Acceptació (Definition of Done)
+## ✔️ Criteris de Acceptació (Definition of Done)
 
 Una tasca es considera "acabada" quan:
-1. El codi compleix l'estil definit.
-2. Funciona en l'entorn local (Docker).
+1. El codi compleix el estil definit.
+2. Funciona en el entorn local (Docker).
 3. S'ha documentat si és necessari.
-4. Ha passat la revisió (Code Review) d'un company.
+4. Ha passat la revisió (Code Review) de un company.
 5. El pipeline de CI/CD (Tests) ha passat en verd.
 
 ## 🤝 Repartiment de Responsabilitats
@@ -75,4 +75,4 @@ Una tasca es considera "acabada" quan:
 - **DevOps Shared**: Ambdós
   - Responsable de Docker, AWS, GitHub Actions.
 
-> *Tots els membres de l'equip han de conèixer el funcionament bàsic de l'àrea de l'altre i poder fer canvis menors.*
+> *Tots los membres de el equip han de conèixer el funcionament bàsic de el àrea de el altre i poder fer canvis menors.*

@@ -1,4 +1,4 @@
-## 👥 Assignació de rols i responsabilitats
+## 👥 Asignación de roles y responsabilidades
 
 | Alumne       | Rol principal   | Responsabilitats                                         |
 |--------------|-----------------|----------------------------------------------------------|
@@ -10,4 +10,4 @@
 
 - Scrum Master: organitza i coordina el treball; dinamitza reunions; vetla per la metodologia.
 - Developer: implementa la part tècnica, backend i frontend; revisa codi.
-- Documentador: mantiene README.md, RISKS.md i docs al dia; escriu guies d'ús.
+- Documentador: mantiene README.md, RISKS.md i docs al dia; escriu guies de ús.

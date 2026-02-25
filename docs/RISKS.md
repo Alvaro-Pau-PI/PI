@@ -1,14 +1,14 @@
-# Pla de riscos i prevenció
+# Plan de riesgos y prevención
 
-| Risc                          | Probabilitat | Impacte | Mesura preventiva                                      | Responsable  | Seguiment                    |
-|-------------------------------|--------------|---------|--------------------------------------------------------|--------------|------------------------------|
-| Fatiga visual                 | Mitjana      | Mitjà   | Pauses regulars cada 45 min, ajustar pantalla, regla 20-20-20 | Pau          | Revisió setmanal             |
-| Dolor d'esquena               | Alta         | Alt     | Cadira ergonòmica, pauses, estiraments, postura correcta | Álvaro       | Control diari                |
-| Estrès per deadlines          | Mitjana      | Alt     | Planificació realista, suport, comunicació oberta      | Tot l'equip  | Revisió en la retro          |
-| Síndrome túnel carpià         | Alta         | Mitjà   | Reposacanells, estiraments horaris, teclat ergonòmic  | Pau          | Control setmanal + exercicis |
-| Soroll ambiental              | Mitjana      | Mitjà   | Auriculars cancel·ladors, espais tranquils, horaris de concentració | Álvaro       | Autoreportatge en reunions   |
+| Riesgo | Probabilidad | Impacto | Medida preventiva | Responsable | Seguimiento |
+|-------------------------------|--------------|---------|--------------------------------------------------------|------------------|------------------------------|
+| Fatiga visual | Media | Medio | Pausas regulares cada 45 min, ajustar pantalla, regla 20-20-20 | Paz | Revisión semanal |
+| Dolor de espalda | Alta | Alto | Silla ergonómica, pausas, estiramientos, postura correcta | Álvaro | Control diario |
+| Estrés por deadlines | Media | Alto | Planificación realista, soporte, comunicación abierta | Todo el equipo | Revisión en la retro |
+| Síndrome túnel carpiano | Alta | Medio | Reposamuñecas, estiramientos horarios, teclado ergonómico | Paz | Control semanal + ejercicios |
+| Ruido ambiental | Media | Medio | Auriculares canceladores, espacios tranquilos, horarios de concentración | Álvaro | Autorreportaje en reuniones |
 
-## Notes de seguiment
-- Aquest document s'ha de revisar i actualitzar a cada sprint.
-- Qualsevol nou risc detectat s'afegirà a la taula immediatament.
-- Les mesures preventives s'avaluaran per la seva eficàcia durant les retrospectives.
+## Notas de seguimiento
+- Este documento debe revisarse y actualizarse a cada sprint.
+- Cualquier nuevo riesgo detectado se añadirá a la mesa de inmediato.
+- Las medidas preventivas se evaluarán por su eficacia durante las retrospectivas.
