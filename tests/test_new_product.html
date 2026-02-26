@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Imagen Nuevo Producto</title>
+</head>
+<body>
+    <h1>Test Imagen Nuevo Producto</h1>
+    
+    <h2>Producto ID: 138</h2>
+    <p>Ruta en BD: /img/productos/9PRcjP9UoHO7pMi1YYDojFZGLY1FhAQ8p27wx3GV.png</p>
+    
+    <h3>Prueba 1: URL directa backend</h3>
+    <img src="http://localhost:8000/storage/img/productos/9PRcjP9UoHO7pMi1YYDojFZGLY1FhAQ8p27wx3GV.png" 
+         style="width: 200px; border: 1px solid #ccc;" />
+    
+    <h3>Prueba 2: URL relativa (sin / inicial)</h3>
+    <img src="img/productos/9PRcjP9UoHO7pMi1YYDojFZGLY1FhAQ8p27wx3GV.png" 
+         style="width: 200px; border: 1px solid #ccc;" />
+    
+    <h3>Prueba 3: URL relativa (con / inicial)</h3>
+    <img src="/img/productos/9PRcjP9UoHO7pMi1YYDojFZGLY1FhAQ8p27wx3GV.png" 
+         style="width: 200px; border: 1px solid #ccc;" />
+    
+    <h3>Prueba 4: URL con storage</h3>
+    <img src="/storage/img/productos/9PRcjP9UoHO7pMi1YYDojFZGLY1FhAQ8p27wx3GV.png" 
+         style="width: 200px; border: 1px solid #ccc;" />
+         
+    <script>
+        // Test de la función getImageUrl del frontend
+        function getImageUrl(path) {
+            if (!path) return '/img/placeholder-product.jpg';
+            
+            if (path.startsWith('http')) return path;
+            
+            const isProduction = import.meta.env?.PROD || 
+                                (window.location.hostname === 'localhost' && window.location.port === '5173');
+            
+            let cleanPath = path;
+            const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+            
+            if (isProduction) {
+                return encodeURI(finalPath);
+            }
+            
+            const baseUrl = 'http://localhost:8000';
+            const normalizedBaseUrl = baseUrl.replace(/\/$/, '');
+            return `${normalizedBaseUrl}${encodeURI(finalPath)}`;
+        }
+        
+        const testPath = "\/img\/productos\/9PRcjP9UoHO7pMi1YYDojFZGLY1FhAQ8p27wx3GV.png";
+        console.log('Path original:', testPath);
+        console.log('Path limpiado:', testPath.replace(/\\\//g, '/'));
+        console.log('getImageUrl resultado:', getImageUrl(testPath.replace(/\\\//g, '/')));
+    </script>
+</body>
+</html>

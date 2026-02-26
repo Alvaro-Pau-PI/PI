@@ -143,7 +143,7 @@ const confirmDelete = async (review) => {
 
 // Navegar a la página del producto para comprobar contexto
 const goToProduct = (id) => {
-  router.push(`/producto/${id}`);
+  router.push(`/products/${id}`);
 };
 
 // Cambiar de página
