@@ -84,7 +84,11 @@ El proyecto está configurado para desplegarse automáticamente en una instancia
 sudo ./deploy/nginx/setup_prod.sh
 ```
 
-Este script configurará Nginx como proxy inverso y generará certificados SSL con Let's Encrypt para `AlberoPerezTech.ddaw.es` y `api.AlberoPerezTech.ddaw.es`.
+Este script configurará Nginx como proxy inverso y generará certificados SSL con Let's Encrypt para `proyecto03.ddaw.es` y `api.proyecto03.ddaw.es`.
+
+### Nota importante sobre el despliegue
+
+Este proyecto utiliza un monorepo con pipelines y despliegues independientes para frontend y backend. Esto significa que cada aplicación se despliega de forma autónoma, lo que permite una mayor flexibilidad y escalabilidad.
 
 ### 2. Secretos de GitHub Actions
 
@@ -95,7 +99,7 @@ Para que el CI/CD funcione, hay que configurar los siguientes "Repository Secret
 | `EC2_HOST` | IP Elástica o DNS de la EC2 | `3.123.45.67` |
 | `EC2_USER` | Usuario SSH | `ubuntu` |
 | `EC2_SSH_KEY` | Contenido del archivo .pem | `-----BEGIN RSA PRIVATE KEY-----...` |
-| `VITE_API_URL` | URL pública del backend | `https://api.AlberoPerezTech.ddaw.es` |
+| `VITE_API_URL` | URL pública del backend | `http://18.206.113.196:8000` (o `https://api.proyecto03.ddaw.es` si el DNS ya está delegado) |
 | `DB_PASSWORD` | Contraseña de la BD MySQL | `contrasenya_segura` |
 | `VITE_N8N_WEBHOOK_URL` | Webhook N8N (Opcional) | `https://n8n...` |
 
@@ -103,6 +107,8 @@ Para que el CI/CD funcione, hay que configurar los siguientes "Repository Secret
 
 - **Frontend**: Al hacer push a `main` (carpeta `frontend/`), se conecta por SSH, hace pull y reconstruye el contenedor `pi_prod_frontend`.
 - **Backend**: Al hacer push a `main` (carpeta `laravel/`), ejecuta tests PHPUnit. Si pasan, conecta por SSH, hace pull, reconstruye `pi_prod_laravel_app` y ejecuta migraciones.
+
+Aunque el código vive en un único repositorio, el despliegue está desacoplado por aplicación: cada workflow se dispara solo por cambios en su carpeta (`frontend/` o `laravel/`), permitiendo desplegar una sin afectar a la otra.
 
 ## 📁 Estructura del Proyecto
 
@@ -134,9 +140,11 @@ PI/
 ### Documentos Markdown
 
 **Documentación Global**
+- [📸 Capturas y Evidencias Visuales del Proyecto](docs/evidencias_proyecto.md)
 - [🌐 Visión Global del Sistema](docs/global_system.md)
 - [👥 Guía de Contribución](docs/guia_contribucio.md)
 - [📋 Manual de Despliegue](docs/manual_desplegament.md)
+- [🌐 DNS (Route 53) del proyecto](docs/dns_route53.md)
 - [📐 Arquitectura AWS Escalable](docs/arquitectura_aws.md)
 
 **Documentación Específica**
