@@ -19,6 +19,7 @@
       <nav class="nav-box" :class="{ 'nav-box--mobile-open': mobileMenuOpen }" aria-label="Navegación principal">
         <router-link to="/" class="nav-link" @click="closeMobileMenu">{{ $t('nav.home') }}</router-link>
         <router-link to="/products" class="nav-link" @click="closeMobileMenu">{{ $t('nav.products') }}</router-link>
+        <router-link to="/montaje-pc" class="nav-link" @click="closeMobileMenu">🚀 Montaje PC</router-link>
         <router-link to="/contact" class="nav-link" @click="closeMobileMenu">{{ $t('nav.contact') }}</router-link>
       </nav>
 

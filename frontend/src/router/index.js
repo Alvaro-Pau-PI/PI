@@ -136,6 +136,11 @@ const router = createRouter({
             component: () => import('../views/PagoView.vue'),
             meta: { requiresAuth: true }
         },
+        {
+            path: '/montaje-pc',
+            name: 'pc-builder',
+            component: () => import('../views/MontajePCView.vue')
+        },
         // Ruta 404 / Capturar el resto (Catch-all)
         {
             path: '/:catchAll(.*)*',
