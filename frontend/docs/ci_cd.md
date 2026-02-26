@@ -60,9 +60,9 @@ Si un despliegue falla o introduce un error crítico:
 2. **Push**: Subir el revert a `main`.
 3. **Auto-Deploy**: GitHub Actions detectará el cambio y desplegará la versión anterior automáticamente.
 
-## ✅ Verificación del Despliegue
+## Verificación del Despliegue
 
 Después de la ejecución del pipeline:
-1. Visita `https://AlberoPerezTech.ddaw.es`.
+1. Visita `http://18.206.113.196` (o `https://proyecto03.ddaw.es` si el DNS ya está delegado).
 2. Abre la consola del navegador (F12) y verifica que no hay errores 404/500.
 3. Comprueba que la versión de la aplicación ha cambiado (por ejemplo, un cambio visual reciente).

@@ -63,8 +63,8 @@ En caso de error crítico después del despliegue:
 1. **Revertir Código**: Haz `git revert` y push para volver a la versión anterior.
 2. **Revertir BD (Manual)**: Si una migración ha roto datos, hay que conectarse por SSH y ejecutar `php artisan migrate:rollback --step=1` con precaución extrema.
 
-## ✅ Verificación de la API
+## Verificación de la API
 
 Después del despliegue:
-1. Prueba un endpoint público: `curl https://api.AlberoPerezTech.ddaw.es/api/products` -> Debe devolver 200 OK.
+1. Prueba un endpoint público: `curl http://18.206.113.196:8000/api/products` (o `curl https://api.proyecto03.ddaw.es/api/products` si el DNS ya está delegado) -> Debe devolver 200 OK.
 2. Verifica los logs si hay error 500: `docker compose logs laravel-app`.

@@ -78,8 +78,12 @@ El único punto de entrada de tráfico es un **Application Load Balancer (ALB)**
 - **Función**: Distribuye el tráfico entrante entre las instancias/contenedores.
 - **Terminación HTTPS**: El ALB gestiona el certificado SSL (AWS Certificate Manager), descargando este trabajo de los servidores de aplicación.
 - **Enrutamiento**:
-  - `api.AlberoPerezTech.ddaw.es` → Target Group Backend (Puerto 8002)
-  - `AlberoPerezTech.ddaw.es` → Target Group Frontend (Puerto 8001)
+  - Acceso directo por IP (mientras DNS no delegado):
+    - Frontend: `18.206.113.196` (puerto 80/443)
+    - API: `18.206.113.196:8000` (puerto 8000)
+  - Una vez delegado el DNS:
+    - `api.proyecto03.ddaw.es` → Target Group Backend (Puerto 8002)
+    - `proyecto03.ddaw.es` → Target Group Frontend (Puerto 8001)
 
 ---
 

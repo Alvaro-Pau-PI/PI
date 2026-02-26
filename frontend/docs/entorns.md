@@ -46,7 +46,7 @@ El objetivo es el rendimiento, la seguridad y la estabilidad.
 ### ✨ Características
 - **Servidor**: Nginx (sirviendo archivos estáticos compilados).
 - **Modo**: `production` (código minificado, logs deshabilitados, tree-shaking).
-- **API**: Conecta a `https://api.AlberoPerezTech.ddaw.es`.
+- **API**: Conecta a `http://18.206.113.196:8000` (o `https://api.proyecto03.ddaw.es` si el DNS ya está delegado).
 - **Optimización**: Assets comprimidos (Gzip/Brotli) y cache-control headers.
 
 ### 🏗️ Proceso de Build
@@ -68,8 +68,13 @@ El `Dockerfile` de producción utiliza un **Multi-stage build**:
 
 ### ⚙️ Variables de Entorno (Secretos GitHub)
 ```ini
-VITE_API_URL=https://api.AlberoPerezTech.ddaw.es
+VITE_API_URL=http://18.206.113.196:8000
 VITE_APP_ENV=production
+```
+
+**Una vez delegado el DNS**:
+```ini
+VITE_API_URL=https://api.proyecto03.ddaw.es
 ```
 
 ---
@@ -79,7 +84,7 @@ VITE_APP_ENV=production
 | Característica | Desarrollo | Producción |
 |---------------|-----------------|-----------|
 | **Servidor web** | Vite (ESBuild) | Nginx |
-| **API URL** | localhost:8000 | api.AlberoPerezTech.ddaw.es |
+| **API URL** | localhost:8000 | 18.206.113.196:8000 (o api.proyecto03.ddaw.es si DNS delegado) |
 | **Debug** | ✅ Activado | ❌ Desactivado |
 | **Sourcemaps** | ✅ Sí | ❌ No (por seguridad) |
 | **Tamaño Assets** | Sin minificar | Minificado y ofuscado |

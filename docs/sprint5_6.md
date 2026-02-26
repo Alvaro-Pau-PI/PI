@@ -63,7 +63,7 @@ En estos dos últimos sprints hemos completado y profesionalizado el proyecto a�
 
 ### C7. Despliegue Cloud, DNS y CI/CD
 
-- Configuración de la zona DNS `projecte09.ddaw.es` con los registros A/CNAME necesarios para el frontend y el backend.
+- Configuración de la zona DNS `proyecto03.ddaw.es` con los registros A/CNAME necesarios para el frontend y el backend.
 - **Dockerización completa** del proyecto: `Dockerfile` para frontend (Nginx + Vue build) y backend (PHP-FPM + Laravel), orquestados con `docker-compose`.
 - Implementación de pipelines CI/CD independientes para frontend y backend:
   - **Frontend**: install → build → deploy automático.

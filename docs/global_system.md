@@ -53,7 +53,7 @@ El sistema está diseñado para ejecutarse de forma idéntica en local y en la n
 
 | Componente | Desarrollo (Local) | Producción (AWS) |
 |------------|--------------------|------------------|
-| **Dominio** | `localhost` | `AlberoPerezTech.ddaw.es` |
+| **Dominio** | `localhost` | `18.206.113.196` (o `proyecto03.ddaw.es` si DNS delegado) |
 | **Puerto Front** | 5173 | 8001 (interno) -> 443 (público) |
 | **Puerto Back** | 8000 | 8002 (interno) -> 443 (público) |
 | **SSL** | No (HTTP) | Sí (HTTPS) |

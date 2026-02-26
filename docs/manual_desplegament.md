@@ -9,7 +9,7 @@ Esta guía detalla el proceso completo para desplegar la aplicación "AlberoPere
 - **Instancia EC2** (`Ubuntu 24.04`) en subred pública, con IP Elástica asignada.
 - **Puerto 22 (SSH)** abierto a la IP del administrador.
 - **Puertos 80 y 443** abiertos a todo el mundo (`0.0.0.0/0`).
-- **Nombre de dominio** (`AlberoPerezTech.ddaw.es`) apuntando a la IP Elástica (Route 53 o DNS externo).
+- **Nombre de dominio** (`proyecto03.ddaw.es`) apuntando a la IP Elástica (Route 53 o DNS externo).
 
 ### 2. Base de Datos (RDS)
 - Instancia MySQL creada en subredes privadas.
@@ -58,10 +58,10 @@ nano .env
 ```
 
 Rellena las variables críticas:
-- `APP_URL`: `https://AlberoPerezTech.ddaw.es`
+- `APP_URL`: `https://proyecto03.ddaw.es`
 - `DB_HOST`: Endpoint de la RDS (ej: `mydb.xxxx.eu-west-1.rds.amazonaws.com`)
 - `DB_PASSWORD`: La contraseña de la RDS.
-- `VITE_API_URL`: `https://api.AlberoPerezTech.ddaw.es`
+- `VITE_API_URL`: `https://api.proyecto03.ddaw.es`
 
 ---
 
@@ -88,7 +88,7 @@ Ve a `Settings > Secrets and variables > Actions` del repositorio y añade:
 - `EC2_HOST`: IP Elástica.
 - `EC2_USER`: `ubuntu`.
 - `EC2_SSH_KEY`: Contenido del archivo `.pem`.
-- `VITE_API_URL`: `https://api.AlberoPerezTech.ddaw.es`.
+- `VITE_API_URL`: `https://api.proyecto03.ddaw.es`.
 - `DB_PASSWORD`: Contraseña de la RDS.
 
 ### 4.2. Primer Despliegue
@@ -104,8 +104,8 @@ Haz un `git push` a la rama `main`. GitHub:
 
 ## 🧪 Paso 5: Validación y Pruebas
 
-1. **Frontend**: Abre `https://AlberoPerezTech.ddaw.es`. Debe cargar sin errores SSL.
-2. **API**: Abre `https://api.AlberoPerezTech.ddaw.es/api/products`. Debe devolver un JSON.
+1. **Frontend**: Abre `http://18.206.113.196` (o `https://proyecto03.ddaw.es` si el DNS ya está delegado). Debe cargar sin errores SSL.
+2. **API**: Abre `http://18.206.113.196:8000/api/products` (o `https://api.proyecto03.ddaw.es/api/products` si el DNS ya está delegado). Debe devolver un JSON.
 3. **Usuario de Prueba**:
    - Email: `admin@example.com`
    - Password: `password` (o el definido en los seeders).

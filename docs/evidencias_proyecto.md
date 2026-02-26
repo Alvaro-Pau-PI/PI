@@ -113,7 +113,7 @@ La web orientada al consumidor, con un diseño oscuro, dinámico y moderno adapt
 * **Autenticación (Login / Registro):** Accesos de seguridad para cuentas de clientes.
   ![Public Login](img/evidencias/front_pub_07_auth_login.png)
 
-* **Perfil y Mis Pedidos:** Los clientes pueden visualizar su historial y descargar facturas en PDF.
+* **Perfil y Mis Pedidos:** Los clientes pueden visualizar su historial.
   ![Public Perfil Pedidos](img/evidencias/front_pub_08_perfil_pedidos.png)
 
 * **Términos y Privacidad (Legales):** Generación de contenido legal pertinente al comercio europeo.
@@ -142,6 +142,3 @@ Implementación de automatismos mediante flujos nodales, integrando IA Generativ
 
 * **Correo de Respuesta Enviado (Action action):** Mail automatizado en la bandeja de salida informando que el soporte procesará la gestión.
   ![N8N Correo Enviado](img/evidencias/n8n_05_correo_entrada_enviado.png)
-
----
-*Documento generado durante la fase de despliegue final en la nube.*
