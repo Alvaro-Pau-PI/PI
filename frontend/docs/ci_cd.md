@@ -1,32 +1,32 @@
-# 🔄 CI/CD - Integració i Desplegament Continu (Frontend)
+# 🔄 CI/CD - Integración y Despliegue Continuo (Frontend)
 
-El frontend utilitza **GitHub Actions** per automatitzar el cicle de vida del programari, des de la integració de codi fins al desplegament en producció a AWS.
+El frontend utiliza **GitHub Actions** para automatizar el ciclo de vida del software, desde la integración de código hasta el despliegue en producción en AWS.
 
 ## 🛠️ Pipeline: `deploy-frontend.yml`
 
-El flux de treball es defineix al fitxer `.github/workflows/deploy-frontend.yml`.
+El flujo de trabajo se define en el archivo `.github/workflows/deploy-frontend.yml`.
 
 ### 🎯 Trigger (Disparador)
-El pipeline s'executa automàticament quan:
-- Hi ha un **Push** a la branca `main`.
-- Els canvis afecten a la carpeta `frontend/` o al propi workflow.
+El pipeline se ejecuta automáticamente cuando:
+- Hay un **Push** a la rama `main`.
+- Los cambios afectan a la carpeta `frontend/` o al propio workflow.
 
-### stages (Fases) del Pipeline
+### Fases (Stages) del Pipeline
 
-#### 1. **Deploy (Desplegament)**
-Aquest job s'encarrega d'actualitzar l'aplicació al servidor de producció.
+#### 1. **Deploy (Despliegue)**
+Este trabajo se encarga de actualizar la aplicación en el servidor de producción.
 
-**Passos:**
-1. **Checkout**: Baixa el codi del repositori.
-2. **SSH Connection**: Es connecta a la instància EC2 utilitzant la clau privada (`EC2_SSH_KEY`).
-3. **Git Pull**: Actualitza el codi al servidor (`git pull origin main`).
+**Pasos:**
+1. **Checkout**: Descarga el código del repositorio.
+2. **SSH Connection**: Se conecta a la instancia EC2 utilizando la clave privada (`EC2_SSH_KEY`).
+3. **Git Pull**: Actualiza el código en el servidor (`git pull origin main`).
 4. **Docker Rebuild**:
-   - Construeix la nova imatge Docker del frontend.
-   - Injecta les variables d'entorn de producció (`VITE_API_URL`) com a `build-args`.
-   - Reinicia el contenidor amb `docker compose up -d --build`.
+   - Construye la nueva imagen Docker del frontend.
+   - Inyecta las variables de entorno de producción (`VITE_API_URL`) como `build-args`.
+   - Reinicia el contenedor con `docker compose up -d --build`.
 
 ```yaml
-# Fragment clau del workflow
+# Fragmento clave del workflow
 - name: Deploy to EC2
   uses: appleboy/ssh-action@v1.0.3
   with:
@@ -39,30 +39,30 @@ Aquest job s'encarrega d'actualitzar l'aplicació al servidor de producció.
 
 ---
 
-## 🛡️ Secrets i Seguretat
+## 🛡️ Secretos y Seguridad
 
-Les credencials sensibles no es guarden al codi, sinó als **GitHub Repository Secrets**:
+Las credenciales sensibles no se guardan en el código, sino en los **GitHub Repository Secrets**:
 
-| Secret | Descripció | Exemple |
+| Secreto | Descripción | Ejemplo |
 |--------|-----------|---------|
 | `EC2_HOST` | IP pública / DNS del servidor | `3.123.45.67` |
-| `EC2_USER` | Usuari SSH | `ubuntu` |
-| `EC2_SSH_KEY` | Clau privada SSH (.pem) | `-----BEGIN RSA...` |
+| `EC2_USER` | Usuario SSH | `ubuntu` |
+| `EC2_SSH_KEY` | Clave privada SSH (.pem) | `-----BEGIN RSA...` |
 | `VITE_API_URL` | URL del Backend | `https://api...` |
 
 ---
 
-## 📈 Estratègia de Rollback
+## 📈 Estrategia de Rollback
 
-Si un desplegament falla o introdueix un error crític:
+Si un despliegue falla o introduce un error crítico:
 
-1. **Revertir commit**: Localment, fer `git revert <commit-hash>`.
-2. **Push**: Pujar el revert a `main`.
-3. **Auto-Deploy**: GitHub Actions detectarà el canvi i desplegarà la versió anterior automàticament.
+1. **Revertir commit**: Localmente, hacer `git revert <commit-hash>`.
+2. **Push**: Subir el revert a `main`.
+3. **Auto-Deploy**: GitHub Actions detectará el cambio y desplegará la versión anterior automáticamente.
 
-## ✅ Verificació del Desplegament
+## ✅ Verificación del Despliegue
 
-Després de l'execució del pipeline:
+Después de la ejecución del pipeline:
 1. Visita `https://AlberoPerezTech.ddaw.es`.
-2. Obre la consola del navegador (F12) i verifica que no hi ha errors 404/500.
-3. Comprova que la versió de l'aplicació ha canviat (per exemple, un canvi visual recent).
+2. Abre la consola del navegador (F12) y verifica que no hay errores 404/500.
+3. Comprueba que la versión de la aplicación ha cambiado (por ejemplo, un cambio visual reciente).

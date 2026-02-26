@@ -1,29 +1,29 @@
-# 🐳 Entorns de Desenvolupament i Producció (Frontend)
+# 🐳 Entornos de Desarrollo y Producción (Frontend)
 
-El cicle de vida del frontend passa per dos entorns clarament diferenciats: Desenvolupament (local) i Producció (Cloud). Documentem les diferències i com operar en cadascun.
+El ciclo de vida del frontend pasa por dos entornos claramente diferenciados: Desarrollo (local) y Producción (Cloud). Documentamos las diferencias y cómo operar en cada uno.
 
-## 1. Entorn de Desenvolupament (Local)
+## 1. Entorno de Desarrollo (Local)
 
-L'objectiu és oferir una experiència de desenvolupament ràpida (DX) amb hot-reloading i eines de debugging.
+El objetivo es ofrecer una experiencia de desarrollo rápida (DX) con hot-reloading y herramientas de debugging.
 
-### ✨ Característiques
-- **Servidor**: Vite Dev Server (port 5173).
-- **Mode**: `development` (logs detallats, Vue DevTools habilitat).
-- **API**: Connecta a `http://localhost:8000`.
-- **HMR**: Hot Module Replacement actiu (els canvis es reflecteixen instantàniament).
+### ✨ Características
+- **Servidor**: Vite Dev Server (puerto 5173).
+- **Modo**: `development` (logs detallados, Vue DevTools habilitado).
+- **API**: Conecta a `http://localhost:8000`.
+- **HMR**: Hot Module Replacement activo (los cambios se reflejan instantáneamente).
 
-### 🚀 Com arrancar (Opció A: Docker)
-Aquesta és l'opció recomanada per garantir consistència amb l'equip.
+### 🚀 Cómo arrancar (Opción A: Docker)
+Esta es la opción recomendada para garantizar consistencia con el equipo.
 
 ```bash
 cd frontend
 cp .env.example .env
 docker compose up --build
 ```
-> Accés: `http://localhost:5173`
+> Acceso: `http://localhost:5173`
 
-### 💻 Com arrancar (Opció B: Node.js Natiu)
-Més ràpid si tens Node configurat localment.
+### 💻 Cómo arrancar (Opción B: Node.js Nativo)
+Más rápido si tienes Node configurado localmente.
 
 ```bash
 cd frontend
@@ -31,7 +31,7 @@ npm install
 npm run dev
 ```
 
-### ⚙️ Variables d'Entorn (.env)
+### ⚙️ Variables de Entorno (.env)
 ```ini
 VITE_API_URL=http://localhost:8000
 VITE_APP_ENV=local
@@ -39,34 +39,34 @@ VITE_APP_ENV=local
 
 ---
 
-## 2. Entorn de Producció (Cloud - AWS)
+## 2. Entorno de Producción (Cloud - AWS)
 
-L'objectiu és el rendiment, la seguretat i l'estabilitat.
+El objetivo es el rendimiento, la seguridad y la estabilidad.
 
-### ✨ Característiques
-- **Servidor**: Nginx (servint fitxers estàtics compilats).
-- **Mode**: `production` (codi minificat, logs deshabilitats, tree-shaking).
-- **API**: Connecta a `https://api.AlberoPerezTech.ddaw.es`.
-- **Optimització**: Assets comprimits (Gzip/Brotli) i cache-control headers.
+### ✨ Características
+- **Servidor**: Nginx (sirviendo archivos estáticos compilados).
+- **Modo**: `production` (código minificado, logs deshabilitados, tree-shaking).
+- **API**: Conecta a `https://api.AlberoPerezTech.ddaw.es`.
+- **Optimización**: Assets comprimidos (Gzip/Brotli) y cache-control headers.
 
-### 🏗️ Procés de Build
-El codi Vue es transpila a JavaScript/CSS estàtic optimitzat:
+### 🏗️ Proceso de Build
+El código Vue se transpila a JavaScript/CSS estático optimizado:
 
 ```bash
 npm run build
-# Genera la carpeta /dist amb:
+# Genera la carpeta /dist con:
 # - index.html
-# - assets/ (js, css, img amb hash per a cache-busting)
+# - assets/ (js, css, img con hash para cache-busting)
 ```
 
-### 🚀 Desplegament
-Es realitza automàticament mitjançant GitHub Actions (veure `ci_cd.md`).
+### 🚀 Despliegue
+Se realiza automáticamente mediante GitHub Actions (ver `ci_cd.md`).
 
-El `Dockerfile` de producció utilitza un **Multi-stage build**:
-1. **Stage Build**: Node.js compila el projecte (`npm run build`).
-2. **Stage Production**: Nginx Alpine serveix solament la carpeta `dist/`.
+El `Dockerfile` de producción utiliza un **Multi-stage build**:
+1. **Stage Build**: Node.js compila el proyecto (`npm run build`).
+2. **Stage Production**: Nginx Alpine sirve solamente la carpeta `dist/`.
 
-### ⚙️ Variables d'Entorn (Secrets GitHub)
+### ⚙️ Variables de Entorno (Secretos GitHub)
 ```ini
 VITE_API_URL=https://api.AlberoPerezTech.ddaw.es
 VITE_APP_ENV=production
@@ -74,12 +74,12 @@ VITE_APP_ENV=production
 
 ---
 
-## 🔄 Diferències Clau
+## 🔄 Diferencias Clave
 
-| Característica | Desenvolupament | Producció |
+| Característica | Desarrollo | Producción |
 |---------------|-----------------|-----------|
 | **Servidor web** | Vite (ESBuild) | Nginx |
 | **API URL** | localhost:8000 | api.AlberoPerezTech.ddaw.es |
-| **Debug** | ✅ Activat | ❌ Desactivat |
-| **Sourcemaps** | ✅ Sí | ❌ No (per seguretat) |
-| **Mida Assets** | Sense minificar | Minificat i ofuscat |
+| **Debug** | ✅ Activado | ❌ Desactivado |
+| **Sourcemaps** | ✅ Sí | ❌ No (por seguridad) |
+| **Tamaño Assets** | Sin minificar | Minificado y ofuscado |

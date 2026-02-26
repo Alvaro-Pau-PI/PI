@@ -1,62 +1,62 @@
 # 🏗️ Arquitectura del Backend (Laravel 12)
 
-## 🎯 Visió General
-El backend és una **API RESTful** robusta desenvolupada amb Laravel 12. L'objectiu és proporcionar dades al frontend Vue de manera segura i eficient, gestionar l'autenticació d'usuaris i la lògica de negoci complexa.
+## 🎯 Visión General
+El backend es una **API RESTful** robusta desarrollada con Laravel 12. El objetivo es proporcionar datos al frontend Vue de manera segura y eficiente, gestionar la autenticación de usuarios y la lógica de negocio compleja.
 
-## 🛠️ Stack Tecnològic
+## 🛠️ Stack Tecnológico
 
-| Tecnologia | Versió | Justificació |
+| Tecnología | Versión | Justificación |
 |-----------|--------|--------------|
-| **Laravel** | 12.x | Framework PHP madur amb ecosistema ric. |
-| **PHP** | 8.4 | Alt rendiment i tipat fort. |
-| **MySQL** | 8.0 | Base de dades relacional fiable. |
-| **Sanctum** | 4.x | Autenticació SPA simple i segura (cookies). |
-| **Socialite** | 5.x | Integració OAuth (Google Login). |
-| **Scribe** | * | Generació automàtica de documentació API. |
-| **Nginx** | 1.25 | Servidor web d'alt rendiment (proxy invers). |
+| **Laravel** | 12.x | Framework PHP maduro con ecosistema rico. |
+| **PHP** | 8.4 | Alto rendimiento y tipado fuerte. |
+| **MySQL** | 8.0 | Base de datos relacional fiable. |
+| **Sanctum** | 4.x | Autenticación SPA simple y segura (cookies). |
+| **Socialite** | 5.x | Integración OAuth (Google Login). |
+| **Scribe** | * | Generación automática de documentación API. |
+| **Nginx** | 1.25 | Servidor web de alto rendimiento (proxy inverso). |
 
-## 📂 Estructura de Directoris
+## 📂 Estructura de Directorios
 
 ```text
 laravel/
 ├── app/
 │   ├── Http/
-│   │   ├── Controllers/ # Controladors API (ProductController...)
-│   │   ├── Middleware/  # Filtres de peticions (Auth, Cors...)
-│   │   └── Requests/    # Validació de formularis (FormRequest)
-│   ├── Models/          # Models Eloquent (ORM)
-│   └── Providers/       # Configuració de serveis
-├── config/              # Configuració global (app, auth, database...)
+│   │   ├── Controllers/ # Controladores API (ProductController...)
+│   │   ├── Middleware/  # Filtros de peticiones (Auth, Cors...)
+│   │   └── Requests/    # Validación de formularios (FormRequest)
+│   ├── Models/          # Modelos Eloquent (ORM)
+│   └── Providers/       # Configuración de servicios
+├── config/              # Configuración global (app, auth, database...)
 ├── database/
-│   ├── migrations/      # Esquema de la BD (versionat)
-│   ├── seeders/         # Dades inicials i de prova
-│   └── factories/       # Generadors de dades falses
+│   ├── migrations/      # Esquema de la BD (versionado)
+│   ├── seeders/         # Datos iniciales y de prueba
+│   └── factories/       # Generadores de datos falsos
 ├── routes/
-│   ├── api.php          # Rutes de l'API REST
-│   └── web.php          # Rutes web (OAuth, Health Check)
-├── tests/               # Tests automatitzats (Unit/Feature)
-├── docker/              # Configuració Docker (Nginx, PHP)
-├── .env.example         # Plantilla de variables d'entorn
-└── composer.json        # Dependències PHP
+│   ├── api.php          # Rutas de la API REST
+│   └── web.php          # Rutas web (OAuth, Health Check)
+├── tests/               # Tests automatizados (Unit/Feature)
+├── docker/              # Configuración Docker (Nginx, PHP)
+├── .env.example         # Plantilla de variables de entorno
+└── composer.json        # Dependencias PHP
 ```
 
-## 🧩 Patrons de Disseny
+## 🧩 Patrones de Diseño
 
 ### 1. MVC (Model-View-Controller)
-Tot i que és una API (sense Vistes Blade), seguim el patró:
-- **Model**: `app/Models/Product.php` (Lògica de dades).
-- **Controller**: `app/Http/Controllers/ProductController.php` (Gestió de peticions).
-- **Resource**: `app/Http/Resources/ProductResource.php` (Transformació JSON de sortida).
+Aunque es una API (sin Vistas Blade), seguimos el patrón:
+- **Model**: `app/Models/Product.php` (Lógica de datos).
+- **Controller**: `app/Http/Controllers/ProductController.php` (Gestión de peticiones).
+- **Resource**: `app/Http/Resources/ProductResource.php` (Transformación JSON de salida).
 
 ### 2. Service Layer (Opcional)
-Per a lògica complexa (ex: processament de comandes), utilitzem Serveis (`app/Services/OrderService.php`) per mantenir els controladors prims ("Thin Controllers").
+Para lógica compleja (ej: procesamiento de pedidos), utilizamos Servicios (`app/Services/OrderService.php`) para mantener los controladores delgados ("Thin Controllers").
 
-### 3. Repository Pattern (Simplificat)
-Utilitzem Eloquent directament als controladors per a operacions CRUD simples, però Scope Queries (`scopeActive()`) per a reutilitzar filtres complexos.
+### 3. Repository Pattern (Simplificado)
+Utilizamos Eloquent directamente en los controladores para operaciones CRUD simples, pero Scope Queries (`scopeActive()`) para reutilizar filtros complejos.
 
-## 🔒 Seguretat Backend
+## 🔒 Seguridad Backend
 
-- **Autenticació**: Laravel Sanctum amb cookies `httpOnly` i `SameSite=Lax`.
-- **Autorització**: Policies (`app/Policies/ProductPolicy.php`) per verificar permisos abans d'accions (ex: `update`).
-- **Validació**: FormRequests (`StoreProductRequest`) garanteixen que les dades d'entrada són correctes.
-- **CSRF**: Protecció automàtica en rutes web; Sanctum gestiona CSRF per a SPA.
+- **Autenticación**: Laravel Sanctum con cookies `httpOnly` y `SameSite=Lax`.
+- **Autorización**: Policies (`app/Policies/ProductPolicy.php`) para verificar permisos antes de acciones (ej: `update`).
+- **Validación**: FormRequests (`StoreProductRequest`) garantizan que los datos de entrada son correctos.
+- **CSRF**: Protección automática en rutas web; Sanctum gestiona CSRF para SPA.

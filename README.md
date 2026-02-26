@@ -1,29 +1,29 @@
-# 🛍️ AlberoPerezTech — Botiga en Línia Sostenible
+# 🛍️ AlberoPerezTech — Tienda en Línea Sostenible
 
 Proyecto intermódulo de desarrollo web: una tienda en línea de productos tecnológicos con criterios de sostenibilidad (ASG).
 
-## 📦 Stack Tecnològic
+## 📦 Stack Tecnológico
 
-| Component | Tecnologia | Versió |
+| Componente | Tecnología | Versión |
 |-----------|-----------|--------|
 | **Frontend** | Vue 3 + Vite + Pinia | 3.x / 7.x / 3.x |
 | **Backend** | Laravel + Sanctum | 12.x / 4.x |
-| **Base de dades** | MySQL | 8.0 |
+| **Base de datos** | MySQL | 8.0 |
 | **Servidor web** | Nginx | stable-alpine |
-| **Contenidors** | Docker + Docker Compose | — |
+| **Contenedores** | Docker + Docker Compose | — |
 
 ## 🐳 Desarrollo con Docker
 
 ### Requisitos previos
 
-- [Docker](https://docs.docker.com/get-docker/) i [Docker Compose](https://docs.docker.com/compose/install/) instalados.
+- [Docker](https://docs.docker.com/get-docker/) y [Docker Compose](https://docs.docker.com/compose/install/) instalados.
 
 ### Opción A: Arrancar TODO junto (docker-compose global)
 
-Esta opció arranca frontend, backend, BD, phpMyAdmin i n8n en un sol comandament.
+Esta opción arranca frontend, backend, BD, phpMyAdmin y n8n en un solo comando.
 
 ```bash
-# Des de el raíz del projecte
+# Desde la raíz del proyecto
 docker compose up --build
 
 # Acceso:
@@ -34,24 +34,24 @@ docker compose up --build
 
 ### Opción B: Arrancar cada aplicación de forma INDEPENDIENTE
 
-Cada aplicació té el seu propi `docker-compose.yml` dins de la seua carpeta, permetent arrancar-la sense dependre de el altra.
+Cada aplicación tiene su propio `docker-compose.yml` dentro de su carpeta, permitiendo arrancarla sin depender de la otra.
 
-#### Frontend Vue (independent)
+#### Frontend Vue (independiente)
 
 ```bash
 cd frontend
-cp .env.example .env        # Crear configuraciónn
+cp .env.example .env        # Crear configuración
 docker compose up --build    # Arrancar
 # → http://localhost:5173
 ```
 
-> Consulta [frontend/README.md](frontend/README.md) per a més detalls.
+> Consulta [frontend/README.md](frontend/README.md) para más detalles.
 
-#### Backend Laravel (independent)
+#### Backend Laravel (independiente)
 
 ```bash
 cd laravel
-cp .env.example .env                                   # Crear configuraciónn
+cp .env.example .env                                   # Crear configuración
 docker compose up --build                              # Arrancar (Laravel + MySQL + Nginx + phpMyAdmin)
 docker compose exec laravel-app php artisan key:generate   # Generar clave
 docker compose exec laravel-app php artisan migrate --seed # Migraciones + datos de prueba
@@ -59,11 +59,11 @@ docker compose exec laravel-app php artisan migrate --seed # Migraciones + datos
 # → phpMyAdmin: http://localhost:8081
 ```
 
-> Consulta [laravel/README.md](laravel/README.md) per a més detalls.
+> Consulta [laravel/README.md](laravel/README.md) para más detalles.
 
-### ⚠️ Important
+### ⚠️ Importante
 
-Abans de arrancar una opció, assegura't de aturar el altra per a evitar conflictes de ports:
+Antes de arrancar una opción, asegúrate de detener la otra para evitar conflictos de puertos:
 
 ```bash
 docker compose down
@@ -71,26 +71,26 @@ docker compose down
 
 ## 🚀 Despliegue en Producción (CI/CD)
 
-El proyecto está configurado para desplegarse automáticamente en una instància AWS EC2 utilitzant **GitHub Actions**.
+El proyecto está configurado para desplegarse automáticamente en una instancia AWS EC2 utilizando **GitHub Actions**.
 
 ### 1. Configuración del Servidor (EC2)
 
 1. Conéctate a tu instancia: `ssh -i clau.pem ubuntu@IP`
-2. Clona el repositori: `git clone <URL_REPO> PI && cd PI`
-3. Crea el archivo `.env` de producció amb les credencials reals: `cp .env.example .env && nano .env`
-4. Executa el script de configuració automàtica (Nginx + SSL):
+2. Clona el repositorio: `git clone <URL_REPO> PI && cd PI`
+3. Crea el archivo `.env` de producción con las credenciales reales: `cp .env.example .env && nano .env`
+4. Ejecuta el script de configuración automática (Nginx + SSL):
 
 ```bash
 sudo ./deploy/nginx/setup_prod.sh
 ```
 
-Este script configurarà Nginx com a proxy invers i generarà certificats SSL amb Let's Encrypt per a `AlberoPerezTech.ddaw.es` y `api.AlberoPerezTech.ddaw.es`.
+Este script configurará Nginx como proxy inverso y generará certificados SSL con Let's Encrypt para `AlberoPerezTech.ddaw.es` y `api.AlberoPerezTech.ddaw.es`.
 
-### 2. Secrets de GitHub Actions
+### 2. Secretos de GitHub Actions
 
 Para que el CI/CD funcione, hay que configurar los siguientes "Repository Secrets" en GitHub:
 
-| Secret | Descripciónn | Exemple |
+| Secreto | Descripción | Ejemplo |
 |--------|-----------|---------|
 | `EC2_HOST` | IP Elástica o DNS de la EC2 | `3.123.45.67` |
 | `EC2_USER` | Usuario SSH | `ubuntu` |
@@ -101,8 +101,8 @@ Para que el CI/CD funcione, hay que configurar los siguientes "Repository Secret
 
 ### 3. Funcionamiento del Despliegue
 
-- **Frontend**: En fer push a `main` (carpeta `frontend/`), es connecta per SSH, fa pull i ralberopereznstrueix el contenidor `pi_prod_frontend`.
-- **Backend**: En fer push a `main` (carpeta `laravel/`), executa tests PHPUnit. Si passen, connecta per SSH, fa pull, ralberopereznstrueix `pi_prod_laravel_app` y ejecuta migraciones.
+- **Frontend**: Al hacer push a `main` (carpeta `frontend/`), se conecta por SSH, hace pull y reconstruye el contenedor `pi_prod_frontend`.
+- **Backend**: Al hacer push a `main` (carpeta `laravel/`), ejecuta tests PHPUnit. Si pasan, conecta por SSH, hace pull, reconstruye `pi_prod_laravel_app` y ejecuta migraciones.
 
 ## 📁 Estructura del Proyecto
 
@@ -111,7 +111,7 @@ PI/
 ├── frontend/              # 🖥️  Aplicación Vue 3 (SPA)
 │   ├── src/               #     Código fuente Vue
 │   ├── Dockerfile         #     Imagen Docker (multi-stage)
-│   ├── docker-compose.yml #     Docker independent
+│   ├── docker-compose.yml #     Docker independiente
 │   └── README.md          #     Documentación frontend
 │
 ├── laravel/               # ⚙️  API REST Laravel
@@ -119,12 +119,12 @@ PI/
 │   ├── database/          #     Migraciones y seeders
 │   ├── docker/            #     Configuración Nginx
 │   ├── Dockerfile         #     Imagen Docker (PHP-FPM)
-│   ├── docker-compose.yml #     Docker independent
+│   ├── docker-compose.yml #     Docker independiente
 │   └── README.md          #     Documentación backend
 │
 ├── docker-compose.yml     # 🐳  Docker Compose global (todo junto)
 ├── docs/                  # 📖  Documentación del proyecto
-└── README.md              # 📄  Este fitxer
+└── README.md              # 📄  Este archivo
 ```
 
 ---
@@ -143,7 +143,7 @@ PI/
 - [Frontend: Arquitectura](frontend/docs/arquitectura.md) | [Entornos](frontend/docs/entorns.md) | [CI/CD](frontend/docs/ci_cd.md)
 - [Backend: Arquitectura](laravel/docs/arquitectura.md) | [Entornos](laravel/docs/entorns.md) | [CI/CD](laravel/docs/ci_cd.md)
 
-**Gestiónn**
+**Gestión**
 - [Asignación de roles y responsabilidades](docs/rols.md)
 - [Plan de riesgos y prevención](docs/RISKS.md)
 - [Riesgos individuales](docs/riscos_individuals.md)
@@ -162,55 +162,55 @@ PI/
 - [Informe Sprint 2](docs/sprint2.md) *(versión backend legacy con PHP nativo)*
 - [Documento de Despliegue C4 (PDF)](docs/Entrega%20Projecte%20Intermodular%20Part%20I%20Desplegament%20d'aplicacions%20WEB.pdf)
 
-### Sprint 3: Migració a Laravel v2
+### Sprint 3: Migración a Laravel v2
 - [Informe Sprint 3](docs/sprint3.md) *(backend moderno con Laravel, Breeze y MySQL)*
 
 ### Sprint 4: Cliente SPA con Vue y control de roles
 - [Informe Sprint 4](docs/sprint4.md) *(interfaz moderna SPA, autenticación API y roles)*
 
-### Sprint 5 i 6: Integraciones externas, Swagger, Docker, Despliegue final, calidad y entrega del producto
-- [Informe Sprint 5 i 6](docs/sprint5_6.md) *(OAuth2, OpenAPI, NUV, SOST, DIW, etc.)*
+### Sprint 5 y 6: Integraciones externas, Swagger, Docker, Despliegue final, calidad y entrega del producto
+- [Informe Sprint 5 y 6](docs/sprint5_6.md) *(OAuth2, OpenAPI, NUV, SOST, DIW, etc.)*
 
 ---
 
 ## ♻️ Sostenibilidad y Criterios ASG
 
-**🌱 Compromiso con el planeta** - Este projecte incorpora criteris de sostenibilitat basats en els pilars ASG (Ambiental, Social, Gobernança).
+**🌱 Compromiso con el planeta** - Este proyecto incorpora criterios de sostenibilidad basados en los pilares ASG (Ambiental, Social, Gobernanza).
 
 ### Mejoras Implementadas
 
 #### 🌍 Pilar Ambiental
-- ✅ **Optimització de imatges**: Format WebP amb lazy loading
+- ✅ **Optimización de imágenes**: Formato WebP con lazy loading
 - ✅ **Reducción de peso web**: >40% de reducción en transferencia de datos
-- ✅ **AlberoPereznomía circular**: Catálogo de productos reacondicionados
-- ✅ **Etiquetas alberoperez**: AlberoPerez Score, Huella de carbono, Proveedores locales
-- ✅ **Eficiencia**: Code splitting, minificació, tree-shaking
+- ✅ **Economía circular**: Catálogo de productos reacondicionados
+- ✅ **Etiquetas ecológicas**: AlberoPerez Score, Huella de carbono, Proveedores locales
+- ✅ **Eficiencia**: Code splitting, minificación, tree-shaking
 
 #### 👥 Pilar Social
-- ✅ **Accessibilitat WCAG AA**: Lighthouse Accessibility Score ≥ 95
+- ✅ **Accesibilidad WCAG AA**: Lighthouse Accessibility Score ≥ 95
 - ✅ **Navegación por teclado**: Experiencia completa sin ratón
 - ✅ **Contraste de colores**: Ratios validados para legibilidad
-- ✅ **Información clara**: Transparència en etiquetes i políticas
-- ✅ **Inclusiónn**: Experiencia UX sin barreras
+- ✅ **Información clara**: Transparencia en etiquetas y políticas
+- ✅ **Inclusión**: Experiencia UX sin barreras
 
 #### ⚖️ Pilar Gobernanza
-- ✅ **Código documentado**: PHPDoc i JSDoc complet
-- ✅ **Trazabilidad**: Criterios alberoperez verificables
+- ✅ **Código documentado**: PHPDoc y JSDoc completo
+- ✅ **Trazabilidad**: Criterios de AlberoPerezTech (o eco) verificables
 - ✅ **Políticas públicas**: Documentación accesible en MkDocs
-- ✅ **Calidad de código**: Principis SOLID, DRY, KISS
+- ✅ **Calidad de código**: Principios SOLID, DRY, KISS
 - ✅ **Métricas públicas**: Estadísticas de sostenibilidad en tiempo real
 
 ### Documentación Completa
 
-📖 Consulta nuestra [Política de Sostenibilitat](docs/sostenibilidad.md) completa para más detalles.
+📖 Consulta nuestra [Política de Sostenibilidad](docs/sostenibilidad.md) completa para más detalles.
 
 🌐 También disponible en la web: [/sostenibilidad](/sostenibilidad)
 
 ### Métricas de Sostenibilidad
 
-| Métrica | Valor Actual | Objectiu |
+| Métrica | Valor Actual | Objetivo |
 |---------|--------------|----------|
 | Performance Score | 90+ | 95+ |
 | Accessibility Score | 95+ | 100 |
-| Reducció pes web | 40%+ | 60%+ |
-| % Catàleg alberoperez | 20%+ | 50%+ |
+| Reducción peso web | 40%+ | 60%+ |
+| % Catálogo ecológico | 20%+ | 50%+ |

@@ -1,150 +1,150 @@
-# 🛍️ EcoTech Backend — Laravel 12
+# 🛍️ AlberoPerezTech Backend — Laravel 12
 
-API REST del backend de la botiga en línia EcoTech, desenvolupada amb **Laravel 12**, **MySQL** i **Sanctum** per a autenticació.
+API REST del backend de la tienda en línea AlberoPerezTech, desarrollada con **Laravel 12**, **MySQL** y **Sanctum** para autenticación.
 
-## 📦 Stack Tecnològic
+## 📦 Stack Tecnológico
 
-| Tecnologia | Versió | Funció |
+| Tecnología | Versión | Función |
 |-----------|--------|--------|
 | Laravel | 12.x | Framework PHP |
-| PHP | 8.4 | Llenguatge backend |
-| MySQL | 8.0 | Base de dades relacional |
-| Sanctum | 4.x | Autenticació SPA (cookies) |
+| PHP | 8.4 | Lenguaje backend |
+| MySQL | 8.0 | Base de datos relacional |
+| Sanctum | 4.x | Autenticación SPA (cookies) |
 | Socialite | 5.x | OAuth (Google Login) |
-| Scribe | * | Documentació API automàtica |
-| Maatwebsite Excel | 3.x | Importació/exportació CSV/Excel |
+| Scribe | * | Documentación API automática |
+| Maatwebsite Excel | 3.x | Importación/exportación CSV/Excel |
 
-## 🐳 Desenvolupament amb Docker
+## 🐳 Desarrollo con Docker
 
-### Requisits previs
+### Requisitos previos
 
-- [Docker](https://docs.docker.com/get-docker/) i [Docker Compose](https://docs.docker.com/compose/install/) instal·lats.
+- [Docker](https://docs.docker.com/get-docker/) y [Docker Compose](https://docs.docker.com/compose/install/) instalados.
 
-### Instruccions
+### Instrucciones
 
 ```bash
-# 1. Clonar el repositori (si encara no ho has fet)
+# 1. Clonar el repositorio (si aún no lo has hecho)
 git clone <url-del-repo>
 cd laravel
 
-# 2. Crear el fitxer de configuració
+# 2. Crear el archivo de configuración
 cp .env.example .env
 
-# 3. Arrancar els contenidors
+# 3. Arrancar los contenedores
 docker compose up --build
 
-# 4. Generar la clau de l'aplicació
+# 4. Generar la clave de la aplicación
 docker compose exec laravel-app php artisan key:generate
 
-# 5. Executar migracions i seeders
+# 5. Ejecutar migraciones y seeders
 docker compose exec laravel-app php artisan migrate --seed
 
-# 6. Accedir a l'aplicació
+# 6. Acceder a la aplicación
 # API Laravel:  http://localhost:8000
 # phpMyAdmin:   http://localhost:8081
 ```
 
-### Comandes útils
+### Comandos útiles
 
 ```bash
-# Executar tests
+# Ejecutar tests
 docker compose exec laravel-app php artisan test
 
-# Crear una nova migració
+# Crear una nueva migración
 docker compose exec laravel-app php artisan make:migration create_example_table
 
-# Netejar cachés
+# Limpiar cachés
 docker compose exec laravel-app php artisan cache:clear
 docker compose exec laravel-app php artisan config:clear
 
-# Accedir al contenidor PHP
+# Acceder al contenedor PHP
 docker compose exec laravel-app bash
 
-# Aturar tots els serveis
+# Detener todos los servicios
 docker compose down
 
-# Aturar i esborrar volums (ATENCIÓ: esborra la BD)
+# Detener y borrar volúmenes (ATENCIÓN: borra la BD)
 docker compose down -v
 ```
 
-## 💻 Desenvolupament sense Docker (local)
+## 💻 Desarrollo sin Docker (local)
 
-### Requisits previs
+### Requisitos previos
 
-- PHP >= 8.2 amb extensions: pdo_mysql, mbstring, zip, gd, bcmath
+- PHP >= 8.2 con extensiones: pdo_mysql, mbstring, zip, gd, bcmath
 - Composer >= 2
 - MySQL >= 8.0
-- Node.js >= 20 (per al build d'assets Vite)
+- Node.js >= 20 (para el build de assets Vite)
 
-### Instruccions
+### Instrucciones
 
 ```bash
-# 1. Instal·lar dependències PHP
+# 1. Instalar dependencias PHP
 composer install
 
-# 2. Crear i configurar .env (ajustar DB_HOST=127.0.0.1)
+# 2. Crear y configurar .env (ajustar DB_HOST=127.0.0.1)
 cp .env.example .env
 php artisan key:generate
 
-# 3. Executar migracions i seeders
+# 3. Ejecutar migraciones y seeders
 php artisan migrate --seed
 
 # 4. Arrancar el servidor
 php artisan serve  # http://localhost:8000
 ```
 
-## ⚙️ Variables d'Entorn Principals
+## ⚙️ Variables de Entorno Principales
 
-| Variable | Descripció | Valor per defecte (Docker) |
+| Variable | Descripción | Valor por defecto (Docker) |
 |----------|-----------|---------------------------|
-| `APP_URL` | URL base de l'aplicació | `http://localhost:8000` |
+| `APP_URL` | URL base de la aplicación | `http://localhost:8000` |
 | `FRONTEND_URL` | URL del frontend Vue | `http://localhost:5173` |
-| `DB_HOST` | Host de la BD | `db` (nom del contenidor) |
-| `DB_DATABASE` | Nom de la BD | `pi_db` |
-| `DB_USERNAME` | Usuari de la BD | `pi_user` |
-| `DB_PASSWORD` | Contrasenya de la BD | `pi_password` |
-| `SANCTUM_STATEFUL_DOMAINS` | Dominis per a cookies Sanctum | `localhost:5173` |
+| `DB_HOST` | Host de la BD | `db` (nombre del contenedor) |
+| `DB_DATABASE` | Nombre de la BD | `pi_db` |
+| `DB_USERNAME` | Usuario de la BD | `pi_user` |
+| `DB_PASSWORD` | Contraseña de la BD | `pi_password` |
+| `SANCTUM_STATEFUL_DOMAINS` | Dominios para cookies Sanctum | `localhost:5173` |
 
-## 📚 Documentació Tècnica
+## 📚 Documentación Técnica
 
-El backend disposa de documentació detallada a la carpeta `docs/`:
+El backend dispone de documentación detallada en la carpeta `docs/`:
 
-- [🏗️ Arquitectura i Patrons](docs/arquitectura.md)
-- [🐳 Entorns: Desenvolupament vs Producció](docs/entorns.md)
-- [🔄 CI/CD i Tests](docs/ci_cd.md)
+- [🏗️ Arquitectura y Patrones](docs/arquitectura.md)
+- [🐳 Entornos: Desarrollo vs Producción](docs/entorns.md)
+- [🔄 CI/CD y Tests](docs/ci_cd.md)
 
-## 📁 Estructura del projecte
+## 📁 Estructura del proyecto
 
 ```
 laravel/
 ├── app/
-│   ├── Http/Controllers/   # Controladors de l'API
-│   ├── Models/              # Models Eloquent
+│   ├── Http/Controllers/   # Controladores de la API
+│   ├── Models/              # Modelos Eloquent
 │   └── ...
 ├── database/
-│   ├── migrations/          # Migracions de la BD
-│   └── seeders/             # Seeders amb dades de prova
+│   ├── migrations/          # Migraciones de la BD
+│   └── seeders/             # Seeders con datos de prueba
 ├── routes/
-│   ├── api.php              # Rutes de l'API REST
-│   └── web.php              # Rutes web (OAuth, etc.)
+│   ├── api.php              # Rutas de la API REST
+│   └── web.php              # Rutas web (OAuth, etc.)
 ├── tests/                   # Tests PHPUnit
 ├── docker/
-│   └── nginx.conf           # Configuració Nginx per a Docker
-├── Dockerfile               # Imatge Docker (PHP-FPM)
-├── docker-compose.yml       # Composició per a desenvolupament
-├── .env.example             # Plantilla de variables d'entorn
-└── composer.json            # Dependències PHP
+│   └── nginx.conf           # Configuración Nginx para Docker
+├── Dockerfile               # Imagen Docker (PHP-FPM)
+├── docker-compose.yml       # Composición para desarrollo
+├── .env.example             # Plantilla de variables de entorno
+└── composer.json            # Dependencias PHP
 ```
 
-## 🔌 Endpoints principals de l'API
+## 🔌 Endpoints principales de la API
 
-| Mètode | Ruta | Descripció |
+| Método | Ruta | Descripción |
 |--------|------|-----------|
-| `GET` | `/api/products` | Llistat de productes |
-| `GET` | `/api/products/{id}` | Detall d'un producte |
-| `POST` | `/api/products/{id}/reviews` | Afegir valoració |
-| `POST` | `/register` | Registre d'usuari |
-| `POST` | `/login` | Iniciar sessió |
-| `POST` | `/logout` | Tancar sessió |
+| `GET` | `/api/products` | Listado de productos |
+| `GET` | `/api/products/{id}` | Detalle de un producto |
+| `POST` | `/api/products/{id}/reviews` | Añadir valoración |
+| `POST` | `/register` | Registro de usuario |
+| `POST` | `/login` | Iniciar sesión |
+| `POST` | `/logout` | Cerrar sesión |
 
-📖 Documentació completa de l'API disponible en: `http://localhost:8000/docs`
+📖 Documentación completa de la API disponible en: `http://localhost:8000/docs`

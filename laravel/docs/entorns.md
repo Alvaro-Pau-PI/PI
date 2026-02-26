@@ -1,20 +1,20 @@
-# 🐳 Entorns de Desenvolupament i Producció (Backend)
+# 🐳 Entornos de Desarrollo y Producción (Backend)
 
-Laravel gestiona diferents configuracions segons l'entorn (`APP_ENV`). Aquest document explica com arrancar i configurar cada escenari.
+Laravel gestiona diferentes configuraciones según el entorno (`APP_ENV`). Este documento explica cómo arrancar y configurar cada escenario.
 
-## 1. Entorn de Desenvolupament (Local)
+## 1. Entorno de Desarrollo (Local)
 
-L'objectiu és tenir una instància ràpida amb debugging activat i accés complet a les eines de desenvolupament (Tinker, Telescope, etc.).
+El objetivo es tener una instancia rápida con debugging activado y acceso completo a las herramientas de desarrollo (Tinker, Telescope, etc.).
 
-### ✨ Característiques
-- **APP_ENV**: `local` (errors detallats, stack trace visible).
+### ✨ Características
+- **APP_ENV**: `local` (errores detallados, stack trace visible).
 - **APP_DEBUG**: `true`.
-- **Base de Dades**: MySQL en Docker (`db`), exposada al host (`localhost:3308`).
-- **Serveis**: PHP-FPM, Nginx, MySQL, phpMyAdmin.
-- **Accés**: `http://localhost:8000` (API), `http://localhost:8081` (phpMyAdmin).
+- **Base de Datos**: MySQL en Docker (`db`), expuesta al host (`localhost:3308`).
+- **Servicios**: PHP-FPM, Nginx, MySQL, phpMyAdmin.
+- **Acceso**: `http://localhost:8000` (API), `http://localhost:8081` (phpMyAdmin).
 
-### 🚀 Com arrancar (Docker)
-Recomanat per garantir un entorn idèntic per a tots els desenvolupadors.
+### 🚀 Cómo arrancar (Docker)
+Recomendado para garantizar un entorno idéntico para todos los desarrolladores.
 
 ```bash
 cd laravel
@@ -22,17 +22,17 @@ cp .env.example .env
 docker compose up --build
 ```
 
-**Configuració inicial (un sol cop):**
+**Configuración inicial (solo una vez):**
 ```bash
-# Generar clau d'encriptació
+# Generar clave de encriptación
 docker compose exec laravel-app php artisan key:generate
 
-# Instal·lar taules i dades de prova
+# Instalar tablas y datos de prueba
 docker compose exec laravel-app php artisan migrate --seed
 ```
 
-### 💻 Com arrancar (Local - Sense Docker)
-Si prefereixes `php artisan serve`, assegura't que `DB_HOST=127.0.0.1` al teu `.env`.
+### 💻 Cómo arrancar (Local - Sin Docker)
+Si prefieres `php artisan serve`, asegúrate de que `DB_HOST=127.0.0.1` en tu `.env`.
 
 ```bash
 composer install
@@ -41,44 +41,44 @@ php artisan serve
 
 ---
 
-## 2. Entorn de Producció (Cloud - AWS)
+## 2. Entorno de Producción (Cloud - AWS)
 
-L'objectiu és màxim rendiment i seguretat. Errors ocults a l'usuari final.
+El objetivo es máximo rendimiento y seguridad. Errores ocultos al usuario final.
 
-### ✨ Característiques
-- **APP_ENV**: `production` (errors genèrics 500).
+### ✨ Características
+- **APP_ENV**: `production` (errores genéricos 500).
 - **APP_DEBUG**: `false`.
-- **Optimitzacions**: Opcache actiu, rutes i configuració cacheades.
-- **Base de Dades**: RDS (MySQL gestionat), no exposat públicament.
-- **Serveis**: Només PHP-FPM i Nginx (sense phpMyAdmin per seguretat).
+- **Optimizaciones**: Opcache activo, rutas y configuración cacheadas.
+- **Base de Datos**: RDS (MySQL gestionado), no expuesto públicamente.
+- **Servicios**: Solo PHP-FPM y Nginx (sin phpMyAdmin por seguridad).
 
-### 🚀 Desplegament
-Es realitza automàticament mitjançant GitHub Actions (veure `ci_cd.md`).
+### 🚀 Despliegue
+Se realiza automáticamente mediante GitHub Actions (ver `ci_cd.md`).
 
-El `docker-compose.prod.yml` defineix:
-- `restart: always` per alta disponibilitat.
-- Xarxa `pi_network_prod` aïllada.
-- Volums persistents només per a logs i storage públic.
+El `docker-compose.prod.yml` define:
+- `restart: always` para alta disponibilidad.
+- Red `pi_network_prod` aislada.
+- Volúmenes persistentes solo para logs y storage público.
 
-### ⚙️ Variables d'Entorn Crítiques (Secrets GitHub)
-Aquestes variables s'injecten al contenidor en temps d'execució:
+### ⚙️ Variables de Entorno Críticas (Secretos GitHub)
+Estas variables se inyectan al contenedor en tiempo de ejecución:
 
-| Variable | Valor típic | Descripció |
+| Variable | Valor típico | Descripción |
 |----------|-------------|------------|
-| `APP_ENV` | `production` | Activa mode segur. |
-| `APP_DEBUG` | `false` | Oculta errors de codi. |
-| `DB_HOST` | `db` (o endpoint RDS) | Connexió a MySQL. |
-| `DB_PASSWORD` | `*****` | Contrasenya segura (Secret). |
-| `FRONTEND_URL` | `https://AlberoPerezTech...` | Per a CORS i Sanctum. |
+| `APP_ENV` | `production` | Activa modo seguro. |
+| `APP_DEBUG` | `false` | Oculta errores de código. |
+| `DB_HOST` | `db` (o endpoint RDS) | Conexión a MySQL. |
+| `DB_PASSWORD` | `*****` | Contraseña segura (Secreto). |
+| `FRONTEND_URL` | `https://AlberoPerezTech...` | Para CORS y Sanctum. |
 
 ---
 
-## 🔄 Diferències Clau
+## 🔄 Diferencias Clave
 
-| Característica | Desenvolupament | Producció |
+| Característica | Desarrollo | Producción |
 |---------------|-----------------|-----------|
 | **Debug** | ✅ `true` | ❌ `false` |
-| **Migracions** | `migrate:fresh --seed` (destructiu) | `migrate --force` (conservatiu) |
-| **Caché** | ❌ Desactivat (`cache:clear`) | ✅ Activat (`config:cache`, `route:cache`) |
-| **Composer** | `install` (amb require-dev) | `install --no-dev --optimize-autoloader` |
-| **Logs** | `storage/logs/laravel.log` | `daily` o servei extern (CloudWatch) |
+| **Migraciones** | `migrate:fresh --seed` (destructivo) | `migrate --force` (conservativo) |
+| **Caché** | ❌ Desactivado (`cache:clear`) | ✅ Activado (`config:cache`, `route:cache`) |
+| **Composer** | `install` (con require-dev) | `install --no-dev --optimize-autoloader` |
+| **Logs** | `storage/logs/laravel.log` | `daily` o servicio externo (CloudWatch) |

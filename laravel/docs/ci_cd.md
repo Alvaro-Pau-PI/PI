@@ -1,46 +1,46 @@
-# 🔄 CI/CD - Integració i Desplegament Continu (Backend)
+# 🔄 CI/CD - Integración y Despliegue Continuo (Backend)
 
-El backend utilitza un pipeline de **GitHub Actions** més complex que el frontend, ja que inclou proves automatitzades i migracions de base de dades.
+El backend utiliza un pipeline de **GitHub Actions** más complejo que el frontend, ya que incluye pruebas automatizadas y migraciones de base de datos.
 
 ## 🛠️ Pipeline: `deploy-backend.yml`
 
-El flux de treball es defineix al fitxer `.github/workflows/deploy-backend.yml`.
+El flujo de trabajo se define en el archivo `.github/workflows/deploy-backend.yml`.
 
 ### 🎯 Trigger (Disparador)
-El pipeline s'executa automàticament quan:
-- Hi ha un **Push** a la branca `main`.
-- Els canvis afecten a la carpeta `laravel/` o al propi workflow.
+El pipeline se ejecuta automáticamente cuando:
+- Hay un **Push** a la rama `main`.
+- Los cambios afectan a la carpeta `laravel/` o al propio workflow.
 
 ### Stages (Fases) del Pipeline
 
-#### 1. **Test (Integració Contínua)**
-Abans de desplegar res, verifiquem que el codi funcioni.
+#### 1. **Test (Integración Continua)**
+Antes de desplegar nada, verificamos que el código funcione.
 
-**Passos:**
-1. **Configuració**: PHP 8.4, Composer.
-2. **Dependències**: Instal·la paquets (`composer install`).
-3. **Environment**: Copia `.env.example` i genera clau d'aplicació.
-4. **Execució de Tests**: Llança `php artisan test` (PHPUnit).
-> ⚠️ Si algun test falla, el pipeline s'atura i **NO es realitza el desplegament**.
+**Pasos:**
+1. **Configuración**: PHP 8.4, Composer.
+2. **Dependencias**: Instala paquetes (`composer install`).
+3. **Environment**: Copia `.env.example` y genera clave de aplicación.
+4. **Ejecución de Tests**: Lanza `php artisan test` (PHPUnit).
+> ⚠️ Si algún test falla, el pipeline se detiene y **NO se realiza el despliegue**.
 
 ```yaml
-# Fragment de test
+# Fragmento de test
 - name: Execute tests
   run: php artisan test
 ```
 
-#### 2. **Deploy (Desplegament)**
-Només s'executa si la fase de `Test` ha tingut èxit (`if: success()`).
+#### 2. **Deploy (Despliegue)**
+Solo se ejecuta si la fase de `Test` ha tenido éxito (`if: success()`).
 
-**Passos:**
-1. **SSH Connection**: Es connecta a la instància EC2.
-2. **Git Pull**: Baixa els canvis aprovats.
-3. **Docker Rebuild**: Reconstrueix i reinicia els contenidors PHP-FPM i Nginx.
-4. **Migracions**: Executa `php artisan migrate --force` per actualitzar l'esquema de la BD sense preguntes interactives.
-5. **Optimització**: Neteja i regenera les cachés de configuració, rutes i vistes.
+**Pasos:**
+1. **SSH Connection**: Se conecta a la instancia EC2.
+2. **Git Pull**: Descarga los cambios aprobados.
+3. **Docker Rebuild**: Reconstruye y reinicia los contenedores PHP-FPM y Nginx.
+4. **Migraciones**: Ejecuta `php artisan migrate --force` para actualizar el esquema de la BD sin preguntas interactivas.
+5. **Optimización**: Limpia y regenera las cachés de configuración, rutas y vistas.
 
 ```yaml
-# Comandos crítics de post-desplegament
+# Comandos críticos de post-despliegue
 docker compose exec -T laravel-app php artisan migrate --force
 docker compose exec -T laravel-app php artisan config:cache
 docker compose exec -T laravel-app php artisan route:cache
@@ -48,23 +48,23 @@ docker compose exec -T laravel-app php artisan route:cache
 
 ---
 
-## 🛡️ Gestió de Migracions en Producció
+## 🛡️ Gestión de Migraciones en Producción
 
-Com que el desplegament és automàtic, les migracions de base de dades han de ser **no destructives**.
-- ❌ **Evitar**: Renombrar columnes o esborrar taules sense còpia de seguretat prèvia.
-- ✅ **Preferir**: Afegir columnes noves, marcar registres com "deprecated" abans d'esborrar-los.
+Dado que el despliegue es automático, las migraciones de base de datos deben ser **no destructivas**.
+- ❌ **Evitar**: Renombrar columnas o borrar tablas sin copia de seguridad previa.
+- ✅ **Preferir**: Añadir columnas nuevas, marcar registros como "deprecated" antes de borrarlos.
 
 ---
 
-## 📈 Rollback i Recuperació
+## 📈 Rollback y Recuperación
 
-En cas d'error crític després del desplegament:
+En caso de error crítico después del despliegue:
 
-1. **Revertir Codi**: Fes `git revert` i push per tornar a la versió anterior.
-2. **Revertir BD (Manual)**: Si una migració ha trencat dades, cal connectar-se per SSH i executar `php artisan migrate:rollback --step=1` amb precaució extrema.
+1. **Revertir Código**: Haz `git revert` y push para volver a la versión anterior.
+2. **Revertir BD (Manual)**: Si una migración ha roto datos, hay que conectarse por SSH y ejecutar `php artisan migrate:rollback --step=1` con precaución extrema.
 
-## ✅ Verificació de l'API
+## ✅ Verificación de la API
 
-Després del desplegament:
-1. Prova un endpoint públic: `curl https://api.AlberoPerezTech.ddaw.es/api/products` -> Ha de tornar 200 OK.
-2. Verifica els logs si hi ha error 500: `docker compose logs laravel-app`.
+Después del despliegue:
+1. Prueba un endpoint público: `curl https://api.AlberoPerezTech.ddaw.es/api/products` -> Debe devolver 200 OK.
+2. Verifica los logs si hay error 500: `docker compose logs laravel-app`.
