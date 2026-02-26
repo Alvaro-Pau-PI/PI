@@ -131,7 +131,7 @@
               :class="['component-card', { selected: selectedComponents[activeCategory]?.id === component.id, incompatible: !isCompatible(component) }]"
             >
               <div class="component-image">
-                <img :src="component.image || '/placeholder-component.jpg'" :alt="component.name" />
+                <img :src="component.image ? getImageUrl(component.image) : '/img/placeholder-product.jpg'" :alt="component.name" />
               </div>
               <div class="component-info">
                 <h4 class="component-name">{{ component.name }}</h4>
@@ -213,6 +213,7 @@ import { useI18n } from 'vue-i18n'
 import { useProductStore } from '@/stores/products'
 import { useCartStore } from '@/stores/cart'
 import { storeToRefs } from 'pinia'
+import { getImageUrl } from '@/utils/images'
 
 const router = useRouter()
 const { t } = useI18n()

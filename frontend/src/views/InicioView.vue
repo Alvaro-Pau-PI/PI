@@ -70,6 +70,7 @@ import { useProductStore } from '@/stores/products';
 import http from '@/services/http';
 import CarruselBanner from '@/components/CarruselBanner.vue';
 import { isOfferValid, getEffectivePrice } from '@/utils/offers';
+import { getImageUrl } from '@/utils/images';
 
 const bannerSlides = [
   { image: '/img/banner1.png', alt: 'Setup Gaming' },
@@ -108,11 +109,7 @@ onMounted(async () => {
     loading.value = false;
 });
 
-const getImageUrl = (path) => {
-  if (!path) return '/img/placeholder.png';
-  if (path.startsWith('http')) return path;
-  return '/' + path;
-};
+// La función getImageUrl ahora se importa de @/utils/images
 
 const formatPrice = (price) => {
   return parseFloat(price).toFixed(2) + ' €';
