@@ -4,8 +4,8 @@
     <div class="builder-header">
       <div class="header-content">
         <div class="header-text">
-          <h1 class="builder-title">🚀 Monta tu PC Perfecta</h1>
-          <p class="builder-subtitle">Construye tu ordenador Gaming paso a paso con validación en tiempo real</p>
+          <h1 class="builder-title">{{ $t('builder.title') }}</h1>
+          <p class="builder-subtitle">{{ $t('builder.subtitle') }}</p>
         </div>
       </div>
     </div>
@@ -15,7 +15,7 @@
       <div class="progress-bar">
         <div class="progress-fill" :style="{ width: progressPercentage + '%' }"></div>
       </div>
-      <div class="progress-text">{{ completedSteps }}/{{ totalSteps }} componentes seleccionados</div>
+      <div class="progress-text">{{ completedSteps }}/{{ totalSteps }} {{ $t('builder.progress') }}</div>
     </div>
 
     <!-- Main Content -->
@@ -51,6 +51,11 @@
                             <div class="bp-slot-icon">💿</div>
                             <div class="bp-slot-label">SSD</div>
                           </div>
+
+                          <div class="bp-slot" :class="{ installed: !!selectedComponents.cooling }">
+                            <div class="bp-slot-icon">❄️</div>
+                            <div class="bp-slot-label">COOL</div>
+                          </div>
                         </div>
 
                         <div class="bp-gpu-lane">
@@ -75,11 +80,11 @@
                   <div class="bp-legend">
                     <div class="bp-legend-item">
                       <span class="bp-dot installed"></span>
-                      Instalado
+                      {{ $t('builder.bp_installed') }}
                     </div>
                     <div class="bp-legend-item">
                       <span class="bp-dot pending"></span>
-                      Pendiente
+                      {{ $t('builder.bp_pending') }}
                     </div>
                   </div>
                 </div>
@@ -91,7 +96,7 @@
 
       <!-- Component Selection -->
       <div class="component-selection">
-        <h2 class="selection-title">Selecciona tus componentes</h2>
+        <h2 class="selection-title">{{ $t('builder.select_title') }}</h2>
         
         <!-- Component Categories -->
         <div class="component-categories">
@@ -113,10 +118,10 @@
           
           <div v-if="loading" class="loading-message">
             <div class="loading-spinner">⏳</div>
-            Cargando componentes...
+            {{ $t('builder.loading') }}
           </div>
           <div v-else-if="filteredComponents.length === 0" class="no-components">
-            No hay componentes disponibles en esta categoría
+            {{ $t('builder.no_components') }}
           </div>
           <div v-else class="options-grid">
             <div 
@@ -133,8 +138,8 @@
                 <p class="component-brand">{{ component.brand || component.sku }}</p>
                 <div class="component-specs">
                   <span class="spec-tag">{{ component.category }}</span>
-                  <span v-if="component.stock > 0" class="spec-tag stock">Stock: {{ component.stock }}</span>
-                  <span v-else class="spec-tag out-of-stock">Sin stock</span>
+                  <span v-if="component.stock > 0" class="spec-tag stock">{{ $t('builder.stock') }}: {{ component.stock }}</span>
+                  <span v-else class="spec-tag out-of-stock">{{ $t('builder.out_of_stock') }}</span>
                 </div>
                 <div class="component-price">€{{ parseFloat(component.price).toFixed(2) }}</div>
                 <div 
@@ -147,7 +152,7 @@
                 </div>
               </div>
               <div v-if="!isCompatible(component)" class="incompatibility-warning">
-                ⚠️ Incompatible
+                {{ $t('builder.incompatible') }}
               </div>
             </div>
           </div>
@@ -157,7 +162,7 @@
 
     <!-- Build Summary -->
     <div class="build-summary">
-      <h2 class="summary-title">Resumen de tu Build</h2>
+      <h2 class="summary-title">{{ $t('builder.summary_title') }}</h2>
       <div class="summary-content">
         <div class="summary-components">
           <div v-for="(component, key) in selectedComponents" :key="key" class="summary-item">
@@ -168,12 +173,12 @@
           </div>
         </div>
         <div class="summary-total">
-          <span class="total-label">Total:</span>
+          <span class="total-label">{{ $t('builder.total') }}</span>
           <span class="total-price">€{{ totalPrice.toFixed(2) }}</span>
         </div>
         <div class="summary-actions">
           <button @click="addToCart" class="btn-cart" :disabled="!isBuildComplete">
-            🛒 Añadir Montaje al Carrito
+            {{ $t('builder.add_cart') }}
           </button>
         </div>
       </div>
@@ -181,7 +186,7 @@
 
     <!-- Compatibility Alerts -->
     <div v-if="compatibilityIssues.length > 0" class="compatibility-alerts">
-      <h3>⚠️ Alertas de Compatibilidad</h3>
+      <h3>{{ $t('builder.compat_title') }}</h3>
       <ul>
         <li v-for="issue in compatibilityIssues" :key="issue">{{ issue }}</li>
       </ul>
@@ -204,11 +209,13 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useProductStore } from '@/stores/products'
 import { useCartStore } from '@/stores/cart'
 import { storeToRefs } from 'pinia'
 
 const router = useRouter()
+const { t } = useI18n()
 const productStore = useProductStore()
 const cartStore = useCartStore()
 const { products, loading } = storeToRefs(productStore)
@@ -219,18 +226,19 @@ const selectedComponents = ref({})
 const compatibilityIssues = ref([])
 
 // Component Categories mapping to real categories
-const componentCategories = [
-  { id: 'cpu', name: 'CPU', icon: '🔧', dbCategory: 'Processadors' },
-  { id: 'gpu', name: 'Tarjeta Gráfica', icon: '🎮', dbCategory: 'Targetes Gràfiques' },
-  { id: 'motherboard', name: 'Placa Base', icon: '🔌', dbCategory: 'Plaques Base' },
-  { id: 'ram', name: 'Memoria RAM', icon: '💾', dbCategory: 'Memòria RAM' },
-  { id: 'storage', name: 'Almacenamiento', icon: '💿', dbCategory: 'Emmagatzematge' },
-  { id: 'psu', name: 'Fuente Poder', icon: '⚡', dbCategory: 'Fonts Alimentació' },
-  { id: 'case', name: 'Caja', icon: '🖥️', dbCategory: 'Caixes' }
-]
+const componentCategories = computed(() => [
+  { id: 'cpu', name: t('builder.cat_cpu'), icon: '🔧', dbCategory: 'Processadors' },
+  { id: 'gpu', name: t('builder.cat_gpu'), icon: '🎮', dbCategory: 'Targetes Gr\u00e0fiques' },
+  { id: 'motherboard', name: t('builder.cat_motherboard'), icon: '🔌', dbCategory: 'Plaques Base' },
+  { id: 'ram', name: t('builder.cat_ram'), icon: '💾', dbCategory: 'Mem\u00f2ria RAM' },
+  { id: 'storage', name: t('builder.cat_storage'), icon: '💿', dbCategory: 'Emmagatzematge' },
+  { id: 'cooling', name: t('builder.cat_cooling'), icon: '\u2744\ufe0f', dbCategory: 'Refrigeraci\u00f3' },
+  { id: 'psu', name: t('builder.cat_psu'), icon: '\u26a1', dbCategory: 'Fonts Alimentaci\u00f3' },
+  { id: 'case', name: t('builder.cat_case'), icon: '🖥\ufe0f', dbCategory: 'Caixes' }
+])
 
 // Computed
-const totalSteps = computed(() => componentCategories.length)
+const totalSteps = computed(() => componentCategories.value.length)
 const completedSteps = computed(() => Object.keys(selectedComponents.value).length)
 const progressPercentage = computed(() => (completedSteps.value / totalSteps.value) * 100)
 const totalPrice = computed(() => {
@@ -246,7 +254,7 @@ const isBuildComplete = computed(() => completedSteps.value === totalSteps.value
 const filteredComponents = computed(() => {
   if (!activeCategory.value || !products.value.length) return []
   
-  const category = componentCategories.find(c => c.id === activeCategory.value)
+  const category = componentCategories.value.find(c => c.id === activeCategory.value)
   if (!category) return []
   
   return products.value.filter(comp => comp.category === category.dbCategory)
@@ -255,18 +263,15 @@ const filteredComponents = computed(() => {
 // Load all products across all pages
 const loadAllProducts = async () => {
   try {
-    // Load first page
     await productStore.fetchProducts(1)
-    
-    // Load remaining pages if they exist
     if (productStore.pagination.last_page > 1) {
       for (let page = 2; page <= productStore.pagination.last_page; page++) {
-        await productStore.fetchProducts(page, true) // append = true
+        await productStore.fetchProducts(page, true)
       }
     }
   } catch (error) {
     console.error('Error loading products:', error)
-    showNotification('Error cargando productos', 'error')
+    showNotification(t('builder.notif_load_error'), 'error')
   }
 }
 
@@ -440,24 +445,22 @@ const removeNotification = (id) => {
 
 const addToCart = () => {
   if (!isBuildComplete.value) {
-    showNotification('Por favor, selecciona todos los componentes antes de añadir al carrito', 'warning')
+    showNotification(t('builder.notif_select_all'), 'warning')
     return
   }
   
-  // Check stock for all components
   const outOfStockComponents = Object.values(selectedComponents.value).filter(comp => comp.stock <= 0)
   if (outOfStockComponents.length > 0) {
-    showNotification(`Algunos componentes no tienen stock: ${outOfStockComponents.map(c => c.name).join(', ')}`, 'error')
+    showNotification(`${t('builder.notif_no_stock')}: ${outOfStockComponents.map(c => c.name).join(', ')}`, 'error')
     return
   }
   
-  // Add all components to cart with PC build identification
   Object.values(selectedComponents.value).forEach((component, index) => {
     const pcBuildComponent = {
       ...component,
-      pcBuildId: `build-${Date.now()}`, // Unique ID for this build
+      pcBuildId: `build-${Date.now()}`,
       pcBuildName: `PC Gaming ${new Date().toLocaleDateString()}`,
-      pcBuildOrder: index, // Order in the build
+      pcBuildOrder: index,
       isPCBuildComponent: true,
       buildTotal: totalPrice.value,
       buildComponents: Object.values(selectedComponents.value).length
@@ -465,11 +468,10 @@ const addToCart = () => {
     cartStore.addItem(pcBuildComponent)
   })
   
-  showNotification('✅ ¡Montaje PC añadido al carrito! Todos los componentes listos para ensamblar.', 'success')
+  showNotification(t('builder.notif_added'), 'success')
   
-  // Optional: redirect to cart after a delay
   setTimeout(() => {
-    if (confirm('¿Quieres ir al carrito para finalizar la compra de tu montaje PC?')) {
+    if (confirm(t('builder.notif_cart_confirm'))) {
       router.push('/cart')
     }
   }, 1500)

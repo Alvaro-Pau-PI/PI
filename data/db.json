@@ -3,8 +3,8 @@
         {
             "sku": "CPU-AMD-7800X3D",
             "nom": "AMD Ryzen 7 7800X3D",
-            "descripcio": "Procesador Gaming con tecnolog\u00eda 3D V-Cache 8 n\u00facleos",
-            "img": "img\/productos\/CPU-AMD-7800X3D.png",
+            "descripcio": "Procesador Gaming con tecnología 3D V-Cache 8 núcleos",
+            "img": "img/productos/CPU-AMD-7800X3D.png",
             "preu": "399.90",
             "estoc": 30,
             "id": "prod_6929f74d264d2"
@@ -12,8 +12,8 @@
         {
             "sku": "CPU-INT-13600K",
             "nom": "Intel Core i5-13600K",
-            "descripcio": "Procesador Intel 13\u00aa Gen 14 n\u00facleos (6P+8E) hasta 5.1GHz",
-            "img": "img\/productos\/CPU-INT-13600K.png",
+            "descripcio": "Procesador Intel 13ª Gen 14 núcleos (6P+8E) hasta 5.1GHz",
+            "img": "img/productos/CPU-INT-13600K.png",
             "preu": "319.95",
             "estoc": 45,
             "id": "prod_6929f74d264e4"
@@ -21,8 +21,8 @@
         {
             "sku": "CPU-INT-14900K",
             "nom": "Intel Core i9-14900K",
-            "descripcio": "Procesador tope de gama Intel 14\u00aa Gen 24 n\u00facleos hasta 6.0GHz",
-            "img": "img\/productos\/CPU-INT-14900K.png",
+            "descripcio": "Procesador tope de gama Intel 14ª Gen 24 núcleos hasta 6.0GHz",
+            "img": "img/productos/CPU-INT-14900K.png",
             "preu": "629.99",
             "estoc": 15,
             "id": "prod_6929f74d264f6"
@@ -30,8 +30,8 @@
         {
             "sku": "GPU-NV-4060TI",
             "nom": "MSI GeForce RTX 4060 Ti",
-            "descripcio": "Tarjeta gr\u00e1fica 8GB GDDR6 DLSS 3 para gaming 1080p ultra",
-            "img": "img\/productos\/GPU-NV-4060TI.png",
+            "descripcio": "Tarjeta gráfica 8GB GDDR6 DLSS 3 para gaming 1080p ultra",
+            "img": "img/productos/GPU-NV-4060TI.png",
             "preu": "419.50",
             "estoc": 25,
             "id": "prod_6929f74d26508"
@@ -39,8 +39,8 @@
         {
             "sku": "GPU-NV-4070S",
             "nom": "ASUS Dual GeForce RTX 4070 Super",
-            "descripcio": "Gr\u00e1fica 12GB GDDR6X ideal para 1440p con Ray Tracing",
-            "img": "img\/productos\/GPU-NV-4070S.png",
+            "descripcio": "Gráfica 12GB GDDR6X ideal para 1440p con Ray Tracing",
+            "img": "img/productos/GPU-NV-4070S.png",
             "preu": "659.90",
             "estoc": 20,
             "id": "prod_6929f74d2652d"
@@ -48,8 +48,8 @@
         {
             "sku": "GPU-NV-4090",
             "nom": "Gigabyte GeForce RTX 4090 Gaming OC",
-            "descripcio": "La tarjeta gr\u00e1fica m\u00e1s potente del mercado 24GB GDDR6X",
-            "img": "img\/productos\/GPU-NV-4090.png",
+            "descripcio": "La tarjeta gráfica más potente del mercado 24GB GDDR6X",
+            "img": "img/productos/GPU-NV-4090.png",
             "preu": "1899.00",
             "estoc": 5,
             "id": "prod_6929f74d26542"
@@ -57,8 +57,8 @@
         {
             "sku": "GPU-AMD-7800XT",
             "nom": "Sapphire Pulse AMD Radeon RX 7800 XT",
-            "descripcio": "Gr\u00e1fica AMD 16GB GDDR6 rendimiento excelente en rasterizaci\u00f3n",
-            "img": "img\/productos\/GPU-AMD-7800XT.png",
+            "descripcio": "Gráfica AMD 16GB GDDR6 rendimiento excelente en rasterización",
+            "img": "img/productos/GPU-AMD-7800XT.png",
             "preu": "549.90",
             "estoc": 15,
             "id": "prod_6929f74d26554"
@@ -67,7 +67,7 @@
             "sku": "GPU-AMD-7900XTX",
             "nom": "XFX Speedster MERC310 AMD Radeon RX 7900 XTX",
             "descripcio": "Tope de gama AMD 24GB GDDR6 para 4K nativo",
-            "img": "img\/productos\/GPU-AMD-7900XTX.png",
+            "img": "img/productos/GPU-AMD-7900XTX.png",
             "preu": "1049.99",
             "estoc": 8,
             "id": "prod_6929f74d26568"
@@ -76,7 +76,7 @@
             "sku": "MB-ASUS-B650",
             "nom": "ASUS TUF GAMING B650-PLUS WIFI",
             "descripcio": "Placa base Socket AM5 DDR5 PCIe 5.0 para Ryzen 7000",
-            "img": "img\/productos\/MB-ASUS-B650.png",
+            "img": "img/productos/MB-ASUS-B650.png",
             "preu": "199.99",
             "estoc": 40,
             "id": "prod_6929f74d2657b"
@@ -84,8 +84,8 @@
         {
             "sku": "MB-MSI-Z790",
             "nom": "MSI MAG Z790 TOMAHAWK WIFI",
-            "descripcio": "Placa base Socket LGA1700 DDR5 para Intel 12\/13\/14 Gen",
-            "img": "img\/productos\/MB-MSI-Z790.png",
+            "descripcio": "Placa base Socket LGA1700 DDR5 para Intel 12/13/14 Gen",
+            "img": "img/productos/MB-MSI-Z790.png",
             "preu": "289.90",
             "estoc": 35,
             "id": "prod_6929f74d2658d"
@@ -93,8 +93,8 @@
         {
             "sku": "RAM-COR-32D5",
             "nom": "Corsair Vengeance DDR5 32GB (2x16GB)",
-            "descripcio": "Kit de memoria RAM DDR5 6000MHz CL30 optimizado AMD\/Intel",
-            "img": "img\/productos\/RAM-COR-32D5.png",
+            "descripcio": "Kit de memoria RAM DDR5 6000MHz CL30 optimizado AMD/Intel",
+            "img": "img/productos/RAM-COR-32D5.png",
             "preu": "124.99",
             "estoc": 60,
             "id": "prod_6929f74d2659f"
@@ -102,8 +102,8 @@
         {
             "sku": "RAM-KIN-16D4",
             "nom": "Kingston FURY Beast DDR4 16GB (2x8GB)",
-            "descripcio": "Memoria RAM DDR4 3200MHz CL16 fiable y econ\u00f3mica",
-            "img": "img\/productos\/RAM-KIN-16D4.png",
+            "descripcio": "Memoria RAM DDR4 3200MHz CL16 fiable y económica",
+            "img": "img/productos/RAM-KIN-16D4.png",
             "preu": "45.99",
             "estoc": 100,
             "id": "prod_6929f74d265b1"
@@ -111,8 +111,8 @@
         {
             "sku": "SSD-SAM-990",
             "nom": "Samsung 990 PRO 2TB",
-            "descripcio": "SSD NVMe M.2 PCIe 4.0 velocidades de hasta 7450 MB\/s",
-            "img": "img\/productos\/SSD-SAM-990.png",
+            "descripcio": "SSD NVMe M.2 PCIe 4.0 velocidades de hasta 7450 MB/s",
+            "img": "img/productos/SSD-SAM-990.png",
             "preu": "179.99",
             "estoc": 55,
             "id": "prod_6929f74d265c3"
@@ -121,7 +121,7 @@
             "sku": "SSD-WD-SN850X",
             "nom": "WD_BLACK SN850X 1TB",
             "descripcio": "SSD NVMe M.2 Gen4 de alto rendimiento para gaming",
-            "img": "img\/productos\/SSD-WD-SN850X.png",
+            "img": "img/productos/SSD-WD-SN850X.png",
             "preu": "99.95",
             "estoc": 70,
             "id": "prod_6929f74d265d5"
@@ -129,8 +129,8 @@
         {
             "sku": "PSU-COR-850",
             "nom": "Corsair RM850x Shift 850W 80 Plus Gold",
-            "descripcio": "Fuente de alimentaci\u00f3n modular con conectores laterales ATX 3.0",
-            "img": "img\/productos\/PSU-COR-850.png",
+            "descripcio": "Fuente de alimentación modular con conectores laterales ATX 3.0",
+            "img": "img/productos/PSU-COR-850.png",
             "preu": "159.90",
             "estoc": 25,
             "id": "prod_6929f74d265e7"
@@ -139,7 +139,7 @@
             "sku": "PSU-MSI-1000",
             "nom": "MSI MPG A1000G PCIE5 1000W Gold",
             "descripcio": "Fuente 1000W nativa PCIe 5.0 para RTX 40 series",
-            "img": "img\/productos\/PSU-MSI-1000.png",
+            "img": "img/productos/PSU-MSI-1000.png",
             "preu": "189.99",
             "estoc": 15,
             "id": "prod_6929f74d265fa"
@@ -148,7 +148,7 @@
             "sku": "CASE-NZXT-H5",
             "nom": "NZXT H5 Flow RGB Blanco",
             "descripcio": "Semitorre ATX con alto flujo de aire y ventiladores RGB",
-            "img": "img\/productos\/CASE-NZXT-H5.png",
+            "img": "img/productos/CASE-NZXT-H5.png",
             "preu": "109.99",
             "estoc": 30,
             "id": "prod_6929f74d2660c"
@@ -157,7 +157,7 @@
             "sku": "CASE-COR-4000D",
             "nom": "Corsair 4000D Airflow Negro",
             "descripcio": "Caja ATX minimalista con panel frontal de rejilla",
-            "img": "img\/productos\/CASE-COR-4000D.png",
+            "img": "img/productos/CASE-COR-4000D.png",
             "preu": "94.90",
             "estoc": 40,
             "id": "prod_6929f74d2661e"
@@ -166,7 +166,7 @@
             "sku": "COOL-NOC-D15",
             "nom": "Noctua NH-D15 chromax.black",
             "descripcio": "Disipador por aire de doble torre de alto rendimiento",
-            "img": "img\/productos\/COOL-NOC-D15.png",
+            "img": "img/productos/COOL-NOC-D15.png",
             "preu": "119.90",
             "estoc": 20,
             "id": "prod_6929f74d26631"
@@ -174,10 +174,10 @@
         {
             "sku": "GPU-NV-RTX4090",
             "nom": "NVIDIA GeForce RTX 4090",
-            "descripcio": "Tarjeta gr\u00e1fica de \u00faltima generaci\u00f3n para gaming 4K y renderizado profesional.",
+            "descripcio": "Tarjeta gráfica de última generación para gaming 4K y renderizado profesional.",
             "preu": 1899,
             "estoc": 10,
-            "img": "img\/productos\/GPU-NV-4090.png",
+            "img": "img/productos/GPU-NV-4090.png",
             "id": "prod_696a57c91821f"
         },
         {
@@ -186,7 +186,7 @@
             "descripcio": "Kit de memoria RAM DDR5 de alto rendimiento para entusiastas.",
             "preu": 129.95,
             "estoc": 100,
-            "img": "img\/productos\/RAM-COR-32D5.png",
+            "img": "img/productos/RAM-COR-32D5.png",
             "id": "prod_696a57c918250"
         },
         {
@@ -195,34 +195,34 @@
             "descripcio": "Placa base AM5 con soporte PCIe 5.0 y WiFi 6E.",
             "preu": 289.5,
             "estoc": 25,
-            "img": "img\/productos\/MB-ASUS-B650.png",
+            "img": "img/productos/MB-ASUS-B650.png",
             "id": "prod_696a57c91827e"
         },
         {
             "sku": "SSD-SAM-990PRO-2TB",
             "nom": "Samsung 990 PRO 2TB NVMe",
-            "descripcio": "SSD NVMe PCIe 4.0 ultrarr\u00e1pido con velocidades de hasta 7450 MB\/s.",
+            "descripcio": "SSD NVMe PCIe 4.0 ultrarrápido con velocidades de hasta 7450 MB/s.",
             "preu": 179.99,
             "estoc": 75,
-            "img": "img\/productos\/SSD-SAM-990.png",
+            "img": "img/productos/SSD-SAM-990.png",
             "id": "prod_696a57c9182ac"
         },
         {
             "sku": "PSU-COR-RM1000X",
             "nom": "Corsair RM1000x Shift",
-            "descripcio": "Fuente de alimentaci\u00f3n modular de 1000W con certificaci\u00f3n 80 Plus Gold.",
+            "descripcio": "Fuente de alimentación modular de 1000W con certificación 80 Plus Gold.",
             "preu": 189.9,
             "estoc": 40,
-            "img": "img\/productos\/PSU-COR-850.png",
+            "img": "img/productos/PSU-COR-850.png",
             "id": "prod_696a57c9182db"
         },
         {
             "sku": "CASE-NZXT-H9",
             "nom": "NZXT H9 Flow",
-            "descripcio": "Caja ATX de doble c\u00e1mara con excelente flujo de aire y paneles de vidrio.",
+            "descripcio": "Caja ATX de doble cámara con excelente flujo de aire y paneles de vidrio.",
             "preu": 159.99,
             "estoc": 30,
-            "img": "img\/productos\/CASE-NZXT-H5.png",
+            "img": "img/productos/CASE-NZXT-H5.png",
             "id": "prod_696a57c918309"
         },
         {
@@ -231,16 +231,16 @@
             "descripcio": "Disipador por aire de doble torre, rendimiento premium y silencioso.",
             "preu": 119.9,
             "estoc": 60,
-            "img": "img\/productos\/COOL-NOC-D15.png",
+            "img": "img/productos/COOL-NOC-D15.png",
             "id": "prod_696a57c918338"
         },
         {
             "sku": "CPU-INTEL-14900K",
             "nom": "Intel Core i9-14900K",
-            "descripcio": "Procesador de 24 n\u00facleos (8P+16E) hasta 6.0 GHz.",
+            "descripcio": "Procesador de 24 núcleos (8P+16E) hasta 6.0 GHz.",
             "preu": 589.99,
             "estoc": 40,
-            "img": "img\/productos\/CPU-INT-14900K.png",
+            "img": "img/productos/CPU-INT-14900K.png",
             "id": "prod_696a57c91836a"
         },
         {
@@ -249,16 +249,16 @@
             "descripcio": "Kit de memoria RAM DDR5 6400MHz RGB.",
             "preu": 249.99,
             "estoc": 60,
-            "img": "img\/productos\/RAM-COR-32D5.png",
+            "img": "img/productos/RAM-COR-32D5.png",
             "id": "prod_696a57c9183cc"
         },
         {
             "sku": "MOBO-MSI-Z790",
             "nom": "MSI MAG Z790 Tomahawk WiFi",
-            "descripcio": "Placa base LGA1700 para procesadores Intel de 12\u00aa, 13\u00aa y 14\u00aa gen.",
+            "descripcio": "Placa base LGA1700 para procesadores Intel de 12ª, 13ª y 14ª gen.",
             "preu": 259.9,
             "estoc": 35,
-            "img": "img\/productos\/MB-MSI-Z790.png",
+            "img": "img/productos/MB-MSI-Z790.png",
             "id": "prod_696a57c91840a"
         },
         {
@@ -267,15 +267,105 @@
             "descripcio": "SSD NVMe PCIe 4.0 de alto rendimiento para gaming.",
             "preu": 99.99,
             "estoc": 80,
-            "img": "img\/productos\/SSD-WD-SN850X.png",
+            "img": "img/productos/SSD-WD-SN850X.png",
             "id": "prod_696a57c91843c"
+        },
+        {
+            "sku": "COOL-COR-H150I",
+            "nom": "Corsair iCUE H150i Elite Capellix XT 360mm",
+            "descripcio": "Refrigeración líquida AIO 360mm con tres ventiladores RGB QL120, cabezal LCD IPS, compatible AM5/LGA1700.",
+            "preu": 189.9,
+            "estoc": 18,
+            "img": "img/productos/COOL-COR-H150I.png",
+            "id": "prod_2026feb_COOL_H150I"
+        },
+        {
+            "sku": "COOL-BEQ-DRP4",
+            "nom": "be quiet! Dark Rock Pro 4",
+            "descripcio": "Disipador de doble torre 250W TDP, 7 heatpipes de cobre niquelado, dos ventiladores Silent Wings, acabado negro mate.",
+            "preu": 89.9,
+            "estoc": 25,
+            "img": "img/productos/COOL-BEQ-DRP4.png",
+            "id": "prod_2026feb_COOL_DRP4"
+        },
+        {
+            "sku": "COOL-NOC-NFA12",
+            "nom": "Noctua NF-A12x25 PWM — Pack 3 unitats",
+            "descripcio": "Pack de 3 ventiladors 120mm PWM premium, 2000 RPM màxim, 60,1 CFM, 22,6 dBA. Motor SSO2 i AAO Frame.",
+            "preu": 99.9,
+            "estoc": 40,
+            "img": "img/productos/COOL-NOC-NFA12.png",
+            "id": "prod_2026feb_COOL_NFA12"
+        },
+        {
+            "sku": "CPU-AMD-7950X",
+            "nom": "AMD Ryzen 9 7950X",
+            "descripcio": "Procesador 16 núcleos / 32 hilos, Zen 4, boost hasta 5.7GHz, socket AM5, DDR5 y PCIe 5.0.",
+            "preu": 549.9,
+            "estoc": 12,
+            "img": "img/productos/CPU-AMD-7950X.png",
+            "id": "prod_2026feb_CPU_7950X"
+        },
+        {
+            "sku": "GPU-MSI-4070TIS",
+            "nom": "MSI GeForce RTX 4070 Ti SUPER Gaming X Trio",
+            "descripcio": "Tarjeta gráfica 16GB GDDR6X, DLSS 3.5, ray tracing 2ª gen, triple fan TORX 5.0, 285W TDP.",
+            "preu": 849.0,
+            "estoc": 10,
+            "img": "img/productos/GPU-MSI-4070TIS.png",
+            "id": "prod_2026feb_GPU_4070TIS"
+        },
+        {
+            "sku": "MB-ASUS-B760F",
+            "nom": "ASUS ROG STRIX B760-F Gaming WiFi",
+            "descripcio": "Placa base LGA1700 Intel 12/13/14ª Gen, DDR5 7800MHz OC, PCIe 5.0 M.2, WiFi 6E, 2.5G LAN.",
+            "preu": 289.9,
+            "estoc": 22,
+            "img": "img/productos/MB-ASUS-B760F.png",
+            "id": "prod_2026feb_MB_B760F"
+        },
+        {
+            "sku": "RAM-GSK-64D5",
+            "nom": "G.Skill Trident Z5 RGB 64GB DDR5 (2x32GB)",
+            "descripcio": "Kit DDR5 6400MHz CL32 RGB, optimizado Intel XMP 3.0 y AMD EXPO.",
+            "preu": 219.99,
+            "estoc": 35,
+            "img": "img/productos/RAM-GSK-64D5.png",
+            "id": "prod_2026feb_RAM_TZ564"
+        },
+        {
+            "sku": "SSD-SEA-FC530",
+            "nom": "Seagate FireCuda 530 2TB NVMe Gen4",
+            "descripcio": "SSD NVMe M.2 PCIe Gen4 x4 hasta 7300/6900 MB/s, disipador incluido, compatible PS5.",
+            "preu": 169.99,
+            "estoc": 45,
+            "img": "img/productos/SSD-SEA-FC530.png",
+            "id": "prod_2026feb_SSD_FC530"
+        },
+        {
+            "sku": "PSU-SEA-TX1000",
+            "nom": "Seasonic PRIME TX-1000 1000W 80+ Titanium",
+            "descripcio": "Fuente modular 1000W 80 Plus Titanium, ventilador híbrido 135mm, 12 años de garantía.",
+            "preu": 249.9,
+            "estoc": 14,
+            "img": "img/productos/PSU-SEA-TX1000.png",
+            "id": "prod_2026feb_PSU_TX1000"
+        },
+        {
+            "sku": "CASE-FRA-TORRENT",
+            "nom": "Fractal Design Torrent Compact RGB Negro",
+            "descripcio": "Semitorre ATX malla frontal airflow, tres ventiladores Aspect 140mm RGB, vidrio templado lateral.",
+            "preu": 149.9,
+            "estoc": 28,
+            "img": "img/productos/CASE-FRA-TORRENT.png",
+            "id": "prod_2026feb_CASE_TORRENT"
         }
     ],
     "usuaris": [
         {
             "id": "472b",
             "nom_usuari": "Pau",
-            "contrasenya": "$2y$10$6t8qD\/6sTZJEprlkxWVOReGsjLP2U1EpRx8Fh31x83hiDVsgkrKAa",
+            "contrasenya": "$2y$10$6t8qD/6sTZJEprlkxWVOReGsjLP2U1EpRx8Fh31x83hiDVsgkrKAa",
             "email": "pau.albero.mora@gmail.com",
             "nom": "Pau",
             "cognoms": "Albero",
@@ -311,7 +401,7 @@
         {
             "id": "c7f2",
             "nom_usuari": "kikooo",
-            "contrasenya": "$2y$10$quLEvZxihMqBhOae4\/9rL.q6MsOiWXSevJ8SkK9pLqnyqnFCYY9v2",
+            "contrasenya": "$2y$10$quLEvZxihMqBhOae4/9rL.q6MsOiWXSevJ8SkK9pLqnyqnFCYY9v2",
             "email": "kikooo@kikooo.com",
             "nom": "kikooo",
             "cognoms": "kikooo",
@@ -320,7 +410,7 @@
         {
             "id": "1e1a",
             "nom_usuari": "MArcos",
-            "contrasenya": "$2y$10$3yWpsSshpd5TtjHKqE2EoeoZjCnqaIZkjoI0YStrfoVPQrn0F2p\/K",
+            "contrasenya": "$2y$10$3yWpsSshpd5TtjHKqE2EoeoZjCnqaIZkjoI0YStrfoVPQrn0F2p/K",
             "email": "MArcos@MArcos.com",
             "nom": "MArcos",
             "cognoms": "Feo Tonto",
@@ -329,7 +419,7 @@
         {
             "id": "a74e",
             "nom_usuari": "kikooodf",
-            "contrasenya": "$2y$10$Phjui8XK5e0MC\/Tlulk3e.v55zbdsRdTzXnbnl8oBqg0c5AR8Md2a",
+            "contrasenya": "$2y$10$Phjui8XK5e0MC/Tlulk3e.v55zbdsRdTzXnbnl8oBqg0c5AR8Md2a",
             "email": "raegdgt@gmail.dsf",
             "nom": "Pauiu",
             "cognoms": "marcos",
