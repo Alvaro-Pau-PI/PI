@@ -13,9 +13,9 @@ export const getImageUrl = (path) => {
     // Limpiamos la ruta - eliminamos barras diagonales escapadas y espacios extra
     let cleanPath = path.replace(/\\\//g, '/').trim();
 
-    // En Docker, usamos URLs absolutas del backend para las imágenes
-    // Esto evita problemas con el proxy Nginx
-    const baseUrl = 'http://localhost:8000';
+    // En Docker (Desarrollo), usamos URLs absolutas del backend para las imágenes
+    // En Producción (AWS), usamos rutas relativas porque Nginx ya enruta '/storage'
+    const baseUrl = import.meta.env.PROD ? '' : 'http://localhost:8000';
     const normalizedBaseUrl = baseUrl.replace(/\/$/, '');
 
     // Si el path ya empieza por /storage/, lo usamos directamente
