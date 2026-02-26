@@ -27,9 +27,15 @@ RUN npm run build
 # --- Etapa 2: Producció amb Nginx ---
 FROM nginx:stable-alpine AS production-stage
 
+# Parametrizar la URL del backend de Laravel Nginx
+ARG NGINX_BACKEND_URL=http://nginx:8000
+
 # Copiar el build estàtic i la configuració de Nginx
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Substituir el backend per defecte per l'argument
+RUN sed -i "s|http://nginx:8000|${NGINX_BACKEND_URL}|g" /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
