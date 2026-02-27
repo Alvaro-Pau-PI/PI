@@ -153,7 +153,7 @@ Nuestro sitio web está optimizado para consumir la mínima energía posible:
 - Code splitting (JavaScript modular)
 - Minificación y compresión (gzip/brotli)
 
-####Reducción de Procesamiento
+#### Reducción de Procesamiento
 - CSS eficiente (sin frameworks pesados)
 - JavaScript optimizado (tree-shaking)
 - Caché inteligente (menos solicitudes al servidor)
@@ -222,7 +222,3 @@ Esta política se revisa y actualiza continuamente para reflejar nuestras mejore
 En **AlberoPerez Tech**, creemos que cada componente cuenta. Cada decisión que tomamos, desde el código que escribimos hasta los productos que ofrecemos, se toma con la sostenibilidad en mente.
 
 **Construyendo el futuro, un componente sostenible a la vez.**
-
----
-
-*Para más información, visita nuestra [página de sostenibilidad web](/sostenibilidad) o [contáctanos](/contact).*
