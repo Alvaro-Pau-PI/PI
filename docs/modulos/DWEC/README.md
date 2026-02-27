@@ -91,37 +91,30 @@ El módulo **DWEC (Desplegament Web Entorn Client)** se enfoca en el desarrollo 
 
 ### **Sprint 1: Fundamentos del Frontend**
 - ✅ Estructura inicial del proyecto frontend
-- ✅ Página estática con HTML5 y CSS3
-- ✅ Formulario de contacto con validación JavaScript
-- ✅ Diseño responsivo básico
 
-### **Sprint 2: Interactividad y AJAX**
-- ✅ Carga dinámica de productos desde JSON Server
-- ✅ Sistema de comentarios con AJAX/Fetch
-- ✅ Validación en tiempo real de formularios
-- ✅ Mejoras de usabilidad y accesibilidad
+### **Sprint 2: Interfaz Dinámica**
+- ✅ Integración con API REST del backend
+- ✅ Sistema de navegación por categorías
+- ✅ Búsqueda y filtrado de productos
+- ✅ Gestión básica del carrito
 
-### **Sprint 3: Preparación para SPA**
-- ✅ Migración a estructura modular
-- ✅ Componentes básicos reutilizables
-- ✅ Comunicación con API Laravel
-- ✅ Optimización de assets y rendimiento
+### **Sprint 3: Framework Moderno**
+- ✅ Migración a Vue.js framework
+- ✅ Componentes reutilizables
+- ✅ Sistema de routing básico
+- ✅ Estado global con Pinia
 
-### **Sprint 4: Vue SPA Completa**
-- ✅ Inicialización del proyecto Vue 3 + Vite
-- ✅ Sistema de rutas SPA con Vue Router
-- ✅ Gestión de estado con Pinia
-- ✅ Autenticación y gestión de sesiones
-- ✅ Sistema de roles y permisos
-- ✅ Componentes modulares y reutilizables
+### **Sprint 4: SPA Completa**
+- ✅ Single Page Application completa
+- ✅ Integración con autenticación API
+- ✅ Gestión de roles y permisos
+- ✅ Validación en tiempo real
 
-### **Sprint 5-6: Optimización y Producción**
+### **Sprint 5-6: Frontend Profesional**
 - ✅ Filtros avanzados y paginación
-- ✅ Watchers y reactividad avanzada
-- ✅ Validación con VeeValidate + Yup
-- ✅ Optimización de imágenes y assets
-- ✅ Build de producción y Dockerización
-- ✅ CI/CD automatizado
+- ✅ Watchers y reactividad completa
+- ✅ Optimización de rendimiento
+- ✅ Accesibilidad WCAG implementada
 
 ---
 
@@ -133,147 +126,226 @@ frontend/
 ├── src/
 │   ├── components/          # Componentes reutilizables
 │   │   ├── common/        # Componentes genéricos
-│   │   ├── layout/        # Header, Footer, Sidebar
-│   │   └── ui/           # Botones, Cards, Forms
-│   ├── views/             # Vistas principales (SPA)
-│   │   ├── auth/          # Login, Register, Profile
-│   │   ├── products/      # Catálogo, detalle
-│   │   ├── admin/         # Panel administración
-│   │   └── misc/          # Home, About, Contact
-│   ├── router/            # Configuración de rutas
-│   ├── stores/            # Stores Pinia
-│   │   ├── auth.js        # Estado de autenticación
-│   │   ├── products.js    # Estado de productos
-│   │   └── ui.js         # Estado de interfaz
-│   ├── services/          # Servicios HTTP
-│   │   ├── api.js         # Configuración Axios
-│   │   ├── auth.js        # Servicios auth
-│   │   └── products.js    # Servicios productos
-│   ├── composables/       # Lógica reutilizable
-│   │   ├── useAuth.js     # Composable autenticación
-│   │   ├── useRole.js     # Composable permisos
-│   │   └── useApi.js      # Composable API
-│   ├── utils/             # Utilidades varias
-│   ├── assets/            # Recursos estáticos
-│   └── style.css         # Estilos globales
-├── public/               # Archivos públicos
-├── dist/                 # Build de producción
-└── Dockerfile            # Configuración Docker
 ```
 
-### **Sistema de Rutas SPA**
-```javascript
-const routes = [
-  // Rutas Públicas
-  { path: '/', component: HomeView },
-  { path: '/products', component: ProductsView },
-  { path: '/products/:id', component: ProductDetailView },
-  
-  // Autenticación
-  { path: '/login', component: LoginView, meta: { guest: true } },
-  { path: '/register', component: RegisterView, meta: { guest: true } },
-  
-  // Rutas Protegidas
-  { 
-    path: '/profile', 
-    component: ProfileView, 
-    meta: { requiresAuth: true } 
-  },
-  
-  // Administración
-  { 
-    path: '/admin', 
-    component: AdminView, 
-    meta: { requiresAuth: true, roles: ['admin'] } 
-  }
-];
-```
-
-### **Gestión de Estado (Pinia)**
-```javascript
-// authStore.js
-export const useAuthStore = defineStore('auth', {
-  state: () => ({
-    user: null,
-    token: localStorage.getItem('token'),
-    isAuthenticated: false
-  }),
-  
-  actions: {
-    async login(credentials) {
-      const response = await authService.login(credentials);
-      this.user = response.user;
-      this.token = response.token;
-      this.isAuthenticated = true;
-    },
+### **Componente Principal: TarjetaProducto.vue**
+```vue
+<template>
+  <article class="product-card" :class="{ 'has-active-offer': hasOffer }">
+    <!-- Imagen optimizada con lazy loading -->
+    <router-link :to="`/products/${product.id}`">
+      <ImagenOptimizada
+        :src="currentImageSrc"
+        :alt="`Imagen de ${product.name} - ${product.category}`"
+        width="300"
+        height="300"
+        lazy
+        img-class="product-card__image"
+      />
+    </router-link>
     
-    logout() {
-      this.user = null;
-      this.token = null;
-      this.isAuthenticated = false;
-      localStorage.removeItem('token');
-    }
+    <!-- Acciones rápidas -->
+    <div class="product-card__actions">
+      <button @click.prevent="addToCart" :disabled="product.stock <= 0">
+        <span class="material-icons">shopping_cart</span>
+      </button>
+    </div>
+  </article>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue'
+import { useCartStore } from '@/stores/cart'
+
+const props = defineProps({
+  product: {
+    type: Object,
+    required: true
   }
-});
+})
+
+const cartStore = useCartStore()
+
+const addToCart = () => {
+  cartStore.addItem(props.product)
+}
+</script>
+```
+
+### **Router con Protección de Rutas**
+```javascript
+// router/index.js
+import { createRouter, createWebHistory } from 'vue-router'
+
+const router = createRouter({
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes: [
+        {
+            path: '/login',
+            name: 'login',
+            component: () => import('../views/AccesoView.vue'),
+            meta: { guest: true }
+        },
+        {
+            path: '/dashboard',
+            name: 'dashboard',
+            component: () => import('../views/DashboardView.vue'),
+            meta: { requiresAuth: true }
+        }
+    ]
+})
+
+// Guardias de navegación
+router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore()
+    
+    if (to.meta.requiresAuth && !authStore.user) {
+        next('/login')
+    } else if (to.meta.guest && authStore.user) {
+        next('/dashboard')
+    } else {
+        next()
+    }
+})
+```
+
+### **Store de Autenticación (Pinia)**
+```javascript
+// stores/auth.js
+import { defineStore } from 'pinia'
+import http from '@/services/http'
+
+export const useAuthStore = defineStore('auth', {
+    state: () => ({
+        user: null,
+        loading: false,
+        errors: null
+    }),
+    actions: {
+        async login(credentials) {
+            this.loading = true
+            try {
+                await http.get('/sanctum/csrf-cookie')
+                await http.post('/login', credentials)
+                await this.fetchUser()
+                return true
+            } catch (error) {
+                this.errors = error.response.data.errors
+                return false
+            } finally {
+                this.loading = false
+            }
+        },
+        
+        async logout() {
+            await http.post('/logout')
+            this.user = null
+            router.push('/login')
+        }
+    }
+})
+```
+
+### **Servicio HTTP con Interceptors**
+```javascript
+// services/http.js
+import axios from 'axios'
+import { useAuthStore } from '@/stores/auth'
+
+const http = axios.create({
+    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
+    withCredentials: true,
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+})
+
+// Interceptor para manejar errores 401
+http.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const authStore = useAuthStore()
+        
+        if (error.response?.status === 401) {
+            await authStore.logout()
+            router.push('/login')
+        }
+        
+        return Promise.reject(error)
+    }
+)
+
+export default http
+```
+
+### **Internacionalización con Vue I18n**
+```javascript
+// i18n.js
+import { createI18n } from 'vue-i18n'
+import es from './locales/es.json'
+import en from './locales/en.json'
+import ca from './locales/ca.json'
+
+const i18n = createI18n({
+    legacy: false,
+    locale: localStorage.getItem('lang') || 'es',
+    fallbackLocale: 'es',
+    messages: { es, en, ca }
+})
+
+export default i18n
 ```
 
 ---
 
-## 🎨 Componentes Principales
+## 🎨 Componentes de UI Implementados
 
-### **Componentes de Layout**
-- **`Navbar.vue`**: Navegación principal con menú responsivo
-- **`Footer.vue`**: Pie de página con enlaces legales
-- **`Sidebar.vue`**: Menú lateral para administración
-- **`Breadcrumb.vue`**: Navegación jerárquica
+### **Componentes Reales del Proyecto**
+- **`TarjetaProducto.vue`**: Tarjeta de producto real del proyecto
+- **`BarraNavegacion.vue`**: Navegación principal con menú responsive
+- **`Chatbot.vue`**: Chatbot integrado con n8n
+- **`ImagenOptimizada.vue`**: Componente para imágenes WebP con lazy loading
+- **`ProductosRelacionados.vue`**: Sistema de recomendaciones
+- **`ModalResena.vue`**: Formulario para valoraciones
+- **`NotificacionToast.vue`**: Sistema de notificaciones
+- **`PiePagina.vue`**: Footer con información legal
 
-### **Componentes de UI**
-- **`Button.vue`**: Botón con múltiples variantes y estados
-- **`Card.vue`**: Tarjeta genérica para productos
-- **`Modal.vue`**: Ventana modal reutilizable
-- **`Loading.vue`**: Indicador de carga
-- **`Toast.vue`**: Notificaciones temporales
-
-### **Componentes de Formularios**
-- **`FormInput.vue`**: Input con validación integrada
-- **`FormSelect.vue`**: Select con búsqueda
-- **`FormTextarea.vue`**: Textarea con contador
-- **`FormCheckbox.vue`**: Checkbox personalizado
-
-### **Componentes de Producto**
-- **`ProductCard.vue`**: Tarjeta de producto con hover effects
-- **`ProductList.vue`**: Grid de productos con paginación
-- **`ProductFilters.vue`**: Panel de filtros avanzados
-- **`ProductDetail.vue`**: Vista detallada de producto
+### **Vistas Principales**
+- **`InicioView.vue`**: Página principal con productos destacados
+- **`CatalogoView.vue`**: Catálogo completo con filtros
+- **`DetalleProductoView.vue`**: Vista detallada de productos
+- **`AccesoView.vue`**: Formulario de login/registro
+- **`DashboardView.vue`**: Panel de administración
 
 ---
 
 ## 📊 Métricas y Evidencias
 
-### **Performance**
-- ✅ **Lighthouse Score**: 95+ (Performance)
-- ✅ **First Contentful Paint**: <1.5s
-- ✅ **Time to Interactive**: <2s
-- ✅ **Bundle Size**: <500KB (gzipped)
+### **Componentes Implementados (Reales)**
+- ✅ **10 componentes Vue** reutilizables y funcionales
+- ✅ **25 vistas** en la carpeta `views/`
+- ✅ **6 stores Pinia** para gestión de estado
+- ✅ **Router configurado** con 15+ rutas protegidas
 
-### **Componentes Implementados**
-- ✅ **25+ componentes** reutilizables
-- ✅ **8 vistas principales** de la SPA
-- ✅ **4 stores** Pinia para gestión de estado
-- ✅ **6 composables** para lógica compartida
+### **Características Implementadas**
+- ✅ **Filtros dinámicos**: Búsqueda por texto, categoría y precio
+- ✅ **Paginación**: Implementada con backend Laravel
+- ✅ **Validación en tiempo real**: Formularios con feedback visual
+- ✅ **Watchers**: Reactividad automática en componentes
+- ✅ **Internacionalización**: 3 idiomas (es, ca, en) funcionales
 
-### **Accesibilidad**
-- ✅ **WCAG AA**: 95+ score
-- ✅ **Navegación por teclado**: Completa
-- ✅ **Contraste**: Ratios WCAG cumplidos
-- ✅ **Screen reader**: ARIA labels implementadas
+### **Integración con Backend Real**
+- ✅ **API Laravel**: Conexión mediante Axios y Sanctum
+- ✅ **Autenticación**: Login, registro y logout funcionales
+- ✅ **Gestión de carrito**: Añadir/eliminar productos
+- ✅ **Product Management**: CRUD completo desde frontend
 
-### **Características Avanzadas**
-- ✅ **Filtros dinámicos**: Búsqueda, categoría, precio
-- ✅ **Paginación**: Con lazy loading opcional
-- ✅ **Validación en tiempo real**: VeeValidate + Yup
-- ✅ **Watchers**: Reactividad automática
-- ✅ **Internacionalización**: i18n configurado
+### **Accesibilidad Real**
+- ✅ **WCAG 2.1**: Implementación parcial verificada
+- ✅ **Navegación por teclado**: Focus visible y tab order
+- ✅ **ARIA labels**: En componentes interactivos
+- ✅ **Contraste**: Cumplimiento básico validado
 
 ---
 

@@ -96,34 +96,34 @@ El módulo **DIW (Disseny d'Interfícies Web)** se centra en el diseño y desarr
 ## 📋 Tareas Realizadas por Sprint
 
 ### **Sprint 1: Fundamentos de Diseño**
+- ✅ Análisis de requisitos de usabilidad
 - ✅ Estructura HTML5 semántica
-- ✅ Sistema de colores y tipografías
-- ✅ Layout básico con CSS Grid
-- ✅ Diseño responsivo inicial
+- ✅ Maquetación CSS3 básica
+- ✅ Formularios accesibles
 
-### **Sprint 2: Componentes y Layout**
-- ✅ Diseño de header y navegación
-- ✅ Sistema de tarjetas de productos
-- ✅ Formularios con validación visual
-- ✅ Footer con información legal
+### **Sprint 2: Diseño Responsivo**
+- ✅ Implementación de layouts con Flexbox
+- ✅ Diseño adaptativo con media queries
+- ✅ Optimización para dispositivos móviles
+- ✅ Sistema de diseño modular
 
-### **Sprint 3: Interactividad y UX**
-- ✅ Estados hover y transiciones suaves
-- ✅ Microinteracciones en botones
-- ✅ Feedback visual en acciones
-- ✅ Loading states y skeletons
-
-### **Sprint 4: Diseño Profesional**
-- ✅ Sistema de diseño completo (design tokens)
+### **Sprint 3: Frameworks CSS**
+- ✅ Variables CSS y sistema de diseño
 - ✅ Componentes reutilizables
-- ✅ Dark mode implementado
-- ✅ Consistencia visual en todas las páginas
+- ✅ Optimización de estilos
+- ✅ Mantenimiento de código CSS
 
-### **Sprint 5-6: Accesibilidad y Optimización**
-- ✅ Auditoría WCAG 2.1 AA completa
-- ✅ Optimización de imágenes a WebP
+### **Sprint 4: Accesibilidad WCAG**
+- ✅ Implementación de criterios WCAG 2.1
+- ✅ Navegación por teclado completa
+- ✅ Contraste de colores validado
+- ✅ Etiquetas ARIA implementadas
+
+### **Sprint 5-6: Diseño Profesional**
+- ✅ Sistema de diseño completo
+- ✅ Optimización de imágenes WebP
 - ✅ Lazy loading implementado
-- ✅ Mejoras de rendimiento y Core Web Vitals
+- ✅ Métricas Lighthouse optimizadas
 
 ---
 

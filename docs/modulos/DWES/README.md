@@ -90,36 +90,35 @@ El módulo **DWES (Desplegament Web Entorn Servidor)** se centra en el desarroll
 
 ## 📋 Tareas Realizadas por Sprint
 
-### **Sprint 1: Configuración del Entorno**
-- ✅ Configuración inicial del entorno Docker
-- ✅ Estructura de carpetas del backend
-- ✅ Formulario de contacto PHP con validación
-- ✅ Documentación técnica inicial
+### **Sprint 1: Fundamentos de Entorno Servidor**
+- ✅ Configuración inicial de entorno de desarrollo
+- ✅ Instalación de stack LAMP básico
+- ✅ Configuración de Apache y PHP
+- ✅ Primer contacto con Git y GitHub
 
 ### **Sprint 2: Backend PHP Nativo**
-- ✅ Sistema de autenticación manual (PHP + JSON Server)
-- ✅ Importación de productos desde Excel (PhpSpreadsheet)
-- ✅ Sistema de comentarios y valoraciones
-- ✅ Despliegue inicial en AWS
+- ✅ Desarrollo de API REST básica con PHP
+- ✅ Implementación de sistema de usuarios
+- ✅ Gestión de productos con JSON Server
+- ✅ Configuración de servidor remoto AWS
 
 ### **Sprint 3: Migración a Laravel**
-- ✅ Configuración completa de Laravel 12
-- ✅ Migraciones y modelos Eloquent
+- ✅ Creación de proyecto Laravel
+- ✅ Migración de datos a MySQL
 - ✅ Implementación de Laravel Breeze
-- ✅ API REST base para productos
-- ✅ Sistema de importación Excel en Laravel
-- ✅ Tests automatizados (PHPUnit)
+- ✅ API REST base con Laravel
 
-### **Sprint 4: API Avanzada**
-- ✅ Endpoints completos de API REST
-- ✅ Sistema de roles y permisos
-- ✅ Integración con frontend Vue
-- ✅ Validaciones y manejo de errores
-
-### **Sprint 5-6: Producción y Optimización**
+### **Sprint 4: API Profesional**
+- ✅ Documentación con Swagger/OpenAPI
 - ✅ Integración OAuth2 con Google
-- ✅ Documentación Swagger/OpenAPI
-- ✅ Optimización de consultas y caché
+- ✅ Sistema de autenticación robusto
+- ✅ Pruebas automatizadas
+
+### **Sprint 5-6: Producción y CI/CD**
+- ✅ Dockerización completa del backend
+- ✅ Pipeline CI/CD con GitHub Actions
+- ✅ Despliegue en AWS con HTTPS
+- ✅ Monitorización y logging en producción
 - ✅ Despliegue en producción AWS
 - ✅ CI/CD automatizado
 

@@ -88,33 +88,34 @@ El módulo **NUV (Núvol)** se especializa en la implementación y gestión de s
 ## 📋 Tareas Realizadas por Sprint
 
 ### **Sprint 1: Fundamentos Cloud**
-- ✅ Creación de cuenta AWS y configuración inicial
-- ✅ VPC con subredes públicas y privadas
-- ✅ Instancia EC2 básica para desarrollo
-- ✅ Configuración de seguridad y accesos
+- ✅ Análisis de servicios AWS disponibles
+- ✅ Configuración de cuenta AWS
+- ✅ Creación de VPC y subredes
+- ✅ Instancias EC2 básicas
 
-### **Sprint 2: Servidores y Bases de Datos**
-- ✅ Configuración de EC2 para producción
-- ✅ Instalación de RDS MySQL con alta disponibilidad
-- ✅ Configuración de backups automáticos
-- ✅ Optimización de rendimiento de base de datos
+### **Sprint 2: Servicios Cloud Básicos**
+- ✅ Configuración de EC2 para aplicaciones
+- ✅ Implementación de RDS para base de datos
+- ✅ Configuración de S3 para almacenamiento
+- ✅ Gestión de Route 53 para DNS
 
-### **Sprint 3: Networking y CDN**
-- ✅ Configuración de Route 53 para DNS
-- ✅ Implementación de CloudFront CDN
-- ✅ Optimización de caché y distribución
-- ✅ Configuración de dominios y subdominios
+### **Sprint 3: Arquitectura Cloud**
+- ✅ Diseño de arquitectura escalable
+- ✅ Balanceador de carga implementado
+- ✅ Auto Scaling configurado
+- ✅ Redes cloud optimizadas
 
-### **Sprint 4: Monitorización y Seguridad**
-- ✅ Configuración de CloudWatch y alarmas
-- ✅ Implementación de IAM roles y políticas
-- ✅ Auditoría con CloudTrail
-- ✅ Hardening de seguridad
+### **Sprint 4: Servicios Avanzados**
+- ✅ Implementación de CloudWatch
+- ✅ Configuración de IAM y seguridad
+- ✅ Optimización de costos
+- ✅ Monitorización completa
 
-### **Sprint 5-6: Arquitectura Avanzada**
-- ✅ CloudFormation para infraestructura como código
-- ✅ Auto Scaling Groups para escalabilidad
-- ✅ Load Balancers para alta disponibilidad
+### **Sprint 5-6: Cloud Nativo**
+- ✅ Infraestructura como código
+- ✅ Lambda functions serverless
+- ✅ CI/CD con CodePipeline
+- ✅ Despliegue automático cloudlta disponibilidad
 - ✅ Optimización de costos y recursos
 
 ---

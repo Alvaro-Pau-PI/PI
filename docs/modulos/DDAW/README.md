@@ -95,34 +95,35 @@ El módulo **DDAW (Desplegament d'Aplicacions Web)** se centra en el despliegue,
 
 ## 📋 Tareas Realizadas por Sprint
 
-### **Sprint 1: Configuración Básica**
-- ✅ Configuración de entorno local con Docker
-- ✅ Servidor web Apache para backend PHP
-- ✅ Base de datos MySQL local
-- ✅ Certificados SSL locales para desarrollo
+### **Sprint 1: Fundamentos de Despliegue**
+- ✅ Configuración de entorno de servidor
+- ✅ Instalación stack LAMP
+- ✅ Configuración Apache y PHP
+- ✅ Primer despliegue básico
 
-### **Sprint 2: Despliegue en AWS**
-- ✅ Instancia EC2 configurada con Ubuntu
-- ✅ Servidor Apache con virtual hosts
-- ✅ Base de datos MySQL en EC2
-- ✅ Configuración de FTP y backups
+### **Sprint 2: Servidor Web**
+- ✅ Configuración avanzada Apache/Nginx
+- ✅ Implementación de HTTPS
+- ✅ Virtual hosts configurados
+- ✅ Gestión de dominios y DNS
 
-### **Sprint 3: Dockerización**
-- ✅ Dockerfile para backend Laravel
-- ✅ Dockerfile para frontend Vue
-- ✅ Docker Compose para orquestación
-- ✅ Optimización de imágenes Docker
+### **Sprint 3: Base de Datos y Seguridad**
+- ✅ Instalación y configuración MySQL
+- ✅ Implementación de medidas de seguridad
+- ✅ Gestión de usuarios y permisos
+- ✅ Backup y recuperación
 
-### **Sprint 4: Nginx y Optimización**
-- ✅ Migración de Apache a Nginx
-- ✅ Configuración de reverse proxy
-- ✅ Implementación de caché
-- ✅ Optimización de rendimiento
+### **Sprint 4: Producción**
+- ✅ Configuración servidor AWS
+- ✅ Despliegue en producción
+- ✅ Monitorización básica
+- ✅ Logging implementado
 
-### **Sprint 5-6: CI/CD y Producción**
-- ✅ GitHub Actions para CI/CD
-- ✅ Despliegue automatizado en producción
-- ✅ DNS con Route 53
+### **Sprint 5-6: CI/CD y Cloud**
+- ✅ Dockerización completa
+- ✅ Pipeline CI/CD automatizado
+- ✅ Despliegue automático
+- ✅ Monitorización avanzadan Route 53
 - ✅ Certificados SSL/TLS con Let's Encrypt
 - ✅ Monitorización y logging completo
 

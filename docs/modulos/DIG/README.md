@@ -41,17 +41,16 @@ El módulo **DIG (Digitalització)** se enfoca en la implementación de tecnolog
 | Tecnología | Implementación Real | Uso en el Proyecto |
 |-----------|-------------------|-------------------|
 | **Algoritmo de Recomendación** | Laravel Eloquent | Sistema de productos destacados basado en rating y reviews |
-| **Análisis de Sentimientos** | Planificado | Valoración automática de comentarios (futuro) |
-| **Clustering de Productos** | Categorías | Agrupación por categoría y precio |
-| **Predicción de Tendencias** | Analytics básico | Análisis de productos más vendidos |
+| **Recomendador Simple** | Categorías | Productos relacionados por categoría y valoración |
+| **Métricas de Popularidad** | Analytics básico | Análisis de productos más visitados y vendidos |
 
 ### **Analytics y Datos**
 | Herramienta | Implementación Real | Funcionalidad |
 |-------------|-------------------|-------------|
-| **Custom Analytics** | Laravel Controller | Dashboard de productos destacados |
+| **Mini-Analytics** | Laravel Controller | Top 5 productos más vistos y vendidos |
 | **Event Tracking** | JavaScript básico | Seguimiento de visitas a productos |
-| **Database Metrics** | MySQL | Almacenamiento de reviews y ratings |
-| **User Behavior** | Session tracking | Análisis de navegación básico |
+| **Database Metrics** | MySQL | Almacenamiento de visitas y valoraciones |
+| **User Behavior** | Session tracking | Análisis básico de navegación |
 
 ### **Automatización y Procesos**
 | Herramienta | Versión | Implementación Real |
@@ -83,15 +82,15 @@ El módulo **DIG (Digitalització)** se enfoca en la implementación de tecnolog
 
 ### **Sprint 1: Fundamentos de Digitalización**
 - ✅ Análisis de oportunidades de digitalización
-- ✅ Implementación básica de analytics
-- ✅ Sistema de recolección de datos de usuario
-- ✅ Dashboard inicial de métricas
+- ✅ Implementación básica de seguimiento de productos
+- ✅ Sistema de recolección de datos de visitas
+- ✅ Métricas básicas de popularidad
 
-### **Sprint 2: Sistema de Recomendaciones**
-- ✅ Algoritmo de recomendación por categoría
-- ✅ Sistema de "productos destacados"
-- ✅ Análisis de comportamiento de navegación
-- ✅ Personalización básica de contenido
+### **Sprint 2: Sistema de Productos Destacados**
+- ✅ Algoritmo de productos destacados por rating y visitas
+- ✅ Endpoint `/api/products/featured` implementado
+- ✅ Análisis de comportamiento de navegación básico
+- ✅ Sistema de recomendaciones por categoría
 
 ### **Sprint 3: Automatización de Procesos**
 - ✅ Configuración de n8n para workflows
@@ -99,67 +98,23 @@ El módulo **DIG (Digitalització)** se enfoca en la implementación de tecnolog
 - ✅ Sistema de notificaciones automáticas
 - ✅ Procesamiento asíncrono de tareas
 
-### **Sprint 4: Analytics Avanzados**
-- ✅ Dashboard completo de analytics
-- ✅ Métricas de conversión y funnel
-- ✅ Análisis de patrones de compra
-- ✅ Reportes automáticos personalizados
+### **Sprint 4: Mini-Analytics**
+- ✅ Panel de top 5 productos más vistos
+- ✅ Panel de top 5 productos más vendidos
+- ✅ Métricas en tiempo real desde administración
+- ✅ Seguimiento de visitas por producto
 
-### **Sprint 5-6: Inteligencia Artificial**
-- ✅ Implementación de machine learning básico
-- ✅ Sistema de predicción de tendencias
-- ✅ Análisis de sentimientos en comentarios
-- ✅ Optimización automática de precios (simulado)
+### **Sprint 5-6: Digitalización Inteligente**
+- ✅ Productos destacados basados en métricas reales
+- ✅ Recomendador simple en vista de detalle
+- ✅ Integración completa con n8n chatbot
+- ✅ Analytics básicos de comportamiento
 
 ---
 
-## 🤖 Sistema de Recomendaciones Implementado
+## 🤖 Sistema de Digitalización Implementado
 
-### **Algoritmo Híbrido de Recomendación**
-```php
-class RecommendationEngine
-{
-    // 1. Filtrado Colaborativo
-    public function getCollaborativeRecommendations($userId)
-    {
-        // Usuarios con gustos similares
-        $similarUsers = $this->findSimilarUsers($userId);
-        
-        // Productos que les gustaron
-        $recommendations = $this->getProductsLikedByUsers($similarUsers);
-        
-        return $recommendations;
-    }
-    
-    // 2. Filtrado Basado en Contenido
-    public function getContentBasedRecommendations($productId)
-    {
-        $product = Product::find($productId);
-        
-        // Productos misma categoría y rango de precio
-        return Product::where('category_id', $product->category_id)
-            ->where('price', '>=', $product->price * 0.8)
-            ->where('price', '<=', $product->price * 1.2)
-            ->where('id', '!=', $productId)
-            ->orderBy('rating_avg', 'desc')
-            ->limit(5)
-            ->get();
-    }
-    
-    // 3. Recomendaciones Híbridas
-    public function getHybridRecommendations($userId, $productId = null)
-    {
-        $collaborative = $this->getCollaborativeRecommendations($userId);
-        $contentBased = $productId ? 
-            $this->getContentBasedRecommendations($productId) : [];
-        
-        // Combinación ponderada
-        return $this->combineRecommendations($collaborative, $contentBased);
-    }
-}
-```
-
-### **Productos Destacados Inteligentes**
+### **Algoritmo de Productos Destacados**
 ```php
 class FeaturedProductsService
 {
@@ -181,78 +136,58 @@ class FeaturedProductsService
 }
 ```
 
----
-
-## 📊 Sistema de Analytics Implementado
-
-### **Dashboard de Analytics**
-```javascript
-// Analytics Dashboard Component
-const AnalyticsDashboard = {
-    data() {
-        return {
-            metrics: {
-                totalUsers: 0,
-                activeUsers: 0,
-                conversionRate: 0,
-                avgOrderValue: 0,
-                topProducts: [],
-                userBehavior: []
-            }
-        }
-    },
-    
-    methods: {
-        async loadMetrics() {
-            const response = await api.get('/analytics/dashboard');
-            this.metrics = response.data;
-        },
+### **Sistema de Recomendaciones Simple**
+```php
+class RecommendationService
+{
+    public function getRelatedProducts($productId, $limit = 4)
+    {
+        $product = Product::find($productId);
         
-        // Métricas en tiempo real
-        startRealTimeUpdates() {
-            setInterval(async () => {
-                const realTime = await api.get('/analytics/realtime');
-                this.metrics.activeUsers = realTime.data.activeUsers;
-            }, 30000); // Actualizar cada 30 segundos
-        }
+        return Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $productId)
+            ->where('price', '>=', $product->price * 0.8)
+            ->where('price', '<=', $product->price * 1.2)
+            ->orderBy('rating_avg', 'desc')
+            ->limit($limit)
+            ->get();
     }
-};
+}
 ```
 
-### **Event Tracking Automático**
+---
+
+## 📊 Sistema de Mini-Analytics Implementado
+
+### **Panel de Administración con Métricas**
+```php
+class AnalyticsController
+{
+    public function dashboard()
+    {
+        return [
+            'top_viewed' => Product::orderBy('views_count', 'desc')->limit(5)->get(),
+            'top_sold' => Product::orderBy('orders_count', 'desc')->limit(5)->get(),
+            'total_products' => Product::count(),
+            'active_products' => Product::where('is_active', true)->count(),
+            'avg_rating' => Product::avg('rating_avg')
+        ];
+    }
+}
+```
+
+### **Seguimiento de Eventos**
 ```javascript
-// Event Tracker para Analytics
-class AnalyticsTracker {
-    static track(event, properties = {}) {
-        const eventData = {
-            event: event,
-            properties: {
-                ...properties,
-                timestamp: new Date().toISOString(),
-                sessionId: this.getSessionId(),
-                userId: this.getUserId(),
-                userAgent: navigator.userAgent,
-                url: window.location.href
-            }
-        };
-        
-        // Enviar a backend
-        api.post('/analytics/events', eventData);
-    }
-    
+// Event Tracking para Analytics
+class EventTracker {
     static trackProductView(productId) {
-        this.track('product_view', {
-            product_id: productId,
-            category: this.getProductCategory(productId)
-        });
+        // Enviar a backend para registrar visita
+        api.post(`/api/products/${productId}/view`);
     }
     
-    static trackPurchase(orderId, total) {
-        this.track('purchase', {
-            order_id: orderId,
-            total_amount: total,
-            currency: 'EUR'
-        });
+    static trackProductSearch(query) {
+        // Registrar búsqueda de productos
+        api.post('/api/analytics/search', { query });
     }
 }
 ```
@@ -470,13 +405,13 @@ class TrendPredictor:
 
 ## 📈 Logros Destacados
 
-1. **🤖 Sistema de Recomendaciones**: Algoritmo híbrido con ML básico
-2. **📊 Analytics Completo**: Dashboard en tiempo real con KPIs
+1. **🤖 Productos Destacados**: Algoritmo basado en métricas reales
+2. **📊 Mini-Analytics**: Panel con top 5 productos más vistos/vendidos
 3. **⚙️ Automatización Inteligente**: Workflows con n8n
-4. **🔮 Predicciones**: Tendencias y análisis de sentimientos
-5. **📱 Personalización**: Experiencia adaptada por usuario
+4. **� Recomendador Simple**: Productos relacionados por categoría
+5. **📱 Seguimiento de Visitas**: Contador por producto
 6. **🔄 Procesamiento Asíncrono**: Colas y jobs automáticos
-7. **📈 Business Intelligence**: Toma de decisiones basada en datos
+7. **📈 Digitalización Real**: Sistema basado en datos existentes
 
 ---
 

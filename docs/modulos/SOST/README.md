@@ -70,34 +70,34 @@ El módulo **SOST (Sostenibilitat)** se enfoca en la implementación de criterio
 ## 📋 Tareas Realizadas por Sprint
 
 ### **Sprint 1: Fundamentos de Sostenibilidad**
-- ✅ Análisis de impacto ambiental del proyecto
-- ✅ Implementación de optimización básica de imágenes
-- ✅ Configuración de herramientas de medición
-- ✅ Política de sostenibilidad inicial
+- ✅ Análisis de criterios ASG
+- ✅ Evaluación de impacto ambiental
+- ✅ Identificación de mejoras sociales
+- ✅ Plan de gobernanza inicial
 
-### **Sprint 2: Ecodiseño Web**
-- ✅ Optimización completa de assets (CSS, JS, imágenes)
+### **Sprint 2: Implementación Ambiental**
+- ✅ Optimización de imágenes a WebP
 - ✅ Implementación de lazy loading
-- ✅ Reducción del peso total de la aplicación
-- ✅ Métricas de rendimiento sostenible
+- ✅ Reducción de peso web 40%
+- ✅ Métricas de consumo energético
 
-### **Sprint 3: Accesibilidad e Inclusión**
-- ✅ Auditoría WCAG 2.1 AA completa
-- ✅ Implementación de navegación por teclado
-- ✅ Diseño inclusivo y universal
-- ✅ Soporte para tecnologías asistivas
+### **Sprint 3: Impacto Social**
+- ✅ Auditoría de accesibilidad WCAG
+- ✅ Implementación de navegación inclusiva
+- ✅ Diseño para diversidad e igualdad
+- ✅ Reducción de brecha digital
 
-### **Sprint 4: Transparencia y Gobernanza**
-- ✅ Documentación ASG completa
-- ✅ Políticas de privacidad y transparencia
-- ✅ Indicadores públicos de sostenibilidad
-- ✅ Código abierto y documentado
+### **Sprint 4: Gobernanza y Transparencia**
+- ✅ Política de privacidad implementada
+- ✅ Documentación ASG pública
+- ✅ Métricas de sostenibilidad
+- ✅ Código documentado y trazable
 
-### **Sprint 5-6: Innovación Sostenible**
-- ✅ Sistema de etiquetado ecológico
-- ✅ Filtros de productos sostenibles
-- ✅ Dashboard de métricas ASG
-- ✅ Informes automáticos de sostenibilidad
+### **Sprint 5-6: Sostenibilidad Integral**
+- ✅ Etiquetas ecológicas en productos
+- ✅ Economía circular implementada
+- ✅ Hosting verde contratado
+- ✅ Informes de sostenibilidad públicos
 
 ---
 
