@@ -6,15 +6,15 @@ Proyecto intermódulo de desarrollo web: una tienda en línea de productos tecno
 
 Este proyecto intermodular integra 7 módulos especializados, cada uno con sus propias tecnologías, tareas y resultados de aprendizaje:
 
-| Módulo | Descripción | Tecnologías Principales | Estado |
-|--------|-------------|------------------------|---------|
-| **[DWES](docs/modulos/DWES/)** | Desplegament Web Entorn Servidor | Laravel 12, MySQL, Sanctum | ✅ Completo |
-| **[DWEC](docs/modulos/DWEC/)** | Desplegament Web Entorn Client | Vue 3, Vite, Pinia, Vue Router | ✅ Completo |
-| **[DIW](docs/modulos/DIW/)** | Disseny d'Interfícies Web | CSS3, WCAG 2.1, Responsive Design | ✅ Completo |
-| **[DIG](docs/modulos/DIG/)** | Digitalització | Analytics, ML, n8n, Automatización | ✅ Completo |
-| **[SOST](docs/modulos/SOST/)** | Sostenibilitat | ASG, Ecodiseño, Accesibilidad | ✅ Completo |
-| **[DDAW](docs/modulos/DDAW/)** | Desplegament d'Aplicacions Web | AWS, Nginx, CI/CD, Docker | ✅ Completo |
-| **[NUV](docs/modulos/NUV/)** | Núvol | AWS Cloud, Auto Scaling, CloudWatch | ✅ Completo |
+| Módulo | Descripción | Tecnologías Principales |
+|--------|-------------|------------------------|
+| **[DWES](docs/modulos/DWES/)** | Desplegament Web Entorn Servidor | Laravel 12, MySQL, Sanctum |
+| **[DWEC](docs/modulos/DWEC/)** | Desplegament Web Entorn Client | Vue 3, Vite, Pinia, Vue Router |
+| **[DIW](docs/modulos/DIW/)** | Disseny d'Interfícies Web | CSS3, WCAG 2.1, Responsive Design |
+| **[DIG](docs/modulos/DIG/)** | Digitalització | Analytics, ML, n8n, Automatización | 
+| **[SOST](docs/modulos/SOST/)** | Sostenibilitat | ASG, Ecodiseño, Accesibilidad | 
+| **[DDAW](docs/modulos/DDAW/)** | Desplegament d'Aplicacions Web | AWS, Nginx, CI/CD, Docker |
+| **[NUV](docs/modulos/NUV/)** | Núvol | AWS Cloud, Auto Scaling, CloudWatch |
 
 📖 **[Ver documentación completa de módulos](docs/modulos/)**
 

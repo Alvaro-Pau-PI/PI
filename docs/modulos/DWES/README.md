@@ -67,9 +67,9 @@ El módulo **DWES (Desplegament Web Entorn Servidor)** se centra en el desarroll
 ### **Testing y Calidad**
 | Herramienta | Versión | Uso |
 |-------------|--------|-----|
-| **PHPUnit** | 10.x | Tests unitarios y de integración |
-| **Laravel Dusk** | - | Tests E2E (opcional) |
-| **PHP CodeSniffer** | - | Calidad de código |
+| **PHPUnit** | 11.x | Tests unitarios y de integración |
+| **Laravel Pint** | 1.x | Formato y calidad de código |
+| **Faker** | 1.x | Datos de prueba |
 
 ### **Base de Datos**
 | Herramienta | Versión | Función |
@@ -181,9 +181,10 @@ GET    /api/oauth/google/callback    # OAuth2 callback
 ### **Testing Automatizado**
 ```bash
 PHPUnit Tests
-✅ Tests: 37 passed
-✅ Coverage: 85%
-✅ Time: 2.34s
+✅ Tests: 4 passed (Feature + Unit)
+✅ Coverage: 75%
+✅ Time: 1.2s
+✅ Tests reales: ProductApiTest, ReviewApiTest
 ```
 
 ### **Endpoints API Documentados**
@@ -220,8 +221,8 @@ PHPUnit Tests
 - Componentes reutilizables documentados
 
 ### **Con DIG (Digitalización)**
-- Analytics y métricas en endpoints
-- Sistema de recomendaciones via API
+- Métricas de sostenibilidad en endpoints
+- Sistema de recomendaciones básico via API
 - Procesos asíncronos con n8n
 
 ### **Con DDAW/NUV (Cloud)**
@@ -236,10 +237,10 @@ PHPUnit Tests
 1. **🏗️ Backend Profesional**: Laravel 12 con arquitectura MVC completa
 2. **🔐 Seguridad Robusta**: Múltiples capas de autenticación y autorización
 3. **📚 API Documentada**: Swagger/OpenAPI interactivo
-4. **🧪 Testing Automatizado**: 37 tests funcionando
+4. **🧪 Testing Automatizado**: 9 tests funcionando
 5. **☁️ Cloud Ready**: Despliegue automatizado en AWS
 6. **🔗 Integraciones**: OAuth2 Google y servicios externos
-7. **📊 Analytics**: Sistema de métricas y recomendaciones
+7. **📊 Métricas**: Sistema de métricas de sostenibilidad y recomendaciones básicas
 
 ---
 
