@@ -105,7 +105,7 @@ El módulo **DDAW (Desplegament d'Aplicacions Web)** se especializa en la config
 
 ---
 
-## � Logros Destacados
+## 📈 Logros Destacados
 
 1. **🏗️ Servidores Web Profesionales**: Apache + Nginx configurados
 2. **🔐 Seguridad Completa**: SSL + FTPS + SSH implementados
@@ -114,6 +114,17 @@ El módulo **DDAW (Desplegament d'Aplicacions Web)** se especializa en la config
 5. **⚡ Rendimiento Optimizado**: PHP-FPM y cache configurados
 6. **🛠️ Mantenimiento Automático**: Backups y renovación SSL
 7. **🌐 Multi-dominio**: Configuración para varios sitios
+
+---
+
+## 📋 Componentes Implementados por Sprint
+
+### **Sprint 2: Catálogo de productos**
+- ✅ **C4 - Despliegue y copias seguridad remotas** - Servidor AWS configurado con scripts backup.sh y vsftpd
+
+### **Sprint 5/6: Integraciones externes y despliegue final**
+- ✅ **C7 - Despliegue Cloud, DNS, CI/CD** - Scripts de despliegue setup_system.sh y configuración FTP segura
+- ✅ **C8 - Documentación final** - README profesional con validación de implementaciones de despliegue
 
 ---
 

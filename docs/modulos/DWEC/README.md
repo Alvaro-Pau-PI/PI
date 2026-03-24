@@ -108,7 +108,7 @@ El módulo **DWEC (Desplegament Web Entorn Client)** se especializa en el desarr
 
 ---
 
-## � Conexiones con Otros Módulos
+## 🔗 Conexiones con Otros Módulos
 
 ### **Con DWES (Backend)**
 - Consumo de API REST Laravel completa
@@ -141,6 +141,19 @@ El módulo **DWEC (Desplegament Web Entorn Client)** se especializa en el desarr
 5. **📱 100% Responsivo**: Perfecta adaptación a todos los dispositivos
 6. **🛡️ Validación Robusta**: Formularios con validación completa
 7. **🎯 UX Intuitiva**: Flujos de usuario optimizados y testeados
+
+---
+
+## 📋 Componentes Implementados por Sprint
+
+### **Sprint 4: Cliente SPA Vue y control de roles**
+- ✅ **C1 - Interfaz SPA Vue.js** - Vue 3 + Vite con navegación sin recargas y componentes reutilizables
+- ✅ **C2 - Integración autenticación API** - Login con tokens Sanctum y guards para rutas protegidas
+- ✅ **C3 - Gestión roles y permisos** - Sistema de roles implementado con control de acceso granular
+
+### **Sprint 5/6: Integraciones externes y despliegue final**
+- ✅ **C3 - Mejoras Vue avanzadas** - Watchers, computed properties, filtros avanzados y validación en tiempo real
+- ✅ **C8 - Documentación final** - README profesional con validación de implementaciones frontend
 
 ---
 

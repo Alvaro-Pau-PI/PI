@@ -138,6 +138,33 @@ El módulo **DWES (Desplegament Web Entorn Servidor)** se especializa en el desa
 
 ---
 
+## 📋 Componentes Implementados por Sprint
+
+### **Sprint 2: Catálogo de productos**
+- ✅ **C1 - Importación Excel → JSON Server** - ProductImportController.php con PhpSpreadsheet para conversión Excel a JSON
+- ✅ **C2 - Registro y login usuarios** - Laravel Breeze con autenticación completa y password hashing
+- ✅ **C3 - Comentarios y valoraciones productos** - ReviewController.php con sistema de reseñas y rating
+
+### **Sprint 3: Backend Laravel + API base**
+- ✅ **C1 - Creación proyecto Laravel** - laravel/ estructura completa con .env configurado para MySQL
+- ✅ **C2 - Modelo datos y migraciones** - Product model con Eloquent y migraciones MySQL implementadas
+- ✅ **C3 - Autenticación Laravel Breeze** - Sistema de autenticación completo con rutas /register y /login
+- ✅ **C4 - Importación Excel a BBDD** - ProductImportController.php con validación y logs de importación
+- ✅ **C5 - API base productos** - /api/products endpoints con filtros, paginación y Resource classes
+- ✅ **C6 - CRUD administración productos** - Panel admin implementado con acceso restringido
+- ✅ **C7 - Pruebas básicas Laravel** - PHPUnit tests funcionando para API y validación
+
+### **Sprint 4: Cliente SPA Vue y control de roles**
+- ✅ **C2 - Integración autenticación API** - Tokens Sanctum implementados para comunicación con frontend Vue
+- ✅ **C3 - Gestión roles y permisos** - Middleware de permisos y control de acceso granular implementado
+
+### **Sprint 5/6: Integraciones externes y despliegue final**
+- ✅ **C1 - Integración OAuth2** - SocialAuthController.php con Google Login (OpenID Connect) funcionando
+- ✅ **C2 - Documentación API Swagger** - Laravel Scribe configurado con documentación automática OpenAPI
+- ✅ **C8 - Documentación final** - README profesional con validación de implementaciones
+
+---
+
 ## 🎯 Conclusión del Módulo
 
 El módulo DWES ha sido implementado con éxito proporcionando un backend robusto, seguro y escalable. La API REST completa con Laravel, el sistema de autenticación moderna, la base de datos optimizada y el testing automatizado garantizan una infraestructura backend de alta calidad. Todas las herramientas y tecnologías están verificadas y funcionando en producción, cumpliendo con los más altos estándares de desarrollo backend.

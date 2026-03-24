@@ -129,6 +129,17 @@ El módulo **DIW (Disseny d'Interfícies Web)** se especializa en el diseño y d
 
 ---
 
+## 📋 Componentes Implementados por Sprint
+
+### **Sprint 2: Catálogo de productos**
+- ✅ **C5 - Estructura y usabilidad interfaz** - Componentes UI reutilizables con navegación intuitiva y consistente
+
+### **Sprint 5/6: Integraciones externes y despliegue final**
+- ✅ **C4 - Diseño profesional y accesibilidad** - WCAG 2.1 AA con ARIA attributes y diseño consistente
+- ✅ **C8 - Documentación final** - README profesional con validación de implementaciones de diseño
+
+---
+
 ## 🎯 Conclusión del Módulo
 
 El módulo DIW ha sido implementado con éxito creando una experiencia de usuario profesional, accesible y responsiva. El sistema de diseño completo, los componentes reutilizables y las optimizaciones de rendimiento garantizan una aplicación moderna y usable. Todas las herramientas y tecnologías están verificadas y funcionando en producción, cumpliendo con los más altos estándares de calidad y accesibilidad.
