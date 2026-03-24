@@ -27,7 +27,7 @@ El módulo **NUV (Núvol)** se especializa en la implementación y gestión de s
 - ✅ **RA3.d**: Ús de serveis de missatgeria (SQS, SNS)
 
 ### **RA4 - DevOps i Automatització Cloud**
-- ✅ **RA4.a**: Infraestructura com a codi (CloudFormation, Terraform)
+- ✅ **RA4.a**: Infraestructura como código (Docker Compose, GitHub Actions)
 - ✅ **RA4.b**: Automatització amb AWS Lambda
 - ✅ **RA4.c**: CI/CD amb serveis cloud (CodePipeline, CodeBuild)
 - ✅ **RA4.d**: Monitorització cloud nativa (CloudWatch)
@@ -74,7 +74,7 @@ El módulo **NUV (Núvol)** se especializa en la implementación y gestión de s
 ### **Automatización y DevOps**
 | Herramienta | Versión | Propósito |
 |-------------|--------|----------|
-| **CloudFormation** | - | Infraestructura como código |
+| **Docker Compose** | - | Orquestación de contenedores |
 | **AWS CLI** | 2.x | Gestión por línea de comandos |
 | **GitHub Actions** | - | CI/CD automatizado |
 | **AWS SDK** | PHP/JS | Integración programática |
@@ -167,213 +167,6 @@ graph TB
     CLOUDWATCH --> EC2_1
     CLOUDWATCH --> EC2_2
     CLOUDWATCH --> RDS
-```
-
-### **CloudFormation Template**
-```yaml
-# infrastructure/cloudformation/main.yaml
-AWSTemplateFormatVersion: '2010-09-09'
-Description: 'AlberoPerezTech E-commerce Infrastructure'
-
-Parameters:
-  Environment:
-    Type: String
-    Default: production
-    AllowedValues: [development, staging, production]
-  
-  InstanceType:
-    Type: String
-    Default: t3.medium
-    AllowedValues: [t3.micro, t3.small, t3.medium, t3.large]
-
-Resources:
-  # VPC Configuration
-  VPC:
-    Type: AWS::EC2::VPC
-    Properties:
-      CidrBlock: 10.0.0.0/16
-      EnableDnsHostnames: true
-      EnableDnsSupport: true
-      Tags:
-        - Key: Name
-          Value: !Sub '${Environment}-alberopereztech-vpc'
-
-  # Public Subnets
-  PublicSubnet1A:
-    Type: AWS::EC2::Subnet
-    Properties:
-      VpcId: !Ref VPC
-      AvailabilityZone: !Select [0, !GetAZs '']
-      CidrBlock: 10.0.1.0/24
-      MapPublicIpOnLaunch: true
-      Tags:
-        - Key: Name
-          Value: !Sub '${Environment}-public-1a'
-
-  PublicSubnet1B:
-    Type: AWS::EC2::Subnet
-    Properties:
-      VpcId: !Ref VPC
-      AvailabilityZone: !Select [1, !GetAZs '']
-      CidrBlock: 10.0.2.0/24
-      MapPublicIpOnLaunch: true
-      Tags:
-        - Key: Name
-          Value: !Sub '${Environment}-public-1b'
-
-  # Private Subnets
-  PrivateSubnet1A:
-    Type: AWS::EC2::Subnet
-    Properties:
-      VpcId: !Ref VPC
-      AvailabilityZone: !Select [0, !GetAZs '']
-      CidrBlock: 10.0.11.0/24
-      Tags:
-        - Key: Name
-          Value: !Sub '${Environment}-private-1a'
-
-  PrivateSubnet1B:
-    Type: AWS::EC2::Subnet
-    Properties:
-      VpcId: !Ref VPC
-      AvailabilityZone: !Select [1, !GetAZs '']
-      CidrBlock: 10.0.12.0/24
-      Tags:
-        - Key: Name
-          Value: !Sub '${Environment}-private-1b'
-
-  # Internet Gateway
-  InternetGateway:
-    Type: AWS::EC2::InternetGateway
-    Properties:
-      Tags:
-        - Key: Name
-          Value: !Sub '${Environment}-igw'
-
-  VPCGatewayAttachment:
-    Type: AWS::EC2::VPCGatewayAttachment
-    Properties:
-      VpcId: !Ref VPC
-      InternetGatewayId: !Ref InternetGateway
-
-  # Route Tables
-  PublicRouteTable:
-    Type: AWS::EC2::RouteTable
-    Properties:
-      VpcId: !Ref VPC
-      Tags:
-        - Key: Name
-          Value: !Sub '${Environment}-public-rt'
-
-  PublicRoute:
-    Type: AWS::EC2::Route
-    DependsOn: VPCGatewayAttachment
-    Properties:
-      RouteTableId: !Ref PublicRouteTable
-      DestinationCidrBlock: 0.0.0.0/0
-      GatewayId: !Ref InternetGateway
-
-  # RDS Database
-  DatabaseSubnetGroup:
-    Type: AWS::RDS::DBSubnetGroup
-    Properties:
-      DBSubnetGroupDescription: Subnet group for RDS database
-      SubnetIds:
-        - !Ref PrivateSubnet1A
-        - !Ref PrivateSubnet1B
-      Tags:
-        - Key: Name
-          Value: !Sub '${Environment}-db-subnet-group'
-
-  Database:
-    Type: AWS::RDS::DBInstance
-    Properties:
-      DBInstanceIdentifier: !Sub '${Environment}-alberopereztech-db'
-      DBInstanceClass: db.t3.micro
-      Engine: MySQL
-      EngineVersion: '8.0'
-      AllocatedStorage: 20
-      StorageType: gp2
-      DBName: alberopereztech
-      MasterUsername: admin
-      MasterUserPassword: !Ref DatabasePassword
-      DBSubnetGroupName: !Ref DatabaseSubnetGroup
-      VPCSecurityGroups:
-        - !Ref DatabaseSecurityGroup
-      BackupRetentionPeriod: 7
-      MultiAZ: false
-      StorageEncrypted: true
-      Tags:
-        - Key: Name
-          Value: !Sub '${Environment}-database'
-
-  # Security Groups
-  DatabaseSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Security group for RDS database
-      VpcId: !Ref VPC
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 3306
-          ToPort: 3306
-          SourceSecurityGroupId: !Ref AppSecurityGroup
-      Tags:
-        - Key: Name
-          Value: !Sub '${Environment}-db-sg'
-
-  AppSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Security group for application servers
-      VpcId: !Ref VPC
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
-          SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup
-        - IpProtocol: tcp
-          FromPort: 443
-          ToPort: 443
-          SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup
-        - IpProtocol: tcp
-          FromPort: 22
-          ToPort: 22
-          CidrIp: 0.0.0.0/0
-      Tags:
-        - Key: Name
-          Value: !Sub '${Environment}-app-sg'
-
-  LoadBalancerSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Security group for load balancer
-      VpcId: !Ref VPC
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: 443
-          ToPort: 443
-          CidrIp: 0.0.0.0/0
-      Tags:
-        - Key: Name
-          Value: !Sub '${Environment}-lb-sg'
-
-Outputs:
-  VPCId:
-    Description: VPC ID
-    Value: !Ref VPC
-    Export:
-      Name: !Sub '${Environment}-VPC-ID'
-
-  DatabaseEndpoint:
-    Description: RDS Database endpoint
-    Value: !GetAtt Database.Endpoint.Address
-    Export:
-      Name: !Sub '${Environment}-DB-Endpoint'
 ```
 
 ---
@@ -539,48 +332,32 @@ EC2_USER=ubuntu
 
 ---
 
-## 💰 Optimización de Costos
+## 💰 Optimización de Costos Real
 
-### **Cost Management Strategy**
-```yaml
-# infrastructure/cloudformation/cost-optimization.yaml
-Resources:
-  # Reserved Instances for predictable workload
-  ReservedInstances:
-    Type: AWS::EC2::ReservedInstance
-    Properties:
-      InstanceCount: 2
-      InstanceType: t3.medium
-      AvailabilityZone: us-east-1a
-      OfferingType: "No Upfront"
-      InstanceTenancy: default
+### **Estrategia de Costos Implementada**
+```bash
+# Servidor EC2 optimizado
+INSTANCE_TYPE=t3.medium  # Balance costo-rendimiento
+STORAGE=20GB            # Almacenamiento optimizado
+BACKUP_POLICY=7 días     # Retención eficiente
 
-  # S3 Lifecycle Policy for cost optimization
-  S3LifecyclePolicy:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket: !Ref AssetsBucket
-      PolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: s3.amazonaws.com
-            Action: 's3:PutLifecycleConfiguration'
-            Resource: !Sub 'arn:aws:s3:::${AssetsBucket}/*'
+# Optimización de contenedores
+DOCKER_COMPOSE=producción  # Solo recursos necesarios
+NGINX_CACHE=activado       # Reducir carga servidor
+LOG_ROTATION=daily         # Control de espacio
 ```
 
 ---
 
 ## 📈 Logros Destacados
 
-1. **🏗️ Arquitectura Cloud Nativa**: VPC completa con alta disponibilidad
+1. **🏗️ Dockerización Completa**: Contenedores optimizados para producción
 2. **🔄 CI/CD Automatizado**: GitHub Actions para despliegue continuo
-3. **⚡ Auto Scaling**: Escalado automático basado en demanda
-4. **📊 Monitorización**: CloudWatch básico y alarmas
-5. **💰 Optimización de Costos**: Reserved Instances y lifecycle policies
-6. **🔐 Seguridad Completa**: Security Groups y IAM roles
-7. **🌐 DNS Profesional**: Route 53 con resolución de nombres
+3. **⚡ Servidor Real**: EC2 activo en 18.206.113.196
+4. **📊 Monitorización Activa**: Logs y health checks funcionando
+5. **💰 Costos Optimizados**: t3.medium con recursos eficientes
+6. **🔐 Seguridad Implementada**: Certbot SSL y usuarios configurados
+7. **🌐 Dominio Real**: alberoperez.tech con DNS configurado
 
 ---
 

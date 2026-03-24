@@ -38,15 +38,15 @@ El módulo **SOST (Sostenibilitat)** se enfoca en la implementación de criterio
 | **WebP/AVIF** | - | Formatos de imagen optimizados |
 | **Lazy Loading** | - | Carga diferida de recursos |
 | **Code Splitting** | Vite | División de código por demanda |
-| **Tree Shaking** | - | Eliminación de código no utilizado |
-| **Gzip/Brotli** | - | Compresión de recursos |
+| **Tree Shaking** | Vite | Eliminación de código no utilizado |
+| **Image Optimization** | WebP | Formatos optimizados |
 
 ### **Métricas y Medición**
 | Herramienta | Versión | Funcionalidad |
 |-------------|--------|-------------|
-| **Lighthouse** | - | Auditoría de rendimiento y accesibilidad |
-| **Web Vitals** | - | Métricas de experiencia del usuario |
-| **PageSpeed Insights** | - | Análisis de optimización |
+| **API Sustainability Stats** | Laravel | Estadísticas ASG reales |
+| **Eco-Score Products** | Laravel | Filtrado de productos sostenibles |
+| **Performance Monitoring** | Vite | Optimización de build |
 
 ### **Accesibilidad e Inclusión**
 | Herramienta | Versión | Propósito |
@@ -59,10 +59,10 @@ El módulo **SOST (Sostenibilitat)** se enfoca en la implementación de criterio
 ### **Transparencia y Documentación**
 | Tecnología | Versión | Uso |
 |-------------|--------|-----|
-| **Open Badges** | - | Certificaciones de sostenibilidad |
-| **Schema.org** | - | Datos estructurados ASG |
-| **GDPR Compliance** | - | Cumplimiento de privacidad |
-| **Open Source** | - | Código transparente y documentado |
+| **API Endpoints** | Laravel | Datos públicos y accesibles |
+| **SostenibilidadView.vue** | Vue.js | Página completa de sostenibilidad |
+| **Eco-Badges System** | CSS | 6 tipos de etiquetas ecológicas |
+| **Public Documentation** | Markdown | READMEs transparentes |
 
 ---
 
