@@ -14,7 +14,6 @@ El módulo **DDAW (Desplegament d'Aplicacions Web)** se especializa en la config
 | **Apache** | 2.4 | Servidor web principal para backend |
 | **Nginx** | stable-alpine | Servidor web para frontend y proxy |
 | **PHP-FPM** | 8.4 | Procesador PHP optimizado |
-| **Node.js** | 18.x | Runtime para build de frontend |
 
 ### **Seguridad y Certificados**
 | Tecnología | Versión | Propósito |
@@ -30,7 +29,6 @@ El módulo **DDAW (Desplegament d'Aplicacions Web)** se especializa en la config
 | **Bash Scripts** | - | Automatización de despliegue |
 | **Docker** | 24.x | Contenerización para desarrollo |
 | **Docker Compose** | 2.x | Orquestación local |
-| **Multi-stage builds** | - | Optimización de imágenes |
 
 ### **Monitorización y Logs**
 | Herramienta | Versión | Función |
@@ -48,7 +46,6 @@ El módulo **DDAW (Desplegament d'Aplicacions Web)** se especializa en la config
 - ✅ **Apache 2.4** configurado con virtual hosts
 - ✅ **Nginx** como proxy inverso y servidor estático
 - ✅ **PHP-FPM 8.4** optimizado para rendimiento
-- ✅ **Node.js 18.x** para build de frontend
 - ✅ **Multi-hosting** con dominios configurados
 
 ### **Implementación de Seguridad**
