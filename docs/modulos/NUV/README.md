@@ -41,7 +41,6 @@ El módulo **NUV (Núvol)** se especializa en la implementación y gestión de s
 | **backup.sh** | Bash | Backups automáticos diarios |
 | **vsftpd.conf** | Config | Servidor FTP seguro |
 | **nginx.conf** | Config | Servidor web optimizado |
-| **certbot** | Let's Encrypt | Certificados SSL automáticos |
 
 ### **Monitorización y Logs**
 | Herramienta | Implementación Real | Uso |
@@ -82,7 +81,6 @@ El módulo **NUV (Núvol)** se especializa en la implementación y gestión de s
 - ✅ **backup.sh** - Backups automáticos diarios programados
 - ✅ **vsftpd.conf** - Servidor FTP seguro con SSL
 - ✅ **nginx.conf** - Configuración web optimizada
-- ✅ **certbot SSL** - Certificados HTTPS automáticos
 
 ### **Monitorización y Mantenimiento**
 - ✅ **Docker Logs** - Monitorización centralizada de contenedores
